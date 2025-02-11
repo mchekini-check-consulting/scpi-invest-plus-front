@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {CommonModule, NgFor} from '@angular/common';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {AuthService} from "../../../service/auth.service";

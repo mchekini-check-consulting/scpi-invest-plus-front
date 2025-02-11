@@ -5,6 +5,7 @@ import { DetailsDetialsComponent } from './features/scpi/details-detials/details
 import { DetailsComponent } from './features/scpi/details/details.component';
 import { DetailsGlobalViewComponent } from './features/scpi/details-global-view/details-global-view.component';
 import {AuthGuard} from './core/guard/auth.guard';
+import { ProfileComponent } from './features/profile/components/profile.component';
 
 export const routes: Routes = [
 
@@ -14,6 +15,9 @@ export const routes: Routes = [
         path: 'scpi', component: ScpiComponent, children: [
 
         ]
+      },
+      {
+        path: 'profile', component: ProfileComponent
       },
       {
         path: "details/:id",
@@ -31,4 +35,6 @@ export const routes: Routes = [
       }
     ],
   }
+
+
 ];
