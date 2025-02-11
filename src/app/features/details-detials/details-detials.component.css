@@ -1,0 +1,45 @@
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 50px; /* Espace entre les colonnes */
+}
+
+.p-col-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Espace entre les carrés */
+}
+
+.square {
+    width: 220px;
+    height: 100px;
+    background-color: #ffffff;
+    border: 2px solid #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+.small-square {
+    height: 110px; /* Taille réduite pour le dernier carré */
+}
+
+.large-label {
+    font-size: 1em;
+    font-weight: bold;
+    color: #222;
+}
+
+.small-label {
+    font-size: 1em;
+    font-weight: normal;
+    color: #555;
+}

@@ -10,14 +10,16 @@ export const routes: Routes = [
       {
         path: 'scpi', component: ScpiComponent
       },
-      {
-        path:"details",
-        component: DetailsDetialsComponent
-      }
+      
     
     ],
     
+    
   },
+  {
+    path:"details",
+    component: DetailsDetialsComponent
+  }
  
 
 ];
