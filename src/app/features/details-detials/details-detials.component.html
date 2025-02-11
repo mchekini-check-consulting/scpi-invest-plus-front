@@ -1,31 +1,33 @@
-<div class="row center pt-5" style="height: 120vh;">
+<div class="row center pt-5" style="height: 120vh;" *ngIf="details">
     
     <div class="p-col-3">
         <div class="square">
-            <label class="large-label pt-2">Frais souscription</label><br>
+            <label class="large-label pt-2">{{details.subscription_fees
+            }} %</label><br>
             <label class="small-label">Frais souscription</label>
         </div>
         <div class="square">
-            <label class="large-label pt-2">Prix d'achat</label><br>
+            <label class="large-label pt-2">{{details.share_price
+            }} €</label><br>
             <label class="small-label">Prix d'achat</label>
         </div>
         <div class="square">
-            <label class="large-label pt-2">Délai de jouissance</label><br>
+            <label class="large-label pt-2">{{details.enjoyment_delay}}</label><br>
             <label class="small-label">Délai de jouissance</label>
         </div>
     </div>
 
     <div class="p-col-3">
         <div class="square">
-            <label class="large-label pt-2">Frais de gestion</label><br>
+            <label class="large-label pt-2">{{details.management_costs}}</label><br>
             <label class="small-label">Frais de gestion</label>
         </div>
         <div class="square">
-            <label class="large-label pt-2">Prix de retrait</label><br>
+            <label class="large-label pt-2">{{details.share_price- (details.share_price * (1 - details.subscription_fees)) }}</label><br>
             <label class="small-label">Prix de retrai</label>
         </div>
         <div class="square">
-            <label class="large-label pt-2">Fréquence des loyers</label><br>
+            <label class="large-label pt-2">{{details.frequency_payment}}</label><br>
             <label class="small-label">Fréquence des loyers</label>
         </div>
     </div>
