@@ -18,7 +18,7 @@ export class DetailsComponent implements OnInit{
   details: Details | null = null;
   detailsService = inject(DetailsDetailsService);
   actualPage :string = ""
-  id_parent:number=1;
+  id_parent:number=2;
 
   constructor(private _location: Location) 
   {}
@@ -27,7 +27,7 @@ export class DetailsComponent implements OnInit{
   }
 
   loadNameRandMin(){
-    this.detailsService.getDetailsScpi(1 ).subscribe((res=>{
+    this.detailsService.getDetailsScpi(this.id_parent ).subscribe((res=>{
       this.details = res;
       console.log("Load name = ", this.details)
     }))
@@ -36,7 +36,7 @@ export class DetailsComponent implements OnInit{
   changePage(wantedPage: string){
     console.log('wanted = ', wantedPage);
     this.actualPage = wantedPage;
-    this.id_parent = 1;
+
     
   }
   backClicked() {
