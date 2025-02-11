@@ -23,7 +23,7 @@ export class DetailsDetialsComponent implements OnInit{
   detailsService = inject(DetailsDetailsService);
   @Input() id_parent:number=-2000;
   ngOnInit(): void {
-    this.getTheDetails(1);
+    this.getTheDetails(this.id_parent);
     console.log("the recived id is = ", this.id_parent)
   }
   // Get the details of the scpi from the database
