@@ -34,7 +34,7 @@ export class DetailsDetialsComponent implements OnInit{
       //console.log("details = ", this.details);
     }), (error)=>{
       console.log('ERROR : ', error);
-      
+      console.error(error);
   })
   }
 }
