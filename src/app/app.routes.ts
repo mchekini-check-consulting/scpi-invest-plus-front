@@ -7,6 +7,7 @@ import { DetailsGlobalViewComponent } from './features/scpi/details-global-view/
 import { ScpiHistoryDetailsComponent } from './features/scpi/details-history/scpi-history-details.component';
 
 export const routes: Routes = [
+
   {
     path: '',
     component: TemplateComponent,
@@ -17,7 +18,10 @@ export const routes: Routes = [
         children: [],
       },
       {
-        path: 'details/:id',
+        path: 'profile', component: ProfileComponent
+      },
+      {
+        path: "details/:id",
         component: DetailsComponent,
         children: [
           {
