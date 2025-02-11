@@ -7,8 +7,7 @@ import {AuthGuard} from './core/guard/auth.guard';
 export const routes: Routes = [
 
   {
-    path: '', component: TemplateComponent,
-    children: [
+    path: '', component: TemplateComponent, children: [
       {
         path: 'scpi', component: ScpiComponent
       },
@@ -16,13 +15,14 @@ export const routes: Routes = [
 
     ],
 
-
-  },
-  {
-    path:"details", children: [
-      {path: 'details', component: DetailsDetialsComponent
-
-      },
+  },{
+    path:"index",
+    component: DetailsComponent,
+    children:[
+      {
+        path: "details/:scpid",
+      component: DetailsDetialsComponent,
+    }
     ]
   }
 

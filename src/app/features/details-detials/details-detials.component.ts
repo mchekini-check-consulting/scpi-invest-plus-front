@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { SidebarComponent } from "../../core/template/components/sidebar/sidebar.component";
 import { NavbarComponent } from "../../core/template/components/navbar/navbar.component";
 import { FooterComponent } from "../../core/template/components/footer/footer.component";
@@ -21,15 +21,20 @@ import { DetailsDetailsService } from '../../services/details-details.service';
 export class DetailsDetialsComponent implements OnInit{
   details:Details | null = null;;
   detailsService = inject(DetailsDetailsService);
+  @Input() id_parent:number=-2000;
   ngOnInit(): void {
     this.getTheDetails(1);
+    console.log("the recived id is = ", this.id_parent)
   }
-  // I want to get the id from the precedent page
+  // Get the details of the scpi from the database
   getTheDetails(id:number){
     this.detailsService.getDetailsScpi(id).subscribe((res=>{
       console.log(res);
       this.details = res;
-      console.log("details = ", this.details);
-    }))
+      //console.log("details = ", this.details);
+    }), (error)=>{
+      console.log('ERROR : ', error);
+      
+  })
   }
 }
