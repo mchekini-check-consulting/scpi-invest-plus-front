@@ -10,14 +10,21 @@ export const routes: Routes = [
     path: '', component: TemplateComponent,
     children: [
       {
-        path: 'scpi', component: ScpiComponent, canActivate: [AuthGuard],
-
+        path: 'scpi', component: ScpiComponent
       },
-      {
-        path:"details",
-        component: DetailsDetialsComponent
-      }
+
 
     ],
+
+
+  },
+  {
+    path:"details", children: [
+      {path: 'details', component: DetailsDetialsComponent
+
+      },
+    ]
   }
+
+
 ];

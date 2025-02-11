@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <p-card class="card">
+        <div class="p-col-12">
+            <p-card [header]="details?.scpi_name" class="card-container">
+                <label class="small-label">Bureau</label>
+                <label class="small-label">Europe</label>
+                <hr>
+
+                <div class="p-grid">
+                    <div class="p-col-6">
+                        <div class="square">
+                            <label class="large-label">{{details?.distribution_rate || 'N/A' }}</label><br>
+                            <label class="large-label">Rendement</label>
+                        </div>
+                    </div>
+
+                    <div class="p-col-6">
+                        <div class="square">
+                            <label class="large-label">{{ details?.minimumSubscription || 'N/A' }}</label><br>
+                            <label class="large-label">Minimum</label>
+                        </div>
+                    </div>
+                </div>
+            </p-card>
+
+            <hr>
+
+            <!-- Conteneur des boutons -->
+            <div class="button-container">
+                <p-button label="Vue d'ensemble" severity="info" (onClick)="changePage('vue')" />
+                <p-button label="Historique" severity="info" (onClick)="changePage('historique')" />
+                <p-button label="Détails" severity="info" (onClick)="changePage('details')" />
+            </div>
+        </div>
+    </p-card>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6" *ngIf="actualPage === 'details'">
+        <app-details-detials></app-details-detials> <!-- Vérifie le nom correct du composant -->
+    </div>
+</div>
