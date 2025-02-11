@@ -17,8 +17,11 @@ export const routes: Routes = [
     
   },
   {
-    path:"details",
-    component: DetailsDetialsComponent
+    path:"details", children: [
+      {path: 'details', component: DetailsDetialsComponent
+
+      },
+    ]
   }
  
 
