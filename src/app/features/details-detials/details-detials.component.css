@@ -1,16 +1,16 @@
-/* Centrer le contenu à l'intérieur des p-card et uniformiser la taille */
+
 .p-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    width: 180px;  /* Définir une largeur fixe */
-    height: 200px; /* Définir une hauteur fixe */
+    width: 180px;  
+    height: 200px; 
     box-sizing: border-box;
 }
 
-/* Centrer l'en-tête et le pied */
+
 .p-card-header,
 .p-card-footer {
     display: flex;
@@ -20,7 +20,6 @@
     text-align: center;
 }
 
-/* Assurer que les labels sont bien centrés */
 .large-label {
     font-size: 1.8rem;
     font-weight: bold;
@@ -35,7 +34,6 @@
     text-align: center;
 }
 
-/* Organisation des colonnes */
 .row {
     display: flex;
     justify-content: space-around;
@@ -47,16 +45,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px; /* Espacement entre les cartes */
+    gap: 5px; 
 }
 
-/* S'assurer que toutes les cartes ont la même largeur et hauteur */
+
 .p-col-3 p-card {
-    width: 180px;  /* Même largeur pour toutes */
-    height: 200px; /* Même hauteur pour toutes */
+    width: 180px;  
+    height: 200px; 
 }
 
-/* Pour les petits écrans */
+
 @media screen and (max-width: 768px) {
     .p-col-3 {
         flex: 0 0 100%;
@@ -64,6 +62,6 @@
     }
 
     .p-col-3 p-card {
-        width: 100%; /* S'adapte à la largeur de l'écran */
+        width: 100%; 
     }
 }
