@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class DetailsDetailsService {
   http = inject(HttpClient);
-  getDetailsScpi(): Observable<Details>{
-    return this.http.get<Details>("http://localhost:8080/api/v1/application/Scpi/details/1");
+  getDetailsScpi(scpid:number): Observable<Details>{
+    console.log("the id = ", scpid);
+    return this.http.get<Details>(`http://localhost:8080/api/v1/application/Scpi/details/${scpid}`);
   }
 }

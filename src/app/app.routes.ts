@@ -2,6 +2,7 @@ import {Routes} from '@angular/router';
 import {TemplateComponent} from './core/template/container/template.component';
 import {ScpiComponent} from './features/scpi/scpi.component';
 import { DetailsDetialsComponent } from './features/details-detials/details-detials.component';
+import { DetailsComponent } from './features/details/details.component';
 
 export const routes: Routes = [
 
@@ -14,13 +15,14 @@ export const routes: Routes = [
     
     ],
     
-    
-  },
-  {
-    path:"details", children: [
-      {path: 'details', component: DetailsDetialsComponent
-
-      },
+  },{
+    path:"index",
+    component: DetailsComponent,
+    children:[
+      {
+        path: "details/:scpid",
+      component: DetailsDetialsComponent,
+    }
     ]
   }
  
