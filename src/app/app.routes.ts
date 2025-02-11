@@ -11,20 +11,20 @@ export const routes: Routes = [
       {
         path: 'scpi', component: ScpiComponent
       },
-      
+      {
+        path:"index",
+        component: DetailsComponent,
+        children:[
+          {
+            path: "details",
+          component: DetailsDetialsComponent,
+        }
+        ]
+      }
     
     ],
     
-  },{
-    path:"index",
-    component: DetailsComponent,
-    children:[
-      {
-        path: "details/:scpid",
-      component: DetailsDetialsComponent,
-    }
-    ]
-  }
+  },
  
 
 ];
