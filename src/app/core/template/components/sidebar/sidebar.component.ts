@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {NgForOf, NgIf} from '@angular/common';
-import {RouterLink} from '@angular/router';
-import {TranslateModule} from '@ngx-translate/core';
-
+import { Component, OnInit } from '@angular/core';
+import { NgForOf, NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 declare interface RouteInfo {
   path: string;
@@ -13,32 +12,42 @@ declare interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
-  {path: '/scpi', title: 'Liste des SCPI ', key: 'SIDEBAR.SCPI', icon: 'nc-icon nc-ruler-pencil', class: ''},
-  {path: '/invest', title: 'Mes investissements',key : 'SIDEBAR.INVEST', icon: 'nc-icon nc-layers-3', class: ''},
-  {path: '/invest', title: 'Mes simulations',key : 'SIDEBAR.SIMULATION', icon: 'nc-icon nc-layers-3', class: ''},
+  {
+    path: '/scpi',
+    title: 'Liste des SCPI ',
+    key: 'SIDEBAR.SCPI',
+    icon: 'nc-icon nc-ruler-pencil',
+    class: '',
+  },
+  {
+    path: '/invest',
+    title: 'Mes investissements',
+    key: 'SIDEBAR.INVEST',
+    icon: 'nc-icon nc-layers-3',
+    class: '',
+  },
+  {
+    path: '/invest',
+    title: 'Mes simulations',
+    key: 'SIDEBAR.SIMULATION',
+    icon: 'nc-icon nc-layers-3',
+    class: '',
+  },
 ];
 
 @Component({
   selector: 'app-sidebar',
-  imports: [
-    NgForOf,
-    TranslateModule,
-    RouterLink
-  ],
+  imports: [NgForOf, TranslateModule, RouterLink],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+  styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent implements OnInit {
-
   menuItems: RouteInfo[] = [];
-  version = "1.0.0";
+  version = '1.0.0';
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.menuItems = ROUTES.filter((menuItem) => menuItem);
   }
-
-
 }
