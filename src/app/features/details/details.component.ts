@@ -18,23 +18,30 @@ export class DetailsComponent implements OnInit{
   details: Details | null = null;
   detailsService = inject(DetailsDetailsService);
   actualPage :string = ""
-  id_parent:number=2;
+  //TODO: When the repo is merged , I will try to get the id from the precedent page
+  id_parent:number=3; // It is just a test
 
   constructor(private _location: Location) 
   {}
   ngOnInit(): void {
       this.loadNameRandMin();
   }
-
+  /**
+   * Call the server to get the details about the spci.
+   * @param 
+   * 
+   */
   loadNameRandMin(){
     this.detailsService.getDetailsScpi(this.id_parent ).subscribe((res=>{
       this.details = res;
-      console.log("Load name = ", this.details)
     }))
   }
 
+  /**
+   * Detect the desired part in Details (details, history or view)
+   * @param {string wantedPage}
+   */
   changePage(wantedPage: string){
-    console.log('wanted = ', wantedPage);
     this.actualPage = wantedPage;
 
     
