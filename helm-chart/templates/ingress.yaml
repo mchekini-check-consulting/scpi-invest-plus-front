@@ -14,7 +14,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: scpi-invest-api
+                name: scpi-invest-plus-api
                 port:
                   number: 8080
           - path: /
