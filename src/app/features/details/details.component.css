@@ -42,21 +42,32 @@
 
 
 .small-label {
-    font-size: 20px;
+    font-size: 15px;
     font-weight: bold;
     gap: 1cm;
     margin: 5px;
 }
 .button-container {
     display: flex;
-    justify-content: center;
-    gap: 1px; /* Espace entre les boutons */
-    margin-top: 1px;
+    justify-content: center;  
+    align-items: center; 
+    gap: 1.5cm;  
+    margin-top: 10px;
     width: 100%;
+    text-align: center;
+}
+
+.button-container p-button {
+    flex: 1;  
+    width: 5cm;  
 }
 
 p-button {
-    flex: 1; /* Permet aux boutons d'avoir une taille uniforme */
-    width: 5cm; /* Ajuste la largeur max des boutons */
+    flex: 1; 
+    width: 20cm; 
     
 }
+
+:host ::ng-deep .p-button{
+    font-size:20px;  
+  }
