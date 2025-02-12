@@ -1,4 +1,6 @@
+<p-button label="Retour" severity="info" (onClick)="backClicked()" />
 <div class="row justify-content-center">
+    
     <p-card class="card">
         <div class="p-col-12">
             <p-card [header]="details?.scpi_name" class="card-container">
@@ -9,15 +11,15 @@
                 <div class="p-grid">
                     <div class="p-col-6">
                         <div class="square">
-                            <label class="large-label">{{details?.distribution_rate || 'N/A' }}</label><br>
-                            <label class="large-label">Rendement</label>
+                            <label class="large-label">{{details?.distribution_rate || 'N/A' }} % </label><br>
+                            <label class="small-label">Rendement</label>
                         </div>
                     </div>
 
                     <div class="p-col-6">
                         <div class="square">
-                            <label class="large-label">{{ details?.minimumSubscription || 'N/A' }}</label><br>
-                            <label class="large-label">Minimum</label>
+                            <label class="large-label">{{ details?.minimumSubscription || 'N/A' }} €</label><br>
+                            <label class="small-label">Minimum</label>
                         </div>
                     </div>
                 </div>
@@ -30,7 +32,7 @@
                 <p-button label="Vue d'ensemble" severity="info" (onClick)="changePage('vue')" />
                 <p-button label="Historique" severity="info" (onClick)="changePage('historique')" />
                 <p-button label="Détails" severity="info" (onClick)="changePage('details')" />
-                <p-button label="Retour" severity="info" (onClick)="backClicked()" />
+                
             </div>
         </div>
     </p-card>
