@@ -1,56 +1,59 @@
-import { Component } from '@angular/core';
-
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { Component, OnInit } from '@angular/core';
+import { ChartModule } from 'primeng/chart';
 
 @Component({
   selector: 'app-scpi-history-details',
   templateUrl: './scpi-history-details.component.html',
-  styleUrls: ['./scpi-history-details.component.scss'],
-  imports: [
-
-    NgxChartsModule
-  ],
+  styleUrls: ['./scpi-history-details.component.css'],
+  imports: [ChartModule /* autres imports */],
 })
-export class ScpiHistoryDetailsComponent {
-  // Données fictives pour l'évolution du taux de distribution
-  distributionData = [
-    {
-      "name": "Taux de distribution",
-      "series": [
-        { "name": "2019", "value": 4.5 },
-        { "name": "2020", "value": 2.8 },
-        { "name": "2021", "value": 4.2 },
-        { "name": "2022", "value": 4.6 },
-        { "name": "2023", "value": 4.9 }
-      ]
-    }
-  ];
-
-  priceData = [
-    {
-      "name": "Prix de la part",
-      "series": [
-        { "name": "2019", "value": 100 },
-        { "name": "2020", "value": 105 },
-        { "name": "2021", "value": 12 },
-        { "name": "2022", "value": 110 },
-        { "name": "2023", "value": 55 }
-      ]
-    }
-  ];
+export class ScpiHistoryDetailsComponent implements OnInit {
+  distributionChartData: any;
+  priceChartData: any;
+  chartOptions: any;
 
   ngOnInit() {
-    setTimeout(() => {
-      this.distributionData = [...this.distributionData];
-      this.priceData = [...this.priceData];
-    }, 100);
-  }
-  // Vérification de la disponibilité des données
-  hasDistributionData(): boolean {
-    return this.distributionData.length > 0;
+    this.initCharts();
   }
 
-  hasPriceData(): boolean {
-    return this.priceData.length > 0;
+  initCharts() {
+    this.chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true },
+        tooltip: { enabled: true },
+      },
+      scales: {
+        x: { title: { display: true, text: '' } },
+        y: { title: { display: true, text: '' } },
+      },
+    };
+
+    this.distributionChartData = {
+      labels: ['2019', '2020', '2021', '2022', '2023'],
+      datasets: [
+        {
+          label: 'Taux de distribution (%)',
+          data: [4.5, 2.8, 4.2, 4.6, 4.9],
+          borderColor: '#42A5F5',
+          backgroundColor: 'rgba(66, 165, 245, 0.2)',
+          fill: true,
+        },
+      ],
+    };
+
+    this.priceChartData = {
+      labels: ['2019', '2020', '2021', '2022', '2023'],
+      datasets: [
+        {
+          label: 'Prix de la part (€)',
+          data: [100, 105, 12, 110, 55],
+          borderColor: '#FFA726',
+          backgroundColor: 'rgba(255, 167, 38, 0.2)',
+          fill: true,
+        },
+      ],
+    };
   }
 }
