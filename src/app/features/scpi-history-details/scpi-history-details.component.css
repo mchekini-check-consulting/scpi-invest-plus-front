@@ -14,8 +14,8 @@
 
 ::ng-deep .chart-container p-chart {
   display: block;
-  height: 100%; /* Prend toute la hauteur du conteneur */
-  width: 100%; /* Prend toute la largeur du conteneur */
+  height: 100%; 
+  width: 100%;
 }
 
 ::ng-deep .chart-container p-chart canvas {
