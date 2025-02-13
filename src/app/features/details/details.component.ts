@@ -7,9 +7,10 @@ import { DetailsDetialsComponent } from '../details-detials/details-detials.comp
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {Location} from '@angular/common';
+import { DetailsGlobalViewComponent } from "../details-global-view/details-global-view.component";
 @Component({
   selector: 'app-details',
-  imports: [CardModule , ButtonModule, DetailsDetialsComponent, FormsModule, CommonModule],
+  imports: [CardModule, ButtonModule, DetailsDetialsComponent, FormsModule, CommonModule, DetailsGlobalViewComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })
@@ -19,7 +20,7 @@ export class DetailsComponent implements OnInit{
   detailsService = inject(DetailsDetailsService);
   actualPage :string = ""
   //TODO: When the repo is merged , I will try to get the id from the precedent page
-  id_parent:number=3; // It is just a test
+  id_parent:number=2; // It is just a test
 
   constructor(private _location: Location) 
   {}
