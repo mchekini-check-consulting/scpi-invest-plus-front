@@ -21,6 +21,7 @@ import { DetailsDetailsService } from '../../services/details-details.service';
 export class DetailsDetialsComponent implements OnInit{
   details:Details | null = null;;
   detailsService = inject(DetailsDetailsService);
+  prix_retrait: number = 0;
   @Input() id_parent:number=-2000;
   ngOnInit(): void {
     this.getTheDetails(this.id_parent);
@@ -28,13 +29,16 @@ export class DetailsDetialsComponent implements OnInit{
   }
   // Get the details of the scpi from the database
   getTheDetails(id:number){
-    this.detailsService.getDetailsScpi(id).subscribe((res=>{
-      console.log(res);
-      this.details = res;
-      //console.log("details = ", this.details);
-    }), (error)=>{
-      console.log('ERROR : ', error);
-      console.error(error);
-  })
+    this.detailsService.getDetailsScpi(this.id_parent).subscribe({
+      next: (res) => {
+        if (res) {
+          this.details = res;
+          this.prix_retrait = this.details.share_price - (this.details.share_price * (1 - this.details.subscription_fees))
+        } else {
+          console.warn("Received undefined details.");
+        }
+      },
+      error: (err) => console.error("Error fetching details:", err)
+    });
   }
 }
