@@ -7,9 +7,10 @@ import { DetailsDetialsComponent } from '../details-detials/details-detials.comp
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {Location} from '@angular/common';
+import { DetailsGlobalViewComponent } from "../details-global-view/details-global-view.component";
 @Component({
   selector: 'app-details',
-  imports: [CardModule , ButtonModule, DetailsDetialsComponent, FormsModule, CommonModule],
+  imports: [CardModule, ButtonModule, DetailsDetialsComponent, FormsModule, CommonModule, DetailsGlobalViewComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })
