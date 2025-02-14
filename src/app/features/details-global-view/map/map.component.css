@@ -1,0 +1,11 @@
+.map-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500dvh;
+    width: 100%;
+    & > div { 
+        height:200px;
+        width: 200px;
+        }
+}

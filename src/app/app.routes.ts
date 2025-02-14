@@ -4,6 +4,7 @@ import {ScpiComponent} from './features/scpi/scpi.component';
 import { DetailsDetialsComponent } from './features/details-detials/details-detials.component';
 import { DetailsComponent } from './features/details/details.component';
 import { DetailsGlobalViewComponent } from './features/details-global-view/details-global-view.component';
+import { MapComponent } from './features/details-global-view/map/map.component';
 
 export const routes: Routes = [
 
@@ -29,7 +30,7 @@ export const routes: Routes = [
     
     ],
     
-  },
+  },{path:"carte", component: MapComponent}
  
 
 ];

@@ -11,10 +11,12 @@ import { DetailsDetailsService } from '../../services/details-details.service';
 import { StatYear } from '../../models/class/StatYear';
 import { Location } from '../../models/class/Location';
 import { Sector } from '../../models/class/Sector';
+import { MapComponent } from './map/map.component';
+
 // import { AgmCoreModule } from '@agm/core';
 @Component({
     selector: 'app-details-global-view',
-    imports: [CommonModule, FormsModule, ButtonModule, CardModule, DividerModule, PanelModule, ChartModule],
+    imports: [CommonModule, FormsModule, ButtonModule, CardModule, DividerModule, PanelModule, ChartModule, MapComponent],
     templateUrl: './details-global-view.component.html',
     styleUrl: './details-global-view.component.css'
 })
@@ -141,6 +143,7 @@ export class DetailsGlobalViewComponent implements OnInit {
       
         return value.toString();
       }
+      
       
 
 }
