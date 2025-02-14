@@ -1,1 +1,8 @@
-<h2 class="center">Fonctionnalité en cours de Développement</h2>
+<div>
+  <div><app-scpi-header /></div>
+  <div class="list-scpi">
+    @for (scpi of scpis; track scpi.id) {
+    <app-scpi-card [scpi]="scpi" [image]="getRandomImage()" />
+    }
+  </div>
+</div>
