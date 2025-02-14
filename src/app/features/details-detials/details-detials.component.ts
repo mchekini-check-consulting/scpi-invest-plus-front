@@ -11,6 +11,8 @@ import { DividerModule } from 'primeng/divider';
 import { PanelModule } from 'primeng/panel';
 import { Details } from '../../models/class/Details';
 import { DetailsDetailsService } from '../../services/details-details.service';
+import { StatYear } from '../../models/class/StatYear';
+import { Sector } from '../../models/class/Sector';
 
 @Component({
   selector: 'app-details-detials',
@@ -19,7 +21,9 @@ import { DetailsDetailsService } from '../../services/details-details.service';
   styleUrl: './details-detials.component.css'
 })
 export class DetailsDetialsComponent implements OnInit{
-  details:Details | null = null;;
+  details:Details | null = null;
+  stat: StatYear | null = null;
+  sectors : Sector | null = null;
   detailsService = inject(DetailsDetailsService);
   prix_retrait: number = 0;
   @Input() id_parent:number=-2000;
@@ -33,7 +37,15 @@ export class DetailsDetialsComponent implements OnInit{
       next: (res) => {
         if (res) {
           this.details = res;
-          this.prix_retrait = this.details.share_price - (this.details.share_price * (1 - this.details.subscription_fees))
+          this.stat = this.details.statYears && this.details.statYears.length > 0 
+          ? this.details.statYears.reduce((prev, current) => (prev.year > current.year ? prev : current)) : null
+          console.log(res);
+          if (this.stat){
+            this.prix_retrait = this.stat?.sharePrice - (this.stat?.sharePrice * (1 - this.details.subscriptionFees))
+          }else{
+            console.log("There is no stat year")
+          }
+          
         } else {
           console.warn("Received undefined details.");
         }

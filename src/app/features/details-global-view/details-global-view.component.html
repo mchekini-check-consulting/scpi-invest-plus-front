@@ -1,10 +1,17 @@
+<div class="row center pt-5">
+    <div class="p-col-3">
+        <div class="card flex justify-center">
+            <p-chart type="pie" [data]="data" [options]="options" class="w-full md:w-[30rem]" />
+        </div>
+    </div>
+    
+</div>
 <div class="row center pt-5" >
+    
     <div class="p-col-3 center">
-        
-
         <p-card>
             <ng-template pTemplate="header center">
-                <label class="large-label pt-2">{{details?.share_price || "N\A"}}</label>
+                <label class="large-label pt-2">{{states?.sharePrice || "N\A"}} €</label>
            
                 <label class="small-label">Prix par part</label>
             </ng-template>
@@ -23,7 +30,7 @@
 
         <p-card>
             <ng-template pTemplate="header center">
-                <label class="large-label pt-2">{{details?.minimumSubscription || "N\A"}} </label>
+                <label class="large-label pt-2">{{details?.minimumSubscription || "N\A"}} €</label>
             
                 <label class="small-label">Min. 1ère souscription</label>
             </ng-template>
@@ -31,7 +38,7 @@
 
         <p-card>
             <ng-template pTemplate="header center">
-                <label class="large-label pt-2">{{details?.capitalization || "N\A"}}</label>
+                <label class="large-label pt-2">{{details?.capitalization || "N\A"}} €</label>
            
                 <label class="small-label">Capitalisation</label>
             </ng-template>
