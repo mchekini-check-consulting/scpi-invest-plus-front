@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
 import {CommonModule, NgFor} from '@angular/common';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import {AuthService} from "../../../service/auth.service";
+import {OAuthService} from 'angular-oauth2-oidc';
+import {UserService} from '../../../service/user.service';
 
 interface Lang {
   name: string;
@@ -14,6 +16,7 @@ interface Lang {
   selector: 'app-navbar',
   imports: [NgFor, TranslateModule, CommonModule],
   templateUrl: './navbar.component.html',
+  standalone: true,
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
@@ -25,8 +28,13 @@ export class NavbarComponent implements OnInit {
 
   username: string | undefined = '';
 
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService,  private authService: AuthService, private oauthService: OAuthService, private userService: UserService) {
     translate.setDefaultLang('fr');
+
+    this.userService.user$.subscribe(user => {
+      if (user != null)
+        this.username = user.firstName + " " + user.lastName;
+    });
   }
 
   ngOnInit() {
@@ -34,6 +42,10 @@ export class NavbarComponent implements OnInit {
       {name: "Français", code: "fr", flag: 'img/Flag_fr.png'},
       {name: "English", code: "en", flag: 'img/Flag_gb.png'},
     ]);
+    let claims = this.oauthService.getIdentityClaims();
+    if (claims) {
+      this.username = claims['name'];
+    }
 
   }
 
@@ -46,5 +58,7 @@ export class NavbarComponent implements OnInit {
     this.translate.use(language);
   }
 
-
+  logout() {
+    this.authService.logout();
+  }
 }

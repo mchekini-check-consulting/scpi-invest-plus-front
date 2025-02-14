@@ -80,14 +80,14 @@
                 <img src="img/bg4.jpg" alt="Profile Picture">
               </div>
               <div class="username-text">
-                <p style="color: black">Mahdi CHEKINI</p>
+                <p style="color: black">{{username}}</p>
               </div>
             </div>
           </a>
           <ul class="dropdown-menu">
             <a class="dropdown-item" ><span class="sidebar-normal">Mon Profil</span></a>
             <a class="dropdown-item" href="#"><span class="sidebar-normal">Modifier mon Profil</span></a>
-            <a  href="#" class="dropdown-item text-danger">
+            <a (click)="logout()" href="#" class="dropdown-item text-danger">
               <i  class="nc-icon nc-button-power"></i> Log out
             </a>
           </ul>
