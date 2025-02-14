@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import { RouterModule } from '@angular/router';
 import {CommonModule, NgFor} from '@angular/common';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 
@@ -12,7 +13,7 @@ interface Lang {
 
 @Component({
   selector: 'app-navbar',
-  imports: [NgFor, TranslateModule, CommonModule],
+  imports: [NgFor, TranslateModule, CommonModule,RouterModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
