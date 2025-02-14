@@ -1,56 +1,47 @@
+<div class="global-view-container">
+  <p-card>
+    <app-map [countries]="ListeLocations"></app-map>
+  </p-card>
 
-<div class="row center pt-5" >
-    <div class="pie-containers">
-    <div class="p-col-3 center">
-        <div class="card" style="heigth: 100px; width: 200px;">
-            <!-- <p-chart type="pie" [data]="data" [options]="options"  /> -->
-            <app-map></app-map>
-        </div>
-    </div>
+  <div class="card">
+    <p-chart type="doughnut" [data]="sectorData" [options]="options" />
+  </div>
 
-    <div class="p-col-3 center">
-        <div class="card ">
-            <p-chart type="doughnut" [data]="sectorData" [options]="options"  />
-        </div>
-    </div>
-    
-    
-</div>
-    
-    <div class="p-col-3 center">
-        <p-card>
-            <ng-template pTemplate="header center">
-                <label class="large-label pt-2">{{states?.sharePrice || "N\A"}} €</label>
-           
-                <label class="small-label">Prix par part</label>
-            </ng-template>
-        </p-card>
-        <p-card>
-            <ng-template pTemplate="header center">
-                <label class="large-label pt-2">{{details?.manager || "N\A"}}</label>
-            
-                <label class="small-label">Gérant</label>
-            </ng-template>
-        </p-card>
-    </div>
+  <p-card>
+    <ng-template pTemplate="header center">
+      <label class="large-label pt-2"
+        >{{ states?.sharePrice || "N\A" }} €</label
+      >
 
-    <div class="p-col-3">
-        
+      <label class="small-label">Prix par part</label>
+    </ng-template>
+  </p-card>
 
-        <p-card>
-            <ng-template pTemplate="header center">
-                <label class="large-label pt-2">{{details?.minimumSubscription || "N\A"}} €</label>
-            
-                <label class="small-label">Min. 1ère souscription</label>
-            </ng-template>
-        </p-card>
+  <p-card>
+    <ng-template pTemplate="header center">
+      <label class="large-label pt-2">{{ details?.manager || "N\A" }}</label>
 
-        <p-card>
-            <ng-template pTemplate="header center">
-                <label class="large-label pt-2">{{formatNumber(details?.capitalization) || "N\A"}} €</label>
-           
-                <label class="small-label">Capitalisation</label>
-            </ng-template>
-        </p-card>
-    </div>
+      <label class="small-label">Gérant</label>
+    </ng-template>
+  </p-card>
+
+  <p-card>
+    <ng-template pTemplate="header center">
+      <label class="large-label pt-2"
+        >{{ details?.minimumSubscription || "N\A" }} €</label
+      >
+
+      <label class="small-label">Min. 1ère souscription</label>
+    </ng-template>
+  </p-card>
+
+  <p-card>
+    <ng-template pTemplate="header center">
+      <label class="large-label pt-2"
+        >{{ formatNumber(details?.capitalization) || "N\A" }} €</label
+      >
+
+      <label class="small-label">Capitalisation</label>
+    </ng-template>
+  </p-card>
 </div>

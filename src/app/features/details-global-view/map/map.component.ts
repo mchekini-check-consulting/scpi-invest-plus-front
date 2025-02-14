@@ -1,17 +1,48 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import * as L from 'leaflet';
+import { Location } from '../../../models/class/Location';
+
+export type GeoJSONType = {
+  type:
+    | 'Point'
+    | 'MultiPoint'
+    | 'LineString'
+    | 'MultiLineString'
+    | 'Polygon'
+    | 'MultiPolygon'
+    | 'GeometryCollection'
+    | 'Feature'
+    | 'FeatureCollection';
+  features: Feature[];
+};
+
+export type Feature = {
+  type: string;
+  id: string;
+  properties: Properties;
+  geometry: Geometry;
+};
+
+export type Geometry = {
+  type: string;
+  coordinates: Array<Array<number[]>>;
+};
+
+export type Properties = {
+  name: string;
+};
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
-  standalone: true
+  standalone: true,
 })
 export class MapComponent implements OnInit {
-
   private map!: L.Map;
-  countries=[];
-  constructor() { }
+  @Input() countries: Location[] = [];
+
+  constructor() {}
 
   ngOnInit() {}
 
@@ -21,44 +52,63 @@ export class MapComponent implements OnInit {
   }
 
   private initMap() {
-    this.map = L.map('map').setView([51.505, -0.09], 4);
+    this.map = L.map('global-view').setView([46.505, 10], 3);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(this.map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(
+      this.map
+    );
   }
 
   private loadGeoJson() {
-    fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
-      .then(response => response.json())
-      .then(data => {
-        L.geoJSON(data, {
-          style: (feature:any) => {
-            const countryName = feature.properties.name; // Get country name
-            
-            if (countryName === "France" || countryName === "Germany") {
-              return {
-                color: "#ff0000", // Red border
-                weight: 2,
-                fillColor: "#ffcccc", // Light red fill
-                fillOpacity: 0.6
-              };
-            } else {
-              return {
-                color: "#0066ff", // Blue border
-                weight: 1,
-                fillColor: "#ffffff", // Transparent fill
-                fillOpacity: 0
-              };
-            }
+    fetch(
+      'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json'
+    )
+      .then((response) => response.json())
+      .then((data: GeoJSONType) => {
+        console.log(JSON.stringify({ ...data, features: [data.features[0]] }));
+        const countryNames = this.countries.map((country) => country.country);
+        const filterdData = {
+          type: data.type,
+          features: data.features.filter((feature) =>
+            countryNames.includes(feature.properties.name)
+          ),
+        };
+
+        L.geoJSON(filterdData, {
+          style: (feature) => {
+            const countryName = feature?.properties?.name;
+
+            const country = this.countries.find(
+              (country) => country.country === countryName
+            );
+
+            if (!country) return {};
+
+            return {
+              color: '#0066ff',
+              weight: 1,
+              fillOpacity: country.countryPercentage / 100,
+            };
           },
           onEachFeature: (feature, layer) => {
-            const countryName = feature.properties.name;
-            layer.bindTooltip(countryName, { permanent: false, direction: "center" });
-          }
+            const countryName = feature?.properties?.name;
+
+            const country = this.countries.find(
+              (country) => country.country === countryName
+            );
+
+            if (!country) return;
+
+            layer.bindTooltip(
+              `${country.country} - ${country.countryPercentage}%`,
+              {
+                permanent: false,
+                direction: 'center',
+              }
+            );
+          },
         }).addTo(this.map);
       })
-      .catch(error => console.error('Error loading GeoJSON:', error));
+      .catch((error) => console.error('Error loading GeoJSON:', error));
   }
-
 }
