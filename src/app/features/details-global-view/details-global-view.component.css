@@ -74,6 +74,13 @@
     
 }
 
+.pie-containers{
+    display: flex;
+    justify-items: center;
+    flex-direction: row;
+    gap: 50px;    
+
+}
 
 /* Responsiveness */
 @media screen and (max-width: 768px) {
@@ -82,12 +89,16 @@
         max-width: 100%;
     }
 
-    .p-col-3 p-card {
+    .p-col-3 p-card, .pie-containers {
         width: 100%; 
         height: auto;
         text-align: center;
     }
     .p-card{
         height: 180px;
+    }
+    .pie-containers {
+        flex-direction: column;
+        align-items: center;
     }
 }

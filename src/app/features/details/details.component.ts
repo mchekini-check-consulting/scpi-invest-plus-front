@@ -22,7 +22,7 @@ export class DetailsComponent implements OnInit{
   actualPage :string = ""
   stat: StatYear | null = null;
   //TODO: When the repo is merged , I will try to get the id from the precedent page
-  id_parent:number=1; // It is just a test
+  id_parent:number=3; // It is just a test
 
   constructor(private _location: Location) 
   {}
