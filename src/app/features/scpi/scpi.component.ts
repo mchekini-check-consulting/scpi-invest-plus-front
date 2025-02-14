@@ -17,8 +17,7 @@ export class ScpiComponent {
   images = Array.from({ length: 10 }, (_, i) => `img/scpi/${i + 1}.webp`);
 
   constructor(private scpiService: ScpiService) {
-    this.scpiService.get().subscribe();
-    this.scpiService._scpis.subscribe((data) => {
+    this.scpiService.get().subscribe((data) => {
       this.scpis = data;
     });
   }
