@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ScpiHistoryDetailsComponent } from './scpi-history-details.component';
+import { ScpiHistoryDetailsComponent } from '../scpi-history-details.component';
 
 describe('ScpiHistoryDetailsComponent', () => {
   let component: ScpiHistoryDetailsComponent;
