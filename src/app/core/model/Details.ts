@@ -22,7 +22,7 @@ export class Details {
     statYears: StatYear[];
     locations: Location[];
     sectors: Sector[];
-
+    
     constructor(data: any) {
         this.id = data.id;
         this.name = data.name;
@@ -38,13 +38,10 @@ export class Details {
         this.iban = data.iban;
         this.bic = data.bic;
         this.advertising = data.advertising;
-
-        // Prendre la dernière année des statYears pour les valeurs principales
         const lastYear = data.statYears?.[0] || { year: 0, distributionRate: 0, sharePrice: 0, reconstitutionValue: 0, scpiId: 0 };
         this.distributionRate = lastYear.distributionRate;
         this.sharePrice = lastYear.sharePrice;
         this.reconstitutionValue = lastYear.reconstitutionValue;
-
         this.statYears = data.statYears ? data.statYears.map((stat: StatYear) => new StatYear(new YearStat(stat.yearStat.yearStat, stat.yearStat.scpiId), stat.distributionRate, stat.sharePrice, stat.reconstitutionValue)) : [];
         this.locations = data.locations ? data.locations.map((loc: Location) => new Location(new LocationId(loc.id.scpiId, loc.id.country), loc.countryPercentage)) : [];
         this.sectors = data.sectors ? data.sectors.map((sec: Sector) => new Sector(new SectorId(sec.id.scpiId, sec.id.name), sec.sectorPercentage)) : [];

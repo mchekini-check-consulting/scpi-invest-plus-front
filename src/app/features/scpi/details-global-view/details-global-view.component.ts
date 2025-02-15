@@ -13,10 +13,10 @@ import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { DividerModule } from 'primeng/divider';
 import { PanelModule } from 'primeng/panel';
-import { Details } from '../../../models/Details';
-import { Location } from '../../../models/Location';
-import { Sector } from '../../../models/Sector';
-import { StatYear } from '../../../models/StatYear';
+import { Details } from '../../../core/model/Details';
+import { Location } from '../../../core/model/Location';
+import { Sector } from '../../../core/model/Sector';
+import { StatYear } from '../../../core/model/StatYear';
 import { DetailsDetailsService } from '../../../services/details-details.service';
 import { MapComponent } from './map/map.component';
 
@@ -66,10 +66,7 @@ export class DetailsGlobalViewComponent implements OnInit {
             : null;
 
         this.ListeLocations = this.details.locations;
-        console.log("countrys  = ", this.ListeLocations)
         this.ListeSectors = this.details.sectors;
-
-
         this.initChart(this.ListeLocations);
         this.cd.detectChanges();
         this.initSectorPieChart(this.ListeSectors);
@@ -133,7 +130,6 @@ export class DetailsGlobalViewComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       const documentStyle = getComputedStyle(document.documentElement);
       const textColor = documentStyle.getPropertyValue('--text-color');
-
       this.sectorData = {
         labels: dataEntry.map((x) => x.id.name),
         datasets: [
@@ -175,7 +171,6 @@ export class DetailsGlobalViewComponent implements OnInit {
     } else if (value >= 1_000) {
       return (value / 1_000).toFixed(1) + 'K';
     }
-
     return value.toString();
   }
 }

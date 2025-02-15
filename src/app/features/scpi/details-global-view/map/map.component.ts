@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as L from 'leaflet';
-import { Location } from '../../../../models/Location';
+import { Location } from '../../../../core/model/Location';
 
 export type GeoJSONType = {
   type:

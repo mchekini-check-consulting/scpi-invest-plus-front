@@ -1,4 +1,4 @@
-<p-button label="Retour" severity="info" (onClick)="backClicked()" />
+<p-button [label]="retour|translate" severity="info" (onClick)="backClicked()" />
 <div class="row justify-content-center">
     <p-card class="card">
         <div class="p-col-12">
@@ -23,14 +23,13 @@
             </p-card>
             <hr>
             <div class="button-container">
-                <p-button label="Vue d'ensemble" severity="info" (onClick)="changePage('vue')" />
-                <p-button label="Historique" severity="info" (onClick)="changePage('historique')" />
-                <p-button label="Détails" severity="info" (onClick)="changePage('details')" />
+                <p-button [label]='vue|translate' severity="info" (onClick)="changePage('vue')" />
+                <p-button [label]="history|translate" severity="info" (onClick)="changePage('historique')" />
+                <p-button [label]="_details|translate" severity="info" (onClick)="changePage('details')" />
             </div>
         </div>
     </p-card>
 </div>
-
 <div class="row justify-content-center">
     <div class="col-md-6" *ngIf="actualPage === 'details'">
         <app-details-detials [id_parent]="id_parent"></app-details-detials>

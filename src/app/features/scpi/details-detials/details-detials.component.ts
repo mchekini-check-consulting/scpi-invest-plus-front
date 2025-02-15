@@ -6,10 +6,10 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { PanelModule } from 'primeng/panel';
-import { Details } from '../../../models/Details';
+import { Details } from '../../../core/model/Details';
 import { DetailsDetailsService } from '../../../services/details-details.service';
-import { StatYear } from '../../../models/StatYear';
-import { Sector } from '../../../models/Sector';
+import { StatYear } from '../../../core/model/StatYear';
+import { Sector } from '../../../core/model/Sector';
 
 @Component({
   selector: 'app-details-detials',

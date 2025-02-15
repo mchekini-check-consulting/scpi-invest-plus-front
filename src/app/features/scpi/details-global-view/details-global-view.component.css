@@ -87,6 +87,18 @@
   gap: 50px;
 }
 
+.text-container{
+  display: table-row;
+  align-content: center;
+  border:thin solid black;
+  border-width: 2px;
+  border-radius: 2cm;
+  height: 250px;
+  max-width: 200px;
+}
+
+
+
 
 @media screen and (max-width: 768px) {
   .p-col-3 {

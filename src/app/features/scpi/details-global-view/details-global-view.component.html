@@ -9,29 +9,37 @@
 
   <p-card>
     <ng-template pTemplate="header center">
-      <label class="large-label pt-2">{{ states?.sharePrice || "N\A" }} €</label>
+      <label class="large-label pt-2">{{states?.sharePrice || "N\A" }} €</label>
       <label class="small-label">Prix par part</label>
     </ng-template>
   </p-card>
 
   <p-card>
     <ng-template pTemplate="header center">
-      <label class="large-label pt-2">{{ details?.manager || "N\A" }}</label>
+      <label class="large-label pt-2">{{details?.manager || "N\A" }}</label>
       <label class="small-label">Gérant</label>
     </ng-template>
   </p-card>
 
   <p-card>
     <ng-template pTemplate="header center">
-      <label class="large-label pt-2">{{ details?.minimumSubscription || "N\A" }} €</label>
+      <label class="large-label pt-2">{{details?.minimumSubscription || "N\A" }} €</label>
       <label class="small-label">Min. 1ère souscription</label>
     </ng-template>
   </p-card>
 
   <p-card>
     <ng-template pTemplate="header center">
-      <label class="large-label pt-2">{{ formatNumber(details?.capitalization) || "N\A" }} €</label>
+      <label class="large-label pt-2">{{formatNumber(details?.capitalization) || "N\A" }} €</label>
       <label class="small-label">Capitalisation</label>
     </ng-template>
-  </p-card>
+  </p-card> 
+
 </div>
+<div class="text-container">
+  <p-card header="Notre avis" class="card">
+    <label class="centered-label">{{details?.advertising}}</label>
+  </p-card>
+  
+</div>
+
