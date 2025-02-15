@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { SearchBarComponent } from './search-bar.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ScpiService } from '../../../../core/services/scpi.service';
+import { ScpiService } from '../../../../core/service/scpi.service';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { of } from 'rxjs';
-import { ScpiModel } from '../../../../core/models/scpi.model';
+import { ScpiModel } from '../../../../core/model/scpi.model';
 
 describe('SearchBarComponent', () => {
   let component: SearchBarComponent;
@@ -33,7 +33,7 @@ describe('SearchBarComponent', () => {
   ];
 
   beforeEach(async () => {
-    const scpiServiceSpy = jasmine.createSpyObj('ScpiService', ['updateScpis', 'get']);
+    const scpiServiceSpy = jasmine.createSpyObj('ScpiService', ['search', 'get']);
 
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, FormsModule, SearchBarComponent, InputTextModule],
@@ -63,14 +63,13 @@ describe('SearchBarComponent', () => {
   }));
 
   it('devrait récupérer les résultats de recherche via fetchResults()', () => {
-    component.searchTerm = 'SCPI Test';
-    component.onSearchChange();
-    const req = httpMock.expectOne(`https://localhost:8081/api/v1/scpi/search/?query=SCPI Test`);
-    expect(req.request.method).toBe('GET');
-    req.flush(mockResults);
-    expect(component.searchResults.length).toBe(1);
-    expect(component.searchResults[0].name).toBe('SCPI Test');
+    const query = 'SCPI Test';
+    scpiService.search.and.returnValue(of(mockResults)); 
+    component.fetchResults(query); 
+    expect(scpiService.search).toHaveBeenCalledWith(query); 
+    expect(component.searchResults).toEqual(mockResults); 
   });
+  
   
 
 

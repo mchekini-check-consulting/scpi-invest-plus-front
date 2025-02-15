@@ -14,4 +14,7 @@ export class ScpiService {
   get(): Observable<Scpis> {
     return this.http.get<Scpis>(this.url);
   }
+  search(query: string): Observable<Scpis> {
+    return this.http.get<Scpis>(`https://localhost:8081/api/v1/scpi/search/?query=${query}`);
+  }
 }

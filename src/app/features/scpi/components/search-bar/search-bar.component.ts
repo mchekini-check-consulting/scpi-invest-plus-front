@@ -4,8 +4,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { InputTextModule } from 'primeng/inputtext';
-import { ScpiModel } from '../../../../core/models/scpi.model';
-import { ScpiService } from '../../../../core/services/scpi.service';
+import { ScpiModel } from '../../../../core/model/scpi.model';
+import { ScpiService } from '../../../../core/service/scpi.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -38,14 +38,12 @@ export class SearchBarComponent {
 
   fetchResults(query: string) {
     if (!query.trim()) {
-        this.handleEmptySearch();
+      this.handleEmptySearch();
       return;
     }
-    const url = `https://localhost:8081/api/v1/scpi/search/?query=${query}`;
-
-    this.http.get<ScpiModel[]>(url).subscribe(results => {
-      this.searchResults = results;
-      this.scpiService.updateScpis(results);
+  
+    this.scpiService.search(query).subscribe(results => {
+      this.searchResults = results; // Mise à jour des résultats de recherche
     });
   }
 
