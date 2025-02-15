@@ -25,7 +25,6 @@ export class AuthService {
   logout() {
     this.isLoggedOut = true;
     this.oauthService.logOut();
-    this.oauthService.logOut(true);
     // @ts-ignore
     this.oauthService.clearHashAfterLogin();
   }

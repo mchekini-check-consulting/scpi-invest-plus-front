@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {OAuthErrorEvent, OAuthEvent, OAuthService, OAuthSuccessEvent} from 'angular-oauth2-oidc';
 import {UserService} from './core/service/user.service';
-import {authCodeFlowConfig} from './core/config/auth.config';
 
 @Component({
   selector: 'app-root',
@@ -24,9 +23,6 @@ export class AppComponent {
         console.error('OAuthErrorEvent:', event);
       }
     });
-
-    this.oauthService.configure(authCodeFlowConfig);
-    this.oauthService.loadDiscoveryDocumentAndLogin();
   }
 
 }
