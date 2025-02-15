@@ -5,7 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { Details } from '../../../core/model/Details';
 import { StatYear } from '../../../core/model/StatYear';
-import { DetailsDetailsService } from '../../../services/details-details.service';
+import { DetailsDetailsService } from '../../../core/service/details-details.service';
 import { DetailsDetialsComponent } from '../details-detials/details-detials.component';
 import { DetailsGlobalViewComponent } from '../details-global-view/details-global-view.component';
 import { ActivatedRoute } from '@angular/router';

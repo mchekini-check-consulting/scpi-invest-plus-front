@@ -17,7 +17,7 @@ import { Details } from '../../../core/model/Details';
 import { Location } from '../../../core/model/Location';
 import { Sector } from '../../../core/model/Sector';
 import { StatYear } from '../../../core/model/StatYear';
-import { DetailsDetailsService } from '../../../services/details-details.service';
+import { DetailsDetailsService } from '../../../core/service/details-details.service';
 import { MapComponent } from './map/map.component';
 
 @Component({

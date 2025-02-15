@@ -7,7 +7,7 @@ import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { PanelModule } from 'primeng/panel';
 import { Details } from '../../../core/model/Details';
-import { DetailsDetailsService } from '../../../services/details-details.service';
+import { DetailsDetailsService } from '../../../core/service/details-details.service';
 import { StatYear } from '../../../core/model/StatYear';
 import { Sector } from '../../../core/model/Sector';
 

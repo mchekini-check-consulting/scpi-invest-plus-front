@@ -65,7 +65,6 @@ export class MapComponent implements OnInit {
     )
       .then((response) => response.json())
       .then((data: GeoJSONType) => {
-        console.log(JSON.stringify({ ...data, features: [data.features[0]] }));
         const countryNames = this.countries.map((country) => country.id.country);
         const filterdData = {
           type: data.type,
