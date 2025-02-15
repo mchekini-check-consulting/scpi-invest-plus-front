@@ -1,0 +1,74 @@
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 1cm;
+}
+
+.card-container {
+
+    padding: 20px;
+    gap: 1cm;
+}
+
+.p-grid {
+    display: flex;
+    justify-content: center;
+    gap: 1cm;
+
+}
+
+.p-col-6 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10cm;
+}
+
+.square {
+    border: 0px solid #ffffff;
+    padding: 20px;
+    text-align: center;
+    width: 10cm;
+
+}
+
+.large-label {
+    font-size: 25px;
+    font-weight: bold;
+    gap: 1cm;
+}
+
+
+.small-label {
+    font-size: 15px;
+    font-weight: bold;
+    gap: 1cm;
+    margin: 5px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5cm;
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.button-container p-button {
+    flex: 1;
+    width: 5cm;
+}
+
+p-button {
+    flex: 1;
+    width: 20cm;
+
+}
+
+:host ::ng-deep .p-button {
+    font-size: 20px;
+}
