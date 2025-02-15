@@ -2,7 +2,7 @@
     <div class="p-col-3 center">
         <p-card>
             <ng-template pTemplate="header center">
-                <label class="large-label pt-2">{{details?.subscription_fees || "N\A"}} %</label>
+                <label class="large-label pt-2">{{details?.subscriptionFees || "N\A"}} %</label>
             
                 <label class="small-label pt-1">Frais souscription</label>
             </ng-template>
@@ -10,7 +10,7 @@
         
         <p-card>
             <ng-template pTemplate="header center">
-                <label class="large-label pt-3">{{details?.share_price || "N\A"}} €</label>
+                <label class="large-label pt-3">{{stat?.sharePrice || "N\A"}} €</label>
            
                 <label class="small-label">Prix d'achat</label>
             </ng-template>
@@ -18,7 +18,7 @@
 
         <p-card>
             <ng-template pTemplate="header center">
-                <label class="large-label pt-2">{{details?.enjoyment_delay || "N\A"}} mois</label>
+                <label class="large-label pt-2">{{details?.enjoymentDelay || "N\A"}} mois</label>
            
                 <label class="small-label">Délai de jouissance</label>
             </ng-template>
@@ -28,7 +28,7 @@
     <div class="p-col-3">
         <p-card>
             <ng-template pTemplate="header center">
-                <label class="large-label pt-2">{{details?.management_costs || "N\A"}} %</label>
+                <label class="large-label pt-2">{{details?.managementCosts || "N\A"}} %</label>
             
                 <label class="small-label">Frais de gestion</label>
             </ng-template>
@@ -44,7 +44,7 @@
 
         <p-card>
             <ng-template pTemplate="header center">
-                <label class="large-label pt-2">{{details?.frequency_payment || "N\A"}}</label>
+                <label class="large-label pt-2">{{details?.frequencyPayment}}</label>
            
                 <label class="small-label">Fréquence des loyers</label>
             </ng-template>

@@ -7,7 +7,7 @@
 }
 
 .card-container {
-    
+
     padding: 20px;
     gap: 1cm;
 }
@@ -31,7 +31,7 @@
     padding: 20px;
     text-align: center;
     width: 10cm;
-   
+
 }
 
 .large-label {
@@ -47,27 +47,28 @@
     gap: 1cm;
     margin: 5px;
 }
+
 .button-container {
     display: flex;
-    justify-content: center;  
-    align-items: center; 
-    gap: 1.5cm;  
+    justify-content: center;
+    align-items: center;
+    gap: 1.5cm;
     margin-top: 10px;
     width: 100%;
     text-align: center;
 }
 
 .button-container p-button {
-    flex: 1;  
-    width: 5cm;  
+    flex: 1;
+    width: 5cm;
 }
 
 p-button {
-    flex: 1; 
-    width: 20cm; 
-    
+    flex: 1;
+    width: 20cm;
+
 }
 
-:host ::ng-deep .p-button{
-    font-size:20px;  
-  }
+:host ::ng-deep .p-button {
+    font-size: 20px;
+}

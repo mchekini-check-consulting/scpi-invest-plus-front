@@ -11,41 +11,24 @@ export const routes: Routes = [
   {
     path: '', component: TemplateComponent, children: [
       {
-        path: 'scpi', component: ScpiComponent
+        path: 'scpi', component: ScpiComponent, children: [
+
+        ]
       },
       {
-        path:"index",
+        path: "details",
         component: DetailsComponent,
-        children:[
+        children: [
           {
-            path: "details",
-          component: DetailsDetialsComponent,
-         },
-         {
-          path: "vue",
-          component:  DetailsGlobalViewComponent
-         }
+            path: "show",
+            component: DetailsDetialsComponent,
+          },
+          {
+            path: "global",
+            component: DetailsGlobalViewComponent
+          }
         ]
       }
-
     ],
-
-  },
-
-
-
-    ],
-
-  },{
-    path:"index",
-    component: DetailsComponent,
-    children:[
-      {
-        path: "details/:scpid",
-      component: DetailsDetialsComponent,
-    }
-    ]
   }
-
-
 ];
