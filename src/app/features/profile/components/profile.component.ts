@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ProfileService } from '../service/profile.service';
+import { ProfileService } from '../../../core/service/profile.service';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
@@ -8,7 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
 import { CommonModule } from '@angular/common';
-import { MessageService } from 'primeng/api'; // Import du service de notification
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-profile',
@@ -23,12 +23,12 @@ import { MessageService } from 'primeng/api'; // Import du service de notificati
     DatePickerModule,
     CommonModule,
   ],
-  providers: [MessageService], // Ajouter MessageService
+  providers: [MessageService],
 })
 export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
   editable: boolean = false;
-  userEmail: string = 'kocielamansoura.com'; // Email en dur
+  userEmail: string = '';
 
   maritalStatuses = [
     { label: 'Célibataire', value: 'single' },
@@ -41,7 +41,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private profileService: ProfileService,
-    private messageService: MessageService // Injection du service de notification
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +60,7 @@ export class ProfileComponent implements OnInit {
       ],
       dateOfBirth: [
         { value: '', disabled: true },
-        [Validators.required], // Appliquez ici le validateur
+        [Validators.required],
       ],
       maritalStatus: [{ value: '', disabled: true }, Validators.required],
       childrenCount: [

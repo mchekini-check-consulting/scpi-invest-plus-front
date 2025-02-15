@@ -13,7 +13,7 @@ export class ProfileService {
   getInvestorByEmail(email: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${email}`);
   }
-
+  
   updateInvestor(email: string, investorData: any): Observable<any> {
     return this.http.patch(`${this.apiUrl}/${email}`, investorData);
   }
