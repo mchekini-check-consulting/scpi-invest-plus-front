@@ -4,26 +4,11 @@
     pInputText
     [(ngModel)]="searchTerm"
     (input)="onSearchChange()"
-    placeholder="Rechercher une SCPI"
+    [placeholder]="
+      searchResults.length === 0 && searchTerm
+        ? 'Aucun résultat trouvé pour cette recherche'
+        : 'Rechercher une SCPI'
+    "
     class="w-full px-6 py-1 bg-black-100 text-black-900 font-bold text-center rounded-full focus:outline-none focus:ring-2 focus:ring-green-300"
   />
-
-  <!-- Résultats de recherche -->
-  <ul *ngIf="searchResults.length > 0" class="border rounded-lg p-2 bg-gray-50">
-    <li
-      *ngFor="let result of searchResults"
-      class="p-2 border-b last:border-b-0"
-    >
-      <strong>{{ result.name }}</strong> - {{ result.id }} ({{
-        result.minimumSubscription
-      }}%)
-    </li>
-  </ul>
-
-  <p
-    *ngIf="searchResults.length === 0 && searchTerm"
-    class="text-gray-500 text-center"
-  >
-    Aucun résultat trouvé.
-  </p>
 </div>

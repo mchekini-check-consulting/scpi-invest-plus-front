@@ -12,7 +12,7 @@ import { ScpiService } from '../../../../core/services/scpi.service';
   standalone: true,
   imports: [CommonModule, HttpClientModule, FormsModule, InputTextModule],
   templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.scss']
+  styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent {
   searchTerm: string = '';
@@ -20,15 +20,15 @@ export class SearchBarComponent {
   private searchSubject = new Subject<string>();
 
   private http = inject(HttpClient);
-  private scpiService = inject(ScpiService); // Injection du service SCPI
+  private scpiService = inject(ScpiService); 
 
   constructor() {
     this.searchSubject
       .pipe(
-        debounceTime(500),  // Attente de 500ms après la dernière frappe
-        distinctUntilChanged()  // N'émettre que si la valeur change
+        debounceTime(500),  
+        distinctUntilChanged()  
       )
-      .subscribe(term => this.fetchResults(term)); // Appel de la fonction fetchResults()
+      .subscribe(term => this.fetchResults(term)); 
   }
   
 
@@ -41,21 +41,14 @@ export class SearchBarComponent {
         this.handleEmptySearch();
       return;
     }
+    const url = `https://localhost:8081/api/v1/scpi/search/?query=${query}`;
 
-    this.http.get<ScpiModel[]>(`https://localhost:8081/api/v1/scpi/search/?query=${query}`)
-      .subscribe(
-        (response) => {
-          this.searchResults = response, 
-          this.scpiService.updateScpis(response); // Mettre à jour le service et notifier les abonnés
-        },
-        (error) => {
-          this.searchResults = [];
-          this.scpiService.updateScpis([]); // Réinitialiser la liste si erreur
-        }
-      );
+    this.http.get<ScpiModel[]>(url).subscribe(results => {
+      this.searchResults = results;
+      this.scpiService.updateScpis(results);
+    });
   }
 
-  // Fonction exécutée quand l'input est vide
   handleEmptySearch() {
  
     this.scpiService.get().subscribe(
