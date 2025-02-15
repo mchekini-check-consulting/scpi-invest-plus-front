@@ -1,0 +1,37 @@
+.card-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.card-image {
+  width: 100%;
+  object-fit: cover;
+  height: 6rem;
+}
+
+.info-container {
+  display: grid;
+  gap: 1rem;
+  & > .info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    & > * {
+      white-space: nowrap;
+    }
+  }
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+}

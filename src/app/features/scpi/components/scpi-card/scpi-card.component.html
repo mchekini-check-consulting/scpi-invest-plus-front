@@ -1,0 +1,46 @@
+<div class="card-container">
+  <p-card class="card">
+    <ng-template #header>
+      <img alt="Card" class="card-image" [src]="image" />
+    </ng-template>
+    <ng-template #title>{{ scpi.name }}</ng-template>
+    <div class="info-container">
+      <div class="info">
+        <p-tag
+          severity="secondary"
+          [value]="
+            scpi.location.id.country + ' - ' + scpi.location.countryPercentage
+          "
+        ></p-tag>
+
+        <p-tag
+          severity="secondary"
+          [value]="scpi.sector.id.name + ' - ' + scpi.sector.sectorPercentage"
+        />
+      </div>
+      <div class="info">
+        <p-tag
+          severity="secondary"
+          [value]="'Rendement - ' + scpi.statYear.distributionRate + '%'"
+        ></p-tag>
+
+        <p-tag
+          severity="secondary"
+          [value]="'Minimum - ' + (scpi.minimumSubscription | currency : 'EUR')"
+        ></p-tag>
+      </div>
+    </div>
+    <p-divider />
+    <ng-template #footer>
+      <div class="button-group">
+        <p-button label="Investir" severity="info" size="large" />
+        <p-button
+          label="Détails"
+          severity="secondary"
+          [outlined]="true"
+          size="large"
+        />
+      </div>
+    </ng-template>
+  </p-card>
+</div>
