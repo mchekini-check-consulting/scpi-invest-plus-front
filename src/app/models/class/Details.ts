@@ -10,6 +10,8 @@ export class Details {
      distribution_rate: number=0;
      minimumSubscription: number=0;
      cashback: number=0;
+     capitalization:number=0;
+     manager:string="";
     constructor(
         scpi_name: string,
         subscription_fees: number,
@@ -21,7 +23,9 @@ export class Details {
         frequency_payment: string,
         distribution_rate: number,
         minimumSubscription: number,
-        cashback: number
+        cashback: number,
+        capitalization: number,
+        manager:string
     ) {
         this.scpi_name = scpi_name;
         this.subscription_fees = subscription_fees;
@@ -34,5 +38,7 @@ export class Details {
         this.frequency_payment = frequency_payment;
         this.minimumSubscription = minimumSubscription;
         this.cashback = cashback;
+        this.capitalization = capitalization;
+        this.manager = manager;
     }
 }
