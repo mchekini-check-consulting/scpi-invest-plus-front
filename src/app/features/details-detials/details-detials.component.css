@@ -1,46 +1,58 @@
-.row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin-top: -3cm;
-    gap: 50px; /* Espace entre les colonnes */
-}
-
-.p-col-3 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px; /* Espace entre les carrés */
-}
-
-.square {
-    width: 220px;
-    height: 110px;
-    background-color: #ffffff;
-    border: 2px solid #333;
+/* Centrer le contenu à l'intérieur des p-card */
+.p-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    border-radius: 10px;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-    padding: 20px;
+    height: 200px; /* Ajuste la hauteur pour un bon centrage */
 }
 
-.small-square {
-    height: 110px; /* Taille réduite pour le dernier carré */
+/* Centrer l'en-tête et le pied */
+.p-card-header,
+.p-card-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
 }
 
+/* Assurer que les labels sont bien centrés */
 .large-label {
-    font-size: 1em;
+    font-size: 1.5rem;
     font-weight: bold;
-    color: #222;
+    display: block;
+    text-align: center;
 }
 
 .small-label {
-    font-size: 1em;
-    font-weight: normal;
-    color: #555;
+    font-size: 1rem;
+    color: #888;
+    display: block;
+    text-align: center;
+}
+
+/* Organisation des colonnes */
+.row {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.p-col-3 {
+    flex: 0 0 30%;
+    max-width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Espacement entre les cartes */
+}
+
+/* Pour les petits écrans */
+@media screen and (max-width: 768px) {
+    .p-col-3 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 }
