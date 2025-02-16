@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Router, RouterLink, RouterModule} from '@angular/router';
 import {CommonModule, NgFor} from '@angular/common';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {AuthService} from "../../../service/auth.service";
@@ -14,7 +15,7 @@ interface Lang {
 
 @Component({
   selector: 'app-navbar',
-  imports: [NgFor, TranslateModule, CommonModule],
+  imports: [NgFor, TranslateModule, CommonModule, RouterModule,RouterLink],
   templateUrl: './navbar.component.html',
   standalone: true,
   styleUrl: './navbar.component.css'

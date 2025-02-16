@@ -3,7 +3,6 @@ import {NgForOf, NgIf} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {TranslateModule} from '@ngx-translate/core';
 
-
 declare interface RouteInfo {
   path: string;
   title: string;
