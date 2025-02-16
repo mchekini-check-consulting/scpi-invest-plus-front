@@ -10,5 +10,11 @@
   },
   "LIST-SCPI": {
     "TITLE": "Investir"
+  },
+  "Details":{
+    "RETOUR":"Retour",
+    "VUE": "Vue d'ensemble",
+    "HISTORIQUE": "Historique",
+    "DETAILS": "Détails"
   }
 }
