@@ -1,23 +1,23 @@
 import { Details } from '@/core/model/Details';
+import { Sector } from '@/core/model/Sector';
 import { StatYear } from '@/core/model/StatYear';
 import { DetailsDetailsService } from '@/core/service/details-details.service';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-scpi-history-details',
   templateUrl: './scpi-history-details.component.html',
   styleUrls: ['./scpi-history-details.component.css'],
-  imports: [ChartModule, CommonModule],
+  imports: [ChartModule],
 })
 export class ScpiHistoryDetailsComponent implements OnInit {
   @Input() id_parent: number = 0;
   details: Details | null = null;
   stat: StatYear[] | null = [];
-  years: number[] = [];
-  distributionRates: number[] = [];
-  sharePrices: number[] = [];
+  years : number[] = [];
+  distributionRates : number[] = [];
+  sharePrices : number[] = [];
 
   detailsService = inject(DetailsDetailsService);
 
@@ -35,9 +35,7 @@ export class ScpiHistoryDetailsComponent implements OnInit {
         if (res) {
           this.details = res;
           this.stat = this.details.statYears;
-          this.years = this.stat
-            .map((stat) => stat.yearStat.yearStat as number)
-            .sort((a, b) => a - b);
+          this.years = this.stat?.map((stat) => stat.yearStat.yearStat);
           this.distributionRates = this.stat?.map(
             (stat) => stat.distributionRate
           );
@@ -61,11 +59,11 @@ export class ScpiHistoryDetailsComponent implements OnInit {
       },
       scales: {
         x: {
-          title: { display: true, text: '', color: '#666' },
+          title: { display: true, text: 'Années', color: '#666' },
           grid: { display: false },
         },
         y: {
-          title: { display: true, text: '', color: '#666' },
+          title: { display: true, text: 'Valeur', color: '#666' },
           grid: { color: '#eee' },
         },
       },
@@ -74,6 +72,9 @@ export class ScpiHistoryDetailsComponent implements OnInit {
         easing: 'easeInOutQuad',
       },
     };
+
+
+
 
     this.distributionChartData = {
       labels: this.years,

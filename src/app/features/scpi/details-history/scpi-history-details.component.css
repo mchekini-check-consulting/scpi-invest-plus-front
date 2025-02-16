@@ -1,20 +1,15 @@
 .history-container .chart-container .title {
-  color: #4343a6;
+  color: #4343a6 ;
   font-size: 1.4rem;
-  font-weight: 030;
-}
-
-
-.card-container {
-  width: 100%;
-  height: 100%;
+  font-weight: 600;
 }
 
 .chart-container {
+  height: 250px; /* Hauteur souhaitée */
+  width: 100%; /* Largeur souhaitée */
   margin: 0 auto;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
+  width: 65%;
 }
 
 ::ng-deep .chart-container p-chart {
@@ -28,9 +23,6 @@
   width: 100% !important;
 }
 
-.no-data-message {
-  text-align: center;
-  color: #c5891a;
-  font-weight: bold;
-  margin-top: 20px;
-}
+
+
+
