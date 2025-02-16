@@ -37,4 +37,7 @@
     <div class="col-md-6" *ngIf="actualPage === 'vue'">
         <app-details-global-view [id_parent]="id_parent"></app-details-global-view>
     </div>
+    <div class="col-md-6" *ngIf="actualPage === 'historique'">
+        <app-scpi-history-details [id_parent]="id_parent"></app-scpi-history-details>
+  </div>
 </div>

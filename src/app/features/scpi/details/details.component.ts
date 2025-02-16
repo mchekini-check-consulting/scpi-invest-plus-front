@@ -10,6 +10,7 @@ import { DetailsDetialsComponent } from '../details-detials/details-detials.comp
 import { DetailsGlobalViewComponent } from '../details-global-view/details-global-view.component';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { ScpiHistoryDetailsComponent } from '../details-history/scpi-history-details.component';
 @Component({
   selector: 'app-details',
   imports: [
@@ -19,7 +20,8 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     CommonModule,
     DetailsGlobalViewComponent,
-    TranslateModule
+    TranslateModule,
+    ScpiHistoryDetailsComponent
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
