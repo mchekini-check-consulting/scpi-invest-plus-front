@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ProfileService } from '../service/profile.service';
+import { ProfileService } from '../../../core/service/profile.service';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
@@ -8,8 +8,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
 import { CommonModule } from '@angular/common';
-import { MessageService } from 'primeng/api'; // Import du service de notification
-//import { dateValidator } from '../../../shared/validators/dob.validator';
+import { MessageService } from 'primeng/api';
+import { UserService } from '@/core/service/user.service';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-profile',
@@ -23,13 +24,14 @@ import { MessageService } from 'primeng/api'; // Import du service de notificati
     ReactiveFormsModule,
     DatePickerModule,
     CommonModule,
+    ToastModule
   ],
-  providers: [MessageService], // Ajouter MessageService
+  providers: [MessageService],
 })
 export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
   editable: boolean = false;
-  userEmail: string = 'kocielamansoura.com'; // Email en dur
+  userEmail!: string;
 
   maritalStatuses = [
     { label: 'Célibataire', value: 'single' },
@@ -42,11 +44,23 @@ export class ProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private profileService: ProfileService,
-    private messageService: MessageService // Injection du service de notification
+    private userService: UserService,
+    private messageService: MessageService,
   ) {}
+
 
   ngOnInit(): void {
     this.initForm();
+    this.userService.user$.subscribe((user) => {
+      if (user) {
+        this.userEmail = user.email;
+        this.profileForm.patchValue({
+          lastName: user.lastName,
+          firstName: user.firstName,
+          email: user.email,
+        });
+      }
+    });
     this.loadUserProfile();
   }
 
@@ -59,10 +73,7 @@ export class ProfileComponent implements OnInit {
         { value: '', disabled: true },
         [Validators.required, Validators.pattern('^\\d{10}$')],
       ],
-      dateOfBirth: [
-        { value: '', disabled: true },
-        [Validators.required], // Appliquez ici le validateur
-      ],
+      dateOfBirth: [{ value: '', disabled: true }, [Validators.required]],
       maritalStatus: [{ value: '', disabled: true }, Validators.required],
       childrenCount: [
         { value: 0, disabled: true },
@@ -109,9 +120,10 @@ export class ProfileComponent implements OnInit {
         if (field !== 'email') this.profileForm.controls[field].enable();
       });
     } else {
-      this.submitForm();
+      this.disableFormControls();
     }
   }
+
 
   submitForm(): void {
     if (this.profileForm.valid) {

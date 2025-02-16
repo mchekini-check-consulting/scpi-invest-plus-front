@@ -6,17 +6,21 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProfileService {
-  private apiUrl = `/api/investors`;
+  private apiUrl = `/api/v1/investors`;
 
   constructor(private http: HttpClient) {}
 
-  // Récupérer un investisseur par email
   getInvestorByEmail(email: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${email}`);
   }
 
-  // Mettre à jour un investisseur
+
   updateInvestor(email: string, investorData: any): Observable<any> {
     return this.http.patch(`${this.apiUrl}/${email}`, investorData);
+  }
+
+
+  createInvestor(investorData: any): Observable<any> {
+    return this.http.post(this.apiUrl, investorData);
   }
 }
