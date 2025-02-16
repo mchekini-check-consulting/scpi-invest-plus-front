@@ -1,5 +1,11 @@
 <div>
-  <div><app-scpi-header /></div>
+  <div>
+    <app-scpi-header />
+    <app-search-bar
+      (searchResultsChanged)="onSearchResultsChanged($event)"
+    ></app-search-bar>
+  </div>
+
   <div class="list-scpi">
     @for (scpi of scpis; track scpi.id) {
     <app-scpi-card [scpi]="scpi" [image]="getRandomImage()" />

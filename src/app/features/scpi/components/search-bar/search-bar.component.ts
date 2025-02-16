@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +15,7 @@ import { ScpiService } from '../../../../core/service/scpi.service';
   styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent {
+  @Output() searchResultsChanged = new EventEmitter<ScpiModel[]>(); // Ajout de l'événement
   searchTerm: string = '';
   searchResults: ScpiModel[] = [];
   private searchSubject = new Subject<string>();
@@ -44,17 +45,15 @@ export class SearchBarComponent {
   
     this.scpiService.search(query).subscribe(results => {
       this.searchResults = results; // Mise à jour des résultats de recherche
+      this.searchResultsChanged.emit(results); // Notifier ScpiComponent
     });
   }
 
   handleEmptySearch() {
- 
     this.scpiService.get().subscribe(
       (scpis) => {
-        console.log('SCPI récupérées :', scpis);
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération des SCPI', error);
+        this.searchResults = scpis;
+        this.searchResultsChanged.emit(scpis); // Notifier ScpiComponent avec toutes les SCPI
       }
     );
   }
