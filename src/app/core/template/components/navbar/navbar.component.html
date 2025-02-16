@@ -1,15 +1,24 @@
-<nav class="navbar navbar-expand-lg ">
+<nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
     <div class="navbar-wrapper">
       <div class="navbar-minimize">
-        <button id="minimizeSidebar" class="btn btn-facebook btn-fill btn-round btn-icon d-none d-lg-block">
+        <button
+          id="minimizeSidebar"
+          class="btn btn-facebook btn-fill btn-round btn-icon d-none d-lg-block"
+        >
           <i class="fa fa-ellipsis-v visible-on-sidebar-regular"></i>
           <i class="fa fa-navicon visible-on-sidebar-mini"></i>
         </button>
       </div>
     </div>
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler navbar-toggler-right"
+      type="button"
+      data-toggle="collapse"
+      aria-controls="navigation-index"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-bar burger-lines"></span>
       <span class="navbar-toggler-bar burger-lines"></span>
       <span class="navbar-toggler-bar burger-lines"></span>
@@ -19,23 +28,28 @@
       <ul class="navbar-nav">
         <ul class="navbar-nav">
           <li class="dropdown nav-item">
-
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-              <img [src]="selectedFlag" alt="Flag">
-              <span class="nc-icon" >{{selectedLang}}</span>
+              <img [src]="selectedFlag" alt="Flag" />
+              <span class="nc-icon">{{ selectedLang }}</span>
             </a>
 
             <ul class="dropdown-menu">
               <li *ngFor="let language of lang">
-                <a class="dropdown-item" (click)="switchLanguage(language.code)">
-                  <img [src]="language.flag" alt="Flag" style="height: 10px; width: auto;">
+                <a
+                  class="dropdown-item"
+                  (click)="switchLanguage(language.code)"
+                >
+                  <img
+                    [src]="language.flag"
+                    alt="Flag"
+                    style="height: 10px; width: auto"
+                  />
                   {{ language.name }}
                 </a>
               </li>
             </ul>
           </li>
         </ul>
-
 
         <li class="dropdown nav-item">
           <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
@@ -53,8 +67,14 @@
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
-             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle"
+            href="http://example.com"
+            id="navbarDropdownMenuLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
             <i class="nc-icon nc-bullet-list-67"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -77,18 +97,22 @@
           <a href="#" data-toggle="dropdown">
             <div class="profile">
               <div class="photo">
-                <img src="img/bg4.jpg" alt="Profile Picture">
+                <img src="img/bg4.jpg" alt="Profile Picture" />
               </div>
               <div class="username-text">
-                <p style="color: black">{{username}}</p>
+                <p style="color: black">{{ username }}</p>
               </div>
             </div>
           </a>
           <ul class="dropdown-menu">
-            <a class="dropdown-item" ><span class="sidebar-normal" [routerLink]="'/profile'">Mon Profil</span></a>
-            <a class="dropdown-item" href="#"><span class="sidebar-normal">Modifier mon Profil</span></a>
+            <a class="dropdown-item"
+              ><span class="sidebar-normal">Mon Profil</span></a
+            >
+            <a class="dropdown-item" href="#"
+              ><span class="sidebar-normal">Modifier mon Profil</span></a
+            >
             <a (click)="logout()" href="#" class="dropdown-item text-danger">
-              <i  class="nc-icon nc-button-power"></i> Se Déconnecter
+              <i class="nc-icon nc-button-power"></i> Se Déconnecter
             </a>
           </ul>
         </li>
