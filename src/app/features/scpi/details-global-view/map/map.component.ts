@@ -1,18 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
 import { Location } from '../../../../core/model/Location';
 
 export type GeoJSONType = {
   type:
-  | 'Point'
-  | 'MultiPoint'
-  | 'LineString'
-  | 'MultiLineString'
-  | 'Polygon'
-  | 'MultiPolygon'
-  | 'GeometryCollection'
-  | 'Feature'
-  | 'FeatureCollection';
+    | 'Point'
+    | 'MultiPoint'
+    | 'LineString'
+    | 'MultiLineString'
+    | 'Polygon'
+    | 'MultiPolygon'
+    | 'GeometryCollection'
+    | 'Feature'
+    | 'FeatureCollection';
   features: Feature[];
 };
 
@@ -42,18 +42,22 @@ export class MapComponent implements OnInit {
   private map!: L.Map;
   @Input() countries: Location[] = [];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { ; }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.initMap();
-    this.loadGeoJson()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['countries'] && !changes['countries'].firstChange) {
+      this.loadGeoJson();
+    }
   }
 
   private initMap() {
     this.map = L.map('global-view').setView([46.505, 10], 3);
-
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(
       this.map
     );
@@ -65,7 +69,9 @@ export class MapComponent implements OnInit {
     )
       .then((response) => response.json())
       .then((data: GeoJSONType) => {
-        const countryNames = this.countries.map((country) => country.id.country);
+        const countryNames = this.countries.map(
+          (country) => country.id.country
+        );
         const filterdData = {
           type: data.type,
           features: data.features.filter((feature) =>
@@ -75,12 +81,11 @@ export class MapComponent implements OnInit {
 
         L.geoJSON(filterdData, {
           style: (feature) => {
-            
             const countryName = feature?.properties?.name;
             const country = this.countries.find(
               (country) => country.id.country === countryName
             );
-              
+
             if (!country) return {};
 
             return {
