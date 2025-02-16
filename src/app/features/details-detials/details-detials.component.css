@@ -3,6 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin-top: -3cm;
     gap: 50px; /* Espace entre les colonnes */
 }
 
@@ -15,7 +16,7 @@
 
 .square {
     width: 220px;
-    height: 100px;
+    height: 110px;
     background-color: #ffffff;
     border: 2px solid #333;
     display: flex;

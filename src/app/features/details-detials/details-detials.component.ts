@@ -22,11 +22,11 @@ export class DetailsDetialsComponent implements OnInit{
   details:Details | null = null;;
   detailsService = inject(DetailsDetailsService);
   ngOnInit(): void {
-    this.getTheDetails();
+    this.getTheDetails(1);
   }
-
-  getTheDetails(){
-    this.detailsService.getDetailsScpi().subscribe((res=>{
+  // I want to get the id from the precedent page
+  getTheDetails(id:number){
+    this.detailsService.getDetailsScpi(id).subscribe((res=>{
       console.log(res);
       this.details = res;
       console.log("details = ", this.details);
