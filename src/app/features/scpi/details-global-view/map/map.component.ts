@@ -58,6 +58,7 @@ export class MapComponent implements OnInit {
 
   private initMap() {
     this.map = L.map('global-view').setView([46.505, 10], 3);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(
       this.map
     );
