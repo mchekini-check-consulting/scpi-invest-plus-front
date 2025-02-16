@@ -4,7 +4,9 @@ import { ScpiComponent } from './features/scpi/scpi.component';
 import { DetailsDetialsComponent } from './features/scpi/details-detials/details-detials.component';
 import { DetailsComponent } from './features/scpi/details/details.component';
 import { DetailsGlobalViewComponent } from './features/scpi/details-global-view/details-global-view.component';
-import { ScpiHistoryDetailsComponent } from './features/scpi/details-history/scpi-history-details.component';
+import {AuthGuard} from './core/guard/auth.guard';
+import { ProfileComponent } from './features/profile/components/profile.component';
+import { ScpiHistoryDetailsComponent } from './features/scpi-history-details/scpi-history-details.component';
 
 export const routes: Routes = [
 
