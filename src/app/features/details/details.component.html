@@ -30,6 +30,7 @@
                 <p-button label="Vue d'ensemble" severity="info" (onClick)="changePage('vue')" />
                 <p-button label="Historique" severity="info" (onClick)="changePage('historique')" />
                 <p-button label="Détails" severity="info" (onClick)="changePage('details')" />
+                <p-button label="Retour" severity="info" (onClick)="backClicked()" />
             </div>
         </div>
     </p-card>
@@ -37,6 +38,6 @@
 
 <div class="row justify-content-center">
     <div class="col-md-6" *ngIf="actualPage === 'details'">
-        <app-details-detials></app-details-detials> <!-- Vérifie le nom correct du composant -->
+        <app-details-detials [id_parent]="id_parent"></app-details-detials> <!-- Vérifie le nom correct du composant -->
     </div>
 </div>
