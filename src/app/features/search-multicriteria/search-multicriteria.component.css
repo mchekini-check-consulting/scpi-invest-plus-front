@@ -1,0 +1,108 @@
+.filter-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+.filter-button {
+  background-color: #007ad9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.3s ease-in-out;
+}
+
+.filter-button:hover {
+  background-color: #005bb5;
+}
+
+h3 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.filter-section {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-section label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.filter-section p-slider,
+.filter-section p-multiSelect,
+.filter-section p-selectButton {
+  width: 100%;
+}
+
+.filter-section span {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: right;
+  display: block;
+  margin-top: 5px;
+  color: #007ad9;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.validate-button {
+  background-color: #1f7ad5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.validate-button:hover {
+  background-color: #1f7ad5;
+}
+
+.reset-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.reset-button:hover {
+  background-color: #c82333;
+}
+
+p-sidebar {
+  transition: transform 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+  p-sidebar {
+    width: 80% !important;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .validate-button, .reset-button {
+    width: 100%;
+  }
+}

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearhMulticriteriaComponent } from './searh-multicriteria.component';
+import { SearchMulticriteriaComponent } from './search-multicriteria.component';
 
 describe('SearhMulticriteriaComponent', () => {
-  let component: SearhMulticriteriaComponent;
-  let fixture: ComponentFixture<SearhMulticriteriaComponent>;
+  let component: SearchMulticriteriaComponent;
+  let fixture: ComponentFixture<SearchMulticriteriaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SearhMulticriteriaComponent]
+      imports: [SearchMulticriteriaComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SearhMulticriteriaComponent);
+    fixture = TestBed.createComponent(SearchMulticriteriaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

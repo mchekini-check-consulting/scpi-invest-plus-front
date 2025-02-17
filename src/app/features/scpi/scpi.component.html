@@ -1,8 +1,13 @@
 <div>
-  <div><app-scpi-header /></div>
+  <div>
+    <app-search-multicriteria (scpiFiltered)="updateScpiList($event)"></app-search-multicriteria>
+  </div>
   <div class="list-scpi">
-    @for (scpi of scpis; track scpi.id) {
-    <app-scpi-card [scpi]="scpi" [image]="getRandomImage()" />
+    @for (scpi of filteredScpis; track scpi.id) {
+      <app-scpi-card [scpi]="scpi" [image]="getRandomImage()" />
     }
   </div>
+  <p  *ngIf="filteredScpis.length === 0 && !loading" class="no-results">
+     Aucune SCPI ne correspond aux critères sélectionnés.
+  </p>
 </div>
