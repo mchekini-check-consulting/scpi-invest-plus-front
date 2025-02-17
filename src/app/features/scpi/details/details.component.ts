@@ -29,7 +29,7 @@ import { ScpiHistoryDetailsComponent } from '../details-history/scpi-history-det
 export class DetailsComponent implements OnInit {
   details: Details | null = null;
   detailsService = inject(DetailsDetailsService);
-  actualPage: string = '';
+  actualPage: string = 'vue';
   stat: StatYear | null = null;
   id_parent: number = -1;
   id_string: string | null = "";

@@ -42,6 +42,52 @@ export class MapComponent implements OnInit {
   private map!: L.Map;
   @Input() countries: Location[] = [];
 
+  private countryNamesMap: { [key: string]: string } = {
+    Spain: 'Espagne',
+    France: 'France',
+    Italy: 'Italie',
+    Germany: 'Allemagne',
+    Portugal: 'Portugal',
+    Netherlands: 'Pays-bas',
+    Luxembourg: 'Luxembourg',
+    Austria: 'Autriche',
+    Switzerland: 'Suisse',
+    Denmark: 'Danemark',
+    Sweden: 'Suède',
+    Norway: 'Norvège',
+    Finland: 'Finlande',
+    Poland: 'Pologne',
+    Czechia: 'République tchèque',
+    Slovakia: 'Slovaquie',
+    Hungary: 'Hongrie',
+    Romania: 'Roumanie',
+    Bulgaria: 'Bulgarie',
+    Serbia: 'Serbie',
+    Croatia: 'Croatie',
+    Slovenia: 'Slovénie',
+    'North Macedonia': 'Macédoine du Nord',
+    Albania: 'Albanie',
+    Kosovo: 'Kosovo',
+    Montenegro: 'Monténégro',
+    Moldova: 'Moldavie',
+    Belarus: 'Biélorussie',
+    Ukraine: 'Ukraine',
+    Estonia: 'Estonie',
+    Latvia: 'Lettonie',
+    Lithuania: 'Lituanie',
+    Iceland: 'Islande',
+    Ireland: 'Irlande',
+    Malta: 'Malte',
+    Cyprus: 'Chypre',
+    Monaco: 'Monaco',
+    'San Marino': 'Saint-Marin',
+    'Vatican City': 'Vatican',
+    Andorra: 'Andorre',
+    Liechtenstein: 'Liechtenstein',
+    'United Kingdom': 'Gde Bretagne',
+    Belgium:'Belgique'
+  };
+
   constructor() {}
 
   ngOnInit() {}
@@ -51,6 +97,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    
     if (changes['countries'] && !changes['countries'].firstChange) {
       this.loadGeoJson();
     }
@@ -72,10 +119,13 @@ export class MapComponent implements OnInit {
         const countryNames = this.countries.map(
           (country) => country.id.country
         );
+
         const filterdData = {
           type: data.type,
           features: data.features.filter((feature) =>
-            countryNames.includes(feature.properties.name)
+            countryNames.includes(
+              this.countryNamesMap[feature.properties.name] || ''
+            )
           ),
         };
 
@@ -83,9 +133,10 @@ export class MapComponent implements OnInit {
           style: (feature) => {
             const countryName = feature?.properties?.name;
             const country = this.countries.find(
-              (country) => country.id.country === countryName
+              (country) =>
+                country.id.country === this.countryNamesMap[countryName] || ''
             );
-
+            console.log(country)
             if (!country) return {};
 
             return {
@@ -96,13 +147,15 @@ export class MapComponent implements OnInit {
           },
           onEachFeature: (feature, layer) => {
             const countryName = feature?.properties?.name;
-
+            const translatedName = this.countryNamesMap[countryName].toLowerCase();
             const country = this.countries.find(
-              (country) => country.id.country === countryName
+              (country) => country.id.country.toLowerCase() === translatedName
             );
-
+            
             if (!country) return;
+            console.log(`${country.id.country} - ${country.countryPercentage}%`)
             layer.bindTooltip(
+              
               `${country.id.country} - ${country.countryPercentage}%`,
               {
                 permanent: false,
