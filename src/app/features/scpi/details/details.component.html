@@ -1,43 +1,62 @@
-<p-button [label]="retour|translate" severity="info" (onClick)="backClicked()" />
-<div class="row justify-content-center">
-    <p-card class="card">
-        <div class="p-col-12">
-            <p-card [header]="details?.name" class="card-container">
-                <label class="small-label">Bureau</label>
-                <label class="small-label">Europe</label>
-                <hr>
-                <div class="p-grid">
-                    <div class="p-col-6">
-                        <div class="square">
-                            <label class="large-label">{{stat?.distributionRate }} % </label><br>
-                            <label class="small-label">Rendement</label>
-                        </div>
-                    </div>
-                    <div class="p-col-6">
-                        <div class="square">
-                            <label class="large-label">{{ details?.minimumSubscription || 'N/A' }} €</label><br>
-                            <label class="small-label">Minimum</label>
-                        </div>
-                    </div>
-                </div>
-            </p-card>
-            <hr>
-            <div class="button-container">
-                <p-button [label]='vue|translate' severity="info" (onClick)="changePage('vue')" />
-                <p-button [label]="history|translate" severity="info" (onClick)="changePage('historique')" />
-                <p-button [label]="_details|translate" severity="info" (onClick)="changePage('details')" />
+<div>
+  <p-toast />
+<button class="button-link" (click)="backClicked()">
+  <i class="pi pi-arrow-left"></i> Retour
+</button>
+
+<div class="containe_global">
+  <div class="container_scpi_header_card">
+    <div>
+      <div>
+        <div class="card-container">
+          <p class="name_scpi">{{ details?.name }}</p>
+          <div class="p_texte">
+            <p class="small-label">Bureau</p>
+            <p class="small-label">Europe</p>
+          </div>
+          <span class="custom-hr"></span>
+          <div class="p-grid">
+            <!-- Première carte -->
+            <div class="p-col-6">
+              <div class="square">
+                <label class="large-label">{{ stat?.distributionRate }} %</label
+                ><br />
+                <label class="small-label">Rendement</label>
+              </div>
             </div>
+            <!-- Deuxième carte -->
+            <div class="p-col-6">
+              <div class="square">
+                <label class="large-label"
+                  >{{ details?.minimumSubscription || "N/A" }} €</label
+                ><br />
+                <label class="small-label">Minimum</label>
+              </div>
+            </div>
+          </div>
         </div>
-    </p-card>
-</div>
-<div class="row justify-content-center">
-    <div class="col-md-6" *ngIf="actualPage === 'details'">
-        <app-details-detials [id_parent]="id_parent"></app-details-detials>
+      </div>
     </div>
-    <div class="col-md-6" *ngIf="actualPage === 'vue'">
-        <app-details-global-view [id_parent]="id_parent"></app-details-global-view>
-    </div>
-    <div class="col-md-6" *ngIf="actualPage === 'historique'">
-        <app-scpi-history-details [id_parent]="id_parent"></app-scpi-history-details>
   </div>
+
+  <div class="container_nav_scpi">
+    <div class="container_scpi_details">
+      <p-tabView>
+        <p-tabPanel header="{{ 'Details.VUE' | translate }}">
+          <app-details-global-view
+            [id_parent]="id_parent"
+          ></app-details-global-view>
+        </p-tabPanel>
+        <p-tabPanel header="{{ 'Details.HISTORIQUE' | translate }}">
+          <app-scpi-history-details
+            [id_parent]="id_parent"
+          ></app-scpi-history-details>
+        </p-tabPanel>
+        <p-tabPanel header="{{ 'Details.DETAILS' | translate }}">
+          <app-details-detials [id_parent]="id_parent"></app-details-detials>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div>
 </div>

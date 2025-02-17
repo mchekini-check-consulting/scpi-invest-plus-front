@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
   editable: boolean = false;
   userEmail!: string;
-  
+
 
   maritalStatuses = [
     { label: 'Célibataire', value: 'single' },
@@ -118,17 +118,20 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+    formatDate = (date : Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   submitForm(): void {
     if (this.profileForm.valid) {
       this.editable = false;
       this.disableFormControls();
 
       const formData = this.profileForm.value;
-      formData.dateOfBirth =
-        formData.dateOfBirth instanceof Date
-          ? formData.dateOfBirth.toISOString().split('T')[0]
-          : formData.dateOfBirth;
-
+      formData.dateOfBirth = this.formatDate(formData.dateOfBirth);
       this.investorService
         .createOrUpdateInvestor(this.userEmail, formData)
         .subscribe(

@@ -22,13 +22,13 @@
 
 .form-group-row {
   display: flex;
-  flex-wrap: wrap; /* Permet le passage à la ligne sur les petits écrans */
-  gap: 20px; /* Espacement entre les groupes */
+  flex-wrap: wrap;
+  gap: 20px;
   margin-bottom: 20px;
 }
 
 .form-group {
-  flex: 1 1 calc(50% - 10px); /* Deux champs par ligne avec un espace de 20px */
+  flex: 1 1 calc(50% - 10px);
   display: flex;
   flex-direction: column;
 }
@@ -49,7 +49,7 @@
 }
 
 .form-group p-dropdown {
-  padding: 0; /* Ajustement pour PrimeNG Dropdown */
+  padding: 0;
 }
 
 .form-actions {
@@ -59,7 +59,7 @@
   margin-top: 20px;
 }
 
-/* Style des boutons PrimeNG */
+
 .form-actions button {
   padding: 10px 20px;
   font-size: 14px;
@@ -67,13 +67,13 @@
 }
 
 .error {
-  color: #FB404B;; /* Couleur rouge pour l'erreur */
-  font-size: 0.875rem; /* Taille de police plus petite */
-  margin-top: 4px; /* Marge au-dessus pour un espacement agréable */
-  font-weight: bold; /* Mettre le texte en gras pour le rendre plus visible */
+  color: #FB404B;;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  font-weight: bold;
 }
 
 .error::before {
-  content: '⚠️'; /* Ajout d'un icône avant le texte d'erreur */
-  margin-right: 4px; /* Espacement entre l'icône et le texte */
+  content: '⚠️';
+  margin-right: 4px; 
 }
