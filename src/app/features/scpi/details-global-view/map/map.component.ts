@@ -85,7 +85,7 @@ export class MapComponent implements OnInit {
     Andorra: 'Andorre',
     Liechtenstein: 'Liechtenstein',
     'United Kingdom': 'Gde Bretagne',
-    Belgium:'Belgique'
+    Belgium: 'Belgique',
   };
 
   constructor() {}
@@ -97,7 +97,6 @@ export class MapComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
     if (changes['countries'] && !changes['countries'].firstChange) {
       this.loadGeoJson();
     }
@@ -133,7 +132,8 @@ export class MapComponent implements OnInit {
             const countryName = feature?.properties?.name;
             const country = this.countries.find(
               (country) =>
-                country.id.country.toLowerCase() === this.countryNamesMap[countryName].toLowerCase() || ''
+                country.id.country.toLowerCase() ===
+                  this.countryNamesMap[countryName].toLowerCase() || ''
             );
             if (!country) return {};
 
@@ -145,15 +145,15 @@ export class MapComponent implements OnInit {
           },
           onEachFeature: (feature, layer) => {
             const countryName = feature?.properties?.name;
-            const translatedName = this.countryNamesMap[countryName].toLowerCase();
+            const translatedName =
+              this.countryNamesMap[countryName].toLowerCase();
             const country = this.countries.find(
               (country) => country.id.country.toLowerCase() === translatedName
             );
 
             if (!country) return;
             layer.bindTooltip(
-
-              "${country.id.country} - ${country.countryPercentage}%",
+              `${country.id.country} - ${country.countryPercentage}%`,
               {
                 permanent: false,
                 direction: 'center',
@@ -162,6 +162,6 @@ export class MapComponent implements OnInit {
           },
         }).addTo(this.map);
       })
-      .catch((error) => console.error('Error loading GeoJSON:',error));
-}
+      .catch((error) => console.error('Error loading GeoJSON:', error));
+  }
 }
