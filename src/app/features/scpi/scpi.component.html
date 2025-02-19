@@ -3,11 +3,15 @@
     <app-search-multicriteria (scpiFiltered)="updateScpiList($event)"></app-search-multicriteria>
   </div>
   <div class="list-scpi">
-    @for (scpi of filteredScpis; track scpi.id) {
-      <app-scpi-card [scpi]="scpi" [image]="getRandomImage()" />
-    }
+    <ng-container *ngIf="filteredScpis.length > 0; else noResults">
+      <ng-container *ngFor="let scpi of filteredScpis ">
+        <app-scpi-card [scpi]="scpi" [image]="getRandomImage()" />
+      </ng-container>
+    </ng-container>
   </div>
-  <p  *ngIf="filteredScpis.length === 0 && !loading" class="no-results">
-     Aucune SCPI ne correspond aux critères sélectionnés.
-  </p>
+  <ng-template #noResults>
+    <div class="no-results">
+      Aucune SCPI ne correspond à votre recherche.
+    </div>
+  </ng-template>
 </div>

@@ -1,8 +1,11 @@
-<div class="filter-container">
+<div class="search-filter-container">
+  <app-search-bar (searchTermChanged)="onSearchTermChanged($event)" style="flex-grow: 1;"></app-search-bar>
+  <div class="filter-button-container">
     <button pButton icon="pi pi-sliders" label="Filtrer"
             (click)="isFilterVisible = true"
             class="filter-button">
     </button>
+  </div>
 </div>
 
 <p-sidebar [(visible)]="isFilterVisible" position="right"

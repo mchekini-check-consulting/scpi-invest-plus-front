@@ -1,23 +1,34 @@
-.filter-container {
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px;
-}
-.filter-button {
-  background-color: #007ad9;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 8px 12px;
-  cursor: pointer;
+.search-filter-container {
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: background 0.3s ease-in-out;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.search-filter-container app-search-bar {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.filter-button-container {
+  margin-left: 15px;
+}
+
+.filter-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .filter-button:hover {
-  background-color: #005bb5;
+  background-color: #0056b3;
 }
 
 h3 {
@@ -105,4 +116,11 @@ p-sidebar {
   .validate-button, .reset-button {
     width: 100%;
   }
+}
+.no-results-message {
+  text-align: center;
+  font-size: 16px;
+  color: red;
+  margin-top: 20px;
+  font-weight: bold;
 }
