@@ -3,44 +3,25 @@
     <ng-template #header>
       <img alt="Card" class="card-image" [src]="image" />
     </ng-template>
-    <ng-template #title>{{ scpi?.name || "N/A" }}</ng-template>
+
+    <ng-template #title>{{ scpi?.name ?? "N/A" }}</ng-template>
+
     <div class="info-container">
       <div class="info">
-        <p-tag
-          severity="secondary"
-          [value]="
-            scpi?.location?.id?.country ||
-            'N/A' + ' - ' + scpi?.location?.countryPercentage ||
-            'N/A' + '%'
-          "
-        ></p-tag>
+        <p-tag severity="secondary" [value]="formatLocation()"></p-tag>
 
-        <p-tag
-          severity="secondary"
-          [value]="
-            scpi?.sector?.id?.name ||
-            'N/A' + ' - ' + scpi?.sector?.sectorPercentage ||
-            'N/A' + '%'
-          "
-        />
+        <p-tag severity="secondary" [value]="formatSector()"></p-tag>
       </div>
-      <div class="info">
-        <p-tag
-          severity="secondary"
-          [value]="
-            'Rendement - ' + scpi?.statYear?.distributionRate || 'N/A' + '%'
-          "
-        ></p-tag>
 
-        <p-tag
-          severity="secondary"
-          [value]="
-            'Minimum - ' + (scpi?.minimumSubscription | currency : 'EUR')
-          "
-        ></p-tag>
+      <div class="info">
+        <p-tag severity="secondary" [value]="formatDistributionRate()"></p-tag>
+
+        <p-tag severity="secondary" [value]="formatMinimum()"></p-tag>
       </div>
     </div>
+
     <p-divider />
+
     <ng-template #footer>
       <div class="button-group">
         <p-button label="Investir" severity="info" size="large" />

@@ -1,17 +1,22 @@
 .containe_global {
-  max-width: 1200px;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   margin : 0 auto;
   margin-top: 20px;
   background-color: #ffffff;
   height: 100%;
+  padding: 20px;
 }
 .container_nav_scpi {
   display: flex;
   justify-content: center;
   width: 100%;
   padding: 20px;
+}
+
+:host ::ng-deep .tabview-custom .p-tablist-tab-list {
+  justify-content: space-around;
 }
 
 
@@ -66,15 +71,9 @@
 }
 
 
-::ng-deep .p-tabView .p-tabview-panels {
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 10px;
+.tabview-custom .p-tablist-tab-list {
+  justify-content: space-around;
 }
-
-
 
 .p-grid {
   display: flex;
