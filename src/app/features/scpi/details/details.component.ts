@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -33,6 +33,7 @@ import { ToastModule } from 'primeng/toast';
   styleUrl: './details.component.css',
 })
 export class DetailsComponent implements OnInit {
+
   details: Details | null = null;
   detailsService = inject(DetailsDetailsService);
   actualPage: string = 'vue';
@@ -43,6 +44,13 @@ export class DetailsComponent implements OnInit {
   vue: string = 'Details.VUE';
   history: string = 'Details.HISTORIQUE';
   _details: string = 'Details.DETAILS';
+
+
+  activeTab: string = 'vue';
+
+  setActiveTab(tab: string) {
+    this.activeTab = tab;
+  }
 
   constructor(
     private _location: Location,

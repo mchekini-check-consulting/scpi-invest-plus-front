@@ -4,45 +4,46 @@
   </p-card>
 </div>
 <div class="global-view-container">
+  <h2>Analyse</h2>
   <p-card>
     <app-map [countries]="ListeLocations"></app-map>
   </p-card>
 
   <p-card>
-    <p-chart type="doughnut" [data]="sectorData" [options]="options" />
+    <p-chart type="doughnut" [data]="sectorData" [options]="options"></p-chart>
   </p-card>
 
+  <h2>Infos générales</h2>
   <p-card>
     <ng-template pTemplate="header center">
-      <label class="large-label pt-2"
-        >{{ states?.sharePrice || "N\A" }} €</label
-      >
+      <label class="large-label pt-2">{{ states?.sharePrice || "N/A" }} €</label>
       <label class="small-label">Prix par part</label>
     </ng-template>
   </p-card>
 
   <p-card>
     <ng-template pTemplate="header center">
-      <label class="large-label pt-2">{{ details?.manager || "N\A" }}</label>
+      <label class="large-label pt-2">{{ details?.manager || "N/A" }}</label>
       <label class="small-label">Gérant</label>
     </ng-template>
   </p-card>
 
   <p-card>
     <ng-template pTemplate="header center">
-      <label class="large-label pt-2"
-        >{{ details?.minimumSubscription || "N\A" }} €</label
-      >
+      <label class="large-label pt-2">
+        {{ details?.minimumSubscription || "N/A" }} €
+      </label>
       <label class="small-label">Min. 1ère souscription</label>
     </ng-template>
   </p-card>
 
   <p-card>
     <ng-template pTemplate="header center">
-      <label class="large-label pt-2"
-        >{{ formatNumber(details?.capitalization) || "N\A" }} €</label
-      >
+      <label class="large-label pt-2">
+        {{ formatNumber(details?.capitalization) || "N/A" }} €
+      </label>
       <label class="small-label">Capitalisation</label>
     </ng-template>
   </p-card>
 </div>
+
