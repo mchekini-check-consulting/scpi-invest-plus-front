@@ -3,30 +3,40 @@
     <ng-template #header>
       <img alt="Card" class="card-image" [src]="image" />
     </ng-template>
-    <ng-template #title>{{ scpi.name }}</ng-template>
+    <ng-template #title>{{ scpi?.name || "N/A" }}</ng-template>
     <div class="info-container">
       <div class="info">
         <p-tag
           severity="secondary"
           [value]="
-            scpi.location.id.country + ' - ' + scpi.location.countryPercentage + '%'
+            scpi?.location?.id?.country ||
+            'N/A' + ' - ' + scpi?.location?.countryPercentage ||
+            'N/A' + '%'
           "
         ></p-tag>
 
         <p-tag
           severity="secondary"
-          [value]="scpi.sector.id.name + ' - ' + scpi.sector.sectorPercentage + '%'"
+          [value]="
+            scpi?.sector?.id?.name ||
+            'N/A' + ' - ' + scpi?.sector?.sectorPercentage ||
+            'N/A' + '%'
+          "
         />
       </div>
       <div class="info">
         <p-tag
           severity="secondary"
-          [value]="'Rendement - ' + scpi.statYear.distributionRate + '%'"
+          [value]="
+            'Rendement - ' + scpi?.statYear?.distributionRate || 'N/A' + '%'
+          "
         ></p-tag>
 
         <p-tag
           severity="secondary"
-          [value]="'Minimum - ' + (scpi.minimumSubscription | currency : 'EUR')"
+          [value]="
+            'Minimum - ' + (scpi?.minimumSubscription | currency : 'EUR')
+          "
         ></p-tag>
       </div>
     </div>
@@ -39,7 +49,7 @@
           severity="secondary"
           [outlined]="true"
           size="large"
-          [routerLink]="['/details', scpi.id]"
+          [routerLink]="['/details', scpi?.id]"
         />
       </div>
     </ng-template>

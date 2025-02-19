@@ -85,7 +85,7 @@ export class MapComponent implements OnInit {
     Andorra: 'Andorre',
     Liechtenstein: 'Liechtenstein',
     'United Kingdom': 'Gde Bretagne',
-    Belgium: 'Belgique',
+    Belgium:'Belgique'
   };
 
   constructor() {}
@@ -97,6 +97,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+
     if (changes['countries'] && !changes['countries'].firstChange) {
       this.loadGeoJson();
     }
@@ -118,7 +119,6 @@ export class MapComponent implements OnInit {
         const countryNames = this.countries.map(
           (country) => country.id.country
         );
-
         const filterdData = {
           type: data.type,
           features: data.features.filter((feature) =>
@@ -132,8 +132,7 @@ export class MapComponent implements OnInit {
             const countryName = feature?.properties?.name;
             const country = this.countries.find(
               (country) =>
-                country.id.country.toLowerCase() ===
-                  this.countryNamesMap[countryName].toLowerCase() || ''
+                country.id.country.toLowerCase() === this.countryNamesMap[countryName].toLowerCase() || ''
             );
             if (!country) return {};
 
@@ -145,8 +144,7 @@ export class MapComponent implements OnInit {
           },
           onEachFeature: (feature, layer) => {
             const countryName = feature?.properties?.name;
-            const translatedName =
-              this.countryNamesMap[countryName].toLowerCase();
+            const translatedName = this.countryNamesMap[countryName].toLowerCase();
             const country = this.countries.find(
               (country) => country.id.country.toLowerCase() === translatedName
             );
