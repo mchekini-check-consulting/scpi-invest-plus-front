@@ -7,6 +7,7 @@
 .card {
   overflow: hidden;
   border-radius: 12px;
+  width: 100%;
 }
 
 .card-image {

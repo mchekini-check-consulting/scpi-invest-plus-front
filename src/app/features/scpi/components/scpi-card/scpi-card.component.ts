@@ -10,11 +10,18 @@ import { Tag } from 'primeng/tag';
 @Component({
   selector: 'app-scpi-card',
   standalone: true,
-  imports: [CardModule, ButtonModule, DividerModule, Tag, CommonModule, RouterLink],
+  imports: [
+    CardModule,
+    ButtonModule,
+    DividerModule,
+    Tag,
+    CommonModule,
+    RouterLink,
+  ],
   templateUrl: './scpi-card.component.html',
   styleUrl: './scpi-card.component.css',
 })
 export class ScpiCardComponent {
-  @Input() scpi!: ScpiModel;
+  @Input() scpi?: ScpiModel;
   @Input() image!: string;
 }

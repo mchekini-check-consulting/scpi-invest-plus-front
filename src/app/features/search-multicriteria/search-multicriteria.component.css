@@ -1,0 +1,126 @@
+.search-filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.search-filter-container app-search-bar {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.filter-button-container {
+  margin-left: 15px;
+}
+
+.filter-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.filter-button:hover {
+  background-color: #0056b3;
+}
+
+h3 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.filter-section {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-section label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.filter-section p-slider,
+.filter-section p-multiSelect,
+.filter-section p-selectButton {
+  width: 100%;
+}
+
+.filter-section span {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: right;
+  display: block;
+  margin-top: 5px;
+  color: #007ad9;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.validate-button {
+  background-color: #1f7ad5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.validate-button:hover {
+  background-color: #1f7ad5;
+}
+
+.reset-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.reset-button:hover {
+  background-color: #c82333;
+}
+
+p-sidebar {
+  transition: transform 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+  p-sidebar {
+    width: 80% !important;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .validate-button, .reset-button {
+    width: 100%;
+  }
+}
+.no-results-message {
+  text-align: center;
+  font-size: 16px;
+  color: red;
+  margin-top: 20px;
+  font-weight: bold;
+}

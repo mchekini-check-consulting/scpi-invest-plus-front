@@ -73,7 +73,6 @@ export class DetailsGlobalViewComponent implements OnInit {
         this.cd.detectChanges();
       },
       (error) => {
-        alert('Error occurred during the loading of the informations.');
         console.error(error);
       }
     );
