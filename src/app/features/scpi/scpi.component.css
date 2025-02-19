@@ -3,3 +3,9 @@
   gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
 }
+.no-results {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #6c757d;
+  margin-top: 2rem;
+}
