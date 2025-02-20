@@ -1,9 +1,7 @@
 .containe_global {
-  max-width: 1000px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
-  margin : 0 auto;
-  margin-top: 20px;
   background-color: #ffffff;
   height: 100%;
   padding: 20px;
