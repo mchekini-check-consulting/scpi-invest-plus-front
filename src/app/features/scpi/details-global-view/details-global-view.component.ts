@@ -163,7 +163,7 @@ export class DetailsGlobalViewComponent implements OnInit {
   }
 
   formatNumber(value: number | null | undefined): string {
-    if (!value) return 'N/A';
+    if (value === null || value === undefined) return 'N/A';
 
     if (value >= 1_000_000) {
       return (value / 1_000_000).toFixed(1) + 'M';
@@ -171,5 +171,6 @@ export class DetailsGlobalViewComponent implements OnInit {
       return (value / 1_000).toFixed(1) + 'K';
     }
     return value.toString();
-  }
+ }
+
 }
