@@ -9,6 +9,7 @@ import { ButtonDirective } from 'primeng/button';
 import { ScpiSearch } from "@/core/model/scpi-search.model";
 import { ScpiService } from "@/core/service/scpi.service";
 import { ScpiModel } from '@/core/model/scpi.model';
+import { ButtonModule } from 'primeng/button';
 import {SearchBarComponent} from "@/features/search-multicriteria/components/search-bar/search-bar.component";
 
 @Component({
@@ -22,7 +23,8 @@ import {SearchBarComponent} from "@/features/search-multicriteria/components/sea
     MultiSelect,
     SelectButton,
     ButtonDirective,
-    SearchBarComponent
+    SearchBarComponent,
+    ButtonModule
   ],
   templateUrl: './search-multicriteria.component.html',
   styleUrls: ['./search-multicriteria.component.css']
