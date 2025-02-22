@@ -35,16 +35,22 @@ export class ScpiHistoryDetailsComponent implements OnInit {
         if (res) {
           this.details = res;
           this.stat = this.details.statYears;
+
           this.years = this.stat
             .map((stat) => stat.yearStat.yearStat as number)
             .sort((a, b) => a - b);
+
           this.distributionRates = this.stat?.map(
-            (stat) => stat.distributionRate
-          );
-          this.sharePrices = this.stat?.map((stat) => stat.sharePrice);
+            (stat) => Number(stat.distributionRate) || 0
+          ).sort((a, b) => a - b);
+
+          this.sharePrices = this.stat?.map(
+            (stat) => Number(stat.sharePrice) || 0
+          ).sort((a, b) => a - b);
+
           this.initCharts();
         } else {
-          alert('Received undefined details.');
+          console.error('Received undefined details.');
         }
       },
       error: (err) => console.error('Error fetching details:', err),
