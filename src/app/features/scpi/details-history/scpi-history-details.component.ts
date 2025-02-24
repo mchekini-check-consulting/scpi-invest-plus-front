@@ -5,6 +5,7 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
   selector: 'app-scpi-history-details',
   templateUrl: './scpi-history-details.component.html',
@@ -21,6 +22,9 @@ export class ScpiHistoryDetailsComponent implements OnInit {
 
   detailsService = inject(DetailsDetailsService);
 
+  yearsDistribution: number[] = [];
+  yearsSharePrice: number[] = [];
+
   distributionChartData: any;
   priceChartData: any;
   chartOptions: any;
@@ -36,17 +40,34 @@ export class ScpiHistoryDetailsComponent implements OnInit {
           this.details = res;
           this.stat = this.details.statYears;
 
-          this.years = this.stat
-            .map((stat) => stat.yearStat.yearStat as number)
-            .sort((a, b) => a - b);
+          const distributionStats = this.stat.filter(
+            (stat) =>
+              stat.distributionRate !== null && stat.distributionRate !== 0
+          );
 
-          this.distributionRates = this.stat?.map(
-            (stat) => Number(stat.distributionRate) || 0
-          ).sort((a, b) => a - b);
+          const sortedDistributionStats = distributionStats.sort(
+            (a, b) => a.yearStat.yearStat - b.yearStat.yearStat
+          );
+          this.yearsDistribution = sortedDistributionStats.map(
+            (stat) => stat.yearStat.yearStat
+          );
+          this.distributionRates = sortedDistributionStats.map((stat) =>
+            Number(stat.distributionRate)
+          );
 
-          this.sharePrices = this.stat?.map(
-            (stat) => Number(stat.sharePrice) || 0
-          ).sort((a, b) => a - b);
+          const priceStats = this.stat.filter(
+            (stat) => stat.sharePrice !== null && stat.sharePrice !== 0
+          );
+
+          const sortedPriceStats = priceStats.sort(
+            (a, b) => a.yearStat.yearStat - b.yearStat.yearStat
+          );
+          this.yearsSharePrice = sortedPriceStats.map(
+            (stat) => stat.yearStat.yearStat
+          );
+          this.sharePrices = sortedPriceStats.map((stat) =>
+            Number(stat.sharePrice)
+          );
 
           this.initCharts();
         } else {
@@ -73,6 +94,10 @@ export class ScpiHistoryDetailsComponent implements OnInit {
         y: {
           title: { display: true, text: '', color: '#666' },
           grid: { color: '#eee' },
+          min: 0,
+          ticks: {
+            beginAtZero: true,
+          },
         },
       },
       animation: {
@@ -80,9 +105,8 @@ export class ScpiHistoryDetailsComponent implements OnInit {
         easing: 'easeInOutQuad',
       },
     };
-
     this.distributionChartData = {
-      labels: this.years,
+      labels: this.yearsDistribution,
       datasets: [
         {
           label: 'Taux de distribution (%)',
@@ -94,7 +118,7 @@ export class ScpiHistoryDetailsComponent implements OnInit {
       ],
     };
     this.priceChartData = {
-      labels: this.years,
+      labels: this.yearsSharePrice,
       datasets: [
         {
           label: 'Prix de la part (€)',
