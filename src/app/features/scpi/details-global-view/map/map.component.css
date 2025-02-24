@@ -1,11 +1,16 @@
-.map-container {
+.map-container  {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 380px;
+  height: 100%;
   width: 100%;
   & > div {
     height: 100%;
     width: 100%;
   }
+}
+
+#global-view {
+  height: 490px;
+  width: 100%;
 }

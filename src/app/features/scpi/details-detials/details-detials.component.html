@@ -3,14 +3,14 @@
     <p-card>
       <ng-template pTemplate="header">
         <label class="large-label"
-          >{{ details?.subscriptionFees || "N\A" }} %</label
+          >{{ details?.subscriptionFees ?? "N\A" }} %</label
         >
         <label class="small-label">Frais souscription</label>
       </ng-template>
     </p-card>
     <p-card>
       <ng-template pTemplate="header">
-        <label class="large-label">{{ stat?.sharePrice || "N\A" }} €</label>
+        <label class="large-label">{{ stat?.sharePrice ?? "N\A" }} €</label>
         <label class="small-label">Prix d'achat</label>
       </ng-template>
     </p-card>
@@ -18,7 +18,7 @@
     <p-card>
       <ng-template pTemplate="header">
         <label class="large-label"
-          >{{ details?.enjoymentDelay || "N\A" }} mois</label
+          >{{ details?.enjoymentDelay ?? "N\A" }} mois</label
         >
         <label class="small-label">Délai de jouissance</label>
       </ng-template>
@@ -26,7 +26,7 @@
     <p-card>
       <ng-template pTemplate="header">
         <label class="large-label"
-          >{{ details?.managementCosts || "N\A" }} %</label
+          >{{ details?.managementCosts ?? "N\A" }} %</label
         >
         <label class="small-label">Frais de gestion</label>
       </ng-template>
@@ -34,17 +34,17 @@
 
     <p-card>
       <ng-template pTemplate="header">
-        <label class="large-label">{{ prix_retrait || "N/A" }} €</label>
+        <label class="large-label">{{ prix_retrait || "0" }} €</label>
         <label class="small-label">Prix de retrait</label>
       </ng-template>
     </p-card>
     <p-card>
       <ng-template pTemplate="header">
         <label class="large-label">{{
-          details?.frequencyPayment || "N\A"
+          details?.frequencyPayment ?? "N\A"
         }}</label>
         <label class="small-label">Fréquence des loyers</label>
       </ng-template>
     </p-card>
-  </div>
+</div>
 </div>

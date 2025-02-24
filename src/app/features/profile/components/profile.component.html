@@ -1,6 +1,9 @@
 <div>
   <p-toast />
-  <h1 class="title">Mon Profil</h1>
+  <div class="profile-container">
+  <div class="title_container_profil">
+    <h1 class="title">Mon Profil</h1>
+  </div>
   <div class="profile-form">
     <form [formGroup]="profileForm">
       <div class="form-group-row">
@@ -71,7 +74,7 @@
         <!-- Date de naissance -->
         <div class="form-group">
           <label for="dateOfBirth">Date de Naissance</label>
-          <p-datepicker
+          <p-datepicker class="dateInput"
             id="dateOfBirth"
             formControlName="dateOfBirth"
             [showIcon]="true"
@@ -155,4 +158,5 @@
       </div>
     </form>
   </div>
+</div>
 </div>

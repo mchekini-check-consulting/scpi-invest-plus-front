@@ -9,6 +9,7 @@ import { ButtonDirective } from 'primeng/button';
 import { ScpiSearch } from "@/core/model/scpi-search.model";
 import { ScpiService } from "@/core/service/scpi.service";
 import { ScpiModel } from '@/core/model/scpi.model';
+import { ButtonModule } from 'primeng/button';
 import {SearchBarComponent} from "@/features/search-multicriteria/components/search-bar/search-bar.component";
 
 @Component({
@@ -22,7 +23,8 @@ import {SearchBarComponent} from "@/features/search-multicriteria/components/sea
     MultiSelect,
     SelectButton,
     ButtonDirective,
-    SearchBarComponent
+    SearchBarComponent,
+    ButtonModule
   ],
   templateUrl: './search-multicriteria.component.html',
   styleUrls: ['./search-multicriteria.component.css']
@@ -50,16 +52,23 @@ export class SearchMulticriteriaComponent {
   }
 
   onSearchTermChanged(searchTerm: string) {
-    this.filters.searchTerm = searchTerm;
-    this.searchScpi();
+    this.filters.searchTerm = searchTerm.trim();
+    if (!this.filters.searchTerm) {
+      this.resetFilters();
+    } else {
+      this.searchScpi();
+    }
   }
+
 
   searchScpi() {
     if (this.isSearchDisabled()) {
       return;
     }
+
     let filtersToSend: ScpiSearch = this.prepareFilters();
     this.loading = true;
+
     this.scpiService.getScpiWithFilter(filtersToSend).subscribe(
       (data) => {
         this.scpiResults = data || [];
@@ -69,7 +78,7 @@ export class SearchMulticriteriaComponent {
       (error) => {
         this.scpiResults = [];
         this.loading = false;
-        this.scpiFiltered.emit(this.scpiResults);
+        this.scpiFiltered.emit([]);
       }
     );
   }
@@ -84,7 +93,8 @@ export class SearchMulticriteriaComponent {
 
   resetFilters() {
     this.filters = this.getDefaultFilters();
-    this.isFilterVisible = false;
+    this.loading = true;
+
     this.scpiService.get().subscribe(
       (data) => {
         this.scpiResults = data || [];
@@ -95,9 +105,12 @@ export class SearchMulticriteriaComponent {
         this.scpiResults = [];
         this.loading = false;
         this.scpiFiltered.emit(this.scpiResults);
+        console.error("Erreur lors du rechargement des SCPI", error);
       }
     );
   }
+
+
   private prepareFilters(): ScpiSearch {
     let filtersToSend: ScpiSearch = {
       ...this.filters,

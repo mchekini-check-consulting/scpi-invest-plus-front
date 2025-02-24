@@ -50,25 +50,13 @@ export class ScpiComponent implements OnInit, OnDestroy {
   getImage(id: number): string {
     return this.images[id % this.images.length];
   }
-
   updateScpiList(filteredList: ScpiModel[] | null | undefined) {
     if (filteredList && filteredList.length > 0) {
       this.filteredScpis = [...filteredList];
     } else {
-      this.subscriptions.add(
-        this.scpiService
-          .get()
-          .pipe(
-            catchError((error) => {
-              return [];
-            })
-          )
-          .subscribe((allScpis) => {
-            this.filteredScpis = [...allScpis];
-            this.cdRef.detectChanges();
-          })
-      );
+      this.filteredScpis = [];
     }
+    this.cdRef.detectChanges();
   }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();

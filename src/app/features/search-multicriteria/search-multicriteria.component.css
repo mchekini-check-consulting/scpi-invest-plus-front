@@ -1,3 +1,9 @@
+.no-results {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #6c757d;
+  margin-top: 2rem;
+}
 .search-filter-container {
   display: flex;
   align-items: center;
@@ -12,6 +18,18 @@
   justify-content: center;
 }
 
+i {
+  font-size: 1.7em;
+  cursor: pointer;
+  color: #3b5998;
+  transition: color 0.3s ease;
+
+}
+
+i:hover {
+  color: #3b567c
+}
+
 .filter-button-container {
   margin-left: 15px;
 }
@@ -24,7 +42,6 @@
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  transition: background 0.3s ease;
 }
 
 .filter-button:hover {
@@ -68,40 +85,32 @@ h3 {
 .button-container {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   margin-top: 20px;
-}
-
-.validate-button {
-  background-color: #1f7ad5;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-}
-
-.validate-button:hover {
-  background-color: #1f7ad5;
-}
-
-.reset-button {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-}
-
-.reset-button:hover {
-  background-color: #c82333;
+  height: 40px;
 }
 
 p-sidebar {
   transition: transform 0.3s ease-in-out;
 }
+
+.header_sidebar i {
+  font-size: 1.1em;
+  cursor: pointer;
+  color: #3b5998;
+  transition: all 0.3s ease-in-out;
+  padding: 8px;
+  border-radius: 50%;
+  border: 2px solid #3b5998;
+}
+
+
+.header_sidebar i:hover {
+  border-color: #3b567c;
+  color: #3b567c;
+  border: 2px solid #3b567c;
+}
+
 
 @media screen and (max-width: 768px) {
   p-sidebar {
@@ -113,9 +122,6 @@ p-sidebar {
     gap: 10px;
   }
 
-  .validate-button, .reset-button {
-    width: 100%;
-  }
 }
 .no-results-message {
   text-align: center;
