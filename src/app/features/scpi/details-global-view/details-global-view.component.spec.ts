@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DetailsGlobalViewComponent } from './details-global-view.component';
+import {DetailsGlobalViewComponent} from './details-global-view.component';
 
 describe('DetailsGlobalViewComponent', () => {
   let component: DetailsGlobalViewComponent;
@@ -10,7 +10,7 @@ describe('DetailsGlobalViewComponent', () => {
     await TestBed.configureTestingModule({
       imports: [DetailsGlobalViewComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(DetailsGlobalViewComponent);
     component = fixture.componentInstance;
