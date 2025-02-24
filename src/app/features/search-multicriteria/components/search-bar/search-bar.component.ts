@@ -20,7 +20,7 @@ export class SearchBarComponent {
   constructor() {
     this.searchSubject
       .pipe(
-        debounceTime(500),
+        debounceTime(300),
         distinctUntilChanged()
       )
       .subscribe(term => this.searchTermChanged.emit(term));

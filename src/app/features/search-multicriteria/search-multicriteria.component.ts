@@ -52,16 +52,23 @@ export class SearchMulticriteriaComponent {
   }
 
   onSearchTermChanged(searchTerm: string) {
-    this.filters.searchTerm = searchTerm;
-    this.searchScpi();
+    this.filters.searchTerm = searchTerm.trim();
+    if (!this.filters.searchTerm) {
+      this.resetFilters();
+    } else {
+      this.searchScpi();
+    }
   }
+
 
   searchScpi() {
     if (this.isSearchDisabled()) {
       return;
     }
+
     let filtersToSend: ScpiSearch = this.prepareFilters();
     this.loading = true;
+
     this.scpiService.getScpiWithFilter(filtersToSend).subscribe(
       (data) => {
         this.scpiResults = data || [];
@@ -71,7 +78,7 @@ export class SearchMulticriteriaComponent {
       (error) => {
         this.scpiResults = [];
         this.loading = false;
-        this.scpiFiltered.emit(this.scpiResults);
+        this.scpiFiltered.emit([]);
       }
     );
   }
@@ -86,7 +93,8 @@ export class SearchMulticriteriaComponent {
 
   resetFilters() {
     this.filters = this.getDefaultFilters();
-    this.isFilterVisible = false;
+    this.loading = true;
+
     this.scpiService.get().subscribe(
       (data) => {
         this.scpiResults = data || [];
@@ -97,9 +105,12 @@ export class SearchMulticriteriaComponent {
         this.scpiResults = [];
         this.loading = false;
         this.scpiFiltered.emit(this.scpiResults);
+        console.error("Erreur lors du rechargement des SCPI", error);
       }
     );
   }
+
+
   private prepareFilters(): ScpiSearch {
     let filtersToSend: ScpiSearch = {
       ...this.filters,
