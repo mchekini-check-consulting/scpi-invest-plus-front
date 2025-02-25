@@ -12,6 +12,7 @@ import {GeoJsonServiceService} from '@/core/service/geo-json-service.service';
 export class MapComponent implements OnInit {
   private map!: L.Map;
   @Input() countries: Location[] = [];
+  @Input() mapHeight: string = '';
 
   geoJsonService = inject(GeoJsonServiceService)
 

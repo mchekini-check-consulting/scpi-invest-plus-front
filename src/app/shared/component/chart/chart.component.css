@@ -1,0 +1,39 @@
+
+.chart-container .title {
+  grid-column: span 2;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #4343a6;
+  margin-top: 20px;
+}
+
+.card-container {
+  width: 100%;
+  height: 100%;
+}
+
+.chart-container {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+::ng-deep .chart-container p-chart {
+  display: block;
+  margin: 0 auto;
+}
+
+::ng-deep .chart-container p-chart canvas {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.no-data-message {
+  text-align: center;
+  color: #c5891a;
+  font-weight: bold;
+  margin-top: 20px;
+}

@@ -1,0 +1,16 @@
+<div class="chart-container">
+  <ng-container *ngIf="chartData?.datasets[0]?.data?.length > 0; else noData">
+    <p-chart
+      type="line"
+      [data]="chartData"
+      [options]="chartOptions"
+      [style.height]="chartHeight"
+      [style.width]="chartWidth"
+    ></p-chart>
+  </ng-container>
+  <ng-template #noData>
+    <p class="no-data-message">
+      Pas assez de données pour afficher l’historique
+    </p>
+  </ng-template>
+</div>
