@@ -11,6 +11,6 @@
 }
 
 #global-view {
-  height: 490px;
+  height: var(--map-height,100%);
   width: 100%;
 }

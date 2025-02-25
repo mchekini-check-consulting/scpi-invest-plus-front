@@ -1,21 +1,18 @@
 <div class="history-container">
-  <div class="chart-container">
-    <h3 class="title">Évolution du taux de distribution</h3>
-    <ng-container *ngIf="distributionChartData?.datasets[0]?.data?.length > 0; else noData">
-      <p-chart type="line" [data]="distributionChartData" [options]="chartOptions"></p-chart>
-    </ng-container>
-    <ng-template #noData>
-      <p class="no-data-message">Pas assez de données pour afficher l’historique</p>
-    </ng-template>
-  </div>
-
-  <div class="chart-container">
-    <h3 class="title">Évolution du prix de la part</h3>
-    <ng-container *ngIf="priceChartData?.datasets[0]?.data?.length > 0; else noData">
-      <p-chart type="line" [data]="priceChartData" [options]="chartOptions"></p-chart>
-    </ng-container>
-    <ng-template #noData>
-      <p class="no-data-message">Pas assez de données pour afficher l’historique</p>
-    </ng-template>
-  </div>
+  <h2 class="title">Évolution du taux de distribution</h2>
+  <app-chart
+    [chartData]="distributionChartData"
+    [chartOptions]="chartOptions"
+    [chartHeight]="'75%'"
+    [chartWidth]="'75%'"
+  >
+  </app-chart>
+  <h2 class="title">Évolution du prix de la part</h2>
+  <app-chart
+    [chartData]="priceChartData"
+    [chartOptions]="chartOptions"
+    [chartHeight]="'75%'"
+    [chartWidth]="'75%'"
+  >
+  </app-chart>
 </div>

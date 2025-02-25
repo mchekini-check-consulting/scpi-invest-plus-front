@@ -4,13 +4,14 @@ import { DetailsDetailsService } from '@/core/service/details-details.service';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { CommonModule } from '@angular/common';
+import { ChartComponent } from '@/shared/component/chart/chart.component';
 
 
 @Component({
   selector: 'app-scpi-history-details',
   templateUrl: './scpi-history-details.component.html',
   styleUrls: ['./scpi-history-details.component.css'],
-  imports: [ChartModule, CommonModule],
+  imports: [ChartModule, CommonModule,ChartComponent],
 })
 export class ScpiHistoryDetailsComponent implements OnInit {
   @Input() id_parent: number = 0;
