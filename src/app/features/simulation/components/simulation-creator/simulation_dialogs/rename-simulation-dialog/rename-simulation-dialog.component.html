@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="isDialogVisible" [style]="{ width: '40rem' }" modal [closable]="true" header="Voulez-vous renommer la simulation ?">
+<p-dialog [(visible)]="isDialogVisible" [style]="{ width: '40rem' }" modal [closable]="true" header="Voulez-vous renommer la simulation ?" (onHide)="onDialogHide()">
   <div class="dialog-content">
     <input id="simulationName" type="text" pInputText [(ngModel)]="newSimulationName" />
   </div>

@@ -29,6 +29,11 @@ export class RenameSimulationDialogComponent {
     this.newSimulationName = this.simulationName;
   }
 
+
+  onDialogHide() {
+    this.closeDialog.emit();
+  }
+
   saveSimulationName() {
     this.renameSimulation.emit(this.newSimulationName);
     this.closeDialog.emit();
