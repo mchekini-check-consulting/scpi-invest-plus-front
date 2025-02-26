@@ -1,0 +1,109 @@
+.simulation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.simulation-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.simulation-title {
+  font-weight: bold;
+  color: #2f2f98;
+  font-size: 1em;
+}
+
+.simulation-date {
+  font-size: 0.9rem;
+  color: #555;
+  margin-left: 5px;
+}
+
+.simulation-details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.amount {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.percentage {
+  background-color: #e0e0e0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.scpi-label {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #4343a6;
+}
+
+
+.details-button {
+  border: 1px solid #007bff;
+  background: none;
+  color: #007bff;
+  padding: 8px;
+  padding-left: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.details-button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.delete-icon {
+  color: red;
+  cursor: pointer;
+}
+
+.no-simulation-message {
+  font-size: 1rem;
+  color: #555;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 1.5;
+  border: 1px dashed #007bff;
+  margin: 20px;
+}
+
+.no-simulation-message strong {
+  color: #2f2f98;
+  font-weight: bold;
+  display: block;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.no-simulation-message .highlight {
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.no-simulation-message .highlight:hover {
+  color: #0f5197;
+}

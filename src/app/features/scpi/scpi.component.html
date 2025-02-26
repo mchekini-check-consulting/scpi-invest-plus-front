@@ -7,7 +7,7 @@
   <div class="list-scpi">
     <ng-container *ngIf="filteredScpis.length > 0; else noResults">
       <ng-container *ngFor="let scpi of filteredScpis">
-        <app-scpi-card [scpi]="scpi" [image]="getImage(scpi.id)" />
+        <app-scpi-card [scpi]="scpi" [image]="getImage(scpi.id)" [isAddingScpi]="isAddingScpi" />
       </ng-container>
     </ng-container>
   </div>
