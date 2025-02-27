@@ -59,6 +59,7 @@
 .subtitle {
   font-weight: bold;
   margin-top: 10px;
+  padding-top: 12px;
 }
 
 .description {
@@ -69,8 +70,15 @@
 
 .share-button {
   background: none;
+  font-size: 0.9em;
   color: #007bff;
+  cursor: pointer;
   border: none;
+}
+
+.share-button i {
+  font-size: 0.8em;
+  cursor: pointer;
 }
 
 .share-button:hover {
