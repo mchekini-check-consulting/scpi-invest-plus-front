@@ -1,0 +1,29 @@
+<p-card class="scpi-card">
+  <ng-template pTemplate="title">
+    <span>SCPI sélectionnées</span>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <p>Aucune transaction dans cette simulation</p>
+    <p class="total">Montant total : <span>0,00 €</span></p>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      label="Ajouter une SCPI"
+      icon="pi pi-plus"
+      severity="info"
+      class="add-scpi-button"
+      (click)="isAddScpiDialogVisible = true"
+    >
+      Ajouter une SCPI
+    </button>
+  </ng-template>
+</p-card>
+
+
+<app-add-scpi-dialog
+[isDialogVisible]="isAddScpiDialogVisible"
+(closeDialog)="isAddScpiDialogVisible = false"
+></app-add-scpi-dialog>

@@ -24,6 +24,7 @@ import { Tag } from 'primeng/tag';
 export class ScpiCardComponent {
   @Input() scpi?: ScpiModel;
   @Input() image!: string;
+  @Input() isAddingScpi = false;
 
   formatLocation() {
     const location = this.scpi?.location;

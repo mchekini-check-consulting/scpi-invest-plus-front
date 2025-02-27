@@ -24,7 +24,8 @@
 
     <ng-template #footer>
       <div class="button-group">
-        <p-button label="Investir" severity="info" size="large" />
+        <p-button  *ngIf="!isAddingScpi" label="Investir" severity="info" size="large" />
+        <p-button  *ngIf="isAddingScpi" label="Ajouter" severity="info" size="large" />
         <p-button
           label="Détails"
           severity="secondary"
