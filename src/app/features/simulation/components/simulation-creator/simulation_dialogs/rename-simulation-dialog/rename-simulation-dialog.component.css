@@ -1,0 +1,18 @@
+
+
+.edit-icon:hover {
+  color: #27278b;
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dialog-footer
+ {
+  display: flex;
+  justify-content: space-between;
+  background-color: #0f5197;
+ }

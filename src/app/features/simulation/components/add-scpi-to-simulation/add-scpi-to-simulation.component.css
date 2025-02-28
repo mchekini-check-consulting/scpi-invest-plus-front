@@ -1,0 +1,87 @@
+.simulation-creator {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.simulation-card {
+ flex: 2;
+ border-radius: 8px;
+ padding-top: 5px;
+}
+
+::ng-deep .simulation-card {
+  height: 100%;
+  display: flex;
+}
+
+.scpi-card {
+  flex: 1;
+  border-radius: 8px;
+}
+
+.simulation-header {
+  display: flex;
+  align-items: center;
+}
+
+.header_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #4343a6;
+}
+
+.total span {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.edit-icon {
+  font-size: 1.1rem;
+  color: #4343a6;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-icon:hover {
+  color: #2f2f98;
+  font-size: 1.3rem;
+}
+
+.subtitle {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.description {
+  color: #555;
+  font-size: 14px;
+  padding-bottom: 10px;
+}
+
+.share-button {
+  background: none;
+  color: #007bff;
+  border: none;
+}
+
+.share-button:hover {
+  background-color: transparent !important;
+  border: none !important;
+  color: #0f5197;
+  box-shadow: none !important;
+}
+
+.add-scpi-button {
+  width: 100%;
+  color: white;
+  border: none;
+}

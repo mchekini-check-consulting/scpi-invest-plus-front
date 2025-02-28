@@ -2,7 +2,7 @@ import { ScpiModel } from '@/core/model/scpi.model';
 import { ScpiService } from '@/core/service/scpi.service';
 import { SearchMulticriteriaComponent } from '@/features/search-multicriteria/search-multicriteria.component';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { catchError, Subscription } from 'rxjs';
 import { ScpiCardComponent } from './components/scpi-card/scpi-card.component';
 
@@ -17,6 +17,8 @@ export class ScpiComponent implements OnInit, OnDestroy {
   filteredScpis: ScpiModel[] = [];
   loading = false;
   private subscriptions: Subscription = new Subscription();
+
+  @Input() isAddingScpi = false;
 
   images = Array.from({ length: 10 }, (_, i) => `img/scpi/${i + 1}.webp`);
 

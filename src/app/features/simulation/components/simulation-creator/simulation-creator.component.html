@@ -1,0 +1,34 @@
+<div class="simulation-creator">
+  <p-card class="simulation-card">
+    <ng-template pTemplate="title">
+      <div class="header_container">
+        <div class="simulation-header">
+          <span class="title">{{ simulationName }}</span>
+          <i class="pi pi-pencil edit-icon" (click)="openDialog()"></i>
+        </div>
+        <button class="share-button">
+          <i class="pi pi-share-alt"></i> Partager
+        </button>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="content">
+      <p class="subtitle">Vue générale</p>
+      <p class="description">
+        Ajoutez une SCPI afin de visualiser votre simulation de portefeuille. Si
+        vous possédez déjà un portefeuille, vous pouvez ajouter celui-ci en
+        cliquant sur le bouton « Voir avec mon portefeuille ».
+      </p>
+    </ng-template>
+  </p-card>
+
+  <app-add-scpi-to-simulation></app-add-scpi-to-simulation>
+
+  <app-rename-simulation-dialog
+    [isDialogVisible]="isDialogVisible"
+    [simulationName]="simulationName"
+    (closeDialog)="isDialogVisible = false"
+    (renameSimulation)="updateSimulationName($event)"
+  ></app-rename-simulation-dialog>
+
+</div>
