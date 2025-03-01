@@ -6,9 +6,9 @@
       <p class="simulation-date">- {{ simulation.simulationDate | date: 'dd/MM/yyyy' }}</p>
     </div>
     <div class="simulation-details">
-         <span class="amount">{{ calculateTotalAmount(simulation.scpiSimulations) | number: '1.2-2' }} €</span>
+      <span class="amount">{{ calculateTotalAmount(simulation.scpiSimulations) | number: '1.2-2' }} €</span>
     </div>
-    <button class="details-button">Voir le détail →</button>
+    <button class="details-button" [routerLink]="['details', simulation.id]">Voir le détail →</button>
     <i class="pi pi-trash delete-icon"></i>
   </div>
   <div *ngIf="simulations.length === 0" class="no-simulation-message">

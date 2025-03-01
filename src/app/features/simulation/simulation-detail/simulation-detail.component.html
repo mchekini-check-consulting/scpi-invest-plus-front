@@ -1,0 +1,46 @@
+<div class="simulation-creator">
+  @if (simulation) {
+    <p-card class="simulation-card">
+      <ng-template pTemplate="title">
+        <div class="header_container">
+          <div class="simulation-header">
+            <span class="title">{{ simulation.name }}</span>
+            <i class="pi pi-pencil edit-icon"></i>
+          </div>
+          <button class="share-button">
+            <i class="pi pi-share-alt"></i> Partager
+          </button>
+        </div>
+      </ng-template>
+
+      <p class="subtitle">Vue générale</p>
+
+      <div class="row">
+        <p-panel header="Valeur totale">
+          <p class="value">
+            {{ simulation.totalInvestment | number:'1.2-2' }} €
+          </p>
+        </p-panel>
+        <p-panel header="Revenus">
+          <p class="value">
+            <span> {{ simulation.monthlyIncome | number:'1.2-2' }} € / Mois</span>
+          </p>
+
+        </p-panel>
+      </div>
+    </p-card>
+    <div class="add-scpi-container">
+      <app-add-scpi-to-simulation [simulation]="simulation"></app-add-scpi-to-simulation>
+    </div>
+
+  } @else {
+    <p-card header="Détails Indisponibles" class="w-100">
+      <p class="m-0">
+        Aucune simulation correspondante trouvée pour l’ID <strong>{{ simulationId }}</strong>.
+        Veuillez vérifier l’identifiant ou essayer avec une autre simulation.
+      </p>
+    </p-card>
+  }
+
+
+</div>
