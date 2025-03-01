@@ -36,7 +36,7 @@ export class DetailsDetialsComponent implements OnInit {
           this.details = res;
           this.stat = this.detailsService.getLastStats(this.details);
           if (this.stat) {
-            this.prix_retrait = this.stat?.sharePrice - (this.stat?.sharePrice * (1 - this.details.subscriptionFees))
+            this.prix_retrait = this.stat?.sharePrice - (this.stat?.sharePrice * ( this.details.subscriptionFees /100))
           } else {
             alert("There is no stat year");
           }
