@@ -1,0 +1,51 @@
+.year-picker-container {
+  position: relative;
+  width: 100%;
+}
+
+.year-option {
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+::ng-deep .p-dropdown-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+::ng-deep .p-dropdown-item {
+  width: 100%;
+  text-align: center;
+}
+
+.paginator-wrapper {
+  width: 100%;
+  border-top: 1px solid #ddd;
+  padding: 5px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.p-dropdown-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100% !important;
+}
+
+::ng-deep .p-dropdown-items-wrapper {
+  flex-grow: 1;
+  overflow-y: hidden !important;
+  max-height: unset !important;
+}
+
+::ng-deep .p-dropdown-footer {
+  margin-top: auto;
+  width: 100%;
+}

@@ -1,0 +1,39 @@
+<p-dropdown
+  placeholder="Sélectionnez une année"
+  [options]="paginatedYearOptions"
+  [(ngModel)]="selectedYear"
+  optionLabel="label"
+  [style]="{ width: '100%' }"
+  appendTo="body"
+  filter
+  [filterBy]="'label'"
+  [panelStyle]="{ width: '100%' }"
+  (onChange)="selectedYear && selectYear(selectedYear)"
+  (onFilter)="filterYears($event)"
+>
+  <ng-template let-option pTemplate="item">
+    <div
+      class="year-option"
+      [ngClass]="{ selected: option.year === selectedYear?.year }"
+    >
+      <span>{{ option.year }} ans - {{ option.percentage }}%</span>
+    </div>
+  </ng-template>
+
+  <ng-template let-selected pTemplate="selectedItem">
+    <span *ngIf="selected"
+      >{{ selected.year }} ans - {{ selected.percentage }}%</span
+    >
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="paginator-wrapper">
+      <p-paginator
+        [rows]="itemsPerPage"
+        [totalRecords]="filteredYearOptions.length"
+        (onPageChange)="onPageChange($event)"
+      >
+      </p-paginator>
+    </div>
+  </ng-template>
+</p-dropdown>

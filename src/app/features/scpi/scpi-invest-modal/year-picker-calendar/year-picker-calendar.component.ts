@@ -1,0 +1,89 @@
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
+import { PaginatorModule } from 'primeng/paginator';
+import { InvestorService } from '@/core/service/investor.service';
+import { Dismemberment } from '@/core/model/Dismemberment';
+
+@Component({
+  selector: 'app-year-picker-calendar',
+  standalone: true,
+  imports: [CommonModule, DropdownModule, FormsModule, PaginatorModule],
+  templateUrl: './year-picker-calendar.component.html',
+  styleUrls: ['./year-picker-calendar.component.css'],
+})
+export class YearPickerCalendarComponent implements OnInit {
+  @Output() yearSelected = new EventEmitter<{
+    year: number;
+    percentage: number;
+  }>();
+
+  selectedYear?: { year: number; percentage: number };
+  currentPage = 0;
+  itemsPerPage = 3;
+
+  yearOptions: { year: number; percentage: number }[] = [];
+  filteredYearOptions: { year: number; percentage: number }[] = [];
+  paginatedYearOptions: { year: number; percentage: number }[] = [];
+
+  selectedPropertyType: string = 'Pleine propriété';
+
+  constructor(private investorService: InvestorService) {}
+
+  ngOnInit() {
+    this.loadDismembermentData();
+  }
+
+  selectYear(option: { year: number; percentage: number }) {
+    this.selectedYear = option;
+    this.yearSelected.emit(option);
+  }
+
+  onPageChange(event: any) {
+    this.currentPage = event.page;
+    this.updatePaginatedOptions();
+  }
+
+  filterYears(event: any) {
+    const query = event.filter?.toLowerCase() || '';
+    this.filteredYearOptions = this.yearOptions.filter(
+      (option) =>
+        option.year.toString().includes(query) ||
+        option.percentage.toString().includes(query)
+    );
+    this.currentPage = 0;
+    this.updatePaginatedOptions();
+  }
+
+  updatePaginatedOptions() {
+    const start = this.currentPage * this.itemsPerPage;
+    this.paginatedYearOptions = this.filteredYearOptions.slice(
+      start,
+      start + this.itemsPerPage
+    );
+  }
+
+  loadDismembermentData() {
+    if (!this.selectedPropertyType) {
+      return;
+    }
+
+    this.investorService
+      .getDismembermentByType(this.selectedPropertyType)
+      .subscribe({
+        next: (data: Dismemberment[]) => {
+          this.yearOptions = data.map((item) => ({
+            year: item.yearDismemberment,
+            percentage: item.rateDismemberment,
+            label: `${item.yearDismemberment} ans - ${item.rateDismemberment}%`,
+          }));
+          this.filteredYearOptions = [...this.yearOptions];
+          this.updatePaginatedOptions();
+        },
+        error: (err) => {
+          console.error('Erreur lors de la récupération des données :', err);
+        },
+      });
+  }
+}

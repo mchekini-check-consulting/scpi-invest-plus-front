@@ -1,11 +1,16 @@
 import { ScpiModel } from '@/core/model/scpi.model';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { Tag } from 'primeng/tag';
+import { DialogModule } from 'primeng/dialog';
+import { ScpiInvestModalComponent } from '../../scpi-invest-modal/scpi-invest-modal.component';
+import { ScpiService } from '@/core/service/scpi.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-scpi-card',
@@ -17,7 +22,11 @@ import { Tag } from 'primeng/tag';
     Tag,
     CommonModule,
     RouterLink,
+    DialogModule,
+    ScpiInvestModalComponent,
+    ToastModule,
   ],
+  providers: [MessageService],
   templateUrl: './scpi-card.component.html',
   styleUrl: './scpi-card.component.css',
 })
@@ -25,6 +34,13 @@ export class ScpiCardComponent {
   @Input() scpi?: ScpiModel;
   @Input() image!: string;
   @Input() isAddingScpi = false;
+  investirModalVisible: boolean = false;
+
+  constructor(
+    private scpiService: ScpiService,
+    private router: Router,
+    private messageService: MessageService
+  ) {}
 
   formatLocation() {
     const location = this.scpi?.location;
@@ -60,5 +76,41 @@ export class ScpiCardComponent {
     return `Minimum - ${
       minimumSubscription !== undefined ? minimumSubscription + ' €' : 'N/A'
     }`;
+  }
+
+  openInvestirModal() {
+    this.scpiService.verifyInvestmentAbility().subscribe(
+      (canInvest) => {
+        if (canInvest) {
+          this.investirModalVisible = true;
+        } else {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Profil incomplet',
+            detail: 'Vous devez compléter votre profil pour pouvoir investir.',
+          });
+          setTimeout(() => {
+            this.router.navigate(['/profile'], {
+              queryParams: { fromInvest: 'true' },
+            });
+          }, 3000);
+        }
+      },
+      (error) => {
+        console.error(
+          "Erreur lors de la vérification de l'investissement :",
+          error
+        );
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail:
+            'Une erreur est survenue lors de la vérification de votre investissement.',
+        });
+      }
+    );
+  }
+  closeInvestirModal() {
+    this.investirModalVisible = false;
   }
 }
