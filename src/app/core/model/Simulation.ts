@@ -10,6 +10,8 @@ export interface Simulation {
   name: string;
   simulationDate: string;
   investorEmail: string;
+  totalInvestment: number;
+  monthlyIncome: number;
   scpiSimulations: ScpiSimulation[];
 }
 
@@ -20,7 +22,8 @@ export interface ScpiSimulation {
   partPrice: number,
   rising: number,
   duree: number | null,
-  dureePercentage: number| null,
+  dureePercentage: number | null,
   propertyType: string,
+  scpiName?: string,
 }
 

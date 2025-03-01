@@ -1,25 +1,27 @@
-import { ScpiSimulation, Simulation } from '@/core/model/Simulation';
-import { SimulationService } from '@/core/service/simulation.service';
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import {ScpiSimulation, Simulation} from '@/core/model/Simulation';
+import {SimulationService} from '@/core/service/simulation.service';
+import {CommonModule} from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-simulation-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './simulation-list.component.html',
   styleUrls: ['./simulation-list.component.css'],
 })
 export class SimulationListComponent implements OnInit {
   simulations: Simulation[] = [];
 
-  constructor(private simulationService: SimulationService) {}
+  constructor(private simulationService: SimulationService) {
+  }
 
   ngOnInit(): void {
     this.loadSimulations();
   }
 
-   calculateTotalAmount(scpiSimulations: ScpiSimulation[]): number {
+  calculateTotalAmount(scpiSimulations: ScpiSimulation[]): number {
     return scpiSimulations.reduce((total, scpi) => {
       return total + scpi.rising;
     }, 0);

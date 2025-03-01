@@ -5,12 +5,12 @@
 }
 
 .simulation-card {
- flex: 2;
- border-radius: 8px;
- padding-top: 5px;
+  flex: 2;
+  border-radius: 8px;
+  padding-top: 5px;
 }
 
-::ng-deep .simulation-card {
+.simulation-card {
   height: 100%;
   display: flex;
 }
@@ -84,4 +84,24 @@
   width: 100%;
   color: white;
   border: none;
+}
+
+.row {
+  padding-inline: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  .name {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #1f3f9f;
+  }
+
+  .amount {
+    font-size: 18px;
+    font-weight: bold;
+    color: #5ba7fa;
+  }
 }
