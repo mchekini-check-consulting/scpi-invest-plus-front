@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { UserModel } from "../model/user.model";
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
+import {OAuthService} from 'angular-oauth2-oidc';
+import {UserModel} from "../model/user.model";
+import {jwtDecode} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +17,33 @@ export class UserService {
   }
 
   public loadUser() {
-    const claims = this.oauthService.getIdentityClaims();
-    if (claims) {
-      this.userSubject.next({
-        userName: claims['preferred_username'],
-        lastName: claims['family_name'],
-        firstName: claims['given_name'],
-        email: claims['email']
-      });
+    const identityClaims = this.oauthService.getIdentityClaims();
+    const accessToken = this.oauthService.getAccessToken();
+    let userRole = 'Standard';
+
+    if (accessToken) {
+      try {
+        const payload: any = jwtDecode(accessToken);
+        userRole = payload?.resource_access?.['scpi-invest-plus']?.roles[0] || 'Standard';
+      } catch (error) {
+        console.error("Erreur de décodage de l'Access Token", error);
+      }
     }
+
+    if (identityClaims) {
+      this.userSubject.next({
+        userName: identityClaims['preferred_username'],
+        lastName: identityClaims['family_name'],
+        firstName: identityClaims['given_name'],
+        email: identityClaims['email'],
+        role: userRole
+      });
+      console.log("Le rôle récupéré est :", userRole);
+    }
+  }
+
+
+  public getUser(): UserModel | null {
+    return this.userSubject.value;
   }
 }
