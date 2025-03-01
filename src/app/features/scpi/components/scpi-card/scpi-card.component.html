@@ -5,21 +5,16 @@
     </ng-template>
 
     <ng-template #title>{{ scpi?.name ?? "N/A" }}</ng-template>
-
     <div class="info-container">
       <div class="info">
         <p-tag severity="secondary" [value]="formatLocation()"></p-tag>
-
         <p-tag severity="secondary" [value]="formatSector()"></p-tag>
       </div>
-
       <div class="info">
         <p-tag severity="secondary" [value]="formatDistributionRate()"></p-tag>
-
         <p-tag severity="secondary" [value]="formatMinimum()"></p-tag>
       </div>
     </div>
-
     <p-divider />
 
     <ng-template #footer>
