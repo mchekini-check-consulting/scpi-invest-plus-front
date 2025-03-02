@@ -23,8 +23,9 @@
       <p-dropdown
         id="propertyType"
         formControlName="propertyType"
-        [options]="setSelectedPropertyType("Usufruit")"
+        [options]="propertyOptions"
         [placeholder]="'INVESTMENT.SELECT_PROPERTY' | translate"
+        (onChange)="setSelectedPropertyType($event.value)"
         class="full-width-input"
       >
       </p-dropdown>
@@ -51,6 +52,7 @@
       }}</label>
       <app-year-picker-calendar
         (yearSelected)="onYearSelected($event)"
+        [selectedPropertyType]="selectedPropertyType"
       ></app-year-picker-calendar>
     </div>
     <div class="form-row">

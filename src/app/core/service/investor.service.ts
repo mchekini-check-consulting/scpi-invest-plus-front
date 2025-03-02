@@ -29,8 +29,6 @@ export class InvestorService {
   }
 
   getDismembermentByType(propertyType: string): Observable<Dismemberment[]> {
-    const params = new HttpParams().set('typeProperty', propertyType);
-    return this.http.get<Dismemberment[]>(this.dismembermentUrl, { params });
+    return this.http.get<Dismemberment[]>(`${this.dismembermentUrl}/${propertyType}`);
   }
-  
 }

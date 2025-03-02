@@ -1,0 +1,39 @@
+<p-dialog [(visible)]="visibleAddScpiToSimulation" modal="true" [closable]="true" [style]="{ width: '500px' }" (onHide)="close()">
+  <ng-template pTemplate="header">
+    <h2>Ajouter une SCPI</h2>
+  </ng-template>
+
+  <div class="dialog-content">
+    <div class="form-group">
+      <label for="typeDePropriete">Type de propriété</label>
+      <p-select [(ngModel)]="propertyType" id="typeDePropriete" [options]="propertyTypes" (onChange)="onPropertyTypeChange()"></p-select>
+    </div>
+
+    <div *ngIf="propertyType === 'Nue propriété'">
+      <div class="form-group">
+        <label for="duree">Durée</label>
+        <p-select [(ngModel)]="duration" id="duree" [options]="durations"></p-select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="nombreParts">Nombre de parts</label>
+      <p-inputNumber [(ngModel)]="numParts" id="nombreParts" (onInput)="calculateTotalAmount()"></p-inputNumber>
+    </div>
+
+    <div class="form-group">
+      <label for="montantTotal">Montant total</label>
+      <p-inputNumber [(ngModel)]="totalAmount" id="montantTotal" [readonly]="true"></p-inputNumber>
+    </div>
+
+    <div class="form-group">
+      <label for="revenusMensuels">Estimation des revenus mensuels</label>
+      <p-inputNumber [(ngModel)]="estimatedMonthlyIncome" id="revenusMensuels" [readonly]="true" [minFractionDigits]="2" [maxFractionDigits]="2"></p-inputNumber>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton label="Annuler" icon="pi pi-times" (click)="close()" class="p-button-secondary"></button>
+    <button pButton label="Valider" icon="pi pi-check" class="p-button-primary" (click)="addScpiToSimulation()"></button>
+  </ng-template>
+</p-dialog>
