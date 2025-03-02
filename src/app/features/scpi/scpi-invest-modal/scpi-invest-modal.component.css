@@ -82,15 +82,12 @@
 .form-group {
   flex: 1;
 }
-
 .investment-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  flex-wrap: wrap;
 }
-
 .sub-header {
   box-shadow: 0 1px #e5e5e5a0;
   position: fixed;
@@ -123,66 +120,10 @@
   align-items: center;
   gap: 8px;
 }
-
 .green-tag {
   background-color: #4caf50 !important;
   color: white !important;
   font-weight: bold;
   border-radius: 4px;
   padding: 3px 6px;
-}
-
-/* --- Responsive Design --- */
-@media screen and (max-width: 1024px) {
-  .investment-info {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .scpi-info-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .scpi-info {
-    font-size: 12px;
-    padding: 4px 6px;
-  }
-
-  .form-row {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .button-group {
-    justify-content: center;
-  }
-
-  .sub-header {
-    width: 100%;
-    padding-left: 10px;
-    top: 50px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .dialog-header {
-    font-size: 16px;
-  }
-
-  .scpi-info {
-    font-size: 12px;
-    padding: 3px 5px;
-  }
-
-  .button-group {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .p-dialog {
-    width: 90vw !important;
-  }
 }
