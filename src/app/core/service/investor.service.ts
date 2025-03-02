@@ -8,7 +8,7 @@ import { Dismemberment } from '../model/Dismemberment';
 })
 export class InvestorService {
   private apiUrl = `/api/v1/investors`;
-  private dismembermentUrl = `/api/v1/ref-dismemberment`;
+  private dismembermentUrl = `/api/ref-dismemberment`;
 
   constructor(private http: HttpClient) {}
 
@@ -27,8 +27,6 @@ export class InvestorService {
       })
     );
   }
-
-
 
   getDismembermentByType(propertyType: string): Observable<Dismemberment[]> {
     return this.http.get<Dismemberment[]>(
