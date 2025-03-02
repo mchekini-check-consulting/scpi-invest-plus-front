@@ -41,7 +41,10 @@ export class ScpiInvestModalComponent {
   @Input() distributionRate?: string;
   @Input() sharePrice?: number;
   @Input() minimumSubscription?: string;
+  @Input() mode?: string;
   @Output() close = new EventEmitter<void>();
+
+
 
   investmentDuration?: number;
   investmentPercentage?: number;
@@ -52,7 +55,7 @@ export class ScpiInvestModalComponent {
 
   propertyOptions = [
     { label: 'Pleine propriété', value: 'Pleine propriété' },
-    { label: 'Nue propriété', value: 'Nue propriété' },
+    { label: 'Nue-propriétaire', value: 'Nue-propriétaire' },
     { label: 'Usufruit', value: 'Usufruit' },
   ];
 
@@ -83,6 +86,7 @@ export class ScpiInvestModalComponent {
 
   ngOnInit() {
     console.log('sharePrice reçu:', this.sharePrice);
+
 
     this.investmentForm.controls['sharePrice'].valueChanges.subscribe(() => {
       this.calculateTotalInvestment();
