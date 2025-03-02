@@ -29,6 +29,16 @@ export class InvestorService {
   }
 
   getDismembermentByType(propertyType: string): Observable<Dismemberment[]> {
-    return this.http.get<Dismemberment[]>(`${this.dismembermentUrl}/${propertyType}`);
+    return this.http.get<Dismemberment[]>(
+      `${this.dismembermentUrl}/${propertyType}`
+    );
+  }
+
+  createInvestment(investmentData: any): Observable<any> {
+    return this.http.post(`/api/v1/investment`, investmentData).pipe(
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    );
   }
 }

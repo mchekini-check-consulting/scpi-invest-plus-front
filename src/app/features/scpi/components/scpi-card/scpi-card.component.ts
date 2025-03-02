@@ -8,7 +8,6 @@ import { DividerModule } from 'primeng/divider';
 import { Tag } from 'primeng/tag';
 import { DialogModule } from 'primeng/dialog';
 import { ScpiInvestModalComponent } from '../../scpi-invest-modal/scpi-invest-modal.component';
-import { ScpiService } from '@/core/service/scpi.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { TranslateModule } from '@ngx-translate/core';
@@ -38,18 +37,14 @@ export class ScpiCardComponent {
   @Input() isAddingScpi = false;
   investirModalVisible: boolean = false;
 
-  modalMode: string = 'investir'
+  modalMode: string = 'investir';
 
   openInvestirModal(mode: string) {
     this.modalMode = mode;
     this.investirModalVisible = true;
   }
 
-  constructor(
-    private scpiService: ScpiService,
-    private router: Router,
-    private messageService: MessageService
-  ) {}
+  constructor() { }
 
   formatLocation() {
     const location = this.scpi?.location;
@@ -75,9 +70,8 @@ export class ScpiCardComponent {
 
   formatDistributionRate() {
     const distributionRate = this.scpi?.statYear?.distributionRate;
-    return `Rendement - ${
-      distributionRate !== undefined ? distributionRate + '%' : 'N/A'
-    }`;
+    return `Rendement - ${distributionRate !== undefined ? distributionRate + '%' : 'N/A'
+      }`;
   }
 
   getSharePrice(): number {
@@ -86,11 +80,9 @@ export class ScpiCardComponent {
 
   formatMinimum() {
     const minimumSubscription = this.scpi?.minimumSubscription;
-    return `Minimum - ${
-      minimumSubscription !== undefined ? minimumSubscription + ' €' : 'N/A'
-    }`;
+    return `Minimum - ${minimumSubscription !== undefined ? minimumSubscription + ' €' : 'N/A'
+      }`;
   }
-
 
   closeInvestirModal() {
     this.investirModalVisible = false;
