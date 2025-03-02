@@ -14,6 +14,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CardModule } from 'primeng/card';
 import { YearPickerCalendarComponent } from './year-picker-calendar/year-picker-calendar.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { InvestorService } from '@/core/service/investor.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-scpi-invest-modal',
@@ -28,7 +30,7 @@ import { TranslateModule } from '@ngx-translate/core';
     InputNumberModule,
     CardModule,
     YearPickerCalendarComponent,
-    TranslateModule
+    TranslateModule,
   ],
   templateUrl: './scpi-invest-modal.component.html',
   styleUrl: './scpi-invest-modal.component.css',
@@ -44,12 +46,9 @@ export class ScpiInvestModalComponent {
   @Input() mode?: string;
   @Output() close = new EventEmitter<void>();
 
-
-
   investmentDuration?: number;
   investmentPercentage?: number;
   editable: boolean = false;
-
   currencyOptions: any[] = [];
   selectedPropertyType: string = '';
 
@@ -71,16 +70,20 @@ export class ScpiInvestModalComponent {
       percentage: number;
     } | null>(null),
     totalInvestment: new FormControl(
-      +this.minimumSubscription! || 0,
+      this.minimumSubscription ? +this.minimumSubscription : null,
       [
         Validators.required,
-        Validators.min((+this.minimumSubscription! || 0) + 1),
+        Validators.min(
+          this.minimumSubscription ? +this.minimumSubscription : 1
+        ),
       ]
     ),
-
   });
 
-  constructor() {
+  constructor(
+    private investorService: InvestorService,
+    private messageService: MessageService
+  ) {
     this.investmentForm.valueChanges.subscribe(() => {});
   }
 
@@ -93,27 +96,71 @@ export class ScpiInvestModalComponent {
       this.calculateTotalInvestment();
     });
 
-    this.investmentForm.controls['totalInvestment'].valueChanges.subscribe(() => {
-      this.calculateShareCount();
-    });
+    this.investmentForm.controls['totalInvestment'].valueChanges.subscribe(
+      () => {
+        this.calculateShareCount();
+      }
+    );
 
     if (this.sharePrice) {
       this.investmentForm.patchValue({ sharePrice: this.sharePrice });
     }
   }
 
+  minimumInvestmentValidator(control: FormControl) {
+    if (this.minimumSubscription && control.value < +this.minimumSubscription) {
+      return { belowMinimum: true };
+    }
+    return null;
+  }
 
   confirmInvestmentOrSimulation() {
     if (this.investmentForm.valid) {
-       if(this.mode === 'investir') {
-
-       }
-       if(this.mode === 'simuler') {
-
-       }
+      if (this.mode === 'investir') {
+        this.createInvestment();
+      } else if (this.mode === 'simuler') {
+      }
       this.closeModal();
     } else {
       console.warn('Formulaire invalide, veuillez vérifier les champs.');
+    }
+  }
+
+  createInvestment(): void {
+    if (this.investmentForm.valid) {
+      const investmentData = {
+        typeProperty: this.investmentForm.value.propertyType,
+        numberShares: this.investmentForm.value.shareCount,
+        numberYears: this.investmentForm.value.investmentDuration?.year || 0,
+        totalAmount: this.investmentForm.value.totalInvestment,
+        scpiId: this.scpiId,
+        investmentState: 'Investissement',
+      };
+
+      this.investorService.createInvestment(investmentData).subscribe(
+        () => {
+          const toastDuration = 2000;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Succès',
+            detail: 'Investissement réalisé avec succès.',
+            life: toastDuration,
+          });
+        },
+        () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erreur',
+            detail: "Une erreur est survenue lors de l'investissement.",
+          });
+        }
+      );
+    } else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Attention',
+        detail: 'Veuillez compléter tous les champs obligatoires.',
+      });
     }
   }
 
@@ -143,29 +190,41 @@ export class ScpiInvestModalComponent {
       if (remainder === 0) {
         shareCount = adjustedShareCount;
       } else {
-        shareCount = remainder < (sharePrice / 2) ? adjustedShareCount : adjustedShareCount + 1;
+        shareCount =
+          remainder < sharePrice / 2
+            ? adjustedShareCount
+            : adjustedShareCount + 1;
       }
 
-      this.investmentForm.controls['totalInvestment'].setValue(shareCount * sharePrice, {
-        emitEvent: false,
-      });
+      this.investmentForm.controls['totalInvestment'].setValue(
+        shareCount * sharePrice,
+        {
+          emitEvent: false,
+        }
+      );
 
       this.investmentForm.controls['shareCount'].setValue(shareCount, {
         emitEvent: false,
       });
 
-      if (this.minimumSubscription && totalInvestment < +this.minimumSubscription) {
+      if (
+        this.minimumSubscription &&
+        totalInvestment < +this.minimumSubscription
+      ) {
+        console.log('Erreur belowMinimum ajoutée');
         this.investmentForm.controls['totalInvestment'].setErrors({
           belowMinimum: true,
         });
       } else {
+        console.log('Erreur belowMinimum supprimée');
         this.investmentForm.controls['totalInvestment'].setErrors(null);
       }
     }
   }
 
   calculateShareCount() {
-    const totalInvestment = this.investmentForm.controls['totalInvestment'].value || 0;
+    const totalInvestment =
+      this.investmentForm.controls['totalInvestment'].value || 0;
     const sharePrice = this.investmentForm.controls['sharePrice'].value || 1;
 
     if (sharePrice > 0) {
@@ -175,7 +234,9 @@ export class ScpiInvestModalComponent {
         shareCount += 1;
       }
 
-      this.investmentForm.controls['shareCount'].setValue(shareCount, { emitEvent: false });
+      this.investmentForm.controls['shareCount'].setValue(shareCount, {
+        emitEvent: false,
+      });
     }
   }
 
@@ -190,7 +251,6 @@ export class ScpiInvestModalComponent {
       }
     });
   }
-
 
   toggleEdit(): void {
     this.editable = !this.editable;
@@ -214,7 +274,5 @@ export class ScpiInvestModalComponent {
 
   setSelectedPropertyType(propertyType: string) {
     this.selectedPropertyType = propertyType;
-
   }
-
 }

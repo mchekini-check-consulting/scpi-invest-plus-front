@@ -19,8 +19,20 @@
 
     <ng-template #footer>
       <div class="button-group">
-        <p-button  *ngIf="isAddingScpi" label="Ajouter" (click)="openInvestirModal('simuler')" severity="info" size="large" />
-        <p-button *ngIf="!isAddingScpi" label="Investir" (click)="openInvestirModal('investir')" severity="info" size="large" />
+        <p-button
+          *ngIf="isAddingScpi"
+          label="Ajouter"
+          (click)="openInvestirModal('simuler')"
+          severity="info"
+          size="large"
+        />
+        <p-button
+          *ngIf="!isAddingScpi"
+          label="Investir"
+          (click)="openInvestirModal('investir')"
+          severity="info"
+          size="large"
+        />
         <p-button
           label="Détails"
           severity="secondary"
@@ -31,12 +43,10 @@
       </div>
     </ng-template>
   </p-card>
-
 </div>
 <p-toast></p-toast>
 
-
-  <app-scpi-invest-modal
+<app-scpi-invest-modal
   [visible]="investirModalVisible"
   [scpiName]="scpi?.name"
   [scpiId]="scpi?.id"
@@ -44,8 +54,7 @@
   [distributionRate]="formatDistributionRate()"
   [minimumSubscription]="formatMinimum()"
   [sharePrice]="getSharePrice()"
-  [mode] ="modalMode"
-  (close)="closeInvestirModal()">
-  </app-scpi-invest-modal>
-
-
+  [mode]="modalMode"
+  (close)="closeInvestirModal()"
+>
+</app-scpi-invest-modal>
