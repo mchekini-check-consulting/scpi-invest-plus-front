@@ -1,0 +1,188 @@
+.dialog-header {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 15px;
+}
+
+.scpi-info-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 15px;
+}
+
+.scpi-info {
+  background-color: #eef2f7;
+  padding: 5px 8px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  white-space: nowrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.full-width-input {
+  width: 100%;
+}
+
+.error {
+  color: #d9534f;
+  font-size: 0.875rem;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.error::before {
+  content: "⚠️ ";
+}
+
+.summary {
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+::ng-deep .p-dialog-close-button {
+  z-index: 3;
+}
+
+::ng-deep .special-button .p-button {
+  padding: 8px 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-group {
+  flex: 1;
+}
+
+.investment-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.sub-header {
+  box-shadow: 0 1px #e5e5e5a0;
+  position: fixed;
+  z-index: 2;
+  background-color: white;
+  top: 58px;
+  overflow: hidden;
+  width: 97%;
+  left: 0;
+  padding-bottom: 5px;
+  padding-left: 18px;
+}
+
+::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon:focus {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  color: #535151 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.label-green {
+  color: var(--green-500);
+  font-weight: bold;
+}
+
+.scpi-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.green-tag {
+  background-color: #4caf50 !important;
+  color: white !important;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 3px 6px;
+}
+
+/* --- Responsive Design --- */
+@media screen and (max-width: 1024px) {
+  .investment-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .scpi-info-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .scpi-info {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .button-group {
+    justify-content: center;
+  }
+
+  .sub-header {
+    width: 100%;
+    padding-left: 10px;
+    top: 50px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .dialog-header {
+    font-size: 16px;
+  }
+
+  .scpi-info {
+    font-size: 12px;
+    padding: 3px 5px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .p-dialog {
+    width: 90vw !important;
+  }
+}

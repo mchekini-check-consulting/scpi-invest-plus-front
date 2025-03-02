@@ -28,11 +28,16 @@
     }
   }
 }
-
 .button-group {
   display: flex;
   gap: 1rem;
   width: 100%;
   align-items: center;
   justify-content: flex-end;
+}
+
+app-scpi-invest-modal {
+  display: block;
+  position: absolute;
+  z-index: 1000;
 }

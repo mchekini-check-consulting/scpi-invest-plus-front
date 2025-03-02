@@ -2,3 +2,6 @@
 
 @import "../node_modules/primeicons/primeicons.css";
 
+::ng-deep .p-dropdown-panel {
+    width: 100% !important;
+  }

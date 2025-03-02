@@ -25,4 +25,5 @@ type SectorModel = {
 
 type StatYearModel = {
   distributionRate: number;
+  sharePrice: number;
 };

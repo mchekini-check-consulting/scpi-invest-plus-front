@@ -1,0 +1,21 @@
+.dialog-content {
+  padding: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+p-dropdown, p-inputNumber {
+  width: 100%;
+}
+
+.p-button-secondary {
+  margin-right: 0.5rem;
+}
