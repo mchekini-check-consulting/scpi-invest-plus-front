@@ -19,6 +19,7 @@ export const ROUTES: RouteInfo[] = [
   {path: '/scpi', title: 'Liste des SCPI ', key: 'SIDEBAR.SCPI', icon: 'nc-icon nc-ruler-pencil', class: '', feature:'list-scpi' },
   {path: '/invest', title: 'Mes investissements',key : 'SIDEBAR.INVEST', icon: 'nc-icon nc-layers-3', class: '', feature:'my-investments'},
   {path: '/simulations', title: 'Mes simulations',key : 'SIDEBAR.SIMULATION', icon: 'nc-icon nc-layers-3', class: '', feature:'simulation'},
+  {path: '/portefeuille', title: 'Portefeuille',key : 'SIDEBAR.PORTEFEUILLE', icon: 'nc-icon nc-money-coins', class: '', feature:'portefeuille'},
 ];
 
 @Component({
