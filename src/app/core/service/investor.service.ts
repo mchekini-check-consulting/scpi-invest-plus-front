@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Dismemberment } from '../model/Dismemberment';
 
@@ -8,7 +8,7 @@ import { Dismemberment } from '../model/Dismemberment';
 })
 export class InvestorService {
   private apiUrl = `/api/v1/investors`;
-  private dismembermentUrl = `/api/v1/ref-dismemberment`;
+  private dismembermentUrl = `/api/ref-dismemberment`;
 
   constructor(private http: HttpClient) {}
 
@@ -29,12 +29,8 @@ export class InvestorService {
   }
 
   getDismembermentByType(propertyType: string): Observable<Dismemberment[]> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.get<Dismemberment[]>(
-      `${this.dismembermentUrl}/${propertyType}`
-    );
+    const params = new HttpParams().set('typeProperty', propertyType);
+    return this.http.get<Dismemberment[]>(this.dismembermentUrl, { params });
   }
+  
 }

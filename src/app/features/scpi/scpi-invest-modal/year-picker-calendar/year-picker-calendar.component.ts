@@ -22,6 +22,7 @@ export class YearPickerCalendarComponent implements OnInit {
   selectedYear?: { year: number; percentage: number };
   currentPage = 0;
   itemsPerPage = 3;
+  activeTab: string = 'vue';
 
   yearOptions: { year: number; percentage: number }[] = [];
   filteredYearOptions: { year: number; percentage: number }[] = [];
@@ -68,11 +69,10 @@ export class YearPickerCalendarComponent implements OnInit {
     if (!this.selectedPropertyType) {
       return;
     }
-
-    this.investorService
-      .getDismembermentByType(this.selectedPropertyType)
-      .subscribe({
-        next: (data: Dismemberment[]) => {
+  
+    this.investorService.getDismembermentByType(this.selectedPropertyType).subscribe({
+      next: (data: Dismemberment[]) => {
+        if (data && data.length > 0) {
           this.yearOptions = data.map((item) => ({
             year: item.yearDismemberment,
             percentage: item.rateDismemberment,
@@ -80,10 +80,14 @@ export class YearPickerCalendarComponent implements OnInit {
           }));
           this.filteredYearOptions = [...this.yearOptions];
           this.updatePaginatedOptions();
-        },
-        error: (err) => {
-          console.error('Erreur lors de la récupération des données :', err);
-        },
-      });
+        } else {
+          console.warn('Aucune donnée reçue pour le type de propriété :', this.selectedPropertyType);
+        }
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des données :', err);
+      },
+    });
   }
+ 
 }

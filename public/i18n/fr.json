@@ -16,5 +16,23 @@
     "VUE": "Vue d'ensemble",
     "HISTORIQUE": "Historique",
     "DETAILS": "Détails"
+  },
+  "INVESTMENT": {
+    "HEADER": "Investir dans {{ scpiName }}",
+    "LOCATION": "Emplacement",
+    "DISTRIBUTION_RATE": "Taux de distribution",
+    "MINIMUM_SUBSCRIPTION": "Souscription minimale",
+    "PROPERTY_TYPE": "Type de propriété",
+    "SELECT_PROPERTY": "Sélectionnez",
+    "PROPERTY_TYPE_REQUIRED": "Le type de propriété est obligatoire",
+    "INVESTMENT_DURATION": "Nombre d’années",
+    "SHARE_PRICE": "Prix de la part",
+    "SHARE_PRICE_REQUIRED": "Le montant est obligatoire",
+    "SHARE_COUNT": "Nombre de parts",
+    "SHARE_COUNT_REQUIRED": "Le nombre de parts est obligatoire",
+    "TOTAL_INVESTMENT": "Montant total à Investir",
+    "TOTAL_INVESTMENT_REQUIRED": "Le montant est obligatoire",
+    "TOTAL_INVESTMENT_MINIMUM": "Le montant total doit être supérieur ou égal à {{ minimumSubscription }}€",
+    "CONFIRM": "Valider"
   }
 }

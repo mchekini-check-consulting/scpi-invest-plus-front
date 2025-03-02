@@ -11,6 +11,7 @@ import { ScpiInvestModalComponent } from '../../scpi-invest-modal/scpi-invest-mo
 import { ScpiService } from '@/core/service/scpi.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-scpi-card',
@@ -25,6 +26,7 @@ import { ToastModule } from 'primeng/toast';
     DialogModule,
     ScpiInvestModalComponent,
     ToastModule,
+    TranslateModule,
   ],
   providers: [MessageService],
   templateUrl: './scpi-card.component.html',
@@ -71,6 +73,10 @@ export class ScpiCardComponent {
     }`;
   }
 
+  getSharePrice(): number {
+    return this.scpi?.statYear?.sharePrice ?? 0;
+  }
+
   formatMinimum() {
     const minimumSubscription = this.scpi?.minimumSubscription;
     return `Minimum - ${
@@ -79,37 +85,9 @@ export class ScpiCardComponent {
   }
 
   openInvestirModal() {
-    this.scpiService.verifyInvestmentAbility().subscribe(
-      (canInvest) => {
-        if (canInvest) {
-          this.investirModalVisible = true;
-        } else {
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'Profil incomplet',
-            detail: 'Vous devez compléter votre profil pour pouvoir investir.',
-          });
-          setTimeout(() => {
-            this.router.navigate(['/profile'], {
-              queryParams: { fromInvest: 'true' },
-            });
-          }, 3000);
-        }
-      },
-      (error) => {
-        console.error(
-          "Erreur lors de la vérification de l'investissement :",
-          error
-        );
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erreur',
-          detail:
-            'Une erreur est survenue lors de la vérification de votre investissement.',
-        });
-      }
-    );
+    this.investirModalVisible = true;
   }
+  
   closeInvestirModal() {
     this.investirModalVisible = false;
   }

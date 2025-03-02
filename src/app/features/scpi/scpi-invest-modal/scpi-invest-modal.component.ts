@@ -13,6 +13,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CardModule } from 'primeng/card';
 import { YearPickerCalendarComponent } from './year-picker-calendar/year-picker-calendar.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-scpi-invest-modal',
@@ -27,6 +28,7 @@ import { YearPickerCalendarComponent } from './year-picker-calendar/year-picker-
     InputNumberModule,
     CardModule,
     YearPickerCalendarComponent,
+    TranslateModule
   ],
   templateUrl: './scpi-invest-modal.component.html',
   styleUrl: './scpi-invest-modal.component.css',
@@ -37,6 +39,7 @@ export class ScpiInvestModalComponent {
   @Input() visible: boolean = false;
   @Input() location?: string;
   @Input() distributionRate?: string;
+  @Input() sharePrice?: number;
   @Input() minimumSubscription?: string;
   @Output() close = new EventEmitter<void>();
 
@@ -45,6 +48,7 @@ export class ScpiInvestModalComponent {
   editable: boolean = false;
 
   currencyOptions: any[] = [];
+  selectedPropertyType: string = 'Usufruit';
 
   propertyOptions = [
     { label: 'Pleine propriété', value: 'Pleine propriété' },
@@ -53,25 +57,50 @@ export class ScpiInvestModalComponent {
   ];
 
   investmentForm = new FormGroup({
-    sharePrice: new FormControl({ value: 1000, disabled: true }, [
+    sharePrice: new FormControl({ value: this.sharePrice, disabled: true }, [
       Validators.required,
       Validators.min(100),
     ]),
     propertyType: new FormControl('Pleine propriété', Validators.required),
-    shareCount: new FormControl({ value: 1, disabled: true }, [
-      Validators.required,
-      Validators.min(1),
-    ]),
+    shareCount: new FormControl(1, [Validators.required, Validators.min(1)]),
     investmentDuration: new FormControl<{
       year: number;
       percentage: number;
     } | null>(null),
-    totalInvestment: new FormControl(0, Validators.required),
+    totalInvestment: new FormControl(
+      +this.minimumSubscription! || 0, 
+      [
+        Validators.required,
+        Validators.min((+this.minimumSubscription! || 0) + 1),
+      ]
+    ),
+    
   });
 
   constructor() {
     this.investmentForm.valueChanges.subscribe(() => {});
   }
+
+  ngOnInit() {
+    console.log('sharePrice reçu:', this.sharePrice);
+  
+    this.investmentForm.controls['sharePrice'].valueChanges.subscribe(() => {
+      this.calculateTotalInvestment();
+    });
+  
+    this.investmentForm.controls['shareCount'].valueChanges.subscribe(() => {
+      this.calculateTotalInvestment();
+    });
+  
+    this.investmentForm.controls['totalInvestment'].valueChanges.subscribe(() => {
+      this.calculateShareCount();
+    });
+  
+    if (this.sharePrice) {
+      this.investmentForm.patchValue({ sharePrice: this.sharePrice });
+    }
+  }
+  
 
   confirmInvestment() {
     if (this.investmentForm.valid) {
@@ -98,6 +127,54 @@ export class ScpiInvestModalComponent {
     this.investmentPercentage = event.percentage;
   }
 
+  calculateTotalInvestment() {
+    const sharePrice = this.investmentForm.controls['sharePrice'].value || 0;
+    let shareCount = this.investmentForm.controls['shareCount'].value || 0;
+    
+    if (sharePrice > 0 && shareCount > 0) {
+      const totalInvestment = sharePrice * shareCount;
+      const adjustedShareCount = Math.floor(totalInvestment / sharePrice);
+      const remainder = totalInvestment % sharePrice;
+  
+      if (remainder === 0) {
+        shareCount = adjustedShareCount;
+      } else {
+        shareCount = remainder < (sharePrice / 2) ? adjustedShareCount : adjustedShareCount + 1;
+      }
+  
+      this.investmentForm.controls['totalInvestment'].setValue(shareCount * sharePrice, {
+        emitEvent: false,
+      });
+  
+      this.investmentForm.controls['shareCount'].setValue(shareCount, {
+        emitEvent: false,
+      });
+  
+      if (this.minimumSubscription && totalInvestment < +this.minimumSubscription) {
+        this.investmentForm.controls['totalInvestment'].setErrors({
+          belowMinimum: true,
+        });
+      } else {
+        this.investmentForm.controls['totalInvestment'].setErrors(null);
+      }
+    }
+  }
+
+  calculateShareCount() {
+    const totalInvestment = this.investmentForm.controls['totalInvestment'].value || 0;
+    const sharePrice = this.investmentForm.controls['sharePrice'].value || 1;
+  
+    if (sharePrice > 0) {
+      let shareCount = Math.floor(totalInvestment / sharePrice);
+      
+      if (totalInvestment % sharePrice !== 0) {
+        shareCount += 1; 
+      }
+  
+      this.investmentForm.controls['shareCount'].setValue(shareCount, { emitEvent: false });
+    }
+  }
+  
   closeModal() {
     this.close.emit();
   }
@@ -121,4 +198,19 @@ export class ScpiInvestModalComponent {
       }
     });
   }
+
+  setEditableState() {
+    if (this.editable) {
+      this.investmentForm.controls['shareCount'].enable();
+    } else {
+      this.investmentForm.controls['shareCount'].disable();
+    }
+  }
+
+    
+  setSelectedPropertyType(propertyType: string) {
+    this.selectedPropertyType = propertyType;
+    
+  }
+  
 }

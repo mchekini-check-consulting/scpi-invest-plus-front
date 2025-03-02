@@ -1,11 +1,11 @@
 <p-dialog
   [visible]="visible"
-  header="Investir dans {{ scpiName }}"
+  [header]="'INVESTMENT.HEADER' | translate : { scpiName: scpiName }"
   [(visible)]="visible"
   modal="true"
   (onHide)="closeModal()"
   class="custom-dialog"
-  [style]="{ width: '50vw' }"
+  [style]="{ width: '60vw' }"
   [draggable]="false"
   [modal]="true"
   [dismissableMask]="true"
@@ -13,16 +13,18 @@
   <div class="scpi-info-container sub-header">
     <span class="scpi-info"> {{ location }}</span>
     <span class="scpi-info"> {{ distributionRate }}</span>
-    <span class="scpi-info"> {{ minimumSubscription }}</span>
+    <span class="scpi-info">{{ minimumSubscription }}</span>
   </div>
   <form [formGroup]="investmentForm" style="margin-top: 25px">
     <div class="form-group">
-      <label for="propertyType">Type de propriété</label>
+      <label for="propertyType">{{
+        "INVESTMENT.PROPERTY_TYPE" | translate
+      }}</label>
       <p-dropdown
         id="propertyType"
         formControlName="propertyType"
-        [options]="propertyOptions"
-        placeholder="Sélectionnez"
+        [options]="setSelectedPropertyType("Usufruit")"
+        [placeholder]="'INVESTMENT.SELECT_PROPERTY' | translate"
         class="full-width-input"
       >
       </p-dropdown>
@@ -32,7 +34,9 @@
           investmentForm.controls['propertyType'].touched
         "
       >
-        <small class="error">Le type de propriété est obligatoire</small>
+        <small class="error">{{
+          "INVESTMENT.PROPERTY_TYPE_REQUIRED" | translate
+        }}</small>
       </div>
     </div>
     <div
@@ -42,14 +46,18 @@
         investmentForm.value.propertyType === 'Usufruit'
       "
     >
-      <label for="investmentDuration">Nombre d’années</label>
+      <label for="investmentDuration">{{
+        "INVESTMENT.INVESTMENT_DURATION" | translate
+      }}</label>
       <app-year-picker-calendar
         (yearSelected)="onYearSelected($event)"
       ></app-year-picker-calendar>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label for="sharePrice">Prix de la part</label>
+        <label for="sharePrice">{{
+          "INVESTMENT.SHARE_PRICE" | translate
+        }}</label>
         <p-inputNumber
           id="sharePrice"
           formControlName="sharePrice"
@@ -64,21 +72,24 @@
             investmentForm.controls['sharePrice'].touched
           "
         >
-          <small class="error">Le montant est obligatoire</small>
+          <small class="error">{{
+            "INVESTMENT.SHARE_PRICE_REQUIRED" | translate
+          }}</small>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="shareCount">Nombre de parts</label>
+        <label for="shareCount">{{
+          "INVESTMENT.SHARE_COUNT" | translate
+        }}</label>
         <p-inputNumber
           id="shareCount"
           formControlName="shareCount"
           [min]="1"
           [step]="1"
-          [disabled]="!editable"
+          [showButtons]="true"
           class="full-width-input"
-        >
-        </p-inputNumber>
+        ></p-inputNumber>
 
         <div
           *ngIf="
@@ -86,12 +97,16 @@
             investmentForm.controls['shareCount'].touched
           "
         >
-          <small class="error">Le nombre de parts est obligatoire</small>
+          <small class="error">{{
+            "INVESTMENT.SHARE_COUNT_REQUIRED" | translate
+          }}</small>
         </div>
       </div>
     </div>
     <div class="form-group">
-      <label for="totalInvestment">Montant total à Investir</label>
+      <label for="totalInvestment">{{
+        "INVESTMENT.TOTAL_INVESTMENT" | translate
+      }}</label>
       <p-inputNumber
         id="totalInvestment"
         formControlName="totalInvestment"
@@ -106,35 +121,56 @@
           investmentForm.controls['totalInvestment'].touched
         "
       >
-        <small class="error">Le montant est obligatoire</small>
+        <small class="error">{{
+          "INVESTMENT.TOTAL_INVESTMENT_REQUIRED" | translate
+        }}</small>
+      </div>
+      <div
+        *ngIf="
+          investmentForm.controls['totalInvestment'].hasError('belowMinimum')
+        "
+      >
+        <small class="error">{{
+          "INVESTMENT.TOTAL_INVESTMENT_MINIMUM"
+            | translate : { min: minimumSubscription }
+        }}</small>
       </div>
     </div>
+
     <div class="investment-info">
       <span class="scpi-info">
         <i class="pi pi-home"></i>
-        <strong class="label-green">Type - </strong>
+        <strong class="label-green"
+          >{{ "INVESTMENT.PROPERTY_TYPE" | translate }} -
+        </strong>
         {{ investmentForm.getRawValue().propertyType }}
       </span>
       <span class="scpi-info">
         <i class="pi pi-dollar"></i>
-        <strong class="label-green">Prix de la part - </strong>
+        <strong class="label-green"
+          >{{ "INVESTMENT.SHARE_PRICE" | translate }} -
+        </strong>
         {{ investmentForm.getRawValue().sharePrice }}
       </span>
       <span class="scpi-info">
         <i class="pi pi-calculator"></i>
-        <strong class="label-green">Nombre de parts - </strong>
+        <strong class="label-green"
+          >{{ "INVESTMENT.SHARE_COUNT" | translate }} -
+        </strong>
         {{ investmentForm.getRawValue().shareCount }}
       </span>
       <span class="scpi-info">
         <i class="pi pi-chart-line"></i>
-        <strong class="label-green">Total - </strong>
+        <strong class="label-green"
+          >{{ "INVESTMENT.TOTAL_INVESTMENT" | translate }} -
+        </strong>
         {{ investmentForm.getRawValue().totalInvestment }}
       </span>
     </div>
 
     <div class="button-group">
       <p-button
-        label="Valider"
+        [label]="'VALIDER' | translate"
         severity="info"
         size="large"
         icon="pi pi-check"
