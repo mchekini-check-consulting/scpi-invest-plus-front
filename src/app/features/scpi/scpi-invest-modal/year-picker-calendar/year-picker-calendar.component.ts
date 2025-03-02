@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit,OnChanges, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
@@ -19,6 +19,9 @@ export class YearPickerCalendarComponent implements OnInit {
     percentage: number;
   }>();
 
+  @Input() selectedPropertyType = ""
+
+
   selectedYear?: { year: number; percentage: number };
   currentPage = 0;
   itemsPerPage = 3;
@@ -28,13 +31,22 @@ export class YearPickerCalendarComponent implements OnInit {
   filteredYearOptions: { year: number; percentage: number }[] = [];
   paginatedYearOptions: { year: number; percentage: number }[] = [];
 
-  selectedPropertyType: string = 'Pleine propriété';
+
 
   constructor(private investorService: InvestorService) {}
 
   ngOnInit() {
     this.loadDismembermentData();
   }
+
+
+  ngOnChanges(changes: any) {
+    if (changes['selectedPropertyType'] && changes['selectedPropertyType'].currentValue) {
+      console.log('selectedPropertyType a changé :', changes['selectedPropertyType'].currentValue);
+      this.loadDismembermentData();
+    }
+  }
+
 
   selectYear(option: { year: number; percentage: number }) {
     this.selectedYear = option;
@@ -69,7 +81,9 @@ export class YearPickerCalendarComponent implements OnInit {
     if (!this.selectedPropertyType) {
       return;
     }
-  
+
+
+    console.log("test setlected",this.selectedPropertyType)
     this.investorService.getDismembermentByType(this.selectedPropertyType).subscribe({
       next: (data: Dismemberment[]) => {
         if (data && data.length > 0) {
@@ -89,5 +103,5 @@ export class YearPickerCalendarComponent implements OnInit {
       },
     });
   }
- 
+
 }

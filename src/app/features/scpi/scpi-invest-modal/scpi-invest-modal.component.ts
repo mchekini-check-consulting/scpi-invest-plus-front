@@ -48,7 +48,7 @@ export class ScpiInvestModalComponent {
   editable: boolean = false;
 
   currencyOptions: any[] = [];
-  selectedPropertyType: string = 'Usufruit';
+  selectedPropertyType: string = '';
 
   propertyOptions = [
     { label: 'Pleine propriété', value: 'Pleine propriété' },
@@ -68,13 +68,13 @@ export class ScpiInvestModalComponent {
       percentage: number;
     } | null>(null),
     totalInvestment: new FormControl(
-      +this.minimumSubscription! || 0, 
+      +this.minimumSubscription! || 0,
       [
         Validators.required,
         Validators.min((+this.minimumSubscription! || 0) + 1),
       ]
     ),
-    
+
   });
 
   constructor() {
@@ -83,24 +83,24 @@ export class ScpiInvestModalComponent {
 
   ngOnInit() {
     console.log('sharePrice reçu:', this.sharePrice);
-  
+
     this.investmentForm.controls['sharePrice'].valueChanges.subscribe(() => {
       this.calculateTotalInvestment();
     });
-  
+
     this.investmentForm.controls['shareCount'].valueChanges.subscribe(() => {
       this.calculateTotalInvestment();
     });
-  
+
     this.investmentForm.controls['totalInvestment'].valueChanges.subscribe(() => {
       this.calculateShareCount();
     });
-  
+
     if (this.sharePrice) {
       this.investmentForm.patchValue({ sharePrice: this.sharePrice });
     }
   }
-  
+
 
   confirmInvestment() {
     if (this.investmentForm.valid) {
@@ -130,26 +130,26 @@ export class ScpiInvestModalComponent {
   calculateTotalInvestment() {
     const sharePrice = this.investmentForm.controls['sharePrice'].value || 0;
     let shareCount = this.investmentForm.controls['shareCount'].value || 0;
-    
+
     if (sharePrice > 0 && shareCount > 0) {
       const totalInvestment = sharePrice * shareCount;
       const adjustedShareCount = Math.floor(totalInvestment / sharePrice);
       const remainder = totalInvestment % sharePrice;
-  
+
       if (remainder === 0) {
         shareCount = adjustedShareCount;
       } else {
         shareCount = remainder < (sharePrice / 2) ? adjustedShareCount : adjustedShareCount + 1;
       }
-  
+
       this.investmentForm.controls['totalInvestment'].setValue(shareCount * sharePrice, {
         emitEvent: false,
       });
-  
+
       this.investmentForm.controls['shareCount'].setValue(shareCount, {
         emitEvent: false,
       });
-  
+
       if (this.minimumSubscription && totalInvestment < +this.minimumSubscription) {
         this.investmentForm.controls['totalInvestment'].setErrors({
           belowMinimum: true,
@@ -163,18 +163,18 @@ export class ScpiInvestModalComponent {
   calculateShareCount() {
     const totalInvestment = this.investmentForm.controls['totalInvestment'].value || 0;
     const sharePrice = this.investmentForm.controls['sharePrice'].value || 1;
-  
+
     if (sharePrice > 0) {
       let shareCount = Math.floor(totalInvestment / sharePrice);
-      
+
       if (totalInvestment % sharePrice !== 0) {
-        shareCount += 1; 
+        shareCount += 1;
       }
-  
+
       this.investmentForm.controls['shareCount'].setValue(shareCount, { emitEvent: false });
     }
   }
-  
+
   closeModal() {
     this.close.emit();
   }
@@ -207,10 +207,10 @@ export class ScpiInvestModalComponent {
     }
   }
 
-    
+
   setSelectedPropertyType(propertyType: string) {
     this.selectedPropertyType = propertyType;
-    
+
   }
-  
+
 }
