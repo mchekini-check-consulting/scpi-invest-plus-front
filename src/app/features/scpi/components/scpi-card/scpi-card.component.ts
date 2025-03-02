@@ -38,6 +38,13 @@ export class ScpiCardComponent {
   @Input() isAddingScpi = false;
   investirModalVisible: boolean = false;
 
+  modalMode: string = 'investir'
+
+  openInvestirModal(mode: string) {
+    this.modalMode = mode;
+    this.investirModalVisible = true;
+  }
+
   constructor(
     private scpiService: ScpiService,
     private router: Router,
@@ -84,10 +91,7 @@ export class ScpiCardComponent {
     }`;
   }
 
-  openInvestirModal() {
-    this.investirModalVisible = true;
-  }
-  
+
   closeInvestirModal() {
     this.investirModalVisible = false;
   }

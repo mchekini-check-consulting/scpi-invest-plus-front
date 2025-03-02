@@ -11,9 +11,13 @@
   [dismissableMask]="true"
 >
   <div class="scpi-info-container sub-header">
+
+    <span>{{mode}}</span>
+
     <span class="scpi-info"> {{ location }}</span>
     <span class="scpi-info"> {{ distributionRate }}</span>
     <span class="scpi-info">{{ minimumSubscription }}</span>
+
   </div>
   <form [formGroup]="investmentForm" style="margin-top: 25px">
     <div class="form-group">
@@ -43,7 +47,7 @@
     <div
       class="form-group"
       *ngIf="
-        investmentForm.value.propertyType === 'Nue propriété' ||
+        investmentForm.value.propertyType === 'Nue-propriétaire' ||
         investmentForm.value.propertyType === 'Usufruit'
       "
     >
