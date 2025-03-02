@@ -18,7 +18,7 @@
     "DETAILS": "Détails"
   },
   "INVESTMENT": {
-    "HEADER": "Investir dans {{ scpiName }}",
+    "HEADER": "{{ scpiName }}",
     "LOCATION": "Emplacement",
     "DISTRIBUTION_RATE": "Taux de distribution",
     "MINIMUM_SUBSCRIPTION": "Souscription minimale",

@@ -11,9 +11,6 @@
   [dismissableMask]="true"
 >
   <div class="scpi-info-container sub-header">
-
-    <span>{{mode}}</span>
-
     <span class="scpi-info"> {{ location }}</span>
     <span class="scpi-info"> {{ distributionRate }}</span>
     <span class="scpi-info">{{ minimumSubscription }}</span>
@@ -180,7 +177,7 @@
         severity="info"
         size="large"
         icon="pi pi-check"
-        (click)="confirmInvestment()"
+        (click)="confirmInvestmentOrSimulation()"
         class="special-button"
         [disabled]="!investmentForm.valid"
       >
