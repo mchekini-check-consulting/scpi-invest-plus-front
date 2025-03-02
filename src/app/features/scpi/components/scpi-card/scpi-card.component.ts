@@ -1,11 +1,16 @@
 import { ScpiModel } from '@/core/model/scpi.model';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { Tag } from 'primeng/tag';
+import { DialogModule } from 'primeng/dialog';
+import { ScpiInvestModalComponent } from '../../scpi-invest-modal/scpi-invest-modal.component';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-scpi-card',
@@ -17,7 +22,12 @@ import { Tag } from 'primeng/tag';
     Tag,
     CommonModule,
     RouterLink,
+    DialogModule,
+    ScpiInvestModalComponent,
+    ToastModule,
+    TranslateModule,
   ],
+  providers: [MessageService],
   templateUrl: './scpi-card.component.html',
   styleUrl: './scpi-card.component.css',
 })
@@ -25,6 +35,16 @@ export class ScpiCardComponent {
   @Input() scpi?: ScpiModel;
   @Input() image!: string;
   @Input() isAddingScpi = false;
+  investirModalVisible: boolean = false;
+
+  modalMode: string = 'investir';
+
+  openInvestirModal(mode: string) {
+    this.modalMode = mode;
+    this.investirModalVisible = true;
+  }
+
+  constructor() { }
 
   formatLocation() {
     const location = this.scpi?.location;
@@ -50,15 +70,21 @@ export class ScpiCardComponent {
 
   formatDistributionRate() {
     const distributionRate = this.scpi?.statYear?.distributionRate;
-    return `Rendement - ${
-      distributionRate !== undefined ? distributionRate + '%' : 'N/A'
-    }`;
+    return `Rendement - ${distributionRate !== undefined ? distributionRate + '%' : 'N/A'
+      }`;
+  }
+
+  getSharePrice(): number {
+    return this.scpi?.statYear?.sharePrice ?? 0;
   }
 
   formatMinimum() {
     const minimumSubscription = this.scpi?.minimumSubscription;
-    return `Minimum - ${
-      minimumSubscription !== undefined ? minimumSubscription + ' €' : 'N/A'
-    }`;
+    return `Minimum - ${minimumSubscription !== undefined ? minimumSubscription + ' €' : 'N/A'
+      }`;
+  }
+
+  closeInvestirModal() {
+    this.investirModalVisible = false;
   }
 }

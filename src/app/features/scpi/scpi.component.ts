@@ -2,7 +2,13 @@ import { ScpiModel } from '@/core/model/scpi.model';
 import { ScpiService } from '@/core/service/scpi.service';
 import { SearchMulticriteriaComponent } from '@/features/search-multicriteria/search-multicriteria.component';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { catchError, Subscription } from 'rxjs';
 import { ScpiCardComponent } from './components/scpi-card/scpi-card.component';
 

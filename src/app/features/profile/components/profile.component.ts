@@ -11,6 +11,8 @@ import { MessageService } from 'primeng/api';
 import { UserService } from '@/core/service/user.service';
 import { ToastModule } from 'primeng/toast';
 import { InvestorService } from '@/core/service/investor.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NavigationService } from '@/core/service/navigation.service';
 
 @Component({
   selector: 'app-profile',
@@ -33,7 +35,6 @@ export class ProfileComponent implements OnInit {
   editable: boolean = false;
   userEmail!: string;
 
-
   maritalStatuses = [
     { label: 'Célibataire', value: 'single' },
     { label: 'Marié', value: 'married' },
@@ -46,10 +47,18 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private investorService: InvestorService,
     private userService: UserService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private navigationService: NavigationService
   ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      if (params['fromInvest']) {
+        this.navigationService.setReturnUrl('/invest');
+      }
+    });
     this.userService.user$.subscribe((user) => {
       if (user) {
         this.userEmail = user.email;
@@ -118,7 +127,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-    formatDate = (date : Date) => {
+  formatDate = (date: Date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
@@ -136,11 +145,17 @@ export class ProfileComponent implements OnInit {
         .createOrUpdateInvestor(this.userEmail, formData)
         .subscribe(
           () => {
+            const toastDuration = 2000;
             this.messageService.add({
               severity: 'success',
               summary: 'Succès',
               detail: 'Le profil a été mis à jour avec succès.',
+              life: toastDuration,
             });
+            const returnUrl = this.navigationService.getReturnUrl();
+            setTimeout(() => {
+              this.router.navigate([returnUrl]);
+            }, toastDuration);
           },
           () => {
             this.messageService.add({
