@@ -85,9 +85,6 @@ export class ScpiInvestModalComponent {
   }
 
   ngOnInit() {
-    console.log('sharePrice reçu:', this.sharePrice);
-
-
     this.investmentForm.controls['sharePrice'].valueChanges.subscribe(() => {
       this.calculateTotalInvestment();
     });
@@ -106,11 +103,14 @@ export class ScpiInvestModalComponent {
   }
 
 
-  confirmInvestment() {
+  confirmInvestmentOrSimulation() {
     if (this.investmentForm.valid) {
-      console.log(
-        `Investissement de ${this.investmentForm.value.totalInvestment}€ en ${this.investmentForm.value.propertyType}`
-      );
+       if(this.mode === 'investir') {
+
+       }
+       if(this.mode === 'simuler') {
+
+       }
       this.closeModal();
     } else {
       console.warn('Formulaire invalide, veuillez vérifier les champs.');
@@ -191,6 +191,7 @@ export class ScpiInvestModalComponent {
     });
   }
 
+
   toggleEdit(): void {
     this.editable = !this.editable;
 
@@ -210,7 +211,6 @@ export class ScpiInvestModalComponent {
       this.investmentForm.controls['shareCount'].disable();
     }
   }
-
 
   setSelectedPropertyType(propertyType: string) {
     this.selectedPropertyType = propertyType;
