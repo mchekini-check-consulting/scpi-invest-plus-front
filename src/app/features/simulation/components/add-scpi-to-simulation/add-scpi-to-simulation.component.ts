@@ -14,6 +14,7 @@ import { AddScpiDialogComponent } from '../simulation-creator/simulation_dialogs
 export class AddScpiToSimulationComponent {
 
   @Input() isAddScpiDialogVisible: boolean = false;
+  @Input() simulationId? : number;
   @Output() closeDialog = new EventEmitter<void>();
 
   onClose() {

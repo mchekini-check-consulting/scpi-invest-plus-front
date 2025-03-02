@@ -35,6 +35,7 @@ export class ScpiCardComponent {
   @Input() scpi?: ScpiModel;
   @Input() image!: string;
   @Input() isAddingScpi = false;
+  @Input() simulationId? : number;
   investirModalVisible: boolean = false;
 
   modalMode: string = 'investir';

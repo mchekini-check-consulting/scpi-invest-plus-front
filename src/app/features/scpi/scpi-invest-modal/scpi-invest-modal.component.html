@@ -14,7 +14,6 @@
     <span class="scpi-info"> {{ location }}</span>
     <span class="scpi-info"> {{ distributionRate }}</span>
     <span class="scpi-info">{{ minimumSubscription }}</span>
-
   </div>
   <form [formGroup]="investmentForm" style="margin-top: 25px">
     <div class="form-group">
@@ -138,6 +137,13 @@
             | translate : { min: minimumSubscription }
         }}</small>
       </div>
+    </div>
+
+    <div *ngIf="mode === 'simuler'" class="estimation_section">
+      <p>
+        Votre revenu sur cet investissement :
+        <span>{{ estimatedMonthlyIncome | number : "1.2-2" }} €</span> / mois
+      </p>
     </div>
 
     <div class="investment-info">
