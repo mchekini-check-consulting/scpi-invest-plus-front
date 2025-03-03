@@ -9,6 +9,7 @@ import { AuthGuard } from './core/guard/auth.guard';
 import { ProfileComponent } from './features/profile/components/profile.component';
 import { ScpiHistoryDetailsComponent } from './features/scpi/details-history/scpi-history-details.component';
 import { SimulationComponent } from './features/simulation/container/simulation.component';
+import {ComparatorComponent} from '@/features/comparator/comparator.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'comparateur',
+        component: ComparatorComponent,
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'details/:id',
         component: DetailsComponent,
         canActivate: [AuthGuard],
@@ -50,7 +56,7 @@ export const routes: Routes = [
         ],
       },
       {
-        path: 'portefeuille', component: PortefeuilleComponent, 
+        path: 'portefeuille', component: PortefeuilleComponent,
       }
     ],
   },]
