@@ -1,0 +1,83 @@
+<div class="comparateur-container">
+  <div class="header">
+    <h3><strong>Comparateur de SCPI</strong></h3>
+    <p-button label="Comparer" severity="info" icon="pi pi-check" (click)="compareScpis()" class="compare-button"/>
+  </div>
+
+  <div class="investment-section">
+    <label for="investmentInput">Combien souhaitez-vous investir ?</label>
+    <input type="number" id="investmentInput" pInputText class="investment-input" [(ngModel)]="investValue"/>
+  </div>
+
+  <div class="slider-container">
+    <p-slider [(ngModel)]="investValue" [min]="0" [max]="100000" [step]="100" class="w-full p-slider-info"></p-slider>
+  </div>
+  <div class="table-container">
+    <table class="scpi-table">
+      <thead>
+      <tr>
+        <th>SCPI</th>
+        <th *ngFor="let scpi of selectedScpis; let i = index">
+          <p-select
+            [options]="scpiList"
+            [(ngModel)]="selectedScpis[i]"
+            (ngModelChange)="onScpiSelected($event, i)"
+            optionLabel="name"
+            [showClear]="true"
+            placeholder="Sélectionnez SCPI {{ i + 1 }}"
+            class="w-full"
+            (onClear)="clearScpiSelection(i)">
+            <ng-template #selectedItem let-selectedOption>
+              <div class="flex items-center gap-2" *ngIf="selectedOption">
+                <div>{{ selectedOption.name }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-scpi #item>
+              <div class="flex items-center gap-2">
+                <div>{{ scpi.name }}</div>
+              </div>
+            </ng-template>
+            <ng-template #dropdownicon>
+              <i class="pi pi-building"></i>
+            </ng-template>
+            <ng-template #header>
+              <div class="font-medium p-3">Sélectionnez une SCPI</div>
+            </ng-template>
+            <ng-template #footer>
+              <div class="p-3">
+                <p-button label="Ajouter une SCPI" fluid severity="secondary" text size="small" icon="pi pi-plus" />
+              </div>
+            </ng-template>
+          </p-select>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><strong>Revenus mensuels</strong></td>
+        <td *ngFor="let scpi of scpiResults">{{ scpi ? scpi.revenusMensuels + ' €' : '0.00 €/Mois' }}</td>
+      </tr>
+      <tr>
+        <td>Frais de souscription</td>
+        <td *ngFor="let scpi of scpiResults">{{ scpi ? scpi.fraisSouscription + ' €' : '0.00 €' }}</td>
+      </tr>
+      <tr>
+        <td>Cashback SCPI Invest+</td>
+        <td *ngFor="let scpi of scpiResults">{{ scpi ? scpi.cashback + ' € économisés' : '0.00 €' }}</td>
+      </tr>
+      <tr>
+        <td>Capitalisation</td>
+        <td *ngFor="let scpi of scpiResults">{{ scpi ? scpi.capitalisation + ' €' : '-' }}</td>
+      </tr>
+      <tr>
+        <td>Fréquence des loyers</td>
+        <td *ngFor="let scpi of scpiResults">{{ scpi ? scpi.frequenceLoyers : '-' }}</td>
+      </tr>
+      <tr>
+        <td>Délai de jouissance</td>
+        <td *ngFor="let scpi of scpiResults">{{ scpi ? scpi.delaiJouissance + ' mois' : '-' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

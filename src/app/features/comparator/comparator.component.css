@@ -1,0 +1,122 @@
+.comparateur-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h3 {
+  color: #020202;
+  font-size: 1.5rem;
+}
+
+.investment-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.investment-section label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.investment-input {
+  width: 50%;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.slider-container {
+  margin: 20px 0;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.table-container {
+  overflow-x: auto;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.scpi-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.scpi-table th, .scpi-table td {
+  border: 1px solid #103d65;
+  padding: 12px;
+  text-align: center;
+}
+
+.scpi-table th {
+  color: #020202;
+  font-weight: bold;
+}
+
+.scpi-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.scpi-selection-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+p-select {
+  width: 100%;
+}
+
+.pi-building {
+  font-size: 1.2rem;
+  color: #1D62F0;
+}
+
+.p-dropdown {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.p-dropdown-panel {
+  border-radius: 5px;
+}
+
+.p-dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  transition: background 0.3s;
+}
+
+.p-dropdown-item:hover {
+  background-color: #1D62F0;
+  color: white;
+}
+
+.p-dropdown-item div {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
