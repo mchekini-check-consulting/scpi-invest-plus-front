@@ -1,10 +1,13 @@
-<input
-  type="text"
-  pInputText
-  [ngModel]="searchTerm"
-  (input)="onSearchChange($event)"
-  placeholder="Rechercher une SCPI..."
-  class="w-full px-6 py-1 bg-black-100 text-black-900 font-bold text-center rounded-full focus:outline-none focus:ring-2 focus:ring-green-300"
-/>
-
-
+<p-inputGroup class="search-container">
+  <input
+    type="text"
+    pInputText
+    [ngModel]="searchTerm"
+    (input)="onSearchChange($event)"
+    placeholder="Rechercher une scpi"
+    class="search-input"
+  />
+  <p-inputgroup-addon>
+    <p-button icon="pi pi-search" severity="secondary" variant="text" />
+  </p-inputgroup-addon>
+</p-inputGroup>

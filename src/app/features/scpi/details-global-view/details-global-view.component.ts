@@ -55,6 +55,7 @@ export class DetailsGlobalViewComponent implements OnInit {
         this.details = res;
         this.states = this.detailsService.getLastStats(this.details);
         this.ListeLocations = this.details.locations;
+        console.log("ListeLocations", this.ListeLocations);
         this.ListeSectors = this.details.sectors;
         this.initChart(this.ListeLocations);
         this.cd.detectChanges();

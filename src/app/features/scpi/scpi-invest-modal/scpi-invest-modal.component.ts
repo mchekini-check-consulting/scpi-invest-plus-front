@@ -149,6 +149,7 @@ export class ScpiInvestModalComponent {
       if (this.mode === 'investir') {
         this.createInvestment();
       } else if (this.mode === 'simuler' && String(this.simulationId) !== "-1") {
+        console.log("id____________",this.simulationId)
         let simulationScpi: ScpiSimulation = {
           scpiId: this.scpiId ?? 0,
           simulationId: this.simulationId ?? 0,
@@ -162,7 +163,7 @@ export class ScpiInvestModalComponent {
 
         this.simulationService.addScpiToSimulation(simulationScpi).subscribe({
           next: (response) => {
-            this.router.navigate(['simulations/details', this.simulationId]);
+            this.router.navigate([`/simulations/details/${this.simulationId}`]);
             this.closeModal();
           },
           error: (error) => {

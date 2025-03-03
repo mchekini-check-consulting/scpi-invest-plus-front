@@ -5,11 +5,15 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { InputTextModule } from 'primeng/inputtext';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputTextModule,IconFieldModule,InputIconModule],
+  imports: [CommonModule, FormsModule, InputTextModule,IconFieldModule,InputIconModule,InputGroupModule,InputGroupAddonModule,ButtonModule],
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.css']
 })
