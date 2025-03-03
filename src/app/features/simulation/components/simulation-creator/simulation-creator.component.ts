@@ -30,6 +30,7 @@ export class SimulationCreatorComponent {
   isDialogVisible = false;
   simulationName = 'Simulation';
   investorEmail: string = '';
+  simulationId : number = -1;
 
   constructor(
     private simulationService: SimulationService,
@@ -59,6 +60,7 @@ export class SimulationCreatorComponent {
       })
       .subscribe({
         next: (response) => {
+          this.simulationId = response.id
         },
         error: (error) => {
           console.error('Erreur lors de la création de la simulation', error);

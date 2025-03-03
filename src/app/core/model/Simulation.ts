@@ -14,13 +14,13 @@ export interface Simulation {
 }
 
 export interface ScpiSimulation {
-  simulationId: number;
-  scpiId: number;
-  numberPart: number;
-  partPrice: number;
-  rising: number;
-  duree: number;
-  dureePercentage: number;
-  propertyType: string;
+  scpiId: number,
+  simulationId: number,
+  numberPart: number,
+  partPrice: number,
+  rising: number,
+  duree: number | null,
+  dureePercentage: number| null,
+  propertyType: string,
 }
 

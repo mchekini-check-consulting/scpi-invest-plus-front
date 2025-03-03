@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
@@ -14,6 +14,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CardModule } from 'primeng/card';
 import { YearPickerCalendarComponent } from './year-picker-calendar/year-picker-calendar.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { SimulationService } from '@/core/service/simulation.service';
+import { ScpiSimulation, Simulation } from '@/core/model/Simulation';
 import { InvestorService } from '@/core/service/investor.service';
 import { MessageService } from 'primeng/api';
 
@@ -45,12 +48,14 @@ export class ScpiInvestModalComponent {
   @Input() minimumSubscription?: string;
   @Input() mode?: string;
   @Output() close = new EventEmitter<void>();
+  @Input() simulationId?: number;
+
 
   investmentDuration?: number;
   investmentPercentage?: number;
   editable: boolean = false;
   currencyOptions: any[] = [];
-  selectedPropertyType: string = '';
+  selectedPropertyType: string = 'Pleine propriété';
 
   propertyOptions = [
     { label: 'Pleine propriété', value: 'Pleine propriété' },
@@ -58,6 +63,7 @@ export class ScpiInvestModalComponent {
     { label: 'Usufruit', value: 'Usufruit' },
   ];
 
+  estimatedMonthlyIncome: number = 0;
   investmentForm = new FormGroup({
     sharePrice: new FormControl({ value: this.sharePrice, disabled: true }, [
       Validators.required,
@@ -82,7 +88,9 @@ export class ScpiInvestModalComponent {
 
   constructor(
     private investorService: InvestorService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private simulationService: SimulationService,
+    private router: Router
   ) {
     this.investmentForm.valueChanges.subscribe(() => {});
   }
@@ -90,6 +98,10 @@ export class ScpiInvestModalComponent {
   ngOnInit() {
     this.investmentForm.controls['sharePrice'].valueChanges.subscribe(() => {
       this.calculateTotalInvestment();
+    });
+
+    this.investmentForm.valueChanges.subscribe(() => {
+      this.updateEstimatedMonthlyIncome();
     });
 
     this.investmentForm.controls['shareCount'].valueChanges.subscribe(() => {
@@ -107,6 +119,23 @@ export class ScpiInvestModalComponent {
     }
   }
 
+  calculateEstimatedMonthlyIncome(
+    totalInvestment: number,
+    annualReturnRate: number
+  ): number {
+    return (totalInvestment * annualReturnRate) / 12;
+  }
+
+  updateEstimatedMonthlyIncome() {
+    const totalInvestment =
+      this.investmentForm.getRawValue().totalInvestment || 0;
+    const rateMatch = this.distributionRate?.match(/([\d.]+)%?/);
+    const annualReturnRate = rateMatch ? parseFloat(rateMatch[1]) : 0;
+    this.estimatedMonthlyIncome = this.calculateEstimatedMonthlyIncome(
+      totalInvestment,
+      annualReturnRate
+    );
+  }
   minimumInvestmentValidator(control: FormControl) {
     if (this.minimumSubscription && control.value < +this.minimumSubscription) {
       return { belowMinimum: true };
@@ -118,7 +147,27 @@ export class ScpiInvestModalComponent {
     if (this.investmentForm.valid) {
       if (this.mode === 'investir') {
         this.createInvestment();
-      } else if (this.mode === 'simuler') {
+      } else if (this.mode === 'simuler' && String(this.simulationId) !== "-1") {
+        let simulationScpi: ScpiSimulation = {
+          scpiId: this.scpiId ?? 0,
+          simulationId: this.simulationId ?? 0,
+          numberPart: this.investmentForm.getRawValue().shareCount ?? 0,
+          partPrice: this.sharePrice ?? 0,
+          rising: this.investmentForm.getRawValue().totalInvestment ?? 0,
+          duree: this.investmentForm.getRawValue().investmentDuration?.year ?? null,
+          dureePercentage: this.investmentForm.getRawValue().investmentDuration?.percentage ?? null,
+          propertyType: this.selectedPropertyType ?? '',
+        };
+
+        this.simulationService.addScpiToSimulation(simulationScpi).subscribe({
+          next: (response) => {
+            //this.router.navigate(['/simulatio_page',this.simulationId]);
+            this.closeModal();
+          },
+          error: (error) => {
+            console.error('Erreur lors de l’ajout de la simulation', error);
+          },
+        });
       }
       this.closeModal();
     } else {
