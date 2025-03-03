@@ -34,6 +34,7 @@ export const routes: Routes = [
       {
         path: 'comparateur',
         component: ComparatorComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'details/:id',
@@ -55,7 +56,7 @@ export const routes: Routes = [
         ],
       },
       {
-        path: 'portefeuille', component: PortefeuilleComponent, 
+        path: 'portefeuille', component: PortefeuilleComponent,
       }
     ],
   },]
