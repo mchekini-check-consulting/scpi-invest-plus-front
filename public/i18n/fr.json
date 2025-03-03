@@ -30,8 +30,9 @@
     "SHARE_PRICE_REQUIRED": "Le montant est obligatoire",
     "SHARE_COUNT": "Nombre de parts",
     "SHARE_COUNT_REQUIRED": "Le nombre de parts est obligatoire",
-    "TOTAL_INVESTMENT": "Montant",
+    "TOTAL_INVESTMENT": "Montant total à investir",
     "TOTAL_INVESTMENT_REQUIRED": "Le montant est obligatoire",
+    "MONTANT": "Montant",
     "TOTAL_INVESTMENT_MINIMUM": "Le montant total doit être supérieur ou égal à {{ minimumSubscription }}€",
     "CONFIRM": "Valider"
   }
