@@ -18,7 +18,7 @@ export class AddScpiToSimulationDialogComponent {
   @Input() visibleAddScpiToSimulation: boolean = false;
   @Output() closeDialogAddScpiToSimulation = new EventEmitter<boolean>();
 
-  propertyType: string = 'Pleine propriété'; 
+  propertyType: string = 'Pleine propriété';
   duration: string = '';
   numParts: number = 0;
   totalAmount: number = 0;
@@ -43,7 +43,7 @@ export class AddScpiToSimulationDialogComponent {
 
   onPropertyTypeChange() {
     if (this.propertyType === 'Pleine propriété') {
-      this.duration = ''; 
+      this.duration = '';  
     }
   }
 
@@ -53,7 +53,7 @@ export class AddScpiToSimulationDialogComponent {
   }
 
   calculateMonthlyIncome() {
-    const annualYieldRate = 0.05;
+    const annualYieldRate = 0.05; 
     this.estimatedMonthlyIncome = (this.totalAmount * annualYieldRate) / 12;
   }
 

@@ -1,18 +1,24 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
-import {DialogModule} from 'primeng/dialog';
-import {ButtonModule} from 'primeng/button';
-import {DropdownModule} from 'primeng/dropdown';
-import {InputNumberModule} from 'primeng/inputnumber';
-import {CardModule} from 'primeng/card';
-import {YearPickerCalendarComponent} from './year-picker-calendar/year-picker-calendar.component';
-import {TranslateModule} from '@ngx-translate/core';
-import {Router} from '@angular/router';
-import {SimulationService} from '@/core/service/simulation.service';
-import {ScpiSimulation} from '@/core/model/Simulation';
-import {InvestorService} from '@/core/service/investor.service';
-import {MessageService} from 'primeng/api';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CardModule } from 'primeng/card';
+import { YearPickerCalendarComponent } from './year-picker-calendar/year-picker-calendar.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { InvestorService } from '@/core/service/investor.service';
+import { MessageService } from 'primeng/api';
+import { ScpiSimulation } from '@/core/model/Simulation';
+import { SimulationService } from '@/core/service/simulation.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scpi-invest-modal',
@@ -84,10 +90,9 @@ export class ScpiInvestModalComponent {
     private investorService: InvestorService,
     private messageService: MessageService,
     private simulationService: SimulationService,
-    private router: Router
+    private router : Router
   ) {
-    this.investmentForm.valueChanges.subscribe(() => {
-    });
+    this.investmentForm.valueChanges.subscribe(() => {});
   }
 
   ngOnInit() {
