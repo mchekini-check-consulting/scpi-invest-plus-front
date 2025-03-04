@@ -10,17 +10,20 @@ export interface Simulation {
   name: string;
   simulationDate: string;
   investorEmail: string;
+  totalInvestment: number;
+  monthlyIncome: number;
   scpiSimulations: ScpiSimulation[];
 }
 
 export interface ScpiSimulation {
-  simulationId: number;
-  scpiId: number;
-  numberPart: number;
-  partPrice: number;
-  rising: number;
-  duree: number;
-  dureePercentage: number;
-  propertyType: string;
+  scpiId: number,
+  simulationId: number,
+  numberPart: number,
+  partPrice: number,
+  rising: number,
+  duree: number | null,
+  dureePercentage: number | null,
+  propertyType: string,
+  scpiName?: string,
 }
 

@@ -12,6 +12,9 @@ export class DetailsDetailsService {
   getDetailsScpi(scpid: number): Observable<Details> {
     return this.http.get<Details>(`/api/v1/scpi/details/${scpid}`);
   }
+  getAllScpis(): Observable<Details[]> {
+    return this.http.get<Details[]>(`/api/v1/scpi/details`);
+  }
 
   getLastStats(details: Details) {
     return details.statYears && details.statYears.length > 0

@@ -58,7 +58,6 @@ export class AddScpiToSimulationDialogComponent {
   }
 
   addScpiToSimulation() {
-    console.log('SCPI ajoutée à la simulation');
     this.close();
   }
 }
