@@ -4,8 +4,29 @@
   </ng-template>
 
   <ng-template pTemplate="content">
-    <p>Aucune transaction dans cette simulation</p>
-    <p class="total">Montant total : <span>0,00 €</span></p>
+    @if (simulation?.scpiSimulations?.length) {
+      @for (simulation of simulation?.scpiSimulations; track simulation.simulationId) {
+        <div class="row">
+          <p class="name">
+            {{ simulation.scpiName }}
+          </p>
+          <p class="amount">
+            {{ simulation.rising | number:'1.2-2' }} €
+          </p>
+        </div>
+
+      }
+      <div class="row">
+        <p class="name">
+          Montant total :
+        </p>
+        <p class="amount">
+          {{ simulation?.totalInvestment ?? 0 | number:'1.2-2' }} €
+        </p>
+      </div>
+    } @else {
+      <p>Aucune transaction dans cette simulation</p>
+    }
   </ng-template>
 
   <ng-template pTemplate="footer">
@@ -23,7 +44,7 @@
 
 
 <app-add-scpi-dialog
-[isDialogVisible]="isAddScpiDialogVisible"
-(closeDialog)="isAddScpiDialogVisible = false"
-[simulationId]="simulationId"
+  [isDialogVisible]="isAddScpiDialogVisible"
+  (closeDialog)="isAddScpiDialogVisible = false"
+  [simulationId]="simulationId"
 ></app-add-scpi-dialog>

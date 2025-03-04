@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
@@ -14,11 +14,11 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CardModule } from 'primeng/card';
 import { YearPickerCalendarComponent } from './year-picker-calendar/year-picker-calendar.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { SimulationService } from '@/core/service/simulation.service';
-import { ScpiSimulation, Simulation } from '@/core/model/Simulation';
 import { InvestorService } from '@/core/service/investor.service';
 import { MessageService } from 'primeng/api';
+import { ScpiSimulation } from '@/core/model/Simulation';
+import { SimulationService } from '@/core/service/simulation.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scpi-invest-modal',
@@ -58,14 +58,14 @@ export class ScpiInvestModalComponent {
   selectedPropertyType: string = 'Pleine propriété';
 
   propertyOptions = [
-    { label: 'Pleine propriété', value: 'Pleine propriété' },
-    { label: 'Nue-propriétaire', value: 'Nue-propriétaire' },
-    { label: 'Usufruit', value: 'Usufruit' },
+    {label: 'Pleine propriété', value: 'Pleine propriété'},
+    {label: 'Nue-propriétaire', value: 'Nue-propriétaire'},
+    {label: 'Usufruit', value: 'Usufruit'},
   ];
 
   estimatedMonthlyIncome: number = 0;
   investmentForm = new FormGroup({
-    sharePrice: new FormControl({ value: this.sharePrice, disabled: true }, [
+    sharePrice: new FormControl({value: this.sharePrice, disabled: true}, [
       Validators.required,
       Validators.min(100),
     ]),
@@ -90,7 +90,7 @@ export class ScpiInvestModalComponent {
     private investorService: InvestorService,
     private messageService: MessageService,
     private simulationService: SimulationService,
-    private router: Router
+    private router : Router
   ) {
     this.investmentForm.valueChanges.subscribe(() => {});
   }
@@ -115,7 +115,7 @@ export class ScpiInvestModalComponent {
     );
 
     if (this.sharePrice) {
-      this.investmentForm.patchValue({ sharePrice: this.sharePrice });
+      this.investmentForm.patchValue({sharePrice: this.sharePrice});
     }
   }
 
@@ -136,9 +136,10 @@ export class ScpiInvestModalComponent {
       annualReturnRate
     );
   }
+
   minimumInvestmentValidator(control: FormControl) {
     if (this.minimumSubscription && control.value < +this.minimumSubscription) {
-      return { belowMinimum: true };
+      return {belowMinimum: true};
     }
     return null;
   }
@@ -161,7 +162,7 @@ export class ScpiInvestModalComponent {
 
         this.simulationService.addScpiToSimulation(simulationScpi).subscribe({
           next: (response) => {
-            //this.router.navigate(['/simulatio_page',this.simulationId]);
+            this.router.navigate(['simulations/details', this.simulationId]);
             this.closeModal();
           },
           error: (error) => {

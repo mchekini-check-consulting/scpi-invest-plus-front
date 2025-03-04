@@ -18,7 +18,7 @@ export class AddScpiToSimulationDialogComponent {
   @Input() visibleAddScpiToSimulation: boolean = false;
   @Output() closeDialogAddScpiToSimulation = new EventEmitter<boolean>();
 
-  propertyType: string = 'Pleine propriété'; // Valeur initiale
+  propertyType: string = 'Pleine propriété';
   duration: string = '';
   numParts: number = 0;
   totalAmount: number = 0;
@@ -35,36 +35,29 @@ export class AddScpiToSimulationDialogComponent {
     { label: '10 ans', value: '10ans' },
   ];
 
-  // Prix unitaire d'une part
   pricePerShare: number = 100;
 
-  // Fermeture du popup
   close() {
     this.closeDialogAddScpiToSimulation.emit(false);
   }
 
-  // Gestion du type de propriété et affichage dynamique
   onPropertyTypeChange() {
     if (this.propertyType === 'Pleine propriété') {
-      this.duration = '';  // Supprimer la durée si c'est "Pleine propriété"
+      this.duration = '';  
     }
   }
 
-  // Calcul du montant total et des revenus mensuels
   calculateTotalAmount() {
     this.totalAmount = this.numParts * this.pricePerShare;
     this.calculateMonthlyIncome();
   }
 
-  // Calcul des revenus mensuels
   calculateMonthlyIncome() {
-    const annualYieldRate = 0.05; // Taux de rendement de la SCPI (exemple 5%)
+    const annualYieldRate = 0.05; 
     this.estimatedMonthlyIncome = (this.totalAmount * annualYieldRate) / 12;
   }
 
-  // Action lorsque l'utilisateur clique sur "Ajouter"
   addScpiToSimulation() {
-    console.log('SCPI ajoutée à la simulation');
     this.close();
   }
 }
