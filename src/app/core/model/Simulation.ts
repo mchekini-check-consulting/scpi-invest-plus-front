@@ -1,3 +1,5 @@
+import { Sector } from "./Sector";
+
 export interface SimulationName {
   name: string;
   simulationDate: string;
@@ -13,17 +15,21 @@ export interface Simulation {
   totalInvestment: number;
   monthlyIncome: number;
   scpiSimulations: ScpiSimulation[];
+  locations: Location[];
+  sectors: Sector[];
 }
 
 export interface ScpiSimulation {
-  scpiId: number,
-  simulationId: number,
-  numberPart: number,
-  partPrice: number,
-  rising: number,
-  duree: number | null,
-  dureePercentage: number | null,
-  propertyType: string,
-  scpiName?: string,
+  simulationId: number;
+  scpiId: number;
+  numberPart: number;
+  partPrice: number;
+  rising: number;
+  duree: number | null;
+  dureePercentage: number | null;
+  propertyType: string;
+  scpiName?: string;
 }
+
+
 

@@ -11,11 +11,16 @@
           [scpi]="scpi"
           [image]="getImage(scpi.id)"
           [isAddingScpi]="isAddingScpi"
+          [simulationId]="simulationId"
         />
       </ng-container>
     </ng-container>
   </div>
   <ng-template #noResults>
-    <div class="no-results">Aucune SCPI ne correspond à votre recherche.</div>
+    <div *ngFor="let skeleton of skeletonArray">
+      <div class="skeleton-wrapper">
+        <p-skeleton height="220px" width="100%" borderRadius="10px"></p-skeleton>
+      </div>
+    </div>
   </ng-template>
 </div>

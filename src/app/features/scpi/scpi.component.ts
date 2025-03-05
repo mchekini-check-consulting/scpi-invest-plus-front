@@ -2,6 +2,7 @@ import { ScpiModel } from '@/core/model/scpi.model';
 import { ScpiService } from '@/core/service/scpi.service';
 import { SearchMulticriteriaComponent } from '@/features/search-multicriteria/search-multicriteria.component';
 import { CommonModule } from '@angular/common';
+import { SkeletonModule } from 'primeng/skeleton';
 import {
   ChangeDetectorRef,
   Component,
@@ -14,19 +15,23 @@ import { ScpiCardComponent } from './components/scpi-card/scpi-card.component';
 
 @Component({
   selector: 'app-scpi',
-  imports: [ScpiCardComponent, SearchMulticriteriaComponent, CommonModule],
+  imports: [ScpiCardComponent, SearchMulticriteriaComponent, CommonModule,SkeletonModule],
   templateUrl: './scpi.component.html',
   styleUrl: './scpi.component.css',
 })
+
 export class ScpiComponent implements OnInit, OnDestroy {
   scpis: ScpiModel[] = [];
   filteredScpis: ScpiModel[] = [];
   loading = false;
   private subscriptions: Subscription = new Subscription();
 
+  
+
   @Input() isAddingScpi = false;
   @Input() simulationId? : number;
 
+  skeletonArray = new Array(10);
   images = Array.from({ length: 10 }, (_, i) => `img/scpi/${i + 1}.webp`);
 
   constructor(

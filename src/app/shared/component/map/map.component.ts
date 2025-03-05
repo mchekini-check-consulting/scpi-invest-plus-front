@@ -21,11 +21,14 @@ export class MapComponent implements OnInit {
 
   ngAfterViewInit() {
     this.initMap();
+    this.loadGeoJson();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['countries'] && !changes['countries'].firstChange) {
-      this.loadGeoJson();
+    if (changes['countries']) {
+      if (!changes['countries'].firstChange) {
+        this.loadGeoJson();
+      }
     }
   }
 

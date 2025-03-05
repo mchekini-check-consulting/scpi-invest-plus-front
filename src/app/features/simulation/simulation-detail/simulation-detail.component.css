@@ -4,6 +4,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr auto;
+
 }
 
 .simulation-card {
@@ -12,7 +13,6 @@
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-
   & > * {
     width: 100%;
   }
@@ -80,6 +80,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   padding-inline: 1rem;
+  margin-top: 25px;
 }
 
 .value {
@@ -87,6 +88,14 @@
   font-weight: bold;
   color: #5ba7fa;
 }
+
+.equal-height {
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 .percentage {
   font-size: 1rem;
@@ -97,8 +106,52 @@
   margin-left: 1rem;
 }
 
-
 .add-scpi-container {
   min-width: 345px;
   width: 100%;
+}
+
+.scpi-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  margin-top: 20px;
+}
+
+
+.scpi-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.scpi-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.scpi-row .scpi-name {
+  width: 200px;
+}
+
+.scpi-row div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.scpi-name {
+  font-weight: bold;
+}
+
+.scpi-amount,
+.scpi-income,
+.scpi-net-income {
+  color: #5ba7fa;
+  font-weight: bold;
+  font-size: 1.3em;
 }
