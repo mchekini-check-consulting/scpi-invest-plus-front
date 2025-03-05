@@ -26,8 +26,6 @@ export class MapComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['countries']) {
-      console.log("📌 Mise à jour des pays :", this.countries);
-
       if (!changes['countries'].firstChange) {
         this.loadGeoJson();
       }
