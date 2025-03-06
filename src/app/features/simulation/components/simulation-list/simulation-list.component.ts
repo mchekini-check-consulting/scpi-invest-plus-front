@@ -1,8 +1,11 @@
 import {ScpiSimulation, Simulation} from '@/core/model/Simulation';
-import {SimulationService} from '@/core/service/simulation.service';
 import {CommonModule} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {RouterLink} from '@angular/router';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {selectAllSimulations} from '@/shared/store/simulation/selectors';
+import {SimulationActions} from '@/shared/store/simulation/action';
 
 @Component({
   selector: 'app-simulation-list',
@@ -11,14 +14,12 @@ import {RouterLink} from '@angular/router';
   templateUrl: './simulation-list.component.html',
   styleUrls: ['./simulation-list.component.css'],
 })
-export class SimulationListComponent implements OnInit {
-  simulations: Simulation[] = [];
+export class SimulationListComponent {
+  simulations$: Observable<Simulation[]> = new Observable<Simulation[]>();
 
-  constructor(private simulationService: SimulationService) {
-  }
-
-  ngOnInit(): void {
-    this.loadSimulations();
+  constructor(private store: Store) {
+    this.store.dispatch(SimulationActions.loadSimulations());
+    this.simulations$ = this.store.select(selectAllSimulations)
   }
 
   calculateTotalAmount(scpiSimulations: ScpiSimulation[]): number {
@@ -27,14 +28,4 @@ export class SimulationListComponent implements OnInit {
     }, 0);
   }
 
-  loadSimulations(): void {
-    this.simulationService.getSimulations().subscribe({
-      next: (response: Simulation[]) => {
-        this.simulations = response;
-      },
-      error: (error) => {
-        console.error('Erreur lors de la récupération des simulations', error);
-      },
-    });
-  }
 }

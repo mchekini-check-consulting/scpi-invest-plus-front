@@ -1,18 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputTextModule } from 'primeng/inputtext';
-import { ReactiveFormsModule } from '@angular/forms';
-import { DatePickerModule } from 'primeng/datepicker';
-import { CommonModule } from '@angular/common';
-import { MessageService } from 'primeng/api';
-import { UserService } from '@/core/service/user.service';
-import { ToastModule } from 'primeng/toast';
-import { InvestorService } from '@/core/service/investor.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NavigationService } from '@/core/service/navigation.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ButtonModule} from 'primeng/button';
+import {CalendarModule} from 'primeng/calendar';
+import {DropdownModule} from 'primeng/dropdown';
+import {InputTextModule} from 'primeng/inputtext';
+import {DatePickerModule} from 'primeng/datepicker';
+import {CommonModule} from '@angular/common';
+import {MessageService} from 'primeng/api';
+import {UserService} from '@/core/service/user.service';
+import {InvestorService} from '@/core/service/investor.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NavigationService} from '@/core/service/navigation.service';
 
 @Component({
   selector: 'app-profile',
@@ -26,9 +24,7 @@ import { NavigationService } from '@/core/service/navigation.service';
     ReactiveFormsModule,
     DatePickerModule,
     CommonModule,
-    ToastModule,
   ],
-  providers: [MessageService],
 })
 export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
@@ -36,11 +32,11 @@ export class ProfileComponent implements OnInit {
   userEmail!: string;
 
   maritalStatuses = [
-    { label: 'Célibataire', value: 'single' },
-    { label: 'Marié', value: 'married' },
-    { label: 'Pacsé', value: 'pacsed' },
-    { label: 'Divorcé', value: 'divorced' },
-    { label: 'Veuf', value: 'widowed' },
+    {label: 'Célibataire', value: 'single'},
+    {label: 'Marié', value: 'married'},
+    {label: 'Pacsé', value: 'pacsed'},
+    {label: 'Divorcé', value: 'divorced'},
+    {label: 'Veuf', value: 'widowed'},
   ];
 
   constructor(
@@ -51,7 +47,8 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private navigationService: NavigationService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -71,26 +68,26 @@ export class ProfileComponent implements OnInit {
   initForm(user?: any): void {
     this.profileForm = this.fb.group({
       lastName: [
-        { value: user?.lastName || '', disabled: true },
+        {value: user?.lastName || '', disabled: true},
         Validators.required,
       ],
       firstName: [
-        { value: user?.firstName || '', disabled: true },
+        {value: user?.firstName || '', disabled: true},
         Validators.required,
       ],
-      email: [{ value: user?.email || '', disabled: true }],
+      email: [{value: user?.email || '', disabled: true}],
       phoneNumber: [
-        { value: '', disabled: true },
+        {value: '', disabled: true},
         [Validators.required, Validators.pattern('^\\d{10}$')],
       ],
-      dateOfBirth: [{ value: '', disabled: true }, [Validators.required]],
-      maritalStatus: [{ value: '', disabled: true }, Validators.required],
+      dateOfBirth: [{value: '', disabled: true}, [Validators.required]],
+      maritalStatus: [{value: '', disabled: true}, Validators.required],
       numberOfChildren: [
-        { value: 0, disabled: true },
+        {value: 0, disabled: true},
         [Validators.required, Validators.min(0)],
       ],
       annualIncome: [
-        { value: 0, disabled: true },
+        {value: 0, disabled: true},
         [Validators.required, Validators.min(0)],
       ],
     });

@@ -1,7 +1,7 @@
 <div class="card-container">
   <p-card class="card">
     <ng-template #header>
-      <img alt="Card" class="card-image" [src]="image" />
+      <img alt="Card" class="card-image" [src]="image"/>
     </ng-template>
 
     <ng-template #title>{{ scpi?.name ?? "N/A" }}</ng-template>
@@ -15,21 +15,21 @@
         <p-tag severity="secondary" [value]="formatMinimum()"></p-tag>
       </div>
     </div>
-    <p-divider />
+    <p-divider/>
 
     <ng-template #footer>
       <div class="button-group">
         <p-button
-          *ngIf="isAddingScpi"
+          *ngIf="modalMode === 'simuler'"
           label="Ajouter"
-          (click)="openInvestirModal('simuler')"
+          (click)="openInvestirModal()"
           severity="info"
           size="large"
         />
         <p-button
-          *ngIf="!isAddingScpi"
+          *ngIf="modalMode === 'investir'"
           label="Investir"
-          (click)="openInvestirModal('investir')"
+          (click)="openInvestirModal()"
           severity="info"
           size="large"
         />
@@ -44,7 +44,6 @@
     </ng-template>
   </p-card>
 </div>
-<p-toast></p-toast>
 
 <app-scpi-invest-modal
   [visible]="investirModalVisible"
@@ -54,7 +53,7 @@
   [distributionRate]="formatDistributionRate()"
   [minimumSubscription]="formatMinimum()"
   [sharePrice]="getSharePrice()"
-  [mode] ="modalMode"
+  [mode]="modalMode"
   [simulationId]="simulationId"
   (close)="closeInvestirModal()">
-  </app-scpi-invest-modal>
+</app-scpi-invest-modal>

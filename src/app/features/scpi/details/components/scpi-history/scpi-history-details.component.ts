@@ -1,10 +1,9 @@
-import { Details } from '@/core/model/Details';
-import { StatYear } from '@/core/model/StatYear';
-import { DetailsDetailsService } from '@/core/service/details-details.service';
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { ChartModule } from 'primeng/chart';
-import { CommonModule } from '@angular/common';
-import { ChartComponent } from '@/shared/component/chart/chart.component';
+import {Details} from '@/core/model/Details';
+import {StatYear} from '@/core/model/StatYear';
+import {Component, Input, OnInit} from '@angular/core';
+import {ChartModule} from 'primeng/chart';
+import {CommonModule} from '@angular/common';
+import {ChartComponent} from '@/shared/component/chart/chart.component';
 
 @Component({
   selector: 'app-scpi-history-details',
@@ -19,8 +18,6 @@ export class ScpiHistoryDetailsComponent implements OnInit {
   years: number[] = [];
   distributionRates: number[] = [];
   sharePrices: number[] = [];
-
-  detailsService = inject(DetailsDetailsService);
 
   yearsDistribution: number[] = [];
   yearsSharePrice: number[] = [];
@@ -71,17 +68,17 @@ export class ScpiHistoryDetailsComponent implements OnInit {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: true, position: 'top' },
-        tooltip: { enabled: true, mode: 'index', intersect: false },
+        legend: {display: true, position: 'top'},
+        tooltip: {enabled: true, mode: 'index', intersect: false},
       },
       scales: {
         x: {
-          title: { display: true, text: '', color: '#666' },
-          grid: { display: false },
+          title: {display: true, text: '', color: '#666'},
+          grid: {display: false},
         },
         y: {
-          title: { display: true, text: '', color: '#666' },
-          grid: { color: '#eee' },
+          title: {display: true, text: '', color: '#666'},
+          grid: {color: '#eee'},
           min: 0,
           ticks: {
             beginAtZero: true,

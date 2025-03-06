@@ -1,6 +1,6 @@
 <div class="simulation-list">
   <h3 class="title">Vos simulations</h3>
-  <div *ngFor="let simulation of simulations" class="simulation-item">
+  <div *ngFor="let simulation of simulations$ | async" class="simulation-item">
     <div class="container_title">
       <p class="simulation-title">{{ simulation.name }}</p>
       <p class="simulation-date">- {{ simulation.simulationDate | date: 'dd/MM/yyyy' }}</p>
@@ -11,7 +11,7 @@
     <button class="details-button" [routerLink]="['details', simulation.id]">Voir le détail →</button>
     <i class="pi pi-trash delete-icon"></i>
   </div>
-  <div *ngIf="simulations.length === 0" class="no-simulation-message">
+  <div *ngIf="(simulations$ | async)?.length === 0" class="no-simulation-message">
     <strong>Aucune simulation disponible</strong>
     <p>Vous n’avez pas encore créé de simulation.</p>
   </div>

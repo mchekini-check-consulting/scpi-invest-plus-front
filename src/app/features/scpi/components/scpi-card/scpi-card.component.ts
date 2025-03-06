@@ -1,16 +1,14 @@
-import { ScpiModel } from '@/core/model/scpi.model';
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
-import { DividerModule } from 'primeng/divider';
-import { Tag } from 'primeng/tag';
-import { DialogModule } from 'primeng/dialog';
-import { ScpiInvestModalComponent } from '../../scpi-invest-modal/scpi-invest-modal.component';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { TranslateModule } from '@ngx-translate/core';
+import {ScpiModel} from '@/core/model/scpi.model';
+import {CommonModule} from '@angular/common';
+import {Component, Input} from '@angular/core';
+import {Router, RouterLink} from '@angular/router';
+import {ButtonModule} from 'primeng/button';
+import {CardModule} from 'primeng/card';
+import {DividerModule} from 'primeng/divider';
+import {Tag} from 'primeng/tag';
+import {DialogModule} from 'primeng/dialog';
+import {TranslateModule} from '@ngx-translate/core';
+import {ScpiInvestModalComponent} from '@/features/scpi/components/scpi-invest-modal/scpi-invest-modal.component';
 
 @Component({
   selector: 'app-scpi-card',
@@ -24,28 +22,28 @@ import { TranslateModule } from '@ngx-translate/core';
     RouterLink,
     DialogModule,
     ScpiInvestModalComponent,
-    ToastModule,
     TranslateModule,
   ],
-  providers: [MessageService],
+
   templateUrl: './scpi-card.component.html',
   styleUrl: './scpi-card.component.css',
 })
 export class ScpiCardComponent {
   @Input() scpi?: ScpiModel;
   @Input() image!: string;
-  @Input() isAddingScpi = false;
-  @Input() simulationId? : number;
+  @Input() simulationId?: number;
   investirModalVisible: boolean = false;
 
   modalMode: string = 'investir';
 
-  openInvestirModal(mode: string) {
-    this.modalMode = mode;
+  openInvestirModal() {
     this.investirModalVisible = true;
   }
 
-  constructor() { }
+  constructor(private router: Router) {
+    const isSimulation = this.router.url.includes('simulation');
+    this.modalMode = isSimulation ? 'simuler' : 'investir';
+  }
 
   formatLocation() {
     const location = this.scpi?.location;
@@ -72,7 +70,7 @@ export class ScpiCardComponent {
   formatDistributionRate() {
     const distributionRate = this.scpi?.statYear?.distributionRate;
     return `Rendement - ${distributionRate !== undefined ? distributionRate + '%' : 'N/A'
-      }`;
+    }`;
   }
 
   getSharePrice(): number {
@@ -82,7 +80,7 @@ export class ScpiCardComponent {
   formatMinimum() {
     const minimumSubscription = this.scpi?.minimumSubscription;
     return `Minimum - ${minimumSubscription !== undefined ? minimumSubscription + ' €' : 'N/A'
-      }`;
+    }`;
   }
 
   closeInvestirModal() {
