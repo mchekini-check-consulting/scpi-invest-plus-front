@@ -50,7 +50,6 @@ export class ScpiInvestModalComponent {
   @Output() close = new EventEmitter<void>();
   @Input() simulationId?: number;
 
-
   investmentDuration?: number;
   investmentPercentage?: number;
   editable: boolean = false;
@@ -58,14 +57,14 @@ export class ScpiInvestModalComponent {
   selectedPropertyType: string = 'Pleine propriété';
 
   propertyOptions = [
-    {label: 'Pleine propriété', value: 'Pleine propriété'},
-    {label: 'Nue-propriétaire', value: 'Nue-propriétaire'},
-    {label: 'Usufruit', value: 'Usufruit'},
+    { label: 'Pleine propriété', value: 'Pleine propriété' },
+    { label: 'Nue-propriétaire', value: 'Nue-propriétaire' },
+    { label: 'Usufruit', value: 'Usufruit' },
   ];
 
   estimatedMonthlyIncome: number = 0;
   investmentForm = new FormGroup({
-    sharePrice: new FormControl({value: this.sharePrice, disabled: true}, [
+    sharePrice: new FormControl({ value: this.sharePrice, disabled: true }, [
       Validators.required,
       Validators.min(100),
     ]),
@@ -90,7 +89,7 @@ export class ScpiInvestModalComponent {
     private investorService: InvestorService,
     private messageService: MessageService,
     private simulationService: SimulationService,
-    private router : Router
+    private router: Router
   ) {
     this.investmentForm.valueChanges.subscribe(() => {});
   }
@@ -115,7 +114,7 @@ export class ScpiInvestModalComponent {
     );
 
     if (this.sharePrice) {
-      this.investmentForm.patchValue({sharePrice: this.sharePrice});
+      this.investmentForm.patchValue({ sharePrice: this.sharePrice });
     }
   }
 
@@ -139,7 +138,7 @@ export class ScpiInvestModalComponent {
 
   minimumInvestmentValidator(control: FormControl) {
     if (this.minimumSubscription && control.value < +this.minimumSubscription) {
-      return {belowMinimum: true};
+      return { belowMinimum: true };
     }
     return null;
   }
@@ -148,21 +147,27 @@ export class ScpiInvestModalComponent {
     if (this.investmentForm.valid) {
       if (this.mode === 'investir') {
         this.createInvestment();
-      } else if (this.mode === 'simuler' && String(this.simulationId) !== "-1") {
+      } else if (
+        this.mode === 'simuler' &&
+        String(this.simulationId) !== '-1'
+      ) {
         let simulationScpi: ScpiSimulation = {
           scpiId: this.scpiId ?? 0,
           simulationId: this.simulationId ?? 0,
           numberPart: this.investmentForm.getRawValue().shareCount ?? 0,
           partPrice: this.sharePrice ?? 0,
           rising: this.investmentForm.getRawValue().totalInvestment ?? 0,
-          duree: this.investmentForm.getRawValue().investmentDuration?.year ?? null,
-          dureePercentage: this.investmentForm.getRawValue().investmentDuration?.percentage ?? null,
+          duree:
+            this.investmentForm.getRawValue().investmentDuration?.year ?? null,
+          dureePercentage:
+            this.investmentForm.getRawValue().investmentDuration?.percentage ??
+            null,
           propertyType: this.selectedPropertyType ?? '',
         };
 
         this.simulationService.addScpiToSimulation(simulationScpi).subscribe({
           next: (response) => {
-            this.router.navigate(['simulations/details', this.simulationId]);
+            this.router.navigate([`/simulations/details/${this.simulationId}`]);
             this.closeModal();
           },
           error: (error) => {
