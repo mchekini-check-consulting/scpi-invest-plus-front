@@ -122,7 +122,7 @@ export class ScpiInvestModalComponent {
     totalInvestment: number,
     annualReturnRate: number
   ): number {
-    return (totalInvestment * annualReturnRate) / 12;
+    return (totalInvestment * (annualReturnRate / 100)) / 12;
   }
 
   updateEstimatedMonthlyIncome() {
