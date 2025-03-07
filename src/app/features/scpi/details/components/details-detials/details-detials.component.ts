@@ -6,10 +6,10 @@ import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {DividerModule} from 'primeng/divider';
 import {PanelModule} from 'primeng/panel';
-import {Details} from '../../../core/model/Details';
-import {DetailsDetailsService} from '../../../core/service/details-details.service';
-import {StatYear} from '../../../core/model/StatYear';
-import {Sector} from '../../../core/model/Sector';
+import {Details} from '@/core/model/Details';
+import {DetailsDetailsService} from '@/core/service/details-details.service';
+import {StatYear} from '@/core/model/StatYear';
+import {Sector} from '@/core/model/Sector';
 
 @Component({
   selector: 'app-details-detials',
@@ -18,7 +18,7 @@ import {Sector} from '../../../core/model/Sector';
   styleUrl: './details-detials.component.css'
 })
 export class DetailsDetialsComponent implements OnInit {
-  details: Details | null = null;
+  @Input() details: Details | null = null;
   stat: StatYear | null = null;
   sectors: Sector | null = null;
   detailsService = inject(DetailsDetailsService);
@@ -30,21 +30,15 @@ export class DetailsDetialsComponent implements OnInit {
   }
 
   getTheDetails(id: number) {
-    this.detailsService.getDetailsScpi(this.id_parent).subscribe({
-      next: (res) => {
-        if (res) {
-          this.details = res;
+
+          if(!this.details) return;
           this.stat = this.detailsService.getLastStats(this.details);
           if (this.stat) {
             this.prix_retrait = this.stat?.sharePrice - (this.stat?.sharePrice * ( this.details.subscriptionFees /100))
           } else {
             alert("There is no stat year");
           }
-        } else {
-          alert("Received undefined details.");
-        }
-      },
-      error: (err) => console.error("Error fetching details:", err)
-    });
+
+
   }
 }

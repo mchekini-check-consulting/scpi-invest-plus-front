@@ -40,16 +40,20 @@
       <p-tabView class="tabview-custom">
         <p-tabPanel header="{{ 'Details.VUE' | translate }}">
           <app-details-global-view
+            *ngIf="details"
             [id_parent]="id_parent"
+            [details]="details"
           ></app-details-global-view>
         </p-tabPanel>
         <p-tabPanel header="{{ 'Details.HISTORIQUE' | translate }}">
           <app-scpi-history-details
+          *ngIf="details"
             [id_parent]="id_parent"
+            [details] ="details"
           ></app-scpi-history-details>
         </p-tabPanel>
         <p-tabPanel header="{{ 'Details.DETAILS' | translate }}">
-          <app-details-detials [id_parent]="id_parent"></app-details-detials>
+          <app-details-detials *ngIf="details" [id_parent]="id_parent" [details]="details"></app-details-detials>
         </p-tabPanel>
       </p-tabView>
     </div>

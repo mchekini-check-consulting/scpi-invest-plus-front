@@ -6,11 +6,11 @@ import {CardModule} from 'primeng/card';
 import {ChartModule} from 'primeng/chart';
 import {DividerModule} from 'primeng/divider';
 import {PanelModule} from 'primeng/panel';
-import {Details} from '../../../core/model/Details';
-import {Location} from '../../../core/model/Location';
-import {Sector} from '../../../core/model/Sector';
-import {StatYear} from '../../../core/model/StatYear';
-import {DetailsDetailsService} from '../../../core/service/details-details.service';
+import {Details} from '@/core/model/Details';
+import {Location} from '@/core/model/Location';
+import {Sector} from '@/core/model/Sector';
+import {StatYear} from '@/core/model/StatYear';
+import {DetailsDetailsService} from '@/core/service/details-details.service';
 import {MapComponent} from '@/shared/component/map/map.component';
 
 @Component({
@@ -29,7 +29,7 @@ import {MapComponent} from '@/shared/component/map/map.component';
   styleUrl: './details-global-view.component.css',
 })
 export class DetailsGlobalViewComponent implements OnInit {
-  details: Details | null = null;
+  @Input() details: Details | null = null;
   states: StatYear | null = null;
   ListeLocations: Location[] = [];
   ListeSectors: Sector[] = [];
@@ -50,9 +50,8 @@ export class DetailsGlobalViewComponent implements OnInit {
   }
 
   getScpiGlobalInformation() {
-    this.detailsService.getDetailsScpi(this.id_parent).subscribe(
-      (res) => {
-        this.details = res;
+
+        if(!this.details) return;
         this.states = this.detailsService.getLastStats(this.details);
         this.ListeLocations = this.details.locations;
         this.ListeSectors = this.details.sectors;
@@ -60,11 +59,7 @@ export class DetailsGlobalViewComponent implements OnInit {
         this.cd.detectChanges();
         this.initSectorPieChart(this.ListeSectors);
         this.cd.detectChanges();
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+
   }
 
   initChart(dataEntry: Location[] | Sector[]) {

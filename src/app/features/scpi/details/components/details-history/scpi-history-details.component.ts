@@ -15,7 +15,7 @@ import { ChartComponent } from '@/shared/component/chart/chart.component';
 })
 export class ScpiHistoryDetailsComponent implements OnInit {
   @Input() id_parent: number = 0;
-  details: Details | null = null;
+  @Input() details: Details | null = null;
   stat: StatYear[] | null = [];
   years: number[] = [];
   distributionRates: number[] = [];
@@ -35,10 +35,8 @@ export class ScpiHistoryDetailsComponent implements OnInit {
   }
 
   getTheDetails(id: number) {
-    this.detailsService.getDetailsScpi(this.id_parent).subscribe({
-      next: (res) => {
-        if (res) {
-          this.details = res;
+
+          if(!this.details) return;
           this.stat = this.details.statYears;
 
           const distributionStats = this.stat.filter(
@@ -71,12 +69,7 @@ export class ScpiHistoryDetailsComponent implements OnInit {
           );
 
           this.initCharts();
-        } else {
-          console.error('Received undefined details.');
-        }
-      },
-      error: (err) => console.error('Error fetching details:', err),
-    });
+
   }
 
   initCharts() {
