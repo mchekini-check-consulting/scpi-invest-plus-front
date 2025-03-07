@@ -6,12 +6,11 @@ import { ChartModule } from 'primeng/chart';
 import { CommonModule } from '@angular/common';
 import { ChartComponent } from '@/shared/component/chart/chart.component';
 
-
 @Component({
   selector: 'app-scpi-history-details',
   templateUrl: './scpi-history-details.component.html',
   styleUrls: ['./scpi-history-details.component.css'],
-  imports: [ChartModule, CommonModule,ChartComponent],
+  imports: [ChartModule, CommonModule, ChartComponent],
 })
 export class ScpiHistoryDetailsComponent implements OnInit {
   @Input() id_parent: number = 0;
@@ -35,41 +34,36 @@ export class ScpiHistoryDetailsComponent implements OnInit {
   }
 
   getTheDetails(id: number) {
+    if (!this.details) return;
+    this.stat = this.details.statYears;
 
-          if(!this.details) return;
-          this.stat = this.details.statYears;
+    const distributionStats = this.stat.filter(
+      (stat) => stat.distributionRate !== null && stat.distributionRate !== 0
+    );
 
-          const distributionStats = this.stat.filter(
-            (stat) =>
-              stat.distributionRate !== null && stat.distributionRate !== 0
-          );
+    const sortedDistributionStats = distributionStats.sort(
+      (a, b) => a.yearStat.yearStat - b.yearStat.yearStat
+    );
+    this.yearsDistribution = sortedDistributionStats.map(
+      (stat) => stat.yearStat.yearStat
+    );
+    this.distributionRates = sortedDistributionStats.map((stat) =>
+      Number(stat.distributionRate)
+    );
 
-          const sortedDistributionStats = distributionStats.sort(
-            (a, b) => a.yearStat.yearStat - b.yearStat.yearStat
-          );
-          this.yearsDistribution = sortedDistributionStats.map(
-            (stat) => stat.yearStat.yearStat
-          );
-          this.distributionRates = sortedDistributionStats.map((stat) =>
-            Number(stat.distributionRate)
-          );
+    const priceStats = this.stat.filter(
+      (stat) => stat.sharePrice !== null && stat.sharePrice !== 0
+    );
 
-          const priceStats = this.stat.filter(
-            (stat) => stat.sharePrice !== null && stat.sharePrice !== 0
-          );
+    const sortedPriceStats = priceStats.sort(
+      (a, b) => a.yearStat.yearStat - b.yearStat.yearStat
+    );
+    this.yearsSharePrice = sortedPriceStats.map(
+      (stat) => stat.yearStat.yearStat
+    );
+    this.sharePrices = sortedPriceStats.map((stat) => Number(stat.sharePrice));
 
-          const sortedPriceStats = priceStats.sort(
-            (a, b) => a.yearStat.yearStat - b.yearStat.yearStat
-          );
-          this.yearsSharePrice = sortedPriceStats.map(
-            (stat) => stat.yearStat.yearStat
-          );
-          this.sharePrices = sortedPriceStats.map((stat) =>
-            Number(stat.sharePrice)
-          );
-
-          this.initCharts();
-
+    this.initCharts();
   }
 
   initCharts() {
