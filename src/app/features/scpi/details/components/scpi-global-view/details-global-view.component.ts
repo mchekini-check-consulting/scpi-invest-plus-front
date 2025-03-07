@@ -1,17 +1,24 @@
-import {CommonModule, isPlatformBrowser} from '@angular/common';
-import {ChangeDetectorRef, Component, inject, Input, OnInit, PLATFORM_ID,} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {ButtonModule} from 'primeng/button';
-import {CardModule} from 'primeng/card';
-import {ChartModule} from 'primeng/chart';
-import {DividerModule} from 'primeng/divider';
-import {PanelModule} from 'primeng/panel';
-import {Details} from '../../../core/model/Details';
-import {Location} from '../../../core/model/Location';
-import {Sector} from '../../../core/model/Sector';
-import {StatYear} from '../../../core/model/StatYear';
-import {DetailsDetailsService} from '../../../core/service/details-details.service';
-import {MapComponent} from '@/shared/component/map/map.component';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Input,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { ChartModule } from 'primeng/chart';
+import { DividerModule } from 'primeng/divider';
+import { PanelModule } from 'primeng/panel';
+import { Details } from '@/core/model/Details';
+import { Location } from '@/core/model/Location';
+import { Sector } from '@/core/model/Sector';
+import { StatYear } from '@/core/model/StatYear';
+import { DetailsDetailsService } from '@/core/service/details-details.service';
+import { MapComponent } from '@/shared/component/map/map.component';
 
 @Component({
   selector: 'app-details-global-view',
@@ -29,7 +36,7 @@ import {MapComponent} from '@/shared/component/map/map.component';
   styleUrl: './details-global-view.component.css',
 })
 export class DetailsGlobalViewComponent implements OnInit {
-  details: Details | null = null;
+  @Input() details: Details | null = null;
   states: StatYear | null = null;
   ListeLocations: Location[] = [];
   ListeSectors: Sector[] = [];
@@ -42,29 +49,21 @@ export class DetailsGlobalViewComponent implements OnInit {
 
   detailsService = inject(DetailsDetailsService);
 
-  constructor(private cd: ChangeDetectorRef) {
-  }
+  constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.getScpiGlobalInformation();
   }
 
   getScpiGlobalInformation() {
-    this.detailsService.getDetailsScpi(this.id_parent).subscribe(
-      (res) => {
-        this.details = res;
-        this.states = this.detailsService.getLastStats(this.details);
-        this.ListeLocations = this.details.locations;
-        this.ListeSectors = this.details.sectors;
-        this.initChart(this.ListeLocations);
-        this.cd.detectChanges();
-        this.initSectorPieChart(this.ListeSectors);
-        this.cd.detectChanges();
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+    if (!this.details) return;
+    this.states = this.detailsService.getLastStats(this.details);
+    this.ListeLocations = this.details.locations;
+    this.ListeSectors = this.details.sectors;
+    this.initChart(this.ListeLocations);
+    this.cd.detectChanges();
+    this.initSectorPieChart(this.ListeSectors);
+    this.cd.detectChanges();
   }
 
   initChart(dataEntry: Location[] | Sector[]) {
@@ -161,5 +160,4 @@ export class DetailsGlobalViewComponent implements OnInit {
     }
     return value.toString();
   }
-
 }

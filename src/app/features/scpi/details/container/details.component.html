@@ -1,0 +1,67 @@
+<div>
+  <p-toast />
+
+  <div class="containe_global">
+    <div class="container_scpi_header_card">
+      <div>
+        <div>
+          <div class="card-container">
+            <p class="name_scpi">{{ details?.name || "N/A" }}</p>
+            <div class="p_texte">
+              <p class="small-label">{{ mostSector?.id?.name || "N/A" }}</p>
+              <p class="small-label">Europe</p>
+            </div>
+            <div class="p-grid">
+              <!-- Première carte -->
+              <div class="p-col-6">
+                <div class="square">
+                  <label class="large-label"
+                    >{{ stat?.distributionRate ?? "N/A" }} %</label
+                  ><br />
+                  <label class="small-label">Rendement</label>
+                </div>
+              </div>
+              <!-- Deuxième carte -->
+              <div class="p-col-6">
+                <div class="square">
+                  <label class="large-label"
+                    >{{ details?.minimumSubscription ?? "N/A" }} €</label
+                  ><br />
+                  <label class="small-label">Minimum</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container_nav_scpi">
+      <div class="container_scpi_details">
+        <p-tabView class="tabview-custom">
+          <p-tabPanel header="{{ 'Details.VUE' | translate }}">
+            <app-details-global-view
+              *ngIf="details"
+              [id_parent]="id_parent"
+              [details]="details"
+            ></app-details-global-view>
+          </p-tabPanel>
+          <p-tabPanel header="{{ 'Details.HISTORIQUE' | translate }}">
+            <app-scpi-history-details
+              *ngIf="details"
+              [id_parent]="id_parent"
+              [details]="details"
+            ></app-scpi-history-details>
+          </p-tabPanel>
+          <p-tabPanel header="{{ 'Details.DETAILS' | translate }}">
+            <app-details-detials
+              *ngIf="details"
+              [id_parent]="id_parent"
+              [details]="details"
+            ></app-details-detials>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+  </div>
+</div>
