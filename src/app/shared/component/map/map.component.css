@@ -1,4 +1,4 @@
-.map-container  {
+.map-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,6 +11,6 @@
 }
 
 #global-view {
-  height: var(--map-height,100%);
+  height: var(--map-height, 100%);
   width: 100%;
 }
