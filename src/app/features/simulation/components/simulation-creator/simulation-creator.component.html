@@ -22,7 +22,7 @@
     </ng-template>
   </p-card>
 
-  <app-add-scpi-to-simulation [simulationId]= 'simulationId' ></app-add-scpi-to-simulation>
+  <app-add-scpi-to-simulation [simulationId]='(simulation$ | async)?.id'></app-add-scpi-to-simulation>
 
   <app-rename-simulation-dialog
     [isDialogVisible]="isDialogVisible"
