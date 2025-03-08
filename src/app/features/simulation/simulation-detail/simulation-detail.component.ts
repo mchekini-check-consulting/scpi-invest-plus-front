@@ -1,16 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AddScpiToSimulationComponent } from '@/features/simulation/components/add-scpi-to-simulation/add-scpi-to-simulation.component';
-import { Card } from 'primeng/card';
-import { PrimeTemplate } from 'primeng/api';
-import { ActivatedRoute } from '@angular/router';
-import { SimulationService } from '@/core/service/simulation.service';
-import { Simulation, ScpiSimulation } from '@/core/model/Simulation';
-import { Panel } from 'primeng/panel';
-import { DecimalPipe } from '@angular/common';
-import { MapComponent } from '@/shared/component/map/map.component';
-import { Location } from '@/core/model/Location';
-import { ChartModule } from 'primeng/chart';
-import { Sector } from '@/core/model/Sector';
+import {Component, OnInit} from '@angular/core';
+import {
+  AddScpiToSimulationComponent
+} from '@/features/simulation/components/add-scpi-to-simulation/add-scpi-to-simulation.component';
+import {Card} from 'primeng/card';
+import {PrimeTemplate} from 'primeng/api';
+import {ActivatedRoute} from '@angular/router';
+import {SimulationService} from '@/core/service/simulation.service';
+import {Simulation, ScpiSimulation} from '@/core/model/Simulation';
+import {Panel} from 'primeng/panel';
+import {DecimalPipe, NgForOf} from '@angular/common';
+import {MapComponent} from '@/shared/component/map/map.component';
+import {Location} from '@/core/model/Location';
+import {ChartModule} from 'primeng/chart';
+import {Sector} from '@/core/model/Sector';
 
 @Component({
   selector: 'app-simulation-detail',
@@ -22,11 +24,15 @@ import { Sector } from '@/core/model/Sector';
     DecimalPipe,
     MapComponent,
     ChartModule,
+    NgForOf,
   ],
   templateUrl: './simulation-detail.component.html',
   styleUrls: ['./simulation-detail.component.css'],
+  standalone: true
 })
 export class SimulationDetailComponent implements OnInit {
+  totalGrossRevenue: number = 0;
+  totalNetRevenue: number = 0;
   simulationId: string = '';
   simulation: Simulation | null = null;
   ListeLocations: Location[] = [];
@@ -92,11 +98,13 @@ export class SimulationDetailComponent implements OnInit {
         this.updateSectorData();
         this.updateLocationData();
         this.updateScpiInvestmentData();
+        this.updateRevenues();
       });
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   updateSectorData(): void {
     if (this.simulation?.sectors && this.simulation.sectors.length > 0) {
@@ -128,7 +136,6 @@ export class SimulationDetailComponent implements OnInit {
       );
 
 
-
     }
   }
 
@@ -147,4 +154,20 @@ export class SimulationDetailComponent implements OnInit {
       }));
     }
   }
+
+  updateRevenues(): void {
+    if (this.simulation?.scpiSimulations && this.simulation.scpiSimulations.length > 0) {
+      this.totalGrossRevenue = this.simulation.scpiSimulations.reduce(
+        (acc, scpi) => acc + (scpi.grossRevenue??0), 0
+      );
+      this.totalNetRevenue = this.simulation.scpiSimulations.reduce(
+        (acc, scpi) => acc + (scpi.netRevenue??0), 0
+      );
+    }
+  }
+
+  trackByScpiId(index: number, scpi: ScpiSimulation): number {
+    return scpi.scpiId;
+  }
+
 }

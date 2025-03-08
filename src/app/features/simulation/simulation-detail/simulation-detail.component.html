@@ -1,136 +1,131 @@
 <div class="simulation-creator">
   @if (simulation) {
-  <p-card class="simulation-card">
-    <ng-template pTemplate="title">
-      <div class="header_container">
-        <div class="simulation-header">
-          <span class="title">{{ simulation.name }}</span>
+    <p-card class="simulation-card">
+      <ng-template pTemplate="title">
+        <div class="header_container">
+          <div class="simulation-header">
+            <span class="title">{{ simulation.name }}</span>
+          </div>
+          <button class="share-button">
+            <i class="pi pi-share-alt"></i> Partager
+          </button>
         </div>
-        <button class="share-button">
-          <i class="pi pi-share-alt"></i> Partager
-        </button>
-      </div>
-    </ng-template>
+      </ng-template>
 
-    <p class="subtitle">Vue générale</p>
+      <p class="subtitle">Vue générale</p>
 
-    @if (simulation.scpiSimulations.length) {
-    <div class="row">
-      <p-panel header="Valeur totale">
-        <p class="value">
-          {{ simulation.totalInvestment | number : "1.2-2" }} €
-        </p>
-      </p-panel>
-      <p-panel header="Revenus">
-        <p class="value">
+      @if (simulation.scpiSimulations.length) {
+        <div class="row">
+          <p-panel header="Valeur totale">
+            <p class="value">
+              {{ simulation.totalInvestment | number : "1.2-2" }} €
+            </p>
+          </p-panel>
+          <p-panel header="Revenus">
+            <p class="value">
           <span>
-            {{ simulation.monthlyIncome | number : "1.2-2" }} € / Mois</span
+            {{ totalGrossRevenue | number:'1.2-2' }} € / Mois</span
           >
-        </p>
-      </p-panel>
-    </div>
-
-    <div class="row">
-      <p-panel header="Evolution de la distribution">
-        <div class="equal-height">
-          <p>
-            Aucun historique de rendement n’est disponible pour cette
-            simulation.
-          </p>
+            </p>
+          </p-panel>
         </div>
-      </p-panel>
-      <p-panel header="Répartition du portefeuille">
-        <div class="equal-height">
-          <p-chart
-            type="doughnut"
-            [data]="geographicalData"
-            [options]="options"
-          ></p-chart>
-        </div>
-      </p-panel>
-    </div>
 
-    <h3 class="title">Analyse</h3>
-
-    <div class="row">
-      <p-panel header="Taux de rendement interne">
-        <p class="value">
-          <app-map [countries]="ListeLocations" [mapHeight]="'300px'"></app-map>
-        </p>
-      </p-panel>
-      <p-panel header="Stratégie de sortie">
-        <div class="equal-height">
-          <p-chart
-            type="doughnut"
-            [data]="sectorData"
-            [options]="options"
-          ></p-chart>
-        </div>
-      </p-panel>
-    </div>
-    <h3 class="title">Performence nette de fiscalité</h3>
-    <div class="row">
-      <p-panel header="Revenus">
-        <p class="value">
-          {{ simulation.totalInvestment | number : "1.2-2" }} €
-        </p>
-      </p-panel>
-      <p-panel header="Revenus net de fiscalité">
-        <p class="value">
-          <span>
-            {{ simulation.monthlyIncome | number : "1.2-2" }} € / Mois</span
-          >
-        </p>
-      </p-panel>
-    </div>
-    <div class="scpi-table">
-      <div class="scpi-list">
-        @for (scpi of simulation.scpiSimulations; track scpi.scpiId) {
-          <div class="scpi-row">
-            <span class="scpi-name">{{ scpi.scpiName }}</span>
-
-            <div>
-              <span class="scpi-name">Montant total</span>
-              <span class="scpi-amount">{{ (scpi.numberPart * scpi.partPrice) | number:'1.0-0' }}€</span>
+        <div class="row">
+          <p-panel header="Evolution de la distribution">
+            <div class="equal-height">
+              <p>
+                Aucun historique de rendement n’est disponible pour cette
+                simulation.
+              </p>
             </div>
-
-            <div>
-              <span class="scpi-name">Revenu brut</span>
-              <span class="scpi-income">{{ (scpi.numberPart * scpi.partPrice * scpi.rising / 100) | number:'1.0-0' }}€/mois</span>
+          </p-panel>
+          <p-panel header="Répartition du portefeuille">
+            <div class="equal-height">
+              <p-chart
+                type="doughnut"
+                [data]="geographicalData"
+                [options]="options"
+              ></p-chart>
             </div>
+          </p-panel>
+        </div>
 
-            <div>
-              <span class="scpi-name">Revenu net</span>
-              <span class="scpi-net-income">{{ (scpi.numberPart * scpi.partPrice * (scpi.rising - (scpi.dureePercentage || 0)) / 100) | number:'1.0-0' }}€/mois</span>
+        <h3 class="title">Analyse</h3>
+
+        <div class="row">
+          <p-panel header="Taux de rendement interne">
+            <p class="value">
+              <app-map [countries]="ListeLocations" [mapHeight]="'300px'"></app-map>
+            </p>
+          </p-panel>
+          <p-panel header="Stratégie de sortie">
+            <div class="equal-height">
+              <p-chart
+                type="doughnut"
+                [data]="sectorData"
+                [options]="options"
+              ></p-chart>
+            </div>
+          </p-panel>
+        </div>
+        <h3 class="title">Performence nette de fiscalité</h3>
+        <div class="row">
+          <p-panel header="Revenus brut de fiscalité">
+            <p class="value">
+              {{ totalGrossRevenue | number:'1.2-2' }} €
+            </p>
+          </p-panel>
+          <p-panel header="Revenus net de fiscalité">
+            <p class="value">
+              <span>{{ totalNetRevenue | number:'1.2-2' }} € / Mois</span>
+            </p>
+          </p-panel>
+        </div>
+
+        <div class="scpi-table">
+          <div class="scpi-list">
+            <div *ngFor="let scpi of simulation?.scpiSimulations; trackBy: trackByScpiId" class="scpi-row">
+              <span class="scpi-name">{{ scpi.scpiName }}</span>
+
+              <div>
+                <span class="scpi-name">Valeur</span>
+                <span class="scpi-amount">{{ (scpi.numberPart * scpi.partPrice)| number:'1.2-2'}}€</span>
+              </div>
+
+              <div>
+                <span class="scpi-name">Revenu brut</span>
+                <span class="scpi-income">{{ scpi.grossRevenue | number:'1.2-2' }}€/mois</span>
+              </div>
+
+              <div>
+                <span class="scpi-name">Revenu net</span>
+                <span class="scpi-net-income">{{ scpi.netRevenue | number:'1.2-2' }}€/mois</span>
+              </div>
             </div>
           </div>
-        }
-
-      </div>
-
+        </div>
+      } @else {
+        <p class="m-0">
+          Ajoutez une SCPI afin de visualiser votre simulation de portefeuille. Si
+          vous possédez déjà un portefeuille, vous pouvez ajouter celui-ci en
+          cliquant sur le bouton « Voir avec mon portefeuille ».
+        </p>
+      }
+    </p-card>
+    <div class="add-scpi-container">
+      <app-add-scpi-to-simulation
+        [simulation]="simulation"
+        [simulationId]="simulation.id"
+      ></app-add-scpi-to-simulation>
     </div>
-    } @else {
-    <p class="m-0">
-      Ajoutez une SCPI afin de visualiser votre simulation de portefeuille. Si
-      vous possédez déjà un portefeuille, vous pouvez ajouter celui-ci en
-      cliquant sur le bouton « Voir avec mon portefeuille ».
-    </p>
-    }
-  </p-card>
-  <div class="add-scpi-container">
-    <app-add-scpi-to-simulation
-      [simulation]="simulation"
-      [simulationId]="simulation.id"
-    ></app-add-scpi-to-simulation>
-  </div>
 
   } @else {
-  <p-card header="Détails Indisponibles" class="w-100">
-    <p class="m-0">
-      Aucune simulation correspondante trouvée pour l’ID
-      <strong>{{ simulationId }}</strong
-      >. Veuillez vérifier l’identifiant ou essayer avec une autre simulation.
-    </p>
-  </p-card>
+    <p-card header="Détails Indisponibles" class="w-100">
+      <p class="m-0">
+        Aucune simulation correspondante trouvée pour l’ID
+        <strong>{{ simulationId }}</strong
+        >. Veuillez vérifier l’identifiant ou essayer avec une autre simulation.
+      </p>
+    </p-card>
   }
 </div>

@@ -29,6 +29,8 @@ export interface ScpiSimulation {
   dureePercentage: number | null;
   propertyType: string;
   scpiName?: string;
+  grossRevenue?: number;
+  netRevenue?: number;
 }
 
 
