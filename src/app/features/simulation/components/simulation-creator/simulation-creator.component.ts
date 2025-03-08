@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
@@ -26,7 +26,7 @@ import { UserService } from '@/core/service/user.service';
     AddScpiToSimulationComponent,
   ],
 })
-export class SimulationCreatorComponent {
+export class SimulationCreatorComponent implements OnInit{
   isDialogVisible = false;
   simulationName = 'Simulation';
   investorEmail: string = '';
@@ -35,14 +35,18 @@ export class SimulationCreatorComponent {
   constructor(
     private simulationService: SimulationService,
     private userService: UserService
-  ) {
+  )
+  {
+
+  }
+  ngOnInit(): void {
     this.userService.user$.subscribe((user) => {
       if (user && user.email) {
         this.investorEmail = user.email;
       }
     });
+    console.log("Email user = ", this.investorEmail)
   }
-
   openDialog() {
     this.isDialogVisible = true;
   }

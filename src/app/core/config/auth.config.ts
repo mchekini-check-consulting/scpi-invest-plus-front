@@ -9,4 +9,6 @@ export const authCodeFlowConfig: AuthConfig = {
   logoutUrl : 'https://keycloak.check-consulting.net/realms/master/protocol/openid-connect/logout',
   postLogoutRedirectUri: window.location.origin,
   showDebugInformation: true,
+  scope: 'openid profile email offline_access',
+  timeoutFactor: 0.75,
 };

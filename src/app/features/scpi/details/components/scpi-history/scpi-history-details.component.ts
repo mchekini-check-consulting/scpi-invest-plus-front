@@ -6,16 +6,15 @@ import { ChartModule } from 'primeng/chart';
 import { CommonModule } from '@angular/common';
 import { ChartComponent } from '@/shared/component/chart/chart.component';
 
-
 @Component({
   selector: 'app-scpi-history-details',
   templateUrl: './scpi-history-details.component.html',
   styleUrls: ['./scpi-history-details.component.css'],
-  imports: [ChartModule, CommonModule,ChartComponent],
+  imports: [ChartModule, CommonModule, ChartComponent],
 })
 export class ScpiHistoryDetailsComponent implements OnInit {
   @Input() id_parent: number = 0;
-  details: Details | null = null;
+  @Input() details: Details | null = null;
   stat: StatYear[] | null = [];
   years: number[] = [];
   distributionRates: number[] = [];
@@ -35,48 +34,36 @@ export class ScpiHistoryDetailsComponent implements OnInit {
   }
 
   getTheDetails(id: number) {
-    this.detailsService.getDetailsScpi(this.id_parent).subscribe({
-      next: (res) => {
-        if (res) {
-          this.details = res;
-          this.stat = this.details.statYears;
+    if (!this.details) return;
+    this.stat = this.details.statYears;
 
-          const distributionStats = this.stat.filter(
-            (stat) =>
-              stat.distributionRate !== null && stat.distributionRate !== 0
-          );
+    const distributionStats = this.stat.filter(
+      (stat) => stat.distributionRate !== null && stat.distributionRate !== 0
+    );
 
-          const sortedDistributionStats = distributionStats.sort(
-            (a, b) => a.yearStat.yearStat - b.yearStat.yearStat
-          );
-          this.yearsDistribution = sortedDistributionStats.map(
-            (stat) => stat.yearStat.yearStat
-          );
-          this.distributionRates = sortedDistributionStats.map((stat) =>
-            Number(stat.distributionRate)
-          );
+    const sortedDistributionStats = distributionStats.sort(
+      (a, b) => a.yearStat.yearStat - b.yearStat.yearStat
+    );
+    this.yearsDistribution = sortedDistributionStats.map(
+      (stat) => stat.yearStat.yearStat
+    );
+    this.distributionRates = sortedDistributionStats.map((stat) =>
+      Number(stat.distributionRate)
+    );
 
-          const priceStats = this.stat.filter(
-            (stat) => stat.sharePrice !== null && stat.sharePrice !== 0
-          );
+    const priceStats = this.stat.filter(
+      (stat) => stat.sharePrice !== null && stat.sharePrice !== 0
+    );
 
-          const sortedPriceStats = priceStats.sort(
-            (a, b) => a.yearStat.yearStat - b.yearStat.yearStat
-          );
-          this.yearsSharePrice = sortedPriceStats.map(
-            (stat) => stat.yearStat.yearStat
-          );
-          this.sharePrices = sortedPriceStats.map((stat) =>
-            Number(stat.sharePrice)
-          );
+    const sortedPriceStats = priceStats.sort(
+      (a, b) => a.yearStat.yearStat - b.yearStat.yearStat
+    );
+    this.yearsSharePrice = sortedPriceStats.map(
+      (stat) => stat.yearStat.yearStat
+    );
+    this.sharePrices = sortedPriceStats.map((stat) => Number(stat.sharePrice));
 
-          this.initCharts();
-        } else {
-          console.error('Received undefined details.');
-        }
-      },
-      error: (err) => console.error('Error fetching details:', err),
-    });
+    this.initCharts();
   }
 
   initCharts() {
