@@ -34,8 +34,8 @@ import { TranslateModule } from '@ngx-translate/core';
 export class ScpiCardComponent {
   @Input() scpi?: ScpiModel;
   @Input() image!: string;
+  @Input() addScpi? : boolean;
   @Input() isAddingScpi = false;
-  @Input() simulationId? : number;
   investirModalVisible: boolean = false;
 
   modalMode: string = 'investir';

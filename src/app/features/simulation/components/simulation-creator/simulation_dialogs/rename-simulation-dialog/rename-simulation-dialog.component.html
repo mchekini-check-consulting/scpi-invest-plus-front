@@ -1,9 +1,9 @@
-<p-dialog [(visible)]="isDialogVisible" [style]="{ width: '40rem' }" modal [closable]="true" header="Voulez-vous renommer la simulation ?" (onHide)="onDialogHide()">
+<p-dialog [(visible)]="isDialogVisible" [style]="{ width: '40rem' }" modal [closable]="true" header="Voulez-vous renommer la simulation avant de l'enregistrer ?" (onHide)="onDialogHide()">
   <div class="dialog-content">
     <input id="simulationName" type="text" pInputText [(ngModel)]="newSimulationName" />
   </div>
   <ng-template pTemplate="footer" class="dialog-footer">
     <button pButton label="Annuler" severity="secondary" icon="pi pi-times" class="p-button-outlined" (click)="closeDialog.emit()"></button>
-    <button pButton label="Renommer" severity="info" icon="pi pi-check" class="p-button-primary" (click)="saveSimulationName()"></button>
+    <button pButton label="Enregistrer" severity="info" icon="pi pi-check" class="p-button-primary" (click)="saveSimulationName()"></button>
   </ng-template>
 </p-dialog>

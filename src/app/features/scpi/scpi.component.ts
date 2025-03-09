@@ -26,11 +26,10 @@ export class ScpiComponent implements OnInit, OnDestroy {
   loading = false;
   private subscriptions: Subscription = new Subscription();
 
-  
+
 
   @Input() isAddingScpi = false;
-  @Input() simulationId? : number;
-
+  @Input() addScpi? : boolean;
   skeletonArray = new Array(10);
   images = Array.from({ length: 10 }, (_, i) => `img/scpi/${i + 1}.webp`);
 

@@ -39,6 +39,10 @@ export const routes: Routes = [
             path: 'details/:id',
             component: SimulationDetailComponent,
           },
+          {
+            path: 'detailSimulation',
+            component: SimulationDetailComponent,
+          },
         ],
       },
       {

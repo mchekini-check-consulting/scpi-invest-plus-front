@@ -9,10 +9,18 @@
       <span class="amount">{{ calculateTotalAmount(simulation.scpiSimulations) | number: '1.2-2' }} €</span>
     </div>
     <button class="details-button" [routerLink]="['details', simulation.id]">Voir le détail →</button>
-    <i class="pi pi-trash delete-icon"></i>
+    <i class="pi pi-trash delete-icon" (click)="openDeleteDialog(simulation.id)"></i>
   </div>
   <div *ngIf="simulations.length === 0" class="no-simulation-message">
     <strong>Aucune simulation disponible</strong>
     <p>Vous n’avez pas encore créé de simulation.</p>
   </div>
 </div>
+
+
+<app-confirm-delete-dialog
+  [isVisible]="isDialogVisible"
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()"
+  [message]="'Êtes-vous sûr de vouloir supprimer cette simulation ?'">
+</app-confirm-delete-dialog>
