@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { RenameSimulationDialogComponent } from "../components/simulation-creator/simulation_dialogs/rename-simulation-dialog/rename-simulation-dialog.component";
 import { Router } from "@angular/router";
 import { ButtonModule } from 'primeng/button';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: "app-simulation-detail",
   imports: [
@@ -92,7 +93,8 @@ export class SimulationDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private simulationService: SimulationService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     const id = this.route.snapshot.paramMap.get("id");
 
@@ -108,6 +110,7 @@ export class SimulationDetailComponent implements OnInit {
     }else {
       this.simulationService.simulation$.subscribe((simulation) => {
         this.simulation = simulation;
+        console.log("La simulation dans les details = ", this.simulation)
         this.updateSectorData();
         this.updateLocationData();
         this.updateScpiInvestmentData();
@@ -176,6 +179,7 @@ export class SimulationDetailComponent implements OnInit {
       this.simulation?.locations &&
       Array.isArray(this.simulation.locations)
     ) {
+      console.log("service simulation", this.simulationService.simulation$)
       this.ListeLocations = this.simulation.locations.map((location: any) => ({
         countryPercentage: location.countryPercentage,
         id: {
@@ -184,5 +188,7 @@ export class SimulationDetailComponent implements OnInit {
         },
       }));
     }
+    console.log("ListeLocations dans details ligne 189 : ", this.ListeLocations)
+
   }
 }

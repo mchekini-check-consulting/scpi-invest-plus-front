@@ -58,7 +58,7 @@ export class ScpiInvestModalComponent {
   editable: boolean = false;
   currencyOptions: any[] = [];
   selectedPropertyType: string = "Pleine propriété";
-
+  i:number = 0;
   propertyOptions = [
     { label: "Pleine propriété", value: "Pleine propriété" },
     { label: "Nue-propriétaire", value: "Nue-propriétaire" },
@@ -169,24 +169,27 @@ export class ScpiInvestModalComponent {
             duree: investmentData.investmentDuration?.year ?? 0,
             dureePercentage: investmentData.investmentDuration?.percentage ?? 0,
             propertyType: investmentData.propertyType ?? "",
+            locations: scpi.locations
           };
-
-          const locations = scpi.locations ?? [];
+          const locations = scpi.locations ?? []
           const sectors = scpi.sectors ?? [];
 
           if (this.addScpi === true) {
-            this.simulationService.addScpiToSimulation(scpiData, locations, sectors).subscribe((updatedSimulation) => {
+            console.log("entre dans ce if  {} fois", this.i)
+            this.simulationService.addScpiToSimulation(scpiData, locations,sectors).subscribe((updatedSimulation) => {
+
             });
+            this.addScpi = false;
+            this.i=this.i +1
           } else {
 
-            const simulationCreation: Simulation = {
+            const simulationCreation: any = {
               id: -1,
               name: "Simulation",
               monthlyIncome: 0,
               totalInvestment: investmentData.totalInvestment ?? 0,
               simulationDate: new Date().toISOString().split("T")[0],
               scpiSimulations: [scpiData],
-              locations: locations,
               sectors: sectors,
             };
 
@@ -290,12 +293,12 @@ export class ScpiInvestModalComponent {
         this.minimumSubscription &&
         totalInvestment < +this.minimumSubscription
       ) {
-        console.log("Erreur belowMinimum ajoutée");
+        // console.log("Erreur belowMinimum ajoutée");
         this.investmentForm.controls["totalInvestment"].setErrors({
           belowMinimum: true,
         });
       } else {
-        console.log("Erreur belowMinimum supprimée");
+        // console.log("Erreur belowMinimum supprimée");
         this.investmentForm.controls["totalInvestment"].setErrors(null);
       }
     }
