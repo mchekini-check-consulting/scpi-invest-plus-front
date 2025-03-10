@@ -62,7 +62,7 @@ export class RenameSimulationDialogComponent {
       let simulationCreation: SimulationCreate = {
         name: this.newSimulationName,
         simulationDate: simulationDate,
-        scpiSimulations: this.simulation?.scpiSimulations.map((scpi) => ({
+        scpis: this.simulation?.scpiSimulations.map((scpi) => ({
           scpiId: scpi.scpiId,
           numberPart: scpi.numberPart,
           partPrice: scpi.partPrice,
@@ -77,9 +77,9 @@ export class RenameSimulationDialogComponent {
       console.log("simulationCreation_______", simulationCreation);
 
 
-      this.simulationService.createSimulation(simulationCreation, true).subscribe({
+      this.simulationService.createSimulation(simulationCreation,true).subscribe({
         next: (response) => {
-          this.router.navigate([`simulations/details/${response.id}`]);;
+          this.router.navigate([`simulations`]);;
         },
         error: (error) => {
           console.error("Erreur lors de l’ajout de la simulation", error);
