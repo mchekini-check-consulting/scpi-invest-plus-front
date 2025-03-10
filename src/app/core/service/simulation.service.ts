@@ -50,7 +50,8 @@ export class SimulationService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  addScpiToSimulation(scpiData: Scpi, locations: Location[], sectors: Sector[]): Observable<Simulation> {
+  addScpiToSimulation(scpiData: Scpi, locations:Location[],sectors: Sector[]): Observable<Simulation> {
+    console.log("ScpiData recu = ", scpiData)
     const currentSimulation = this.simulationSubject.value;
 
     if (!currentSimulation || !currentSimulation.id) {
@@ -76,7 +77,7 @@ export class SimulationService {
 
 
     this.calculateSimulationResults(currentSimulation);
-
+    console.log("Current simulation in addScpi = ", currentSimulation)
 
     this.simulationSubject.next(currentSimulation);
 
@@ -106,29 +107,26 @@ calculateSimulationResults(simulationCreation: Simulation): void {
       // Calcul du revenu mensuel
       const income = investedAmount * (rate / 100);
       monthlyIncome += income;
-
-
-
+      // console.log("scpiSimulation in compute stat =  ", scpiSimulation)
       // Répartition des investissements par pays pour chaque SCPI
-      simulationCreation.locations.forEach((location: Location) => {
-          const countryName = location.id.country;
-          const countryPercentage = location.countryPercentage;
+      if (scpiSimulation?.locations && Array.isArray(scpiSimulation.locations)) {
+        scpiSimulation.locations.forEach((location: Location) => {
+            const countryName = location.id.country;
+            const countryPercentage = location.countryPercentage;
 
-          // Calcul de l'investissement de cette SCPI dans ce pays
-          const investedAmountInCountry = (investedAmount * countryPercentage) / 100;
+            // Calcul de l'investissement de cette SCPI dans ce pays
+            const investedAmountInCountry = (investedAmount * countryPercentage) / 100;
+            // console.log("___investedAmountInCountry", investedAmountInCountry, countryName);
 
-          console.log("___investedAmountInCountry",investedAmountInCountry,countryName);
-
-
-          // Ajouter cet investissement à l'investissement total du pays
-          countryInvestments.set(
-              countryName,
-              (countryInvestments.get(countryName) || 0) + investedAmountInCountry
-                );
-
-          console.log('countryInvestments___',countryInvestments,countryName);
-
-      });
+            // Ajouter cet investissement à l'investissement total du pays
+            countryInvestments.set(
+                countryName,
+                (countryInvestments.get(countryName) || 0) + investedAmountInCountry
+            );
+        });
+    } else {
+        console.error("scpiSimulation.locations est undefined ou n'est pas un tableau", scpiSimulation?.locations);
+    }
 
       // Répartition des investissements par secteur
       simulationCreation.sectors.forEach((sector: Sector) => {
@@ -152,7 +150,7 @@ calculateSimulationResults(simulationCreation: Simulation): void {
       countryPercentage: (total / simulationCreation.totalInvestment) * 100,
   }));
 
-  console.log("________________locations",locations);
+  // console.log("________________locations",locations);
 
 
   // 3. Calculer les pourcentages de répartition par secteur sur le total global
@@ -166,14 +164,13 @@ calculateSimulationResults(simulationCreation: Simulation): void {
   const totalCountryPercentage = locations.reduce((acc, location) => acc + location.countryPercentage, 0);
 
 
-
-  if (Math.abs(totalSectorPercentage - 100) > 0.1) {
-      console.warn("Les pourcentages des secteurs ne totalisent pas 100%.");
-  }
-  if (Math.abs(totalCountryPercentage - 100) > 0.1) {
-      console.warn("Les pourcentages des pays ne totalisent pas 100%.");
-  }
-
+  // if (Math.abs(totalSectorPercentage - 100) > 0.1) {
+  //     console.warn("Les pourcentages des secteurs ne totalisent pas 100%.");
+  // }
+  // if (Math.abs(totalCountryPercentage - 100) > 0.1) {
+  //     console.warn("Les pourcentages des pays ne totalisent pas 100%.");
+  // }
+  console.log("Les localisations crées pour la simulation est : ",locations);
   // 5. Création du résultat final de la simulation
   const simulationResult = {
       id: -1,
@@ -190,13 +187,17 @@ calculateSimulationResults(simulationCreation: Simulation): void {
           dureePercentage: scpiSimulation.dureePercentage,
           propertyType: scpiSimulation.propertyType || "Nue-propriétaire",
           scpiName: scpiSimulation.scpiName || "simulation",
+          locations: [...locations]
       })),
-      locations,
+      locations: [...locations],
       sectors,
   };
 
   // Mise à jour de la simulation
+  console.log(" La nouvelle simulation ", simulationResult)
   this.simulationSubject.next(simulationResult);
+  console.log(" La nouvelle simulation assurer le log ", simulationResult)
+
 }
 
 
