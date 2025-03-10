@@ -134,13 +134,20 @@
         </p>
       }
     </p-card>
-    <div class="add-scpi-container">
+    <div *ngIf="!isDetailRoute" class="add-scpi-container">
       <app-add-scpi-to-simulation
         [simulation]="simulation"
         [simulationId]="simulation.id"
-        [addScpi] = "addScpi"
+        [addScpi]="addScpi"
       ></app-add-scpi-to-simulation>
-      <button pButton type="button"  severity="info" label="Enregistrer la simulation" class="save_button" (click)="openDialog()"></button>
+      <button
+        pButton
+        type="button"
+        severity="info"
+        label="Enregistrer la simulation"
+        class="save_button"
+        (click)="openDialog()"
+      ></button>
     </div>
 
     <app-rename-simulation-dialog
