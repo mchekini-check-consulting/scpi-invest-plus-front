@@ -24,7 +24,8 @@
           <p-panel header="Revenus">
             <p class="value">
               <span>
-                {{ simulation.monthlyIncome | number: "1.2-2" }} € / Mois</span
+                {{ simulation.monthlyIncome | number: "1.2-2" }}
+                € / Mois</span
               >
             </p>
           </p-panel>
@@ -81,7 +82,8 @@
           <p-panel header="Revenus net de fiscalité">
             <p class="value">
               <span>
-                {{ simulation.monthlyIncome | number: "1.2-2" }} € / Mois</span
+                {{ simulation.monthlyIncome | number: "1.2-2" }}
+                € / Mois</span
               >
             </p>
           </p-panel>
@@ -134,28 +136,12 @@
         </p>
       }
     </p-card>
-    <div *ngIf="!isDetailRoute" class="add-scpi-container">
+    <div class="add-scpi-container">
       <app-add-scpi-to-simulation
         [simulation]="simulation"
         [simulationId]="simulation.id"
-        [addScpi]="addScpi"
       ></app-add-scpi-to-simulation>
-      <button
-        pButton
-        type="button"
-        severity="info"
-        label="Enregistrer la simulation"
-        class="save_button"
-        (click)="openDialog()"
-      ></button>
     </div>
-
-    <app-rename-simulation-dialog
-      [isDialogVisible]="isDialogVisible"
-      [simulationName]="simulationName"
-      (closeDialog)="isDialogVisible = false"
-      (renameSimulation)="updateSimulationName($event)"
-    ></app-rename-simulation-dialog>
   } @else {
     <p-card header="Détails Indisponibles" class="w-100">
       <p class="m-0">
@@ -166,5 +152,3 @@
     </p-card>
   }
 </div>
-
-
