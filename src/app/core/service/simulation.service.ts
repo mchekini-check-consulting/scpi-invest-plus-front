@@ -26,6 +26,7 @@ export class SimulationService {
   private apiUrl = "/api/v1/simulation";
   private simulationSubject = new BehaviorSubject<any | null>(null);
   simulation$ = this.simulationSubject.asObservable();
+  
 
   constructor(private http: HttpClient) {}
 
