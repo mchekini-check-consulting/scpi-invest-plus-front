@@ -7,6 +7,8 @@ export type ScpiModel = {
   statYear: StatYearModel;
 };
 
+
+
 type LocationModel = {
   countryPercentage: number;
   id: {
