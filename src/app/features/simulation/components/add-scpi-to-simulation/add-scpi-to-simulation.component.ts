@@ -20,6 +20,7 @@ export class AddScpiToSimulationComponent {
   @Input() simulation?: Simulation;
   @Input() isAddScpiDialogVisible: boolean = false;
   @Input() simulationId? : number;
+  @Input() addScpi? : boolean;
   @Output() closeDialog = new EventEmitter<void>();
 
   onClose() {

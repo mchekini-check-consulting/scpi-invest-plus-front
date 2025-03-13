@@ -4,21 +4,53 @@ import {CommonModule} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
+import { ConfirmDeleteDialogComponent } from '../simulation-creator/simulation_dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+
 @Component({
   selector: 'app-simulation-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink,ConfirmDeleteDialogComponent],
   templateUrl: './simulation-list.component.html',
   styleUrls: ['./simulation-list.component.css'],
 })
 export class SimulationListComponent implements OnInit {
   simulations: Simulation[] = [];
 
+  isDialogVisible = false;
+  simulationToDelete: number | null = null;
+
   constructor(private simulationService: SimulationService) {
   }
 
   ngOnInit(): void {
     this.loadSimulations();
+  }
+
+  openDeleteDialog(simulationId: number) {
+    this.simulationToDelete = simulationId;
+    this.isDialogVisible = true;
+
+  }
+
+  confirmDelete() {
+    if (this.simulationToDelete !== null) {
+      this.simulationService.deleteSimulation(this.simulationToDelete).subscribe({
+        next: () => {
+          this.simulations = this.simulations.filter(sim => sim.id !== this.simulationToDelete);
+          this.simulationToDelete = null;
+        },
+        error: (error) => {
+          console.error('Erreur lors de la suppression de la simulation', error);
+        }
+      });
+    }
+    this.isDialogVisible = false;
+  }
+
+
+  cancelDelete() {
+    this.simulationToDelete = null;
+    this.isDialogVisible = false;
   }
 
   calculateTotalAmount(scpiSimulations: ScpiSimulation[]): number {

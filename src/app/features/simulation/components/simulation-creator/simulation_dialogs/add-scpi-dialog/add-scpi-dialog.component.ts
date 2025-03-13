@@ -12,6 +12,7 @@ import { DialogModule } from 'primeng/dialog';
 export class AddScpiDialogComponent {
   @Input() isDialogVisible: boolean = false;
   @Input() simulationId? : number;
+  @Input() addScpi? : boolean;
   @Output() closeDialog = new EventEmitter<void>();
 
   close() {

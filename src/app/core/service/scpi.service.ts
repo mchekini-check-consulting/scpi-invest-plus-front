@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ScpiModel } from '../model/scpi.model';
 import { ScpiSearch } from '@/core/model/scpi-search.model';
+import { Details } from '../model/Details';
 
 type Scpis = ScpiModel[];
 
@@ -15,11 +16,16 @@ export class ScpiService {
   private investorUri = '/api/v1/investors';
 
   constructor(private http: HttpClient) {}
+
   get(): Observable<Scpis> {
     return this.http.get<Scpis>(this.url);
   }
   getScpiWithFilter(search?: ScpiSearch): Observable<ScpiModel[]> {
     return this.http.post<ScpiModel[]>(`${this.url}/search`, search);
+  }
+
+  getScpiById(id: number): Observable<Details> {
+    return this.http.get<Details>(`${this.url}/details/${id}`);
   }
 
   verifyInvestmentAbility(): Observable<boolean> {

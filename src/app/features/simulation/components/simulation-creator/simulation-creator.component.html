@@ -4,7 +4,7 @@
       <div class="header_container">
         <div class="simulation-header">
           <span class="title">{{ simulationName }}</span>
-          <i class="pi pi-pencil edit-icon" (click)="openDialog()"></i>
+
         </div>
         <button class="share-button">
           <i class="pi pi-share-alt"></i> Partager
@@ -23,12 +23,5 @@
   </p-card>
 
   <app-add-scpi-to-simulation [simulationId]= 'simulationId' ></app-add-scpi-to-simulation>
-
-  <app-rename-simulation-dialog
-    [isDialogVisible]="isDialogVisible"
-    [simulationName]="simulationName"
-    (closeDialog)="isDialogVisible = false"
-    (renameSimulation)="updateSimulationName($event)"
-  ></app-rename-simulation-dialog>
 
 </div>

@@ -155,3 +155,17 @@
   font-weight: bold;
   font-size: 1.3em;
 }
+
+.delete-icon {
+  color: red;
+  font-size: 1.1rem;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save_button {
+  margin-top: 10px;
+  width: 90%;
+  margin-left: 20px;
+}
