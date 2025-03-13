@@ -16,16 +16,11 @@ import { YearPickerCalendarComponent } from "./year-picker-calendar/year-picker-
 import { TranslateModule } from "@ngx-translate/core";
 import { InvestorService } from "@/core/service/investor.service";
 import { MessageService } from "primeng/api";
-import {
-  ScpiSimulation,
-  Simulation,
-  SimulationCreate,
-} from "@/core/model/Simulation";
+import { ScpiSimulation, Simulation, SimulationCreate } from "@/core/model/Simulation";
 import { SimulationService } from "@/core/service/simulation.service";
 import { Router } from "@angular/router";
 import { ScpiService } from "@/core/service/scpi.service";
 import { StatYear } from "@/core/model/StatYear";
-import { Sector } from "@/core/model/Sector";
 
 @Component({
   selector: "app-scpi-invest-modal",
@@ -55,14 +50,15 @@ export class ScpiInvestModalComponent {
   @Input() minimumSubscription?: string;
   @Input() mode?: string;
   @Output() close = new EventEmitter<void>();
-  @Input() addScpi?: boolean;
+   @Input() addScpi? : boolean;
+
 
   investmentDuration?: number;
   investmentPercentage?: number;
   editable: boolean = false;
   currencyOptions: any[] = [];
   selectedPropertyType: string = "Pleine propriété";
-  i: number = 0;
+
   propertyOptions = [
     { label: "Pleine propriété", value: "Pleine propriété" },
     { label: "Nue-propriétaire", value: "Nue-propriétaire" },
@@ -105,7 +101,6 @@ export class ScpiInvestModalComponent {
   ngOnInit() {
     this.investmentForm.controls["sharePrice"].valueChanges.subscribe(() => {
       this.calculateTotalInvestment();
-
     });
 
     this.investmentForm.valueChanges.subscribe(() => {
@@ -164,61 +159,49 @@ export class ScpiInvestModalComponent {
 
       if (this.scpiId) {
         this.scpiService.getScpiById(this.scpiId).subscribe((scpi) => {
-          const scpiData = this.createScpiData(scpi, investmentData);
+          const scpiData = {
+            scpiId: this.scpiId ?? 0,
+            scpiName: scpi.name ?? this.scpiName ?? "simulation",
+            numberPart: investmentData.shareCount ?? 0,
+            partPrice: this.sharePrice ?? 0,
+            rising: investmentData.totalInvestment ?? 0,
+            statYear: scpi.statYear.distributionRate,
+            duree: investmentData.investmentDuration?.year ?? 0,
+            dureePercentage: investmentData.investmentDuration?.percentage ?? 0,
+            propertyType: investmentData.propertyType ?? "",
+          };
+
           const locations = scpi.locations ?? [];
           const sectors = scpi.sectors ?? [];
 
           if (this.addScpi === true) {
-            this.simulationService
-              .addScpiToSimulation(scpiData, locations, sectors)
-              .subscribe((updatedSimulation) => {
-                this.simulationService.calculateSimulationResults(
-                  updatedSimulation
-                );
-              });
+            this.simulationService.addScpiToSimulation(scpiData, locations, sectors).subscribe((updatedSimulation) => {
+            });
           } else {
-            const simulationCreation = this.createSimulation(
-              scpiData,
-              investmentData
-            );
-            this.simulationService.calculateSimulationResults(
-              simulationCreation
-            );
+
+            const simulationCreation: Simulation = {
+              id: -1,
+              name: "Simulation",
+              monthlyIncome: 0,
+              totalInvestment: investmentData.totalInvestment ?? 0,
+              simulationDate: new Date().toISOString().split("T")[0],
+              scpiSimulations: [scpiData],
+              locations: locations,
+              sectors: sectors,
+            };
+
+            this.simulationService.calculateSimulationResults(simulationCreation);
           }
 
           this.router.navigate([`simulations/detailSimulation`]);
         });
       }
+
+
+
     }
-    this.closeModal()
   }
 
-  private createScpiData(scpi: any, investmentData: any): any {
-    return {
-      scpiId: this.scpiId ?? 0,
-      scpiName: scpi.name ?? this.scpiName ?? "simulation",
-      numberPart: investmentData.shareCount ?? 0,
-      partPrice: this.sharePrice ?? 0,
-      rising: investmentData.totalInvestment ?? 0,
-      statYear: scpi.statYear?.distributionRate,
-      duree: investmentData.investmentDuration?.year ?? 0,
-      dureePercentage: investmentData.investmentDuration?.percentage ?? 0,
-      propertyType: investmentData.propertyType ?? "",
-      locations: scpi.locations ?? [],
-      sectors: scpi.sectors ?? [],
-    };
-  }
-
-  private createSimulation(scpiData: any, investmentData: any): any {
-    return {
-      id: -1,
-      name: "Simulation",
-      monthlyIncome: 0,
-      totalInvestment: investmentData.totalInvestment ?? 0,
-      simulationDate: new Date().toISOString().split("T")[0],
-      scpiSimulations: [scpiData],
-    };
-  }
 
   createInvestment(): void {
     if (this.investmentForm.valid) {
@@ -230,6 +213,8 @@ export class ScpiInvestModalComponent {
         scpiId: this.scpiId,
         investmentState: "Investissement",
       };
+
+
 
       this.investorService.createInvestment(investmentData).subscribe(
         () => {
@@ -305,12 +290,12 @@ export class ScpiInvestModalComponent {
         this.minimumSubscription &&
         totalInvestment < +this.minimumSubscription
       ) {
-        // console.log("Erreur belowMinimum ajoutée");
+        console.log("Erreur belowMinimum ajoutée");
         this.investmentForm.controls["totalInvestment"].setErrors({
           belowMinimum: true,
         });
       } else {
-        // console.log("Erreur belowMinimum supprimée");
+        console.log("Erreur belowMinimum supprimée");
         this.investmentForm.controls["totalInvestment"].setErrors(null);
       }
     }

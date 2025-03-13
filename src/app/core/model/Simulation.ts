@@ -17,7 +17,7 @@ export interface SimulationCreate {
   name: string;
   simulationDate: string;
   investorEmail?: string;
-  scpis: Scpi[];
+  scpiSimulations: Scpi[];
 }
 
 
@@ -41,7 +41,6 @@ export interface ScpiSimulation {
   dureePercentage: number;
   propertyType: string;
   scpiName: string;
-  statYear? : number
 }
 
 

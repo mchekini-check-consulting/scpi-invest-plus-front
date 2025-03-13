@@ -1,14 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import {
-  BehaviorSubject,
-  catchError,
-  Observable,
-  of,
-  switchMap,
-  tap,
-  throwError,
-} from "rxjs";
+import { BehaviorSubject, Observable, of, switchMap, tap, throwError } from "rxjs";
 import {
   Scpi,
   ScpiSimulation,
@@ -26,7 +18,6 @@ export class SimulationService {
   private apiUrl = "/api/v1/simulation";
   private simulationSubject = new BehaviorSubject<any | null>(null);
   simulation$ = this.simulationSubject.asObservable();
-  
 
   constructor(private http: HttpClient) {}
 
@@ -55,148 +46,160 @@ export class SimulationService {
     );
   }
 
-  deleteSimulation(id: string | number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-      catchError((error) => {
-        console.error('Erreur lors de la suppression de la simulation:', error);
-        throw error;
-      })
-    );
+  deleteSimulation(id: string | number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  addScpiToSimulation(
-    scpiData: Scpi,
-    locations: Location[],
-    sectors: Sector[]
-  ): Observable<Simulation> {
+  addScpiToSimulation(scpiData: Scpi, locations: Location[], sectors: Sector[]): Observable<Simulation> {
     const currentSimulation = this.simulationSubject.value;
 
     if (!currentSimulation || !currentSimulation.id) {
+      console.error("Aucune simulation sélectionnée.");
       return throwError(() => new Error("Aucune simulation sélectionnée."));
     }
 
-    const scpiAlreadyExists = currentSimulation.scpiSimulations.some(
-      (scpi: Scpi) => scpi.scpiId === scpiData.scpiId
-    );
-
-    if (scpiAlreadyExists) {
-      return throwError(() => new Error("Cette SCPI est déjà ajoutée."));
-    }
-
+    // Mettre à jour le totalInvestment en ajoutant le rising de la nouvelle SCPI
     currentSimulation.totalInvestment += scpiData.rising;
+
     currentSimulation.scpiSimulations.push(scpiData);
 
     currentSimulation.locations = [
       ...currentSimulation.locations,
-      ...locations,
+      ...locations
     ];
 
-    currentSimulation.sectors = [...currentSimulation.sectors, ...sectors];
+
+    currentSimulation.sectors = [
+      ...currentSimulation.sectors,
+      ...sectors
+    ];
+
+
+    this.calculateSimulationResults(currentSimulation);
+
+
     this.simulationSubject.next(currentSimulation);
 
     return of(currentSimulation);
-  }
+}
 
 
-  calculateSimulationResults(simulationCreation: Simulation): void {
-    if (
-      !simulationCreation.scpiSimulations ||
-      simulationCreation.scpiSimulations.length === 0
-    ) {
+
+
+calculateSimulationResults(simulationCreation: Simulation): void {
+
+  if (!simulationCreation.scpiSimulations || simulationCreation.scpiSimulations.length === 0) {
       console.warn("Aucune SCPI simulation trouvée.");
       return;
-    }
+  }
 
-    let monthlyIncome = 0;
-    const sectorInvestments: Map<string, number> = new Map();
-    const countryInvestments: Map<string, number> = new Map();
+  let monthlyIncome = 0;
+  let total = simulationCreation.totalInvestment
+  const sectorInvestments: Map<string, number> = new Map();
+  const countryInvestments: Map<string, number> = new Map();
 
-    simulationCreation.scpiSimulations.forEach((scpiSimulation: any) => {
+  // 1. Calculer l'investissement total et les revenus mensuels
+  simulationCreation.scpiSimulations.forEach((scpiSimulation: any) => {
       const rate = scpiSimulation.statYear;
       const investedAmount = scpiSimulation.rising;
 
+      // Calcul du revenu mensuel
       const income = investedAmount * (rate / 100);
       monthlyIncome += income;
 
-      if (
-        scpiSimulation?.locations &&
-        Array.isArray(scpiSimulation.locations)
-      ) {
-        scpiSimulation.locations.forEach((location: Location) => {
+
+
+      // Répartition des investissements par pays pour chaque SCPI
+      simulationCreation.locations.forEach((location: Location) => {
           const countryName = location.id.country;
           const countryPercentage = location.countryPercentage;
 
-          const investedAmountInCountry =
-            (investedAmount * countryPercentage) / 100;
+          // Calcul de l'investissement de cette SCPI dans ce pays
+          const investedAmountInCountry = (investedAmount * countryPercentage) / 100;
+
+          console.log("___investedAmountInCountry",investedAmountInCountry,countryName);
+
+
+          // Ajouter cet investissement à l'investissement total du pays
           countryInvestments.set(
-            countryName,
-            (countryInvestments.get(countryName) || 0) + investedAmountInCountry
-          );
-        });
-      } else {
-        console.error(
-          "scpiSimulation.locations est undefined ou n'est pas un tableau",
-          scpiSimulation?.locations
-        );
-      }
+              countryName,
+              (countryInvestments.get(countryName) || 0) + investedAmountInCountry
+                );
 
-      scpiSimulation.sectors.forEach((sector: Sector) => {
-        const sectorName = sector.id.name;
-        const sectorPercentage = sector.sectorPercentage;
+          console.log('countryInvestments___',countryInvestments,countryName);
 
-        const investedAmountInSector =
-          (investedAmount * sectorPercentage) / 100;
-        sectorInvestments.set(
-          sectorName,
-          (sectorInvestments.get(sectorName) || 0) + investedAmountInSector
-        );
       });
-    });
 
-    // Arrondi des pourcentages
-    const locations = Array.from(countryInvestments.entries()).map(
-      ([countryName, total]) => ({
-        id: { country: countryName },
-        countryPercentage:
-          Math.round((total / simulationCreation.totalInvestment) * 100 * 100) /
-          100,
-      })
-    );
+      // Répartition des investissements par secteur
+      simulationCreation.sectors.forEach((sector: Sector) => {
+          const sectorName = sector.id.name;
+          const sectorPercentage = sector.sectorPercentage;
 
-    const sectors = Array.from(sectorInvestments.entries()).map(
-      ([sectorName, total]) => ({
-        id: { name: sectorName },
-        sectorPercentage:
-          Math.round((total / simulationCreation.totalInvestment) * 100 * 100) /
-          100,
-      })
-    );
+          // Calcul de l'investissement pour ce secteur
+          const investedAmountInSector = (investedAmount * sectorPercentage) / 100;
 
-    const simulationResult = {
+          // Ajouter cet investissement au total du secteur
+          sectorInvestments.set(
+              sectorName,
+              (sectorInvestments.get(sectorName) || 0) + investedAmountInSector
+          );
+      });
+  });
+
+  // 2. Calculer les pourcentages de répartition par pays sur le total global
+  const locations = Array.from(countryInvestments.entries()).map(([countryName, total]) => ({
+      id: { country: countryName },
+      countryPercentage: (total / simulationCreation.totalInvestment) * 100,
+  }));
+
+  console.log("________________locations",locations);
+
+
+  // 3. Calculer les pourcentages de répartition par secteur sur le total global
+  const sectors = Array.from(sectorInvestments.entries()).map(([sectorName, total]) => ({
+      id: { name: sectorName },
+      sectorPercentage: (total / simulationCreation.totalInvestment) * 100, // Correction ici
+  }));
+
+  // 4. Vérification des pourcentages
+  const totalSectorPercentage = sectors.reduce((acc, sector) => acc + sector.sectorPercentage, 0);
+  const totalCountryPercentage = locations.reduce((acc, location) => acc + location.countryPercentage, 0);
+
+
+
+  if (Math.abs(totalSectorPercentage - 100) > 0.1) {
+      console.warn("Les pourcentages des secteurs ne totalisent pas 100%.");
+  }
+  if (Math.abs(totalCountryPercentage - 100) > 0.1) {
+      console.warn("Les pourcentages des pays ne totalisent pas 100%.");
+  }
+
+  // 5. Création du résultat final de la simulation
+  const simulationResult = {
       id: -1,
       name: simulationCreation.name,
-      simulationDate: new Date().toISOString().split("T")[0],
+      simulationDate: "2025-03-09",
       monthlyIncome,
-      totalInvestment: simulationCreation.totalInvestment,
-      scpiSimulations: simulationCreation.scpiSimulations.map(
-        (scpiSimulation: ScpiSimulation) => ({
+      totalInvestment : simulationCreation.totalInvestment,
+      scpiSimulations: simulationCreation.scpiSimulations.map((scpiSimulation: ScpiSimulation) => ({
           scpiId: scpiSimulation.scpiId,
           numberPart: scpiSimulation.numberPart,
-          statYear: scpiSimulation.statYear,
           partPrice: scpiSimulation.partPrice,
           rising: scpiSimulation.rising,
           duree: scpiSimulation.duree,
           dureePercentage: scpiSimulation.dureePercentage,
-          propertyType: scpiSimulation.propertyType,
-          scpiName: scpiSimulation.scpiName,
-          locations: [...locations],
-          sectors: [...sectors],
-        })
-      ),
-      locations: [...locations],
-      sectors: [...sectors],
-    };
+          propertyType: scpiSimulation.propertyType || "Nue-propriétaire",
+          scpiName: scpiSimulation.scpiName || "simulation",
+      })),
+      locations,
+      sectors,
+  };
 
-    this.simulationSubject.next(simulationResult);
-  }
+  // Mise à jour de la simulation
+  this.simulationSubject.next(simulationResult);
+}
+
+
+
+
 }

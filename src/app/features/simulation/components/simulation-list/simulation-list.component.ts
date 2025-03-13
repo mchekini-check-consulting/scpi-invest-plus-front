@@ -3,7 +3,6 @@ import {SimulationService} from '@/core/service/simulation.service';
 import {CommonModule} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
-
 import { ConfirmDeleteDialogComponent } from '../simulation-creator/simulation_dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
@@ -29,24 +28,15 @@ export class SimulationListComponent implements OnInit {
   openDeleteDialog(simulationId: number) {
     this.simulationToDelete = simulationId;
     this.isDialogVisible = true;
-
   }
 
   confirmDelete() {
     if (this.simulationToDelete !== null) {
-      this.simulationService.deleteSimulation(this.simulationToDelete).subscribe({
-        next: () => {
-          this.simulations = this.simulations.filter(sim => sim.id !== this.simulationToDelete);
-          this.simulationToDelete = null;
-        },
-        error: (error) => {
-          console.error('Erreur lors de la suppression de la simulation', error);
-        }
-      });
+      this.simulations = this.simulations.filter(sim => sim.id !== this.simulationToDelete).slice();
+      this.simulationToDelete = null;
     }
     this.isDialogVisible = false;
   }
-
 
   cancelDelete() {
     this.simulationToDelete = null;
