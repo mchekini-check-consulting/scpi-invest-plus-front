@@ -26,7 +26,7 @@ export class SimulationService {
   private apiUrl = "/api/v1/simulation";
   private simulationSubject = new BehaviorSubject<any | null>(null);
   simulation$ = this.simulationSubject.asObservable();
-  
+
 
   constructor(private http: HttpClient) {}
 
@@ -34,18 +34,20 @@ export class SimulationService {
     return this.http.get<Simulation[]>(this.apiUrl);
   }
 
-  createSimulation(
-    simulation: SimulationCreate,
-    status: boolean
-  ): Observable<Simulation> {
+  createSimulation(simulation: SimulationCreate): Observable<Simulation> {
     return this.http
-      .post<Simulation>(this.apiUrl, simulation, { params: { status } })
+      .post<Simulation>(this.apiUrl, simulation) 
       .pipe(
         tap((response) => {
           this.simulationSubject.next(response);
+        }),
+        catchError((error) => {
+          console.error('Error creating simulation:', error);
+          return throwError(() => error);
         })
       );
   }
+
 
   getSimulationById(id: string | number): Observable<Simulation> {
     return this.http.get<Simulation>(this.apiUrl + "/" + id).pipe(

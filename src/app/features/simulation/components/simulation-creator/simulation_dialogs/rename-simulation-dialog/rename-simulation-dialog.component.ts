@@ -46,12 +46,6 @@ export class RenameSimulationDialogComponent {
 
     this.simulationService.simulation$.pipe(take(1)).subscribe((simulation) => {
       this.simulation = simulation;
-
-
-
-
-
-
       let today = new Date();
       let day = String(today.getDate()).padStart(2, "0");
       let month = String(today.getMonth() + 1).padStart(2, "0");
@@ -73,11 +67,7 @@ export class RenameSimulationDialogComponent {
         })) || [],
       };
 
-
-      console.log("simulationCreation_______", simulationCreation);
-
-
-      this.simulationService.createSimulation(simulationCreation,true).subscribe({
+      this.simulationService.createSimulation(simulationCreation).subscribe({
         next: (response) => {
           this.router.navigate([`simulations`]);;
         },
