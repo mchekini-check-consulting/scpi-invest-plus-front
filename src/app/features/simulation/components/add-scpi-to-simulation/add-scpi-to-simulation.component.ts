@@ -13,12 +13,14 @@ import {DecimalPipe} from '@angular/common';
   selector: 'app-add-scpi-to-simulation',
   imports: [CardModule, ButtonModule, DialogModule, AddScpiDialogComponent, DecimalPipe],
   templateUrl: './add-scpi-to-simulation.component.html',
+  standalone: true,
   styleUrl: './add-scpi-to-simulation.component.css'
 })
 export class AddScpiToSimulationComponent {
   @Input() simulation?: Simulation;
   @Input() isAddScpiDialogVisible: boolean = false;
   @Input() simulationId? : number;
+  @Input() addScpi? : boolean;
   @Output() closeDialog = new EventEmitter<void>();
 
   onClose() {
