@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable, catchError, switchMap, throwError } from 'rxjs';
 import { Dismemberment } from '../model/Dismemberment';
 
 @Injectable({
@@ -20,13 +20,32 @@ export class InvestorService {
     );
   }
 
+
+
   createOrUpdateInvestor(email: string, investorData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${email}`, investorData).pipe(
-      catchError((error) => {
+    return this.getInvestorByEmail(email).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          return this.http.post(`${this.apiUrl}`, investorData).pipe(
+            catchError((postError) => {
+              return throwError(() => postError);
+            })
+          );
+        }
+     
         return throwError(() => error);
+      }),
+      switchMap((investor) => {
+        // Si l'investisseur existe, on effectue un PATCH pour le mettre à jour
+        return this.http.patch(`${this.apiUrl}/${email}`, investorData).pipe(
+          catchError((patchError) => {
+            return throwError(() => patchError);
+          })
+        );
       })
     );
   }
+
 
   getDismembermentByType(propertyType: string): Observable<Dismemberment[]> {
     return this.http.get<Dismemberment[]>(
