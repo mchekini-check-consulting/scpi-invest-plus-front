@@ -18,6 +18,10 @@ export const routes: Routes = [
     component: TemplateComponent,
     children: [
       {
+        path: '',
+        component: ScpiComponent
+      },
+      {
         path: 'scpi',
         component: ScpiComponent,
         canActivate: [AuthGuard],
