@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { catchError, Subscription } from 'rxjs';
 import { ScpiCardComponent } from './components/scpi-card/scpi-card.component';
+import { UserService } from '@/core/service/user.service';
 
 @Component({
   selector: 'app-scpi',
@@ -35,29 +36,37 @@ export class ScpiComponent implements OnInit, OnDestroy {
 
   constructor(
     private scpiService: ScpiService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
-    if (this.filteredScpis.length === 0) {
-      this.loading = true;
-      this.subscriptions.add(
-        this.scpiService
-          .get()
-          .pipe(
-            catchError((error) => {
+
+    this.userService.user$.subscribe(user => {
+      if (!user) {
+        return
+      }
+
+      if (this.filteredScpis.length === 0) {
+        this.loading = true;
+        this.subscriptions.add(
+          this.scpiService
+            .get()
+            .pipe(
+              catchError((error) => {
+                this.loading = false;
+                return [];
+              })
+            )
+            .subscribe((data) => {
+              this.scpis = data;
+              this.filteredScpis = [...data];
               this.loading = false;
-              return [];
+              this.cdRef.detectChanges();
             })
-          )
-          .subscribe((data) => {
-            this.scpis = data;
-            this.filteredScpis = [...data];
-            this.loading = false;
-            this.cdRef.detectChanges();
-          })
-      );
-    }
+        );
+      }
+    })
   }
 
   getImage(id: number): string {
