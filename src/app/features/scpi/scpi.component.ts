@@ -3,9 +3,10 @@ import {ScpiService} from '@/core/service/scpi.service';
 import {SearchMulticriteriaComponent} from '@/features/search-multicriteria/search-multicriteria.component';
 import {CommonModule} from '@angular/common';
 import {SkeletonModule} from 'primeng/skeleton';
-import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit,} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnDestroy,} from '@angular/core';
 import {catchError, Subscription} from 'rxjs';
 import {ScpiCardComponent} from './components/scpi-card/scpi-card.component';
+import {UserService} from '@/core/service/user.service';
 
 @Component({
   selector: 'app-scpi',
@@ -14,7 +15,7 @@ import {ScpiCardComponent} from './components/scpi-card/scpi-card.component';
   styleUrl: './scpi.component.css',
 })
 
-export class ScpiComponent implements OnInit, OnDestroy {
+export class ScpiComponent implements OnDestroy {
   scpis: ScpiModel[] = [];
   filteredScpis: ScpiModel[] = [];
   loading = false;
@@ -27,30 +28,33 @@ export class ScpiComponent implements OnInit, OnDestroy {
 
   constructor(
     private scpiService: ScpiService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private userService: UserService,
   ) {
-  }
-
-  ngOnInit() {
-    if (this.filteredScpis.length === 0) {
-      this.loading = true;
-      this.subscriptions.add(
-        this.scpiService
-          .get()
-          .pipe(
-            catchError(() => {
+    this.userService.user$.subscribe(user => {
+      if (!user) {
+        return
+      }
+      if (this.filteredScpis.length === 0) {
+        this.loading = true;
+        this.subscriptions.add(
+          this.scpiService
+            .get()
+            .pipe(
+              catchError(() => {
+                this.loading = false;
+                return [];
+              })
+            )
+            .subscribe((data) => {
+              this.scpis = data;
+              this.filteredScpis = [...data];
               this.loading = false;
-              return [];
+              this.cdRef.detectChanges();
             })
-          )
-          .subscribe((data) => {
-            this.scpis = data;
-            this.filteredScpis = [...data];
-            this.loading = false;
-            this.cdRef.detectChanges();
-          })
-      );
-    }
+        );
+      }
+    })
   }
 
   getImage(id: number): string {

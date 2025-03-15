@@ -61,7 +61,6 @@ export class SimulationEffects {
               severity: 'success',
               summary: 'Succès',
               detail: `La SCPI avec l'ID "${scpiSimulation.scpiId}" a été ajoutée avec succès.`,
-              life: 100000
             });
 
             const currentUrl = this.router.url;

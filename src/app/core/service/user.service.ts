@@ -3,7 +3,6 @@ import {BehaviorSubject} from 'rxjs';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {UserModel} from "../model/user.model";
 import {jwtDecode} from 'jwt-decode';
-import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,7 @@ export class UserService {
   private userSubject = new BehaviorSubject<UserModel | null>(null);
   public user$ = this.userSubject.asObservable();
 
-  constructor(private oauthService: OAuthService, private router: Router) {
+  constructor(private oauthService: OAuthService) {
     this.loadUser();
   }
 
@@ -40,10 +39,6 @@ export class UserService {
         role: userRole
       });
       console.log("Le rôle récupéré est :", userRole);
-      console.log(this.router.url, new Date().getMinutes(), new Date().getSeconds()); // ✅ Ensures the correct URL is logged
-      if (this.router.url === '/') {
-        this.router.navigate(['/scpi']);
-      }
     }
   }
 
