@@ -1,10 +1,15 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
-import { Dismemberment } from '../model/Dismemberment';
+import { Injectable } from "@angular/core";
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpParams,
+} from "@angular/common/http";
+import { Observable, catchError, switchMap, throwError } from "rxjs";
+import { Dismemberment } from "../model/Dismemberment";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class InvestorService {
   private apiUrl = `/api/v1/investors`;
@@ -21,10 +26,14 @@ export class InvestorService {
   }
 
   createOrUpdateInvestor(email: string, investorData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${email}`, investorData).pipe(
-      catchError((error) => {
-        return throwError(() => error);
-      })
+    return this.getInvestorByEmail(email).pipe(
+      catchError((error: HttpErrorResponse) =>
+        error.status === 404
+          ? this.http.post(`${this.apiUrl}`, investorData)
+          : throwError(() => error)
+      ),
+      switchMap(() => this.http.patch(`${this.apiUrl}/${email}`, investorData)),
+      catchError((error) => throwError(() => error))
     );
   }
 
