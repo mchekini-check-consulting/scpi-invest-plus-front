@@ -1,10 +1,15 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, catchError, switchMap, throwError } from 'rxjs';
-import { Dismemberment } from '../model/Dismemberment';
+import { Injectable } from "@angular/core";
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpParams,
+} from "@angular/common/http";
+import { Observable, catchError, switchMap, throwError } from "rxjs";
+import { Dismemberment } from "../model/Dismemberment";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class InvestorService {
   private apiUrl = `/api/v1/investors`;
@@ -20,32 +25,17 @@ export class InvestorService {
     );
   }
 
-
-
   createOrUpdateInvestor(email: string, investorData: any): Observable<any> {
     return this.getInvestorByEmail(email).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 404) {
-          return this.http.post(`${this.apiUrl}`, investorData).pipe(
-            catchError((postError) => {
-              return throwError(() => postError);
-            })
-          );
-        }
-     
-        return throwError(() => error);
-      }),
-      switchMap((investor) => {
-        // Si l'investisseur existe, on effectue un PATCH pour le mettre à jour
-        return this.http.patch(`${this.apiUrl}/${email}`, investorData).pipe(
-          catchError((patchError) => {
-            return throwError(() => patchError);
-          })
-        );
-      })
+      catchError((error: HttpErrorResponse) =>
+        error.status === 404
+          ? this.http.post(`${this.apiUrl}`, investorData)
+          : throwError(() => error)
+      ),
+      switchMap(() => this.http.patch(`${this.apiUrl}/${email}`, investorData)),
+      catchError((error) => throwError(() => error))
     );
   }
-
 
   getDismembermentByType(propertyType: string): Observable<Dismemberment[]> {
     return this.http.get<Dismemberment[]>(
