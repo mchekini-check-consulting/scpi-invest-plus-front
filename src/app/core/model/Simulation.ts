@@ -42,6 +42,8 @@ export interface ScpiSimulation {
   propertyType: string;
   scpiName: string;
   statYear? : number
+  grossRevenue : number
+  netRevenue: number;
 }
 
 
