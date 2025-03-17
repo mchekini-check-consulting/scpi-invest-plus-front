@@ -11,6 +11,7 @@ import { ScpiService } from "@/core/service/scpi.service";
 import { ScpiModel } from '@/core/model/scpi.model';
 import { ButtonModule } from 'primeng/button';
 import {SearchBarComponent} from "@/features/search-multicriteria/components/search-bar/search-bar.component";
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-search-multicriteria',
@@ -95,17 +96,19 @@ export class SearchMulticriteriaComponent {
     this.filters = this.getDefaultFilters();
     this.loading = true;
 
-    this.scpiService.get().subscribe(
-      (data) => {
-        this.scpiResults = data || [];
-        this.loading = false;
-        this.scpiFiltered.emit(this.scpiResults);
-      },
-      (error) => {
+    this.scpiService.scpis$.pipe(
+      catchError((error) => {
         this.scpiResults = [];
         this.loading = false;
         this.scpiFiltered.emit(this.scpiResults);
         console.error("Erreur lors du rechargement des SCPI", error);
+        return [];
+      })
+    ).subscribe(
+      (data) => {
+        this.scpiResults = data || [];
+        this.loading = false;
+        this.scpiFiltered.emit(this.scpiResults);
       }
     );
   }
