@@ -1,50 +1,66 @@
 <div class="portfeuille-container">
 
-<b><h2 class="ptf-title">Portefeuille</h2></b>
-
-<div *ngIf="investissements.length > 0; else portefeuilleEmpty">
+  <b><h2 class="ptf-title">Portefeuille</h2></b>
+  <div *ngIf="investissements.length > 0; else portefeuilleEmpty">
     <table class="table">
-        <thead>
-          <tr>
-            <th>SCPI</th>
-            <th>Montant Investi (€)</th>
-            <th>Nombre de Parts</th>
-            <th>État</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let investissement of investissements">
-            <td>{{ investissement.scpiName }}</td>
-            <td>{{ investissement.totalAmount | currency:'EUR' }}</td>
-            <td>{{ investissement.numberShares }}</td>
-            <td>{{ investissement.investmentState }}</td>
-          </tr>
-        </tbody>
-      </table>
-</div>
+      <thead>
+        <tr>
+          <th>SCPI</th>
+          <th>Montant Investi (€)</th>
+          <th>Nombre de Parts</th>
+          <th>État</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let investissement of paginatedInvestissements">
+          <td>{{ investissement.scpiName }}</td>
+          <td>{{ investissement.totalAmount }} € </td>
+          <td>{{ investissement.numberShares }}</td>
+          <td>{{ investissement.investmentState }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination-container">
+      <button 
+        (click)="goToPage(currentPage - 1)" 
+        [disabled]="currentPage === 1">
+        Précédent
+      </button>
+
+      <span>Page {{ currentPage }} / {{ totalPages }}</span>
+
+      <button 
+        (click)="goToPage(currentPage + 1)" 
+        [disabled]="currentPage === totalPages">
+        Suivant
+      </button>
+    </div>
+
+
+  </div>
+
 </div>
 
 <ng-template #portefeuilleEmpty>
-    <h3 class="note-txt">Votre portefeuille est vide</h3>
-    <div class="page-container">
+  <h3 class="note-txt">Votre portefeuille est vide</h3>
+  <div class="page-container">
     <div class="card">
-    <div>
+      <div>
         <h4 class="card-title">Votre portefeuille est vide</h4>
-        <p class="card-body">Découvrez notre sélection de SCPI et profitez de 3,00 % de cashback sur la plupart d'entre elles.</p>
-    </div>
-    <br>
-     <div class="btn-container">
+        <p class="card-body">
+          Découvrez notre sélection de SCPI et profitez de 3,00 % de cashback sur la plupart d'entre elles.
+        </p>
+      </div>
+      <br>
+      <div class="btn-container">
         <p-button
-        (click)="startInvesting()"
-        label="Commencer à investir"
-        icon="pi pi-arrow-right"
-        severity="info"
-        >
+          (click)="startInvesting()"
+          label="Commencer à investir"
+          icon="pi pi-arrow-right"
+          severity="info">
         </p-button>
-     </div>
+      </div>
     </div>
-    </div>
-
+  </div>
 </ng-template>
-
-
