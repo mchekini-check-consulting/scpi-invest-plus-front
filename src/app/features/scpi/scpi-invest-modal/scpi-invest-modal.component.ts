@@ -235,9 +235,9 @@ export class ScpiInvestModalComponent {
         () => {
           const toastDuration = 2000;
           this.messageService.add({
-            severity: "success",
-            summary: "Succès",
-            detail: "Investissement réalisé avec succès.",
+            severity: "info", 
+            summary: "Demande en cours",
+            detail: "Votre demande d'investissement est en cours de traitement. Une décision vous sera envoyée par email dans les plus brefs délais.",
             life: toastDuration,
           });
         },
