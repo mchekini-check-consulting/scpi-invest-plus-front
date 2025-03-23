@@ -33,10 +33,10 @@ export class SimulationService {
 
   private TAX_BRACKETS = [
     {lower: 0, upper: 11294, rate: 0},
-    {lower: 11294, upper: 27478, rate: 11},
-    {lower: 27478, upper: 78570, rate: 30},
-    {lower: 78570, upper: 168994, rate: 41},
-    {lower: 168994, upper: Infinity, rate: 45},
+    {lower: 11294, upper: 28797, rate: 11},
+    {lower: 27478, upper: 82341, rate: 30},
+    {lower: 78570, upper: 177105, rate: 41},
+    {lower: 177106, upper: Infinity, rate: 45},
   ];
 
 
