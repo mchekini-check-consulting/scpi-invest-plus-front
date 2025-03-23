@@ -126,6 +126,7 @@ export class SimulationDetailComponent implements OnInit {
         this.isDetailRoute = false;
       }
     });
+    this.simulationService.getInvestorInfos()
   }
 
   updateSectorData(): void {
@@ -206,4 +207,27 @@ export class SimulationDetailComponent implements OnInit {
       }));
     }
   }
+
+  getTotalGrossRevenue(): string {
+    if (!this.simulation || !this.simulation.scpiSimulations) {
+      return "0,00";
+    }
+    const total = this.simulation.scpiSimulations.reduce(
+      (sum, scpi) => sum + (scpi.grossRevenue || 0),
+      0
+    );
+    return total.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  getTotalNetRevenue(): string {
+    if (!this.simulation || !this.simulation.scpiSimulations) {
+      return "0,00";
+    }
+    const total = this.simulation.scpiSimulations.reduce(
+      (sum, scpi) => sum + (scpi.netRevenue || 0),
+      0
+    );
+    return total.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
 }

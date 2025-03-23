@@ -73,15 +73,15 @@
         </div>
         <h3 class="title">Performence nette de fiscalité</h3>
         <div class="row">
-          <p-panel header="Revenus">
+          <p-panel header="Revenus brutes">
             <p class="value">
-              {{ simulation.totalInvestment | number: "1.2-2" }} €
+              {{ getTotalGrossRevenue() }} € / Mois
             </p>
           </p-panel>
           <p-panel header="Revenus net de fiscalité">
             <p class="value">
               <span>
-                {{ simulation.monthlyIncome | number: "1.2-2" }} € / Mois</span
+                 {{ getTotalNetRevenue() }} € / Mois</span
               >
             </p>
           </p-panel>
@@ -93,10 +93,10 @@
                 <span class="scpi-name">{{ scpi.scpiName }}</span>
 
                 <div>
-                  <span class="scpi-name">Montant total</span>
+                  <span class="scpi-name">Montant Investit</span>
                   <span class="scpi-amount"
                     >{{
-                      scpi.numberPart * scpi.partPrice | number: "1.0-0"
+                      scpi.numberPart * scpi.partPrice | number: "1.2-2"
                     }}€</span
                   >
                 </div>
@@ -104,9 +104,7 @@
                 <div>
                   <span class="scpi-name">Revenu brut</span>
                   <span class="scpi-income"
-                    >{{
-                      (scpi.numberPart * scpi.partPrice * scpi.rising) / 100
-                        | number: "1.0-0"
+                    >{{ scpi.grossRevenue | number: "1.2-2"
                     }}€/mois</span
                   >
                 </div>
@@ -114,11 +112,7 @@
                 <div>
                   <span class="scpi-name">Revenu net</span>
                   <span class="scpi-net-income"
-                    >{{
-                      (scpi.numberPart *
-                        scpi.partPrice *
-                        (scpi.rising - (scpi.dureePercentage || 0))) /
-                        100 | number: "1.0-0"
+                    >{{ scpi.netRevenue | number: "1.2-2"
                     }}€/mois</span
                   >
                 </div>

@@ -7,6 +7,7 @@ import {
 } from "@angular/common/http";
 import { Observable, catchError, switchMap, throwError } from "rxjs";
 import { Dismemberment } from "../model/Dismemberment";
+import {Investor} from '@/core/model/investor.model';
 
 @Injectable({
   providedIn: "root",
@@ -17,8 +18,8 @@ export class InvestorService {
 
   constructor(private http: HttpClient) {}
 
-  getInvestorByEmail(email: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${email}`).pipe(
+  getInvestorByEmail(email: string): Observable<Investor> {
+    return this.http.get<Investor>(`${this.apiUrl}/${email}`).pipe(
       catchError((error) => {
         return throwError(() => error);
       })
