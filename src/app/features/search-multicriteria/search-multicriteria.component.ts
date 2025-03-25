@@ -110,7 +110,6 @@ export class SearchMulticriteriaComponent {
     );
   }
 
-
   private prepareFilters(): ScpiSearch {
     let filtersToSend: ScpiSearch = {
       ...this.filters,
@@ -174,6 +173,7 @@ export class SearchMulticriteriaComponent {
     { label: 'Résidentiel', value: 'Résidentiel'},
     {label: 'Locaux d"activité', value: 'Locaux d"activité'},
     {label: 'Transport', value: 'Transport'},
+    { label: 'Autres', value: '' }
 
   ];
   subscriptionFeesOptions = [
