@@ -82,12 +82,10 @@ export class ScpiInvestModalComponent {
       percentage: number;
     } | null>(null),
     totalInvestment: new FormControl(
-      this.minimumSubscription ? +this.minimumSubscription : null,
+      { value: this.minimumSubscription ? +this.minimumSubscription : null, disabled: true },
       [
         Validators.required,
-        Validators.min(
-          this.minimumSubscription ? +this.minimumSubscription : 1
-        ),
+        Validators.min(this.minimumSubscription ? +this.minimumSubscription : 1),
       ]
     ),
   });

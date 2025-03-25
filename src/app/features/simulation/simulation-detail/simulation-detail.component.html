@@ -6,12 +6,8 @@
           <div class="simulation-header">
             <span class="title">{{ simulation.name }}</span>
           </div>
-          <button class="share-button">
-            <i class="pi pi-share-alt"></i> Partager
-          </button>
         </div>
       </ng-template>
-
       <p class="subtitle">Vue générale</p>
 
       @if (simulation.scpiSimulations.length) {
@@ -24,7 +20,7 @@
           <p-panel header="Revenus">
             <p class="value">
               <span>
-                {{ simulation.monthlyIncome | number: "1.2-2" }} € / Mois</span
+                {{ simulation.monthlyIncome | number: "1.2-2" }} € / Année</span
               >
             </p>
           </p-panel>
