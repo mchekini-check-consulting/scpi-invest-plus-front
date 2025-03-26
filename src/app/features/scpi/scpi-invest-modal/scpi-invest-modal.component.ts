@@ -16,16 +16,10 @@ import { YearPickerCalendarComponent } from "./year-picker-calendar/year-picker-
 import { TranslateModule } from "@ngx-translate/core";
 import { InvestorService } from "@/core/service/investor.service";
 import { MessageService } from "primeng/api";
-import {
-  ScpiSimulation,
-  Simulation,
-  SimulationCreate,
-} from "@/core/model/Simulation";
 import { SimulationService } from "@/core/service/simulation.service";
 import { Router } from "@angular/router";
 import { ScpiService } from "@/core/service/scpi.service";
-import { StatYear } from "@/core/model/StatYear";
-import { Sector } from "@/core/model/Sector";
+
 
 @Component({
   selector: "app-scpi-invest-modal",
@@ -129,10 +123,21 @@ export class ScpiInvestModalComponent {
     totalInvestment: number,
     annualReturnRate: number
   ): number {
-    return (totalInvestment * (annualReturnRate / 100)) / 12;
+    if (this.selectedPropertyType === "Pleine propriété") {
+      return (totalInvestment * (annualReturnRate / 100)) / 12;
+    }
+
+    if (this.investmentPercentage) {
+      return totalInvestment * (this.investmentPercentage / 100);
+    }else{
+      return 0;
+    }
+
+
   }
 
   updateEstimatedMonthlyIncome() {
+
     const totalInvestment =
       this.investmentForm.getRawValue().totalInvestment || 0;
     const rateMatch = this.distributionRate?.match(/([\d.]+)%?/);
@@ -233,7 +238,7 @@ export class ScpiInvestModalComponent {
         () => {
           const toastDuration = 2000;
           this.messageService.add({
-            severity: "info", 
+            severity: "info",
             summary: "Demande en cours",
             detail: "Votre demande d'investissement est en cours de traitement. Une décision vous sera envoyée par email dans les plus brefs délais.",
             life: toastDuration,
@@ -268,6 +273,7 @@ export class ScpiInvestModalComponent {
     this.investmentForm.controls["investmentDuration"].setValue(event);
     this.investmentDuration = event.year;
     this.investmentPercentage = event.percentage;
+
   }
 
   calculateTotalInvestment() {
@@ -366,5 +372,11 @@ export class ScpiInvestModalComponent {
 
   setSelectedPropertyType(propertyType: string) {
     this.selectedPropertyType = propertyType;
+
+    if (this.selectedPropertyType === "Pleine propriété") {
+      this.investmentDuration = 0;
+      this.investmentPercentage = 0;
+      this.investmentForm.controls["investmentDuration"].setValue(null);
+    }
   }
 }

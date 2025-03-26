@@ -1,6 +1,6 @@
 <p-dialog
   [visible]="visible"
-  [header]="'INVESTMENT.HEADER' | translate : { scpiName: scpiName }"
+  [header]="'INVESTMENT.HEADER' | translate: { scpiName: scpiName }"
   [(visible)]="visible"
   modal="true"
   (onHide)="closeModal()"
@@ -135,15 +135,17 @@
       >
         <small class="error">{{
           "INVESTMENT.TOTAL_INVESTMENT_MINIMUM"
-            | translate : { min: minimumSubscription }
+            | translate: { min: minimumSubscription }
         }}</small>
       </div>
     </div>
 
     <div *ngIf="mode === 'simuler'" class="estimation_section">
       <p>
+        {{investmentPercentage}}  {{investmentDuration}}
         Votre revenu sur cet investissement :
-        <span>{{ estimatedMonthlyIncome | number : "1.2-2" }} €</span> / mois
+        <span>{{ estimatedMonthlyIncome | number: "1.2-2" }} €</span
+        >{{ investmentDuration ? '  à partir de ' + investmentDuration + ' ans' : '/ mois' }}
       </p>
     </div>
 
