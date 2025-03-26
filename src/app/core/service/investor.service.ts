@@ -19,7 +19,7 @@ export class InvestorService {
   constructor(private http: HttpClient) {}
 
   getInvestorByEmail(email: string): Observable<Investor> {
-    return this.http.get<Investor>(`${this.apiUrl}/${email}`).pipe(
+    return this.http.get<Investor>(`${this.apiUrl}`).pipe(
       catchError((error) => {
         return throwError(() => error);
       })
@@ -33,7 +33,7 @@ export class InvestorService {
           ? this.http.post(`${this.apiUrl}`, investorData)
           : throwError(() => error)
       ),
-      switchMap(() => this.http.patch(`${this.apiUrl}/${email}`, investorData)),
+      switchMap(() => this.http.patch(`${this.apiUrl}`, investorData)),
       catchError((error) => throwError(() => error))
     );
   }
