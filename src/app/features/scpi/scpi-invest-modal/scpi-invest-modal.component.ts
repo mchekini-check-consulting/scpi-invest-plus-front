@@ -16,16 +16,9 @@ import { YearPickerCalendarComponent } from "./year-picker-calendar/year-picker-
 import { TranslateModule } from "@ngx-translate/core";
 import { InvestorService } from "@/core/service/investor.service";
 import { MessageService } from "primeng/api";
-import {
-  ScpiSimulation,
-  Simulation,
-  SimulationCreate,
-} from "@/core/model/Simulation";
 import { SimulationService } from "@/core/service/simulation.service";
 import { Router } from "@angular/router";
 import { ScpiService } from "@/core/service/scpi.service";
-import { StatYear } from "@/core/model/StatYear";
-import { Sector } from "@/core/model/Sector";
 
 @Component({
   selector: "app-scpi-invest-modal",
@@ -82,10 +75,15 @@ export class ScpiInvestModalComponent {
       percentage: number;
     } | null>(null),
     totalInvestment: new FormControl(
-      { value: this.minimumSubscription ? +this.minimumSubscription : null, disabled: true },
+      {
+        value: this.minimumSubscription ? +this.minimumSubscription : null,
+        disabled: true,
+      },
       [
         Validators.required,
-        Validators.min(this.minimumSubscription ? +this.minimumSubscription : 1),
+        Validators.min(
+          this.minimumSubscription ? +this.minimumSubscription : 1
+        ),
       ]
     ),
   });
@@ -103,7 +101,6 @@ export class ScpiInvestModalComponent {
   ngOnInit() {
     this.investmentForm.controls["sharePrice"].valueChanges.subscribe(() => {
       this.calculateTotalInvestment();
-
     });
 
     this.investmentForm.valueChanges.subscribe(() => {
@@ -113,6 +110,12 @@ export class ScpiInvestModalComponent {
     this.investmentForm.controls["shareCount"].valueChanges.subscribe(() => {
       this.calculateTotalInvestment();
     });
+
+    this.investmentForm.controls["investmentDuration"].valueChanges.subscribe(
+      () => {
+        this.updateEstimatedMonthlyIncome();
+      }
+    );
 
     this.investmentForm.controls["totalInvestment"].valueChanges.subscribe(
       () => {
@@ -129,7 +132,21 @@ export class ScpiInvestModalComponent {
     totalInvestment: number,
     annualReturnRate: number
   ): number {
-    return (totalInvestment * (annualReturnRate / 100)) / 12;
+    if (this.selectedPropertyType === "Pleine propriété") {
+      return (
+        (totalInvestment *(annualReturnRate / 100)) /
+        12
+      );
+    } else if (this.investmentPercentage) {
+      return (
+        (totalInvestment *
+        (annualReturnRate / 100) *
+        (this.investmentPercentage / 100) *
+        (this.investmentForm.getRawValue().shareCount ?? 1)) / 12
+      );
+    } else {
+      return 0;
+    }
   }
 
   updateEstimatedMonthlyIncome() {
@@ -188,7 +205,7 @@ export class ScpiInvestModalComponent {
         });
       }
     }
-    this.closeModal()
+    this.closeModal();
   }
 
   private createScpiData(scpi: any, investmentData: any): any {
@@ -233,9 +250,10 @@ export class ScpiInvestModalComponent {
         () => {
           const toastDuration = 2000;
           this.messageService.add({
-            severity: "info", 
+            severity: "info",
             summary: "Demande en cours",
-            detail: "Votre demande d'investissement est en cours de traitement. Une décision vous sera envoyée par email dans les plus brefs délais.",
+            detail:
+              "Votre demande d'investissement est en cours de traitement. Une décision vous sera envoyée par email dans les plus brefs délais.",
             life: toastDuration,
           });
         },
@@ -268,6 +286,10 @@ export class ScpiInvestModalComponent {
     this.investmentForm.controls["investmentDuration"].setValue(event);
     this.investmentDuration = event.year;
     this.investmentPercentage = event.percentage;
+
+    setTimeout(() => {
+      this.updateEstimatedMonthlyIncome();
+    }, 0);
   }
 
   calculateTotalInvestment() {
@@ -303,12 +325,10 @@ export class ScpiInvestModalComponent {
         this.minimumSubscription &&
         totalInvestment < +this.minimumSubscription
       ) {
-        // console.log("Erreur belowMinimum ajoutée");
         this.investmentForm.controls["totalInvestment"].setErrors({
           belowMinimum: true,
         });
       } else {
-        // console.log("Erreur belowMinimum supprimée");
         this.investmentForm.controls["totalInvestment"].setErrors(null);
       }
     }
@@ -366,5 +386,11 @@ export class ScpiInvestModalComponent {
 
   setSelectedPropertyType(propertyType: string) {
     this.selectedPropertyType = propertyType;
+
+    if (this.selectedPropertyType === "Pleine propriété") {
+      this.investmentDuration = 0;
+      this.investmentPercentage = 0;
+      this.investmentForm.controls["investmentDuration"].setValue(null);
+    }
   }
 }
