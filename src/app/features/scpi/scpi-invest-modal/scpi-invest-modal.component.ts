@@ -108,9 +108,14 @@ export class ScpiInvestModalComponent {
       this.calculateTotalInvestment();
     });
 
+    this.investmentForm.controls["investmentDuration"].valueChanges.subscribe(()=>{
+      this.updateEstimatedMonthlyIncome()
+    })
+
     this.investmentForm.controls["totalInvestment"].valueChanges.subscribe(
       () => {
         this.calculateShareCount();
+
       }
     );
 
@@ -119,15 +124,17 @@ export class ScpiInvestModalComponent {
     }
   }
 
+
+
   calculateEstimatedMonthlyIncome(
     totalInvestment: number,
     annualReturnRate: number
   ): number {
+    console.log('-------------------',this.investmentDuration);
     if (this.selectedPropertyType === "Pleine propriété") {
       return (totalInvestment * (annualReturnRate / 100)) / 12;
-    }
-
-    if (this.investmentPercentage) {
+    }else
+      if (this.investmentPercentage) {
       return totalInvestment * (this.investmentPercentage / 100);
     }else{
       return 0;
@@ -273,6 +280,10 @@ export class ScpiInvestModalComponent {
     this.investmentForm.controls["investmentDuration"].setValue(event);
     this.investmentDuration = event.year;
     this.investmentPercentage = event.percentage;
+      
+  setTimeout(() => {
+    this.updateEstimatedMonthlyIncome();
+  }, 0);
 
   }
 
