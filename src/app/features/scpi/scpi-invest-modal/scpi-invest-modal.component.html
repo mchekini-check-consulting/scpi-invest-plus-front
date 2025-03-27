@@ -142,7 +142,6 @@
 
     <div *ngIf="mode === 'simuler'" class="estimation_section">
       <p>
-        {{investmentPercentage}}  {{investmentDuration}}
         Votre revenu sur cet investissement :
         <span>{{ estimatedMonthlyIncome | number: "1.2-2" }} €</span
         >{{ investmentDuration ? '  à partir de ' + investmentDuration + ' ans' : '/ mois' }}
