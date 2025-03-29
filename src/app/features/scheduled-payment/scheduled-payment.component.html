@@ -1,0 +1,48 @@
+<div class="dashboard-container">
+  <!-- Left Side: Overview -->
+  <p-card class="overview-container">
+    <div class="overview-card">
+      <h2 class="title">Vue d’ensemble</h2>
+      <p-selectbutton [(ngModel)]="value" [options]="stateOptions" aria-labelledby="basic" optionLabel="label"
+                      optionValue="value"></p-selectbutton>
+
+      <div class="stats-container">
+        <p-card class="stats-card">
+          <p class="title">Revenus cumulés</p>
+          <p class="text-green">{{ totalRevenue }} €</p>
+        </p-card>
+        <p-card class="stats-card">
+          <p class="title">Valeur totale</p>
+          <p class="text-blue">{{ totalValue }} €</p>
+        </p-card>
+      </div>
+
+      <app-chart [data]="chartData"></app-chart>
+    </div>
+  </p-card>
+
+  <!-- Right Side: Investment Configuration -->
+  <p-card class="investment-container">
+    <div class="investment-card">
+      <h2 class="title">SCPI sélectionnée</h2>
+      <p class="selected-scpi">Remake Live</p>
+
+      <app-select-scpi></app-select-scpi>
+
+      <h4 class="title">Votre investissement</h4>
+
+      <app-sliders
+        [minSubscription]="1000"
+        [sharePrice]="100"
+        (valuesChanged)="updateInvestmentState($event)"
+      ></app-sliders>
+
+      <p-card class="investment-summary-container">
+        <div class="investment-summary">
+          <h4 class="title">Revenus mensuels après 5 ans</h4>
+          <p class="monthly">{{ monthlyIncome }} €/mois</p>
+        </div>
+      </p-card>
+    </div>
+  </p-card>
+</div>

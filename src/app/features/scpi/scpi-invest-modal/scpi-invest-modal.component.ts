@@ -1,10 +1,10 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
+  FormControl,
+  FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  FormGroup,
-  FormControl,
   Validators,
 } from "@angular/forms";
 import { DialogModule } from "primeng/dialog";
@@ -19,6 +19,12 @@ import { MessageService } from "primeng/api";
 import { SimulationService } from "@/core/service/simulation.service";
 import { Router } from "@angular/router";
 import { ScpiService } from "@/core/service/scpi.service";
+import {
+  formatDistributionRate,
+  formatLocation,
+  formatMinimum,
+} from "@/shared/utils/scpi.utils";
+import { ScpiModel } from "@/core/model/scpi.model";
 
 @Component({
   selector: "app-scpi-invest-modal",
@@ -38,22 +44,15 @@ import { ScpiService } from "@/core/service/scpi.service";
   templateUrl: "./scpi-invest-modal.component.html",
   styleUrl: "./scpi-invest-modal.component.css",
 })
-export class ScpiInvestModalComponent {
-  @Input() scpiId?: number;
-  @Input() scpiName?: string;
+export class ScpiInvestModalComponent implements OnInit {
   @Input() visible: boolean = false;
-  @Input() location?: string;
-  @Input() distributionRate?: string;
-  @Input() sharePrice?: number;
-  @Input() minimumSubscription?: string;
+  @Input() scpi?: ScpiModel;
   @Input() mode?: string;
   @Output() close = new EventEmitter<void>();
   @Input() addScpi?: boolean;
 
   investmentDuration?: number;
   investmentPercentage?: number;
-  editable: boolean = false;
-  currencyOptions: any[] = [];
   selectedPropertyType: string = "Pleine propriété";
   i: number = 0;
   propertyOptions = [
@@ -63,6 +62,7 @@ export class ScpiInvestModalComponent {
   ];
 
   estimatedMonthlyIncome: number = 0;
+
   investmentForm = new FormGroup({
     sharePrice: new FormControl({ value: this.sharePrice, disabled: true }, [
       Validators.required,
@@ -76,7 +76,7 @@ export class ScpiInvestModalComponent {
     } | null>(null),
     totalInvestment: new FormControl(
       {
-        value: this.minimumSubscription ? +this.minimumSubscription : null,
+        value: this.minimumSubscription ? +this.minimumSubscription : 0,
         disabled: true,
       },
       [
@@ -96,6 +96,22 @@ export class ScpiInvestModalComponent {
     private router: Router
   ) {
     this.investmentForm.valueChanges.subscribe(() => {});
+  }
+
+  get sharePrice(): number {
+    return this.scpi?.statYear?.sharePrice || 0;
+  }
+
+  get location(): string {
+    return formatLocation(this.scpi?.location);
+  }
+
+  get distributionRate(): string {
+    return formatDistributionRate(this.scpi?.statYear);
+  }
+
+  get minimumSubscription(): string {
+    return formatMinimum(this.scpi?.minimumSubscription);
   }
 
   ngOnInit() {
@@ -133,16 +149,14 @@ export class ScpiInvestModalComponent {
     annualReturnRate: number
   ): number {
     if (this.selectedPropertyType === "Pleine propriété") {
-      return (
-        (totalInvestment *(annualReturnRate / 100)) /
-        12
-      );
+      return (totalInvestment * (annualReturnRate / 100)) / 12;
     } else if (this.investmentPercentage) {
       return (
         (totalInvestment *
-        (annualReturnRate / 100) *
-        (this.investmentPercentage / 100) *
-        (this.investmentForm.getRawValue().shareCount ?? 1)) / 12
+          (annualReturnRate / 100) *
+          (this.investmentPercentage / 100) *
+          (this.investmentForm.getRawValue().shareCount ?? 1)) /
+        12
       );
     } else {
       return 0;
@@ -160,12 +174,6 @@ export class ScpiInvestModalComponent {
     );
   }
 
-  minimumInvestmentValidator(control: FormControl) {
-    if (this.minimumSubscription && control.value < +this.minimumSubscription) {
-      return { belowMinimum: true };
-    }
-    return null;
-  }
   confirmInvestmentOrSimulation() {
     if (!this.investmentForm.valid) {
       console.warn("Formulaire invalide, veuillez vérifier les champs.");
@@ -177,8 +185,8 @@ export class ScpiInvestModalComponent {
     } else if (this.mode === "simuler") {
       const investmentData = this.investmentForm.getRawValue();
 
-      if (this.scpiId) {
-        this.scpiService.getScpiById(this.scpiId).subscribe((scpi) => {
+      if (this.scpi?.id) {
+        this.scpiService.getScpiById(this.scpi.id).subscribe((scpi) => {
           const scpiData = this.createScpiData(scpi, investmentData);
           const locations = scpi.locations ?? [];
           const sectors = scpi.sectors ?? [];
@@ -210,8 +218,8 @@ export class ScpiInvestModalComponent {
 
   private createScpiData(scpi: any, investmentData: any): any {
     return {
-      scpiId: this.scpiId ?? 0,
-      scpiName: scpi.name ?? this.scpiName ?? "simulation",
+      scpiId: this.scpi?.id ?? 0,
+      scpiName: scpi.name ?? this.scpi?.name ?? "simulation",
       numberPart: investmentData.shareCount ?? 0,
       partPrice: this.sharePrice ?? 0,
       rising: investmentData.totalInvestment ?? 0,
@@ -242,29 +250,28 @@ export class ScpiInvestModalComponent {
         numberShares: this.investmentForm.value.shareCount,
         numberYears: this.investmentForm.value.investmentDuration?.year || 0,
         totalAmount: this.investmentForm.value.totalInvestment,
-        scpiId: this.scpiId,
+        scpiId: this.scpi?.id,
         investmentState: "Investissement",
       };
 
-      this.investorService.createInvestment(investmentData).subscribe(
-        () => {
-          const toastDuration = 2000;
+      this.investorService.createInvestment(investmentData).subscribe({
+        next: () => {
           this.messageService.add({
             severity: "info",
             summary: "Demande en cours",
             detail:
               "Votre demande d'investissement est en cours de traitement. Une décision vous sera envoyée par email dans les plus brefs délais.",
-            life: toastDuration,
+            life: 2000,
           });
         },
-        () => {
+        error: () => {
           this.messageService.add({
             severity: "error",
             summary: "Erreur",
             detail: "Une erreur est survenue lors de l'investissement.",
           });
-        }
-      );
+        },
+      });
     } else {
       this.messageService.add({
         severity: "warn",
@@ -272,24 +279,6 @@ export class ScpiInvestModalComponent {
         detail: "Veuillez compléter tous les champs obligatoires.",
       });
     }
-  }
-
-  updateYear(selectedYear: { year: number; percentage: number }) {
-    this.investmentForm.patchValue({
-      investmentDuration: selectedYear,
-    });
-    this.investmentDuration = selectedYear.year;
-    this.investmentPercentage = selectedYear.percentage;
-  }
-
-  onYearSelected(event: { year: number; percentage: number }) {
-    this.investmentForm.controls["investmentDuration"].setValue(event);
-    this.investmentDuration = event.year;
-    this.investmentPercentage = event.percentage;
-
-    setTimeout(() => {
-      this.updateEstimatedMonthlyIncome();
-    }, 0);
   }
 
   calculateTotalInvestment() {
@@ -356,32 +345,14 @@ export class ScpiInvestModalComponent {
     this.close.emit();
   }
 
-  disableFormControls(): void {
-    Object.entries(this.investmentForm.controls).forEach(([field, control]) => {
-      if (control.enabled) {
-        control.disable();
-      }
-    });
-  }
+  onYearSelected(event: { year: number; percentage: number }) {
+    this.investmentForm.controls["investmentDuration"].setValue(event);
+    this.investmentDuration = event.year;
+    this.investmentPercentage = event.percentage;
 
-  toggleEdit(): void {
-    this.editable = !this.editable;
-
-    Object.entries(this.investmentForm.controls).forEach(([field, control]) => {
-      if (field === "shareCount") {
-        control.disable();
-      } else {
-        this.editable ? control.enable() : control.disable();
-      }
-    });
-  }
-
-  setEditableState() {
-    if (this.editable) {
-      this.investmentForm.controls["shareCount"].enable();
-    } else {
-      this.investmentForm.controls["shareCount"].disable();
-    }
+    setTimeout(() => {
+      this.updateEstimatedMonthlyIncome();
+    }, 0);
   }
 
   setSelectedPropertyType(propertyType: string) {

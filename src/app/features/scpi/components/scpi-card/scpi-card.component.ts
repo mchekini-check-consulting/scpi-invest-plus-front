@@ -1,19 +1,23 @@
-import { ScpiModel } from '@/core/model/scpi.model';
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
-import { DividerModule } from 'primeng/divider';
-import { Tag } from 'primeng/tag';
-import { DialogModule } from 'primeng/dialog';
-import { ScpiInvestModalComponent } from '../../scpi-invest-modal/scpi-invest-modal.component';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { TranslateModule } from '@ngx-translate/core';
+import { ScpiModel } from "@/core/model/scpi.model";
+import { CommonModule } from "@angular/common";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { RouterLink } from "@angular/router";
+import { ButtonModule } from "primeng/button";
+import { CardModule } from "primeng/card";
+import { DividerModule } from "primeng/divider";
+import { Tag } from "primeng/tag";
+import { DialogModule } from "primeng/dialog";
+import { ToastModule } from "primeng/toast";
+import { TranslateModule } from "@ngx-translate/core";
+import {
+  formatDistributionRate,
+  formatLocation,
+  formatMinimum,
+  formatSector,
+} from "@/shared/utils/scpi.utils";
 
 @Component({
-  selector: 'app-scpi-card',
+  selector: "app-scpi-card",
   standalone: true,
   imports: [
     CardModule,
@@ -23,69 +27,40 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonModule,
     RouterLink,
     DialogModule,
-    ScpiInvestModalComponent,
     ToastModule,
     TranslateModule,
   ],
-  providers: [MessageService],
-  templateUrl: './scpi-card.component.html',
-  styleUrl: './scpi-card.component.css',
+  templateUrl: "./scpi-card.component.html",
+  styleUrl: "./scpi-card.component.css",
 })
 export class ScpiCardComponent {
   @Input() scpi?: ScpiModel;
   @Input() image!: string;
-  @Input() addScpi? : boolean;
+  @Input() addScpi?: boolean;
   @Input() isAddingScpi = false;
-  investirModalVisible: boolean = false;
+  @Output() onClick = new EventEmitter<{ mode: string; scpi: ScpiModel }>();
 
-  modalMode: string = 'investir';
+  constructor() {}
+
+  get location(): string {
+    return formatLocation(this.scpi?.location);
+  }
+
+  get sector(): string {
+    return formatSector(this.scpi?.sector);
+  }
+
+  get distributionRate(): string {
+    return formatDistributionRate(this.scpi?.statYear);
+  }
+
+  get minimumSubscription(): string {
+    return formatMinimum(this.scpi?.minimumSubscription);
+  }
 
   openInvestirModal(mode: string) {
-    this.modalMode = mode;
-    this.investirModalVisible = true;
-  }
-
-  constructor() { }
-
-  formatLocation() {
-    const location = this.scpi?.location;
-    if (!location) return 'N/A';
-    const country = location.id?.country ?? 'N/A';
-    const percentage =
-      location.countryPercentage !== undefined
-        ? `${location.countryPercentage}%`
-        : 'N/A%';
-    return `${country} - ${percentage}`;
-  }
-
-  formatSector(): string {
-    const sector = this.scpi?.sector;
-    if (!sector) return 'N/A';
-    const name = sector.id?.name ?? 'N/A';
-    const percentage =
-      sector.sectorPercentage !== undefined
-        ? `${sector.sectorPercentage}%`
-        : '';
-    return `${name} - ${percentage}`;
-  }
-
-  formatDistributionRate() {
-    const distributionRate = this.scpi?.statYear?.distributionRate;
-    return `Rendement - ${distributionRate !== undefined ? distributionRate + '%' : 'N/A'
-      }`;
-  }
-
-  getSharePrice(): number {
-    return this.scpi?.statYear?.sharePrice ?? 0;
-  }
-
-  formatMinimum() {
-    const minimumSubscription = this.scpi?.minimumSubscription;
-    return `Minimum - ${minimumSubscription !== undefined ? minimumSubscription + ' €' : 'N/A'
-      }`;
-  }
-
-  closeInvestirModal() {
-    this.investirModalVisible = false;
+    if (this.scpi) {
+      this.onClick.emit({ mode, scpi: this.scpi });
+    }
   }
 }

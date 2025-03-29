@@ -1,0 +1,111 @@
+
+.dashboard-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+
+  & * {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+
+.overview-container {
+  width: 70%;
+}
+
+.overview-card {
+  display: grid;
+  gap: 1.5rem;
+
+  .title {
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    font-weight: bold;
+  }
+}
+
+
+.timeframe-tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.timeframe-button {
+  font-weight: bold;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.stats-card {
+  width: 50%;
+
+  .title {
+    color: var(--text-muted);
+    font-weight: bold;
+    font-size: 0.75rem;
+    line-height: 133.4%;
+  }
+
+  .text-blue {
+    color: var(--highlight-blue);
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  .text-green {
+    color: var(--highlight-green);
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+}
+
+
+.investment-container {
+  width: 30%;
+  border-radius: 10px;
+}
+
+.investment-card {
+  display: grid;
+  gap: 1.5rem;
+
+  .title {
+    font-size: 1.5rem;
+    color: var(--dark-blue);
+    font-weight: bold;
+  }
+
+  .selected-scpi {
+    font-size: 1.125rem;
+    color: var(--primary-blue);
+    font-weight: bold;
+  }
+}
+
+
+.investment-summary-container {
+  display: grid;
+  gap: 1rem;
+
+  .title {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: bold;
+  }
+
+  .monthly {
+    color: var(--highlight-blue);
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+}
+
+
+
+

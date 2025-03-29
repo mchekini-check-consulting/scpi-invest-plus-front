@@ -8,10 +8,11 @@
     <ng-container *ngIf="filteredScpis.length > 0; else noResults">
       <ng-container *ngFor="let scpi of filteredScpis">
         <app-scpi-card
-          [scpi]="scpi"
+          (onClick)="openInvestirModal($event)"
+          [addScpi]="addScpi"
           [image]="getImage(scpi.id)"
           [isAddingScpi]="isAddingScpi"
-          [addScpi]="addScpi"
+          [scpi]="scpi"
         />
       </ng-container>
     </ng-container>
@@ -19,8 +20,18 @@
   <ng-template #noResults>
     <div *ngFor="let skeleton of skeletonArray">
       <div class="skeleton-wrapper">
-        <p-skeleton height="220px" width="100%" borderRadius="10px"></p-skeleton>
+        <p-skeleton borderRadius="10px" height="220px" width="100%"></p-skeleton>
       </div>
     </div>
   </ng-template>
 </div>
+<ng-container *ngIf="selectedScpi">
+  <app-scpi-invest-modal
+    (close)="closeInvestirModal()"
+    [addScpi]="addScpi"
+    [mode]="modalMode"
+    [scpi]="selectedScpi"
+    [visible]="investirModalVisible">
+  </app-scpi-invest-modal>
+</ng-container>
+
