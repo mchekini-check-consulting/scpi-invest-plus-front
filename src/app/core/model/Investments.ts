@@ -10,3 +10,12 @@ export interface Investments{
     details?: Investments[];
 }
 
+export interface InvestmentPayload {
+  typeProperty: "Pleine propriété" | "Nue-propriétaire" | "Usufruit";
+  numberShares: number;
+  totalAmount: number;
+  scpiId: number;
+  status: "SCHEDULED" | "STANDARD";
+  investmentState: string;
+  initialDeposit: number;
+}

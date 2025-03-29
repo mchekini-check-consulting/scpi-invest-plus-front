@@ -1,0 +1,126 @@
+.investment-container {
+  width: 100%;
+  border-radius: 10px;
+
+  & * {
+    padding: 0;
+    margin: 0;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    color: var(--dark-blue);
+    font-weight: bold;
+  }
+
+  .investment-card {
+    display: grid;
+    gap: 1.5rem;
+    
+    .selected-scpi {
+      font-size: 1.125rem;
+      color: var(--primary-blue);
+      font-weight: bold;
+    }
+
+    .select-scpi-button {
+      display: inline-block;
+      padding: 12px 24px;
+      border: 2px solid var(--primary-blue);
+      border-radius: 999px;
+      background-color: transparent;
+      color: var(--primary-blue);
+      font-family: sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      min-height: 50px;
+      width: 100%;
+
+      &:hover {
+        opacity: 0.7;
+      }
+
+      &:focus {
+        opacity: 0.7;
+      }
+    }
+
+    .sliders-container {
+      display: grid;
+      gap: 1.5rem;
+
+      .slider-container {
+        display: grid;
+        gap: 0.6rem;
+
+        .text {
+          color: var(--text-muted);
+          font-weight: bold;
+          font-size: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          span {
+            color: var(--highlight-blue);
+            font-weight: bold;
+            font-size: 1.125rem;
+            margin-left: auto;
+          }
+        }
+      }
+    }
+
+    .investment-summary-container {
+      display: grid;
+      gap: 1rem;
+
+      .title {
+        font-size: 1rem;
+        color: var(--text-muted);
+        font-weight: bold;
+      }
+
+      .monthly {
+        color: var(--highlight-blue);
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+    }
+
+  }
+}
+
+:host ::ng-deep .p-slider-range {
+  background: var(--primary-blue);
+}
+
+:host ::ng-deep .p-slider-handle {
+  border-color: var(--primary-blue);
+  background: var(--primary-blue);
+
+  &:hover {
+    border-color: var(--primary-blue);
+  }
+
+  &:focus {
+    border-color: var(--primary-blue);
+  }
+}
+
+.list-scpi {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+}
+
+
+
+
+
+
+
+
