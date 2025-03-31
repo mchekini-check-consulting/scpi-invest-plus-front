@@ -30,7 +30,7 @@ export class SearchBarComponent {
   @Output() searchTermChanged = new EventEmitter<string>();
   searchTerm: string = "";
   private searchSubject = new Subject<string>();
-  
+
   constructor() {
     this.searchSubject
       .pipe(
