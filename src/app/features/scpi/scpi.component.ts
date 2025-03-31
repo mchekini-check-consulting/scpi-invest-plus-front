@@ -24,6 +24,7 @@ import { UserService } from '@/core/service/user.service';
 export class ScpiComponent implements OnInit, OnDestroy {
   scpis: ScpiModel[] = [];
   filteredScpis: ScpiModel[] = [];
+  noResultsMessage: boolean = false;
   loading = false;
   private subscriptions: Subscription = new Subscription();
 
@@ -72,12 +73,10 @@ export class ScpiComponent implements OnInit, OnDestroy {
   getImage(id: number): string {
     return this.images[id % this.images.length];
   }
+
   updateScpiList(filteredList: ScpiModel[] | null | undefined) {
-    if (filteredList && filteredList.length > 0) {
-      this.filteredScpis = [...filteredList];
-    } else {
-      this.filteredScpis = [];
-    }
+    this.filteredScpis = filteredList && filteredList.length > 0 ? [...filteredList] : [];
+    this.noResultsMessage = this.filteredScpis.length === 0;
     this.cdRef.detectChanges();
   }
   ngOnDestroy() {

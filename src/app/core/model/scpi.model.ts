@@ -29,3 +29,14 @@ type StatYearModel = {
   distributionRate: number;
   sharePrice: number;
 };
+
+
+export interface ScpiSearch {
+  name?: string;
+  minimumDistribution?: number;
+  subscriptionFees?: boolean;
+  frequencyPayment?: string;
+  locations?: string[];
+  sectors?: string[];
+  minimumInvestmentAmount?: number;
+}
