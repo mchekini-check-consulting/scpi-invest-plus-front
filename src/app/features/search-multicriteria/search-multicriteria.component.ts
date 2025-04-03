@@ -77,6 +77,7 @@ export class SearchMulticriteriaComponent {
       }
     });
   }
+
   isSearchDisabled(): boolean {
     return !Object.values(this.filters).some(
       (value) =>
@@ -86,6 +87,7 @@ export class SearchMulticriteriaComponent {
         (typeof value === "boolean")
     );
   }
+
 
   resetFilters() {
     this.filters = this.getDefaultFilters();
@@ -108,6 +110,7 @@ export class SearchMulticriteriaComponent {
     );
   }
 
+  
   private prepareFilters(): ScpiSearch {
     return {
       name: this.filters.name?.trim() || undefined,
