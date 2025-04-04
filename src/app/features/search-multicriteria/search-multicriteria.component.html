@@ -37,7 +37,7 @@
       <label>Zone d’investissement</label>
       <p-multiSelect
         [options]="investmentZones"
-        [(ngModel)]="filters.locations"
+        [(ngModel)]="selectedLocations"
         optionLabel="label"
       ></p-multiSelect>
     </div>
@@ -46,7 +46,7 @@
       <label>Secteurs d'investissement</label>
       <p-multiSelect
         [options]="investmentSectors"
-        [(ngModel)]="filters.sectors"
+        [(ngModel)]="selectedSectors"
         optionLabel="label"
       ></p-multiSelect>
     </div>
@@ -84,7 +84,7 @@
         icon="pi pi-arrow-right"
         [disabled]="isSearchDisabled()"
         severity="info"
-        (click)="applyFilters()"
+        (click)="searchScpi()"
       ></p-button>
 
       <p-button

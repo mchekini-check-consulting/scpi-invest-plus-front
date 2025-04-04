@@ -39,22 +39,24 @@ export class SearchMulticriteriaComponent {
 
   constructor(private scpiService: ScpiService) {}
 
-  applyFilters() {
-    this.isFilterVisible = false;
-    this.searchScpi();
-  }
-
   onSearchTermChanged(searchTerm: string) {
     this.filters.name = searchTerm.trim();
-    this.searchScpi();
+    if (this.isSearchDisabled()) {
+      this.resetFilters();
+    } else {
+      this.searchScpi();
+    }
   }
 
   searchScpi() {
+    this.isFilterVisible = false;
     if (this.isSearchDisabled()) {
       return;
     }
 
     let filtersToSend: ScpiSearch = this.prepareFilters();
+
+
     this.loading = true;
     this.scpiService.getScpiWithFilter(filtersToSend).subscribe({
       next: (data) => {
@@ -136,6 +138,14 @@ export class SearchMulticriteriaComponent {
 
   stopPropagation(event: Event) {
     event.stopPropagation();
+  }
+
+  set selectedLocations(values: any[]) {
+    this.filters.locations = values.map((item) => item.value);
+  }
+
+  set selectedSectors(values: any[]) {
+    this.filters.sectors = values.map((item) => item.value);
   }
 
   investmentZones = [
