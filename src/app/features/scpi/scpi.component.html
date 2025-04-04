@@ -1,7 +1,9 @@
 <div>
   <div>
+    {{noResultsMessage}}
     <app-search-multicriteria
       (scpiFiltered)="updateScpiList($event)"
+      (noResultsMessageChange)="noResultsMessage = $event"
     ></app-search-multicriteria>
   </div>
   <div class="list-scpi">
@@ -24,6 +26,7 @@
       </div>
     </div>
   </ng-template>
+
 </div>
 <ng-container *ngIf="selectedScpi">
   <app-scpi-invest-modal

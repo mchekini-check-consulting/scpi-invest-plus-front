@@ -7,6 +7,7 @@
     <i class="pi pi-sliders-h" (click)="isFilterVisible = true"></i>
   </div>
 </div>
+
 <p-sidebar
   class="filter-sidebar-custom"
   [(visible)]="isFilterVisible"
@@ -14,21 +15,22 @@
   [dismissible]="true"
   [showCloseIcon]="false"
 >
-   <div class="header_sidebar">
-    <i class="pi pi-times icon_close"></i>
-   </div>
+  <div class="header_sidebar">
+    <i class="pi pi-times icon_close" (click)="isFilterVisible = false"></i>
+  </div>
+
   <div (click)="stopPropagation($event)">
     <h3>Filtrer les SCPI</h3>
 
     <div class="filter-section">
       <label>Taux de distribution minimum</label>
       <p-slider
-        [(ngModel)]="filters.distributionRate"
+        [(ngModel)]="filters.minimumDistribution"
         [min]="0"
-        [max]="100"
+        [max]="20"
         [step]="1"
       ></p-slider>
-      <span>{{ filters.distributionRate }}%</span>
+      <span>{{ filters.minimumDistribution }}%</span>
     </div>
 
     <div class="filter-section">
@@ -48,6 +50,7 @@
         optionLabel="label"
       ></p-multiSelect>
     </div>
+
     <div class="filter-section">
       <label>Frais de souscription</label>
       <p-selectButton
@@ -55,23 +58,26 @@
         [(ngModel)]="filters.subscriptionFees"
       ></p-selectButton>
     </div>
+
     <div class="filter-section">
       <label>Fréquence des loyers</label>
       <p-selectButton
         [options]="rentalFrequencyOptions"
-        [(ngModel)]="filters.rentalFrequency"
+        [(ngModel)]="filters.frequencyPayment"
       ></p-selectButton>
     </div>
+
     <div class="filter-section">
-      <label>Montant minimum d’investissement </label>
+      <label>Montant minimum d’investissement</label>
       <p-slider
-        [(ngModel)]="filters.minimumSubscription"
+        [(ngModel)]="filters.minimumInvestmentAmount"
         [min]="0"
         [max]="10000"
         [step]="100"
       ></p-slider>
-      <span>{{ filters.minimumSubscription }} €</span>
+      <span>{{ filters.minimumInvestmentAmount }} €</span>
     </div>
+
     <div class="button-container">
       <p-button
         label="Rechercher"
@@ -79,17 +85,15 @@
         [disabled]="isSearchDisabled()"
         severity="info"
         (click)="applyFilters()"
-      >
-      </p-button>
+      ></p-button>
 
       <p-button
-        pButton
         label="Réinitialiser"
         icon="pi pi-refresh"
         severity="danger"
         (click)="resetFilters()"
         class="reset-button"
-      />
+      ></p-button>
     </div>
   </div>
 </p-sidebar>

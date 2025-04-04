@@ -33,6 +33,7 @@ export class ScpiComponent implements OnInit, OnDestroy {
   scpis: ScpiModel[] = [];
   selectedScpi: ScpiModel | null = null;
   filteredScpis: ScpiModel[] = [];
+  noResultsMessage: boolean = false;
   loading = false;
   skeletonArray = new Array(10);
   images = Array.from({ length: 10 }, (_, i) => `img/scpi/${i + 1}.webp`);
@@ -79,11 +80,8 @@ export class ScpiComponent implements OnInit, OnDestroy {
   }
 
   updateScpiList(filteredList: ScpiModel[] | null | undefined) {
-    if (filteredList && filteredList.length > 0) {
-      this.filteredScpis = [...filteredList];
-    } else {
-      this.filteredScpis = [];
-    }
+    this.filteredScpis = filteredList && filteredList.length > 0 ? [...filteredList] : [];
+    this.noResultsMessage = this.filteredScpis.length === 0;
     this.cdRef.detectChanges();
   }
 
