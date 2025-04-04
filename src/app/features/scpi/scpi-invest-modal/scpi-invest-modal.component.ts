@@ -130,8 +130,14 @@ export class ScpiInvestModalComponent implements OnInit {
     this.investmentForm.controls["investmentDuration"].valueChanges.subscribe(
       () => {
         this.updateEstimatedMonthlyIncome();
+        this.calculateTotalInvestment();
       }
     );
+
+    this.investmentForm.controls["propertyType"].valueChanges.subscribe(() => {
+      this.updateEstimatedMonthlyIncome();
+      this.calculateTotalInvestment();
+    });
 
     this.investmentForm.controls["totalInvestment"].valueChanges.subscribe(
       () => {
@@ -154,8 +160,7 @@ export class ScpiInvestModalComponent implements OnInit {
       return (
         (totalInvestment *
           (annualReturnRate / 100) *
-          (this.investmentPercentage / 100) *
-          (this.investmentForm.getRawValue().shareCount ?? 1)) /
+          (this.investmentPercentage / 100)) /
         12
       );
     } else {
@@ -286,7 +291,20 @@ export class ScpiInvestModalComponent implements OnInit {
     let shareCount = this.investmentForm.controls["shareCount"].value || 0;
 
     if (sharePrice > 0 && shareCount > 0) {
-      const totalInvestment = sharePrice * shareCount;
+      let totalInvestment = sharePrice * shareCount;
+
+
+      if (
+        this.investmentPercentage &&
+        this.selectedPropertyType !== "Pleine propriété"
+      ) {
+        const percentage = this.investmentPercentage / 100;
+        totalInvestment = totalInvestment * percentage;
+
+        console.log("totalInvestment", totalInvestment);
+
+      }
+
       const adjustedShareCount = Math.floor(totalInvestment / sharePrice);
       const remainder = totalInvestment % sharePrice;
 
@@ -312,7 +330,7 @@ export class ScpiInvestModalComponent implements OnInit {
 
       if (
         this.minimumSubscription &&
-        totalInvestment < +this.minimumSubscription
+        shareCount * sharePrice < +this.minimumSubscription
       ) {
         this.investmentForm.controls["totalInvestment"].setErrors({
           belowMinimum: true,
@@ -322,6 +340,7 @@ export class ScpiInvestModalComponent implements OnInit {
       }
     }
   }
+
 
   calculateShareCount() {
     const totalInvestment =
@@ -352,6 +371,7 @@ export class ScpiInvestModalComponent implements OnInit {
 
     setTimeout(() => {
       this.updateEstimatedMonthlyIncome();
+      this.calculateTotalInvestment();
     }, 0);
   }
 
