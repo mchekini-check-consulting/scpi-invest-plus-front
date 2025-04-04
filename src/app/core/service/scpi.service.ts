@@ -58,6 +58,7 @@ export class ScpiService {
     return this.http.get<ScpiModel[]>(`${this.urlIndex}/search`, { params });
   }
 
+
   getScpiById(id: number): Observable<Details> {
     return this.http.get<Details>(`${this.url}/details/${id}`);
   }
