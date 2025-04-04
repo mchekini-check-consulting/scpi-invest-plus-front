@@ -75,8 +75,15 @@ export class ScpiComponent implements OnInit, OnDestroy {
     });
   }
 
-  getImage(id: number): string {
-    return this.images[id % this.images.length];
+  getImage(id: number | string): string {
+
+    const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
+
+    if (isNaN(numericId)) {
+      return '';
+    }
+
+    return this.images[numericId % this.images.length];
   }
 
   updateScpiList(filteredList: ScpiModel[] | null | undefined) {

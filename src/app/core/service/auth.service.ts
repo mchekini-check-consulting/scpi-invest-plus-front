@@ -27,9 +27,8 @@ export class AuthService {
     this.oauthService.events.pipe(
       filter(event => event.type === 'token_expires')
     ).subscribe(() => {
-      console.log('Token expiré, tentative de refresh...');
       this.oauthService.refreshToken()
-        .then(() => console.log('Token rafraîchi avec succès'))
+        .then()
         .catch(err => {
           console.error('Échec du refresh token', err);
           this.oauthService.initLoginFlow();
@@ -41,7 +40,7 @@ export class AuthService {
     setInterval(() => {
       if (this.oauthService.hasValidAccessToken()) {
         this.oauthService.refreshToken()
-          .then(() => console.log('Token rafraîchi automatiquement'))
+          .then()
           .catch(err => console.error('Erreur lors du refresh token', err));
       }
     }, 1200000);

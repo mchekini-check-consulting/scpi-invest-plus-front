@@ -18,6 +18,7 @@ export class ScpiService {
 
   constructor(private http: HttpClient) {}
 
+   // TODO : remove this method and use get()
   get(): Observable<Scpis> {
     return this.http.get<Scpis>(this.url);
   }
@@ -25,8 +26,7 @@ export class ScpiService {
 
   getScpiWithFilter(filters: ScpiSearch): Observable<ScpiModel[]> {
 
-    console.log("test scpi search ___",filters);
-
+    
     let params = new HttpParams();
 
     if (filters.name) {
