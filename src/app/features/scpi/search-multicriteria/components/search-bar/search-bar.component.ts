@@ -40,6 +40,7 @@ export class SearchBarComponent {
       )
       .subscribe((term) => this.searchTermChanged.emit(term));
   }
+  
   onSearchChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     this.searchTerm = inputElement.value.trim();
