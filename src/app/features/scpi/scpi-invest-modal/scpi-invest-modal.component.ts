@@ -306,11 +306,11 @@ export class ScpiInvestModalComponent implements OnInit {
         console.log("totalInvestment", totalInvestment);
 
       }
+
       let finalTotalInvestment = totalInvestment;
 
       const adjustedShareCount = Math.floor(totalInvestment / sharePrice);
       const remainder = totalInvestment % sharePrice;
-
       if (remainder === 0) {
         shareCount = adjustedShareCount;
       } else {
