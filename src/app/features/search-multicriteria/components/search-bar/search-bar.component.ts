@@ -36,10 +36,11 @@ export class SearchBarComponent {
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        filter((term: string) => term.length >= 3)
+        filter((term: string) => term.length >= 3 || term.length === 0)
       )
       .subscribe((term) => this.searchTermChanged.emit(term));
   }
+  
   onSearchChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     this.searchTerm = inputElement.value.trim();

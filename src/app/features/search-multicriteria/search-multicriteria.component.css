@@ -112,6 +112,8 @@ p-sidebar {
 }
 
 
+
+
 @media screen and (max-width: 768px) {
   p-sidebar {
     width: 80% !important;
