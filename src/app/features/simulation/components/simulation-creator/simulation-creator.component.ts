@@ -44,7 +44,6 @@ export class SimulationCreatorComponent implements OnInit{
         this.investorEmail = user.email;
       }
     });
-    console.log("Email user = ", this.investorEmail)
   }
   openDialog() {
     this.isDialogVisible = true;

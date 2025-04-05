@@ -3,5 +3,13 @@
 @import "../node_modules/primeicons/primeicons.css";
 
 ::ng-deep .p-dropdown-panel {
-    width: 100% !important;
-  }
+  width: 100% !important;
+}
+
+:root {
+  --primary-blue: rgb(29, 59, 158);
+  --text-muted: rgb(88, 88, 99);
+  --highlight-blue: rgb(67, 119, 249);
+  --highlight-green: rgb(45, 206, 137);
+  --dark-blue: rgb(12, 27, 51);
+}

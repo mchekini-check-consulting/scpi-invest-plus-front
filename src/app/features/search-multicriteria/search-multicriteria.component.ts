@@ -87,6 +87,7 @@ export class SearchMulticriteriaComponent {
     );
   }
 
+
   resetFilters() {
     this.filters = this.getDefaultFilters();
     this.loading = true;
@@ -108,6 +109,7 @@ export class SearchMulticriteriaComponent {
     );
   }
 
+  
   private prepareFilters(): ScpiSearch {
     return {
       name: this.filters.name?.trim() || undefined,

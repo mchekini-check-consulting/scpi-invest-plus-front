@@ -1,3 +1,25 @@
+export type ScpiIndexModel = {
+  id: string;
+  name: string;
+  distributionRate: number;
+  subscriptionFees: boolean;
+  frequencyPayment: string;
+  locations: LocationIndexModel[];
+  sectors: SectorIndexModel[];
+  minimumSubscription: number;
+};
+
+export type LocationIndexModel = {
+  country: string;
+  countryPercentage: number;
+};
+
+export type SectorIndexModel = {
+  name: string;
+  sectorPercentage: number;
+};
+
+
 export type ScpiModel = {
   id: number;
   name: string;

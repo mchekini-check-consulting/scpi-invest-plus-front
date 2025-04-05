@@ -1,18 +1,18 @@
 <div class="card-container">
   <p-card class="card">
     <ng-template #header>
-      <img alt="Card" class="card-image" [src]="image" />
+      <img [src]="image" alt="Card" class="card-image" />
     </ng-template>
 
     <ng-template #title>{{ scpi?.name ?? "N/A" }}</ng-template>
     <div class="info-container">
       <div class="info">
-        <p-tag severity="secondary" [value]="formatLocation()"></p-tag>
-        <p-tag severity="secondary" [value]="formatSector()"></p-tag>
+        <p-tag [value]="location" severity="secondary"></p-tag>
+        <p-tag [value]="sector" severity="secondary"></p-tag>
       </div>
       <div class="info">
-        <p-tag severity="secondary" [value]="formatDistributionRate()"></p-tag>
-        <p-tag severity="secondary" [value]="formatMinimum()"></p-tag>
+        <p-tag [value]="distributionRate" severity="secondary"></p-tag>
+        <p-tag [value]="minimumSubscription" severity="secondary"></p-tag>
       </div>
     </div>
     <p-divider />
@@ -20,41 +20,30 @@
     <ng-template #footer>
       <div class="button-group">
         <p-button
+          (click)="openInvestirModal('simuler')"
           *ngIf="isAddingScpi"
           label="Ajouter"
-          (click)="openInvestirModal('simuler')"
           severity="info"
           size="large"
         />
         <p-button
+          (click)="openInvestirModal('investir')"
           *ngIf="!isAddingScpi"
           label="Investir"
-          (click)="openInvestirModal('investir')"
           severity="info"
           size="large"
         />
         <p-button
+          [outlined]="true"
+          [routerLink]="['/details', scpi?.id]"
           label="Détails"
           severity="secondary"
-          [outlined]="true"
           size="large"
-          [routerLink]="['/details', scpi?.id]"
         />
       </div>
     </ng-template>
   </p-card>
 </div>
-<p-toast></p-toast>
 
-<app-scpi-invest-modal
-  [visible]="investirModalVisible"
-  [scpiName]="scpi?.name"
-  [scpiId]="scpi?.id"
-  [location]="formatLocation()"
-  [distributionRate]="formatDistributionRate()"
-  [minimumSubscription]="formatMinimum()"
-  [sharePrice]="getSharePrice()"
-  [mode] ="modalMode"
-  [addScpi]="addScpi"
-  (close)="closeInvestirModal()">
-  </app-scpi-invest-modal>
+
+

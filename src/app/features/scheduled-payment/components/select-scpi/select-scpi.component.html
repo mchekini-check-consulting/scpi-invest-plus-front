@@ -1,0 +1,21 @@
+<button class="select-scpi-button" (click)="isDialogVisible=true">Sélectionner une SCPI</button>
+
+
+<p-dialog
+  (onHide)="close()"
+  [(visible)]="isDialogVisible"
+  [closable]="true"
+  [style]="{ maxWidth: '80rem', width:'100%' }"
+  header="Ajouter une SCPI"
+  modal
+>
+  <div class="list-scpi">
+    <ng-container *ngFor="let scpi of scpis">
+      <app-scpi-card
+        [image]="getImage(scpi.id)"
+        [isAddingScpi]="true"
+        [scpi]="scpi"
+      />
+    </ng-container>
+  </div>
+</p-dialog>

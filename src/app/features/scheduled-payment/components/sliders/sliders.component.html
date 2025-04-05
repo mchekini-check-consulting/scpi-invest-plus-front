@@ -1,0 +1,27 @@
+<div class="sliders-container">
+  <div class="slider-container">
+    <label class="text">Je verse tous les mois <span>{{ numberShares * sharePrice }} €</span></label>
+    <p-slider
+      (ngModelChange)="onValueChange()"
+      [(ngModel)]="numberShares"
+      [max]=" 30"
+      [min]="1"
+      [step]="1"
+      ariaLabel="Number"
+      class="custom-slider"
+      severity="info"></p-slider>
+  </div>
+
+  <div class="slider-container">
+    <label class="text">Avec un versement initial <span>{{ initialDeposit * minSubscription }} €</span></label>
+    <p-slider
+      (ngModelChange)="onValueChange()"
+      [(ngModel)]="initialDeposit"
+      [max]=" 30"
+      [min]="1"
+      [step]="1"
+      ariaLabel="Number"
+      class="custom-slider"
+      severity="info"></p-slider>
+  </div>
+</div>
