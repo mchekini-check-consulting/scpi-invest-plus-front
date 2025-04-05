@@ -77,7 +77,6 @@ export class SearchMulticriteriaComponent {
       }
     });
   }
-
   isSearchDisabled(): boolean {
     return !Object.values(this.filters).some(
       (value) =>
