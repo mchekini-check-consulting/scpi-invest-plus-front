@@ -137,11 +137,13 @@ export class ScpiInvestModalComponent implements OnInit {
     this.investmentForm.controls["propertyType"].valueChanges.subscribe(() => {
       this.updateEstimatedMonthlyIncome();
       this.calculateTotalInvestment();
+      console.log("La prop a changée")
     });
 
     this.investmentForm.controls["totalInvestment"].valueChanges.subscribe(
       () => {
-        this.calculateShareCount();
+        console.log("ygyulfypfoyfoyf");
+        //this.calculateShareCount();
       }
     );
 
@@ -160,8 +162,7 @@ export class ScpiInvestModalComponent implements OnInit {
       return (
         (totalInvestment *
           (annualReturnRate / 100) *
-          (this.investmentPercentage / 100)) /
-        12
+          (this.investmentPercentage / 100))/12
       );
     } else {
       return 0;
@@ -222,6 +223,7 @@ export class ScpiInvestModalComponent implements OnInit {
   }
 
   private createScpiData(scpi: any, investmentData: any): any {
+    console.log("Creation des donnnees scpi")
     return {
       scpiId: this.scpi?.id ?? 0,
       scpiName: scpi.name ?? this.scpi?.name ?? "simulation",
@@ -296,32 +298,26 @@ export class ScpiInvestModalComponent implements OnInit {
       let totalInvestment = sharePrice * shareCount;
 
 
-      if (
-        this.investmentPercentage &&
-        this.selectedPropertyType !== "Pleine propriété"
-      ) {
-        //console.log("Le pourcentage est ", this.investmentPercentage)
-
+      if (this.investmentPercentage && this.selectedPropertyType !== "Pleine propriété") {
         const percentage = this.investmentPercentage / 100;
         totalInvestment = totalInvestment * percentage;
-
-        //console.log("totalInvestment", totalInvestment);
-
       }
 
       let finalTotalInvestment = totalInvestment;
 
       const adjustedShareCount = Math.floor(totalInvestment / sharePrice);
-      const remainder = totalInvestment % sharePrice;
-      if (remainder === 0) {
-        shareCount = adjustedShareCount;
-      } else {
-        shareCount =
-          remainder < sharePrice / 2
-            ? adjustedShareCount
-            : adjustedShareCount + 1;
-      }
-      console.log("Valeur finale affichée dans le champ totalInvestment :", finalTotalInvestment);
+      console.log("Ajustement de Share Count : ", adjustedShareCount);
+      //const remainder = totalInvestment % sharePrice;
+      // if (remainder === 0) {
+      //   shareCount = adjustedShareCount;
+      //   console.log("if de shareCount = ", shareCount);
+      // } else {
+      //   shareCount =
+      //     remainder < sharePrice / 2
+      //       ? adjustedShareCount
+      //       : adjustedShareCount + 1;
+      //       console.log("else de shareCount = ", shareCount);
+      // }
 
       this.investmentForm.controls["totalInvestment"].setValue(
         finalTotalInvestment,
@@ -387,7 +383,11 @@ export class ScpiInvestModalComponent implements OnInit {
     if (this.selectedPropertyType === "Pleine propriété") {
       this.investmentDuration = 0;
       this.investmentPercentage = 0;
-      this.investmentForm.controls["investmentDuration"].setValue(null);
+      //this.investmentForm.controls["investmentDuration"].setValue(null);
+    }else if (this.selectedPropertyType ==="Usufruit"){
+      this.investmentForm.controls['shareCount'].setValue(1);
+    }else{
+      this.investmentForm.controls['shareCount'].setValue(1);
     }
   }
 }
