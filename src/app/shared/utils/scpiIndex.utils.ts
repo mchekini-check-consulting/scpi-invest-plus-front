@@ -1,33 +1,26 @@
 import { ScpiIndexModel } from "@/core/model/scpi.model";
 
-export const formatLocation = (locations?: ScpiIndexModel["locations"]): string => {
-  if (!locations || locations.length === 0) return "N/A";
+// Format de la location dominante
+export const formatLocation = (countryDominant?: ScpiIndexModel["countryDominant"]): string => {
+  if (!countryDominant) return "N/A";
 
-
-  const lastLocation = locations[locations.length - 1];
-
- 
-  return `${lastLocation.country ?? "N/A"} - ${
-    lastLocation.countryPercentage !== undefined
-      ? `${lastLocation.countryPercentage}%`
+  return `${countryDominant.country ?? "N/A"} - ${
+    countryDominant.countryPercentage !== undefined
+      ? `${countryDominant.countryPercentage}%`
       : "N/A%"
   }`;
 };
 
-export const formatSector = (sectors?: ScpiIndexModel["sectors"]): string => {
-  if (!sectors || sectors.length === 0) return "N/A";
+// Format du secteur dominant
+export const formatSector = (dominantSector?: ScpiIndexModel["dominantSector"]): string => {
+  if (!dominantSector) return "N/A";
 
-
-  const lastSector = sectors[sectors.length - 1];
-
-
-  return `${lastSector.name ?? "N/A"} - ${
-    lastSector.sectorPercentage !== undefined
-      ? `${lastSector.sectorPercentage}%`
+  return `${dominantSector.name ?? "N/A"} - ${
+    dominantSector.sectorPercentage !== undefined
+      ? `${dominantSector.sectorPercentage}%`
       : "N/A%"
   }`;
 };
-
 export const formatDistributionRate = (distributionRate?: number): string => {
   return `Rendement - ${
     distributionRate !== undefined ? distributionRate + "%" : "N/A"

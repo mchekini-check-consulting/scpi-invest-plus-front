@@ -45,14 +45,14 @@ export class ScpiCardComponent {
 
   get location(): string {
     if (this.scpi && 'locations' in this.scpi) {
-      return formatLocation(this.scpi.locations);
+      return formatLocation(this.scpi.countryDominant);
     }
     return "N/A";
   }
 
   get sector(): string {
     if (this.scpi && 'sectors' in this.scpi) {
-      return formatSector(this.scpi.sectors);
+      return formatSector(this.scpi.dominantSector);
     }
     return "N/A";
   }
