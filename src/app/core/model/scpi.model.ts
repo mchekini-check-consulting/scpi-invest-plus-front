@@ -4,6 +4,8 @@ export type ScpiIndexModel = {
   distributionRate: number;
   subscriptionFees: boolean;
   frequencyPayment: string;
+  countryDominant: LocationIndexModel;  
+  dominantSector: SectorIndexModel;
   locations: LocationIndexModel[];
   sectors: SectorIndexModel[];
   minimumSubscription: number;
