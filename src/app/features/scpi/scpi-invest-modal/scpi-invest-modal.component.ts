@@ -386,8 +386,14 @@ export class ScpiInvestModalComponent implements OnInit {
       //this.investmentForm.controls["investmentDuration"].setValue(null);
     }else if (this.selectedPropertyType ==="Usufruit"){
       this.investmentForm.controls['shareCount'].setValue(1);
+      this.investmentDuration = 0;
+      this.investmentPercentage = 0;
+      this.investmentForm.controls["investmentDuration"].setValue(null);
     }else{
       this.investmentForm.controls['shareCount'].setValue(1);
+      this.investmentDuration = 0;
+      this.investmentPercentage = 0;
+      this.investmentForm.controls["investmentDuration"].setValue(null);
     }
   }
 }
