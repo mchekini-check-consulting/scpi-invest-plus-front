@@ -14,6 +14,7 @@ import { SimulationDetailComponent } from '@/features/simulation/simulation-deta
 import { CreditComponent } from '@/features/credit/credit.component';
 import { PlanComponent } from '@/features/plan/plan.component';
 import { ScheduledPaymentComponent } from '@/features/scheduled-payment/scheduled-payment.component';
+import { ExplorerComponent } from '@/features/explorer/explorer.component';
 
 export const routes: Routes = [
   {
@@ -63,6 +64,11 @@ export const routes: Routes = [
       {
         path: 'comparateur',
         component: ComparatorComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'explorer',
+        component: ExplorerComponent,
         canActivate: [AuthGuard],
       },
       {

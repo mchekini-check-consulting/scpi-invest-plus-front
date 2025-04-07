@@ -50,6 +50,7 @@ export class ScpiInvestModalComponent implements OnInit {
   @Input() mode?: string;
   @Output() close = new EventEmitter<void>();
   @Input() addScpi?: boolean;
+  @Input() fromScoring: boolean = false;
 
   investmentDuration?: number;
   investmentPercentage?: number;

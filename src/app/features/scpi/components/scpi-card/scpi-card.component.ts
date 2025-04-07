@@ -38,6 +38,8 @@ export class ScpiCardComponent {
   @Input() image!: string;
   @Input() addScpi?: boolean;
   @Input() isAddingScpi = false;
+  @Input() fromScoring: boolean = false;
+
   @Output() onClick = new EventEmitter<{
     mode: string;
     scpi: ScpiIndexModel;
