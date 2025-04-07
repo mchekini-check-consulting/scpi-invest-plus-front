@@ -40,12 +40,12 @@
 
 
 </div>
-<ng-container *ngIf="selectedScpi">
+<ng-container *ngIf="selectescpiId">
   <app-scpi-invest-modal
     (close)="closeInvestirModal()"
     [addScpi]="addScpi"
     [mode]="modalMode"
-    [scpi]="selectedScpi"
+    [scpiId]="selectescpiId"
     [visible]="investirModalVisible">
   </app-scpi-invest-modal>
 </ng-container>

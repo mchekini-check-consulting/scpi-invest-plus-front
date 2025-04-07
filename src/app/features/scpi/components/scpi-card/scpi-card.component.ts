@@ -38,20 +38,20 @@ export class ScpiCardComponent {
   @Input() image!: string;
   @Input() addScpi?: boolean;
   @Input() isAddingScpi = false;
-  @Output() onClick = new EventEmitter<{ mode: string; scpi: ScpiModel }>();
+  @Output() onClick = new EventEmitter<{ mode: string; scpiId: number | string | undefined }>();
 
   constructor() {}
 
 
   get location(): string {
-    if (this.scpi && 'locations' in this.scpi) {
+    if (this.scpi && 'countryDominant' in this.scpi) {
       return formatLocation(this.scpi.countryDominant);
     }
     return "N/A";
   }
 
   get sector(): string {
-    if (this.scpi && 'sectors' in this.scpi) {
+    if (this.scpi && 'dominantSector' in this.scpi) {
       return formatSector(this.scpi.dominantSector);
     }
     return "N/A";
@@ -71,9 +71,10 @@ export class ScpiCardComponent {
     return "N/A";
   }
 
-  openInvestirModal(mode: string) {
-    if (this.scpi) {
-      this.onClick.emit({ mode, scpi: this.scpi as ScpiModel });
+  openInvestirModal(mode: string, scpiId: number | string | undefined) {
+  
+    if (scpiId) {
+      this.onClick.emit({ mode, scpiId });
     }
   }
 }

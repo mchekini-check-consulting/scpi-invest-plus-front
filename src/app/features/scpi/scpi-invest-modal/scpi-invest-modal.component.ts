@@ -46,7 +46,8 @@ import { ScpiModel } from "@/core/model/scpi.model";
 })
 export class ScpiInvestModalComponent implements OnInit {
   @Input() visible: boolean = false;
-  @Input() scpi?: ScpiModel;
+  @Input() scpiId?: number | string | undefined;
+  scpi?: ScpiModel;
   @Input() mode?: string;
   @Output() close = new EventEmitter<void>();
   @Input() addScpi?: boolean;
@@ -114,6 +115,8 @@ export class ScpiInvestModalComponent implements OnInit {
     return formatMinimum(this.scpi?.minimumSubscription);
   }
 
+
+
   ngOnInit() {
     this.investmentForm.controls["sharePrice"].valueChanges.subscribe(() => {
       this.calculateTotalInvestment();
@@ -142,7 +145,6 @@ export class ScpiInvestModalComponent implements OnInit {
 
     this.investmentForm.controls["totalInvestment"].valueChanges.subscribe(
       () => {
-        console.log("ygyulfypfoyfoyf");
         //this.calculateShareCount();
       }
     );
@@ -150,12 +152,23 @@ export class ScpiInvestModalComponent implements OnInit {
     if (this.sharePrice) {
       this.investmentForm.patchValue({ sharePrice: this.sharePrice });
     }
+
+    if (this.scpiId) {
+      console.log("ID de la SCPI :", this.scpiId);
+
+      this.scpiService.getScpiById(this.scpiId).subscribe((scpiData) => {
+        this.scpi = scpiData;
+        this.investmentForm.patchValue({ sharePrice: this.sharePrice });
+      });
+    }
   }
 
   calculateEstimatedMonthlyIncome(
     totalInvestment: number,
     annualReturnRate: number
   ): number {
+
+
     if (this.selectedPropertyType === "Pleine propriété") {
       return (totalInvestment * (annualReturnRate / 100)) / 12;
     } else if (this.investmentPercentage) {
