@@ -310,9 +310,9 @@ export class ScpiInvestModalComponent implements OnInit {
         const percentage = this.investmentPercentage / 100;
         total = total * percentage;
       }
-      
+
       let finalTotalInvestment = total;
-      const adjustedShareCount = Math.floor(total / sharePrice);
+      //const adjustedShareCount = Math.floor(total / sharePrice);
       //const remainder = totalInvestment % sharePrice;
       // if (remainder === 0) {
       //   shareCount = adjustedShareCount;
@@ -323,7 +323,7 @@ export class ScpiInvestModalComponent implements OnInit {
       //       ? adjustedShareCount
       //       : adjustedShareCount + 1;
       //       console.log("else de shareCount = ", shareCount);
-      // }      
+      // }
       this.investmentForm.controls["totalInvestment"].setValue(
         finalTotalInvestment,
         {
