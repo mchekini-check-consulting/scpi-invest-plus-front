@@ -4,7 +4,7 @@ export type ScpiIndexModel = {
   distributionRate: number;
   subscriptionFees: boolean;
   frequencyPayment: string;
-  countryDominant: LocationIndexModel;  
+  countryDominant: LocationIndexModel;
   dominantSector: SectorIndexModel;
   locations: LocationIndexModel[];
   sectors: SectorIndexModel[];
@@ -57,10 +57,10 @@ type StatYearModel = {
 
 export interface ScpiSearch {
   name?: string;
-  minimumDistribution?: number;
+  distributionRate?: number;
   subscriptionFees?: boolean;
   frequencyPayment?: string;
   locations?: string[];
   sectors?: string[];
-  minimumInvestmentAmount?: number;
+  minimumSubscription?: number;
 }

@@ -1,4 +1,4 @@
-import { ScpiModel } from "@/core/model/scpi.model";
+import { ScpiIndexModel, ScpiModel } from "@/core/model/scpi.model";
 import { ScpiService } from "@/core/service/scpi.service";
 import { SearchMulticriteriaComponent } from "@/features/search-multicriteria/search-multicriteria.component";
 import { CommonModule } from "@angular/common";
@@ -30,9 +30,9 @@ import { ScpiInvestModalComponent } from "@/features/scpi/scpi-invest-modal/scpi
 export class ScpiComponent implements OnInit, OnDestroy {
   @Input() isAddingScpi = false;
   @Input() addScpi?: boolean;
-  scpis: ScpiModel[] = [];
+  scpis: ScpiIndexModel[] = [];
   selectedScpi: ScpiModel | null = null;
-  filteredScpis: ScpiModel[] = [];
+  filteredScpis: ScpiIndexModel[] = [];
   noResultsMessage: boolean = false;
   loading = false;
   skeletonArray = new Array(10);
@@ -52,12 +52,10 @@ export class ScpiComponent implements OnInit, OnDestroy {
       if (!user) {
         return;
       }
-
-      if (this.filteredScpis.length === 0) {
         this.loading = true;
         this.subscriptions.add(
           this.scpiService
-            .get()
+            .getScpiWithFilter({})
             .pipe(
               catchError((error) => {
                 this.loading = false;
@@ -71,7 +69,6 @@ export class ScpiComponent implements OnInit, OnDestroy {
               this.cdRef.detectChanges();
             })
         );
-      }
     });
   }
 
@@ -86,7 +83,8 @@ export class ScpiComponent implements OnInit, OnDestroy {
     return this.images[numericId % this.images.length];
   }
 
-  updateScpiList(filteredList: ScpiModel[] | null | undefined) {
+  
+  updateScpiList(filteredList: ScpiIndexModel[] | null | undefined) {
     this.filteredScpis = filteredList && filteredList.length > 0 ? [...filteredList] : [];
     this.noResultsMessage = this.filteredScpis.length === 0;
     this.cdRef.detectChanges();
