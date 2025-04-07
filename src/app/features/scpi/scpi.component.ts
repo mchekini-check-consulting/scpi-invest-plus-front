@@ -98,8 +98,7 @@ export class ScpiComponent implements OnInit, OnDestroy {
 
   closeInvestirModal() {
     this.investirModalVisible = false;
-
-  
+    this.selectescpiId = undefined;
   }
 
   ngOnDestroy() {
