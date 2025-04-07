@@ -4,8 +4,12 @@
       <img [src]="image" alt="Card" class="card-image" />
     </ng-template>
 
-    <ng-template #title>{{ scpi?.name ?? "N/A" }}</ng-template>
-    <div class="info-container">
+    <ng-template #title>
+      {{ scpi?.name ?? "N/A" }}
+      <span *ngIf="mashedScore !== undefined" class="mashed-score">
+        ({{ mashedScore.toFixed(2) }})
+      </span>
+    </ng-template>    <div class="info-container">
       <div class="info">
         <p-tag [value]="location" severity="secondary"></p-tag>
         <p-tag [value]="sector" severity="secondary"></p-tag>

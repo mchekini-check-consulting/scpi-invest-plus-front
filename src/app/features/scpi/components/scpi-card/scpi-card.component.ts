@@ -39,6 +39,8 @@ export class ScpiCardComponent {
   @Input() addScpi?: boolean;
   @Input() isAddingScpi = false;
   @Input() fromScoring: boolean = false;
+  @Input() mashedScore?: number;
+
 
   @Output() onClick = new EventEmitter<{
     mode: string;

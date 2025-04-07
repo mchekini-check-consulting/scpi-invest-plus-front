@@ -11,6 +11,7 @@ export type ScpiIndexModel = {
   locations: LocationIndexModel[];
   sectors: SectorIndexModel[];
   minimumSubscription: number;
+  mashedScore : number;
 };
 
 export type LocationIndexModel = {

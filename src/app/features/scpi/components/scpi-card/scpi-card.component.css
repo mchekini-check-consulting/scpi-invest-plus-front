@@ -3,7 +3,11 @@
   align-items: center;
   justify-content: center;
 }
-
+.mashed-score {
+  font-weight: bold;
+  color: #0a9396;
+  margin-left: 8px;
+}
 .card {
   overflow: hidden;
   border-radius: 12px;
