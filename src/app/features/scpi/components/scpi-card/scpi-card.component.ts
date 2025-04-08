@@ -51,8 +51,8 @@ export class ScpiCardComponent {
   }
 
   get sector(): string {
-    if (this.scpi && 'dominantSector' in this.scpi) {
-      return formatSector(this.scpi.dominantSector);
+    if (this.scpi && 'sectorDominant' in this.scpi) {
+      return formatSector(this.scpi.sectorDominant);
     }
     return "N/A";
   }
@@ -72,7 +72,7 @@ export class ScpiCardComponent {
   }
 
   openInvestirModal(mode: string, scpiId: number | string | undefined) {
-  
+
     if (scpiId) {
       this.onClick.emit({ mode, scpiId });
     }
