@@ -34,26 +34,6 @@
 
 
 
-.no-results-container {
-  display: flex;
-  justify-content: center;
-}
-
-.no-results-message {
-  font-size: 1rem;
-  color: #2f2f98;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  line-height: 1.5;
-  border: 1px dashed #38393a;
-  margin: 20px;
-}
-
-
-
-
 
 @keyframes pulse {
   0% {

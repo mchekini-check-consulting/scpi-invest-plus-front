@@ -39,24 +39,22 @@ export class SearchMulticriteriaComponent {
 
   constructor(private scpiService: ScpiService) {}
 
+  applyFilters() {
+    this.isFilterVisible = false;
+    this.searchScpi();
+  }
+
   onSearchTermChanged(searchTerm: string) {
     this.filters.name = searchTerm.trim();
-    if (this.isSearchDisabled()) {
-      this.resetFilters();
-    } else {
-      this.searchScpi();
-    }
+    this.searchScpi();
   }
 
   searchScpi() {
-    this.isFilterVisible = false;
     if (this.isSearchDisabled()) {
       return;
     }
 
     let filtersToSend: ScpiSearch = this.prepareFilters();
-
-
     this.loading = true;
     this.scpiService.getScpiWithFilter(filtersToSend).subscribe({
       next: (data) => {
@@ -77,7 +75,6 @@ export class SearchMulticriteriaComponent {
       }
     });
   }
-
   isSearchDisabled(): boolean {
     return !Object.values(this.filters).some(
       (value) =>
@@ -87,7 +84,6 @@ export class SearchMulticriteriaComponent {
         (typeof value === "boolean")
     );
   }
-
 
   resetFilters() {
     this.filters = this.getDefaultFilters();
@@ -110,7 +106,6 @@ export class SearchMulticriteriaComponent {
     );
   }
 
-  
   private prepareFilters(): ScpiSearch {
     return {
       name: this.filters.name?.trim() || undefined,
@@ -141,14 +136,6 @@ export class SearchMulticriteriaComponent {
 
   stopPropagation(event: Event) {
     event.stopPropagation();
-  }
-
-  set selectedLocations(values: any[]) {
-    this.filters.locations = values.map((item) => item.value);
-  }
-
-  set selectedSectors(values: any[]) {
-    this.filters.sectors = values.map((item) => item.value);
   }
 
   investmentZones = [

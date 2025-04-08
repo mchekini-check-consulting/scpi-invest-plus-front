@@ -8,7 +8,7 @@ import { Details } from '../model/Details';
 type Scpis = ScpiModel[];
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ScpiService {
   [x: string]: any;
@@ -18,7 +18,6 @@ export class ScpiService {
 
   constructor(private http: HttpClient) {}
 
-   // TODO : remove this method and use get()
   get(): Observable<Scpis> {
     return this.http.get<Scpis>(this.url);
   }
@@ -26,7 +25,8 @@ export class ScpiService {
 
   getScpiWithFilter(filters: ScpiSearch): Observable<ScpiModel[]> {
 
-    
+    console.log("test scpi search ___",filters);
+
     let params = new HttpParams();
 
     if (filters.name) {
@@ -59,17 +59,17 @@ export class ScpiService {
   }
 
 
+  // getScpiWithFilter(search?: ScpiSearch): Observable<ScpiModel[]> {
+  //   return this.http.post<ScpiModel[]>(`${this.url}/search`, search);
+  // }
+
   getScpiById(id: number): Observable<Details> {
     return this.http.get<Details>(`${this.url}/details/${id}`);
   }
 
-  getScpisWithScheduledPayment(): Observable<ScpiModel[]> {
-    return this.http.get<ScpiModel[]>(`${this.url}/scheduled`);
-  }
-
   verifyInvestmentAbility(): Observable<boolean> {
     const headers = new HttpHeaders({
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     });
 
     return this.http.get<boolean>(`${this.investorUri}/InvestmentAbility`, {

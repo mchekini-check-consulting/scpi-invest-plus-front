@@ -4,8 +4,7 @@
     style="flex-grow: 1"
   ></app-search-bar>
   <div>
-    <i class="pi pi-sliders-h" (click)="isFilterVisible = true">
-    </i>
+    <i class="pi pi-sliders-h" (click)="isFilterVisible = true"></i>
   </div>
 </div>
 
@@ -28,7 +27,7 @@
       <p-slider
         [(ngModel)]="filters.minimumDistribution"
         [min]="0"
-        [max]="8"
+        [max]="20"
         [step]="1"
       ></p-slider>
       <span>{{ filters.minimumDistribution }}%</span>
@@ -38,7 +37,7 @@
       <label>Zone d’investissement</label>
       <p-multiSelect
         [options]="investmentZones"
-        [(ngModel)]="selectedLocations"
+        [(ngModel)]="filters.locations"
         optionLabel="label"
       ></p-multiSelect>
     </div>
@@ -47,7 +46,7 @@
       <label>Secteurs d'investissement</label>
       <p-multiSelect
         [options]="investmentSectors"
-        [(ngModel)]="selectedSectors"
+        [(ngModel)]="filters.sectors"
         optionLabel="label"
       ></p-multiSelect>
     </div>
@@ -85,7 +84,7 @@
         icon="pi pi-arrow-right"
         [disabled]="isSearchDisabled()"
         severity="info"
-        (click)="searchScpi()"
+        (click)="applyFilters()"
       ></p-button>
 
       <p-button

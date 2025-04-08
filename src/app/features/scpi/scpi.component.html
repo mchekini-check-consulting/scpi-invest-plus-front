@@ -1,52 +1,29 @@
 <div>
   <div>
+    {{noResultsMessage}}
     <app-search-multicriteria
       (scpiFiltered)="updateScpiList($event)"
       (noResultsMessageChange)="noResultsMessage = $event"
     ></app-search-multicriteria>
   </div>
-
-<ng-container *ngIf="!noResultsMessage; else noResults">
   <div class="list-scpi">
-    <ng-container *ngIf="filteredScpis.length > 0; else skeletons">
+    <ng-container *ngIf="filteredScpis.length > 0; else noResults">
       <ng-container *ngFor="let scpi of filteredScpis">
         <app-scpi-card
-          (onClick)="openInvestirModal($event)"
-          [addScpi]="addScpi"
+          [scpi]="scpi"
           [image]="getImage(scpi.id)"
           [isAddingScpi]="isAddingScpi"
-          [scpi]="scpi"
+          [addScpi]="addScpi"
         />
       </ng-container>
     </ng-container>
   </div>
-</ng-container>
-
-
-<ng-template #noResults>
-  <div class="no-results-container">
-    <p class="no-results-message">Aucune SCPI ne correspond à votre recherche, essayez d’autres critères sans plus attendre !</p>
-  </div>
-</ng-template>
-
-<!-- Skeletons si la liste est vide -->
-<ng-template #skeletons>
-  <div *ngFor="let skeleton of skeletonArray">
-    <div class="skeleton-wrapper">
-      <p-skeleton height="220px" width="100%" borderRadius="10px"></p-skeleton>
+  <ng-template #noResults>
+    <div *ngFor="let skeleton of skeletonArray">
+      <div class="skeleton-wrapper">
+        <p-skeleton height="220px" width="100%" borderRadius="10px"></p-skeleton>
+      </div>
     </div>
-  </div>
-</ng-template>
-
+  </ng-template>
 
 </div>
-<ng-container *ngIf="selectedScpi">
-  <app-scpi-invest-modal
-    (close)="closeInvestirModal()"
-    [addScpi]="addScpi"
-    [mode]="modalMode"
-    [scpi]="selectedScpi"
-    [visible]="investirModalVisible">
-  </app-scpi-invest-modal>
-</ng-container>
-

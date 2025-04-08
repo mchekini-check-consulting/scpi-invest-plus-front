@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { debounceTime, distinctUntilChanged, filter, Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged, Subject } from "rxjs";
 import { InputTextModule } from "primeng/inputtext";
 import { IconFieldModule } from "primeng/iconfield";
 import { InputIconModule } from "primeng/inputicon";
@@ -30,17 +30,11 @@ export class SearchBarComponent {
   @Output() searchTermChanged = new EventEmitter<string>();
   searchTerm: string = "";
   private searchSubject = new Subject<string>();
-
   constructor() {
     this.searchSubject
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        filter((term: string) => term.length >= 3 || term.length === 0)
-      )
+      .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe((term) => this.searchTermChanged.emit(term));
   }
-  
   onSearchChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     this.searchTerm = inputElement.value.trim();
