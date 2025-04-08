@@ -1,14 +1,13 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ScpiModel } from '../model/scpi.model';
+import { ScpiIndexModel, ScpiModel } from '../model/scpi.model';
 import { ScpiSearch } from '@/core/model/scpi.model';
 import { Details } from '../model/Details';
 
-type Scpis = ScpiModel[];
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ScpiService {
   [x: string]: any;
@@ -18,25 +17,19 @@ export class ScpiService {
 
   constructor(private http: HttpClient) {}
 
-  get(): Observable<Scpis> {
-    return this.http.get<Scpis>(this.url);
-  }
 
+  getScpiWithFilter(filters: ScpiSearch): Observable<ScpiIndexModel[]> {
 
-  getScpiWithFilter(filters: ScpiSearch): Observable<ScpiModel[]> {
-
-    console.log("test scpi search ___",filters);
-
-    let params = new HttpParams();
+   let params = new HttpParams();
 
     if (filters.name) {
       params = params.set("name", filters.name);
     }
-    if (filters.minimumDistribution !== undefined) {
-      params = params.set("minimumDistribution", filters.minimumDistribution.toString());
+    if (filters.distributionRate !== undefined) {
+      params = params.set("distributionRate", filters.distributionRate.toString());
     }
-    if (filters.minimumInvestmentAmount !== undefined) {
-      params = params.set("minimumInvestmentAmount", filters.minimumInvestmentAmount.toString());
+    if (filters.minimumSubscription !== undefined) {
+      params = params.set("minimumSubscription", filters.minimumSubscription.toString());
     }
     if (filters.subscriptionFees !== undefined) {
       params = params.set("subscriptionFees", filters.subscriptionFees.toString());
@@ -55,21 +48,21 @@ export class ScpiService {
       });
     }
 
-    return this.http.get<ScpiModel[]>(`${this.urlIndex}/search`, { params });
+    return this.http.get<ScpiIndexModel[]>(`${this.urlIndex}/search`, { params });
   }
 
-
-  // getScpiWithFilter(search?: ScpiSearch): Observable<ScpiModel[]> {
-  //   return this.http.post<ScpiModel[]>(`${this.url}/search`, search);
-  // }
 
   getScpiById(id: number): Observable<Details> {
     return this.http.get<Details>(`${this.url}/details/${id}`);
   }
 
+  getScpisWithScheduledPayment(): Observable<ScpiModel[]> {
+    return this.http.get<ScpiModel[]>(`${this.url}/scheduled`);
+  }
+
   verifyInvestmentAbility(): Observable<boolean> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     });
 
     return this.http.get<boolean>(`${this.investorUri}/InvestmentAbility`, {

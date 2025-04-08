@@ -6,10 +6,10 @@ import { Slider } from "primeng/slider";
 import { MultiSelect } from "primeng/multiselect";
 import { SelectButton } from "primeng/selectbutton";
 import { ButtonModule } from "primeng/button";
-import { ScpiSearch } from "@/core/model/scpi.model";
+import { ScpiIndexModel, ScpiSearch } from "@/core/model/scpi.model";
 import { ScpiService } from "@/core/service/scpi.service";
-import { ScpiModel } from "@/core/model/scpi.model";
 import { SearchBarComponent } from "@/features/search-multicriteria/components/search-bar/search-bar.component";
+import { catchError } from "rxjs";
 
 @Component({
   selector: "app-search-multicriteria",
@@ -28,12 +28,12 @@ import { SearchBarComponent } from "@/features/search-multicriteria/components/s
   styleUrls: ["./search-multicriteria.component.css"],
 })
 export class SearchMulticriteriaComponent {
-  @Output() scpiFiltered = new EventEmitter<ScpiModel[]>();
+  @Output() scpiFiltered = new EventEmitter<ScpiIndexModel[]>();
   isFilterVisible = false;
   noResultsMessage = false;
   @Output() noResultsMessageChange = new EventEmitter<boolean>();
   loading = false;
-  scpiResults: ScpiModel[] = [];
+  scpiResults: ScpiIndexModel[] = [];
 
   filters: ScpiSearch = this.getDefaultFilters();
 
@@ -50,9 +50,6 @@ export class SearchMulticriteriaComponent {
 
   searchScpi() {
     this.isFilterVisible = false;
-    if (this.isSearchDisabled()) {
-      return;
-    }
 
     let filtersToSend: ScpiSearch = this.prepareFilters();
 
@@ -77,6 +74,7 @@ export class SearchMulticriteriaComponent {
       }
     });
   }
+
   isSearchDisabled(): boolean {
     return !Object.values(this.filters).some(
       (value) =>
@@ -87,31 +85,33 @@ export class SearchMulticriteriaComponent {
     );
   }
 
+
   resetFilters() {
     this.filters = this.getDefaultFilters();
     this.loading = true;
     this.noResultsMessage = false;
-    this.scpiService.get().subscribe(
-      (data) => {
-        this.scpiResults = data || [];
-        this.loading = false;
-        // To DO à comprendre
-        this.scpiFiltered.emit(this.scpiResults);
-      },
+    this.scpiService
+                .getScpiWithFilter({})
+                .pipe(
+                  catchError((error) => {
+                    this.loading = false;
+                    return [];
+                  })
+                )
+                .subscribe((data) => {
+                  this.scpiResults = data || [];
+                  this.scpiFiltered.emit(this.scpiResults);
+                  this.loading = false;
 
-      (error) => {
-        this.scpiResults = [];
-        this.loading = false;
-        this.scpiFiltered.emit([]);
-        console.error("Erreur lors du rechargement des SCPI", error.HttpErrorResponse.Headers);
-      }
-    );
+                })
+
   }
+
 
   private prepareFilters(): ScpiSearch {
     return {
       name: this.filters.name?.trim() || undefined,
-      minimumDistribution: this.filters.minimumDistribution || undefined,
+      distributionRate: this.filters.distributionRate || undefined,
       subscriptionFees:
         this.filters.subscriptionFees !== undefined
           ? this.filters.subscriptionFees
@@ -119,8 +119,8 @@ export class SearchMulticriteriaComponent {
       frequencyPayment: this.filters.frequencyPayment || undefined,
       locations: this.filters.locations || undefined,
       sectors: this.filters.sectors || undefined,
-      minimumInvestmentAmount:
-        this.filters.minimumInvestmentAmount || undefined,
+      minimumSubscription:
+        this.filters.minimumSubscription || undefined,
     };
   }
 
@@ -129,9 +129,9 @@ export class SearchMulticriteriaComponent {
       name: undefined,
       locations: undefined,
       sectors: undefined,
-      minimumInvestmentAmount: 0,
+      distributionRate: undefined,
+      minimumSubscription: 0,
       subscriptionFees: undefined,
-      minimumDistribution: undefined,
       frequencyPayment: undefined,
     };
   }
@@ -142,10 +142,19 @@ export class SearchMulticriteriaComponent {
 
   set selectedLocations(values: any[]) {
     this.filters.locations = values.map((item) => item.value);
+    this.onFiltersChanged();
   }
 
   set selectedSectors(values: any[]) {
     this.filters.sectors = values.map((item) => item.value);
+    this.onFiltersChanged();
+  }
+
+
+  onFiltersChanged() {
+    if (this.isSearchDisabled()) {
+      this.resetFilters();
+    }
   }
 
   investmentZones = [

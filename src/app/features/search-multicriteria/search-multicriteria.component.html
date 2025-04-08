@@ -4,7 +4,7 @@
     style="flex-grow: 1"
   ></app-search-bar>
   <div>
-    <i class="pi pi-sliders-h" (click)="isFilterVisible = true"></i>
+    <i class="pi pi-sliders-h" (click)="isFilterVisible = true"> </i>
   </div>
 </div>
 
@@ -25,12 +25,13 @@
     <div class="filter-section">
       <label>Taux de distribution minimum</label>
       <p-slider
-        [(ngModel)]="filters.minimumDistribution"
+        [(ngModel)]="filters.distributionRate"
+        (ngModelChange)="onFiltersChanged()"
         [min]="0"
-        [max]="20"
+        [max]="8"
         [step]="1"
       ></p-slider>
-      <span>{{ filters.minimumDistribution }}%</span>
+      <span>{{ filters.distributionRate }}%</span>
     </div>
 
     <div class="filter-section">
@@ -56,6 +57,7 @@
       <p-selectButton
         [options]="subscriptionFeesOptions"
         [(ngModel)]="filters.subscriptionFees"
+        (onChange)="onFiltersChanged()"
       ></p-selectButton>
     </div>
 
@@ -64,18 +66,20 @@
       <p-selectButton
         [options]="rentalFrequencyOptions"
         [(ngModel)]="filters.frequencyPayment"
+        (onChange)="onFiltersChanged()"
       ></p-selectButton>
     </div>
 
     <div class="filter-section">
       <label>Montant minimum d’investissement</label>
       <p-slider
-        [(ngModel)]="filters.minimumInvestmentAmount"
+        [(ngModel)]="filters.minimumSubscription"
+        (ngModelChange)="onFiltersChanged()"
         [min]="0"
         [max]="10000"
         [step]="100"
       ></p-slider>
-      <span>{{ filters.minimumInvestmentAmount }} €</span>
+      <span>{{ filters.minimumSubscription }} €</span>
     </div>
 
     <div class="button-container">
