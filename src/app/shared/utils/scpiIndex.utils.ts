@@ -3,7 +3,6 @@ import { ScpiIndexModel } from "@/core/model/scpi.model";
 
 export const formatLocation = (countryDominant?: ScpiIndexModel["countryDominant"]): string => {
   if (!countryDominant) return "N/A";
-
   return `${countryDominant.country ?? "N/A"} - ${
     countryDominant.countryPercentage !== undefined
       ? `${countryDominant.countryPercentage}%`
@@ -14,7 +13,6 @@ export const formatLocation = (countryDominant?: ScpiIndexModel["countryDominant
 
 export const formatSector = (sectorDominant?: ScpiIndexModel["sectorDominant"]): string => {
   if (!sectorDominant) return "N/A";
-
   return `${sectorDominant.name ?? "N/A"} - ${
     sectorDominant.sectorPercentage !== undefined
       ? `${sectorDominant.sectorPercentage}%`

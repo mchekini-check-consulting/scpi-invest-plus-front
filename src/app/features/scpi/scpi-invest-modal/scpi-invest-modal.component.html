@@ -1,6 +1,6 @@
 <p-dialog
   [visible]="visible"
-  [header]="scpi?.name"
+  [header]="'INVESTMENT.HEADER' | translate: { scpiName: scpi?.name }"
   [(visible)]="visible"
   modal="true"
   (onHide)="closeModal()"
