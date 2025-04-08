@@ -12,12 +12,12 @@ export const formatLocation = (countryDominant?: ScpiIndexModel["countryDominant
 };
 
 
-export const formatSector = (dominantSector?: ScpiIndexModel["dominantSector"]): string => {
-  if (!dominantSector) return "N/A";
+export const formatSector = (sectorDominant?: ScpiIndexModel["sectorDominant"]): string => {
+  if (!sectorDominant) return "N/A";
 
-  return `${dominantSector.name ?? "N/A"} - ${
-    dominantSector.sectorPercentage !== undefined
-      ? `${dominantSector.sectorPercentage}%`
+  return `${sectorDominant.name ?? "N/A"} - ${
+    sectorDominant.sectorPercentage !== undefined
+      ? `${sectorDominant.sectorPercentage}%`
       : "N/A%"
   }`;
 };
