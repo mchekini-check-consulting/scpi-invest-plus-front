@@ -49,7 +49,8 @@ export class YearPickerCalendarComponent implements OnInit {
       changes['selectedPropertyType'].currentValue
     ) {
 
-      this.selectedYear = undefined;
+    
+      this.selectedYear = {year: 0, percentage: 0};
       this.loadDismembermentData();
     }
   }

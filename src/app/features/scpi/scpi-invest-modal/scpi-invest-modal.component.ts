@@ -290,6 +290,8 @@ export class ScpiInvestModalComponent implements OnInit {
     const sharePrice = this.investmentForm.controls["sharePrice"].value || 0;
     let shareCount = this.investmentForm.controls["shareCount"].value || 0;
 
+
+
     if (sharePrice > 0 && shareCount > 0) {
       let totalInvestment = sharePrice * shareCount;
 
@@ -298,12 +300,12 @@ export class ScpiInvestModalComponent implements OnInit {
         this.investmentPercentage &&
         this.selectedPropertyType !== "Pleine propriété"
       ) {
-        console.log("Le pourcentage est ", this.investmentPercentage)
+        //console.log("Le pourcentage est ", this.investmentPercentage)
 
         const percentage = this.investmentPercentage / 100;
         totalInvestment = totalInvestment * percentage;
 
-        console.log("totalInvestment", totalInvestment);
+        //console.log("totalInvestment", totalInvestment);
 
       }
 
