@@ -31,7 +31,7 @@ export class ScpiComponent implements OnInit, OnDestroy {
   @Input() isAddingScpi = false;
   @Input() addScpi?: boolean;
   scpis: ScpiIndexModel[] = [];
-  selectedScpi: ScpiModel | null = null;
+  selectescpiId: number | string | undefined = undefined;
   filteredScpis: ScpiIndexModel[] = [];
   noResultsMessage: boolean = false;
   loading = false;
@@ -90,15 +90,16 @@ export class ScpiComponent implements OnInit, OnDestroy {
     this.cdRef.detectChanges();
   }
 
-  openInvestirModal({ mode, scpi }: { mode: string; scpi: ScpiModel }) {
+  openInvestirModal({ mode, scpiId }: { mode: string; scpiId: number | string | undefined }) {
     this.modalMode = mode;
-    this.selectedScpi = scpi;
+    this.selectescpiId = scpiId;
     this.investirModalVisible = true;
   }
 
   closeInvestirModal() {
     this.investirModalVisible = false;
-    this.selectedScpi = null;
+
+  
   }
 
   ngOnDestroy() {

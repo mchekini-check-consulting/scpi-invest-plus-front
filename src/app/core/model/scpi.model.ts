@@ -28,6 +28,8 @@ export type ScpiModel = {
   minimumSubscription: number;
   location: LocationModel;
   sector: SectorModel;
+  locations: LocationModel[];
+  sectors: SectorModel[];
   statYear: StatYearModel;
 };
 

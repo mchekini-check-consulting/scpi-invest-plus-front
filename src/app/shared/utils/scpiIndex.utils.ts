@@ -1,6 +1,6 @@
 import { ScpiIndexModel } from "@/core/model/scpi.model";
 
-// Format de la location dominante
+
 export const formatLocation = (countryDominant?: ScpiIndexModel["countryDominant"]): string => {
   if (!countryDominant) return "N/A";
 
@@ -11,7 +11,7 @@ export const formatLocation = (countryDominant?: ScpiIndexModel["countryDominant
   }`;
 };
 
-// Format du secteur dominant
+
 export const formatSector = (dominantSector?: ScpiIndexModel["dominantSector"]): string => {
   if (!dominantSector) return "N/A";
 

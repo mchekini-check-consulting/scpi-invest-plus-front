@@ -52,8 +52,8 @@ export class ScpiService {
   }
 
 
-  getScpiById(id: number): Observable<Details> {
-    return this.http.get<Details>(`${this.url}/details/${id}`);
+  getScpiById(id: number | string): Observable<ScpiModel> {
+    return this.http.get<ScpiModel>(`${this.url}/details/${id}`);
   }
 
   getScpisWithScheduledPayment(): Observable<ScpiModel[]> {
