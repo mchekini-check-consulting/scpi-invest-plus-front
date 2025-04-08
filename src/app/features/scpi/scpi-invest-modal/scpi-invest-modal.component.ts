@@ -154,10 +154,11 @@ export class ScpiInvestModalComponent implements OnInit {
     }
 
     if (this.scpiId) {
-      console.log("ID de la SCPI :", this.scpiId);
-
       this.scpiService.getScpiById(this.scpiId).subscribe((scpiData) => {
         this.scpi = scpiData;
+
+        console.log("scpiData______", scpiData);
+
         this.investmentForm.patchValue({ sharePrice: this.sharePrice });
       });
     }

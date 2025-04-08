@@ -1,6 +1,6 @@
 <p-dialog
   [visible]="visible"
-  [header]="'INVESTMENT.HEADER' | translate: { scpiName: scpiName }"
+  [header]="scpi?.name"
   [(visible)]="visible"
   modal="true"
   (onHide)="closeModal()"
@@ -11,7 +11,7 @@
   [dismissableMask]="true"
 >
   <div class="scpi-info-container sub-header">
-    
+
     <span class="scpi-info"> {{ location }}</span>
     <span class="scpi-info"> {{ distributionRate }}</span>
     <span class="scpi-info">{{ minimumSubscription }}</span>
