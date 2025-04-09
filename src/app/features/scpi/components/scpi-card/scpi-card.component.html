@@ -19,14 +19,14 @@
     <ng-template #footer>
       <div class="button-group">
         <p-button
-          (click)="openInvestirModal('simuler',scpi?.id)"
+          (click)="openInvestirModal('simuler',scpi?.scpiId)"
           *ngIf="isAddingScpi"
           label="Ajouter"
           severity="info"
           size="large"
         />
         <p-button
-          (click)="openInvestirModal('investir', scpi?.id)"
+          (click)="openInvestirModal('investir', scpi?.scpiId)"
           *ngIf="!isAddingScpi"
           label="Investir"
           severity="info"
