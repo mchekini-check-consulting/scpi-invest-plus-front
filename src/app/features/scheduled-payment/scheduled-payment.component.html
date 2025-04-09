@@ -1,0 +1,51 @@
+<div class="dashboard-container">
+  <!-- Left Side: Overview -->
+  <p-panel class="overview-container">
+    <ng-template #header>
+      <h2 class="title">Vue d’ensemble</h2>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <div class="overview-card">
+
+        <p-selectbutton
+          [(ngModel)]="yearValue"
+          [options]="yearOptions"
+          optionLabel="label"
+          optionValue="value"
+          size="large"
+          [allowEmpty]="false"
+        ></p-selectbutton>
+
+        <div class="stats-container">
+          <p-panel header="Revenus cumulés" class="stats-card">
+            <p class="text-green">{{ revenueValue[yearValue] | number:'1.0-0' }} €</p>
+          </p-panel>
+          <p-panel header="Valeur totale" class="stats-card">
+            <p class="text-blue">{{ totalValue[yearValue] | number:'1.0-0' }} €</p>
+          </p-panel>
+        </div>
+
+        <div class="growth-rate-container">
+          <label for="growthRate" class="input-label">Revalorisation (%)</label>
+          <p-inputnumber
+            [(ngModel)]="customGrowthRate"
+            inputId="growthRate"
+            mode="decimal"
+            [maxFractionDigits]="2"
+            [max]="9"
+            (onInput)="updateChart()"
+          ></p-inputnumber>
+        </div>
+
+        <app-chart [data]="chartData"></app-chart>
+      </div>
+    </ng-template>
+  </p-panel>
+
+  <!-- Right Side: Investment Configuration -->
+  <app-select-scpi
+    (onClick)="updateSelectedScpi($event.scpi)"
+    (valuesChanged)="updateInvestmentState($event)"
+  ></app-select-scpi>
+
+</div>

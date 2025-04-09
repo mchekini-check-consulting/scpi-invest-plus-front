@@ -1,0 +1,75 @@
+<p-panel class="investment-container">
+  <ng-template #header>
+    <h2 class="title">SCPI sélectionnée</h2>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="investment-card">
+
+      <p class="selected-scpi">{{ selectedScpi?.name }}</p>
+
+      <button class="select-scpi-button" (click)="isDialogVisible=true">Sélectionner une SCPI</button>
+
+      <h4 class="title">Votre investissement</h4>
+
+      <div class="sliders-container">
+        <div class="slider-container">
+          <label class="text">Je verse tous les mois
+            <span>{{ getMonthlyPayment() | number:'1.0-0' }}
+              €</span></label>
+          <p-slider
+            (onSlideEnd)="onShareChange($event.value)"
+            [(ngModel)]="numberShares"
+            [max]="getMaxMonthlyShareSteps()"
+            [min]="1"
+            [step]="1"
+            ariaLabel="Number"
+            class="custom-slider"
+            severity="info"></p-slider>
+        </div>
+
+        <div class="slider-container">
+          <label class="text">Avec un versement initial
+            <span>{{ getInitialDeposit() | number:'1.0-0' }}
+              €</span></label>
+          <p-slider
+            (onSlideEnd)="onDepositChange($event.value)"
+            [(ngModel)]="initialDeposit"
+            [max]="getMaxDepositShare()"
+            [min]="getMinDepositShare()"
+            [step]="1"
+            ariaLabel="Number"
+            class="custom-slider"
+            severity="info"></p-slider>
+        </div>
+      </div>
+
+      <!--    <p-card class="investment-summary-container">-->
+      <!--      <div class="investment-summary">-->
+      <!--        <h4 class="title">Revenus mensuels après 5 ans</h4>-->
+      <!--        <p class="monthly">85 €/mois</p>-->
+      <!--      </div>-->
+      <!--    </p-card>-->
+    </div>
+  </ng-template>
+</p-panel>
+
+
+<p-dialog
+  (onHide)="closeDialog()"
+  [(visible)]="isDialogVisible"
+  [closable]="true"
+  [style]="{ maxWidth: '80rem', width:'100%' }"
+  header="Ajouter une SCPI"
+  modal
+>
+  <div class="list-scpi">
+    <ng-container *ngFor="let scpi of scpis">
+      <app-scpi-card
+        [image]="getImage(scpi.id)"
+        [isAddingScpi]="true"
+        [scpi]="scpi"
+        (onClick)="onSelect($event.scpi)"
+      />
+    </ng-container>
+  </div>
+</p-dialog>
