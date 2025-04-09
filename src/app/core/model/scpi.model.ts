@@ -1,5 +1,6 @@
 export type ScpiIndexModel = {
   id: string;
+  scpiId: number;
   name: string;
   distributionRate: number;
   subscriptionFees: boolean;
@@ -24,6 +25,7 @@ export type SectorIndexModel = {
 
 export type ScpiModel = {
   id: number;
+  scpiId?: number;
   name: string;
   minimumSubscription: number;
   location: LocationModel;
