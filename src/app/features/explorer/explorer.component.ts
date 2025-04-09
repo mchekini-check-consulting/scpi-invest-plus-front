@@ -6,7 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
 import { ScpiService } from '../../core/service/explorer.service';  
-import { ScpiModel } from '@/core/model/scpi.model';
+import { ScpiIndexModel } from '@/core/model/scpi.model';
 import { ScpiComponent } from '../../features/scpi/scpi.component';
 
 interface Critere {
@@ -33,7 +33,7 @@ export class CriteriaIn {
   styleUrls: ['./explorer.component.css'],
 })
 export class ExplorerComponent implements OnInit {
-  scpiResults: ScpiModel[] = [];
+  scpiResults: ScpiIndexModel[] = [];
   criteresDisponibles = [
     { label: 'Taux de rendement', value: 'distributionRate' },
     { label: 'Délais de jouissance', value: 'enjoymentDelay' },
@@ -100,7 +100,7 @@ export class ExplorerComponent implements OnInit {
       localStorage.setItem('criteres', JSON.stringify(this.criteres));
 
       this.scpiService.sendCriteria(criteriaList).subscribe(
-        (response: ScpiModel[]) => {
+        (response: ScpiIndexModel[]) => {
           console.log('SCPI reçues:', response);
           this.scpiResults = mapScpiData(response);
 
@@ -124,28 +124,36 @@ export class ExplorerComponent implements OnInit {
 }
 
 
-function mapScpiData(scpiData: any[]): ScpiModel[] {
+function mapScpiData(scpiData: any[]): ScpiIndexModel[] {
   return scpiData.map(scpi => ({
-    id: 5,
+    id: scpi.id,
     name: scpi.name,
-    minimumSubscription: scpi.minimumSubscription,
-    location: {
+    distributionRate: scpi.distributionRate ?? 0,
+    subscriptionFees: scpi.subscriptionFees ?? false,
+    frequencyPayment: scpi.frequencyPayment ?? 'Annuel',
+    countryDominant: {
+      country: scpi.locations?.length ? scpi.locations[0].nom : '',
       countryPercentage: scpi.locations?.length ? scpi.locations[0].pourcentage : 0,
-      id: {
-        country: scpi.locations?.length ? scpi.locations[0].nom : '',
-        scpiId: Number(scpi.id)
-      }
     },
-    sector: {
+    dominantSector: {
+      name: scpi.sectors?.length ? scpi.sectors[0].nom : '',
       sectorPercentage: scpi.sectors?.length ? scpi.sectors[0].pourcentage : 0,
-      id: {
-        name: scpi.sectors?.length ? scpi.sectors[0].nom : '',
-        scpiId: Number(scpi.id)
-      }
     },
-    statYear: {
-      distributionRate: scpi.distributionRate,
-      sharePrice: 0
-    }
+    locations: scpi.locations?.map((location: { nom: string, pourcentage: number }) => ({
+      country: location.nom,
+      countryPercentage: location.pourcentage
+    })) || [],
+    sectors: scpi.sectors?.map((sector: { nom: string, pourcentage: number }) => ({
+      name: sector.nom,
+      sectorPercentage: sector.pourcentage
+    })) || [],
+    minimumSubscription: scpi.minimumSubscription ?? 0,
+    mashedScore: scpi.mashedScore ?? 0,
+    capitalization: scpi.capitalization ?? 0,
+    enjoymentDelay: scpi.enjoymentDelay ?? 0,
+    managementCosts: scpi.managementCosts ?? 0,
+    subscriptionFeesBigDecimal: scpi.subscriptionFeesBigDecimal ?? 0,
   }));
 }
+
+
