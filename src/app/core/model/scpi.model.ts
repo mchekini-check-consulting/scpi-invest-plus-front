@@ -4,10 +4,16 @@ export type ScpiModel = {
   minimumSubscription: number;
   location: LocationModel;
   sector: SectorModel;
+  cashback: number;
   statYear: StatYearModel;
+  statYears: StatYearsModel[];
+
 };
 
-
+export type YearStat = {
+  yearStat: number;
+  scpiId: number;
+};
 
 type LocationModel = {
   countryPercentage: number;
@@ -25,7 +31,14 @@ type SectorModel = {
   };
 };
 
-type StatYearModel = {
+export type StatYearModel = {
+  yearStat: YearStat[];
   distributionRate: number;
   sharePrice: number;
 };
+
+
+type StatYearsModel = {
+  statYears: StatYearModel[];
+  subscriptionFees: number;
+}
