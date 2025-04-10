@@ -4,7 +4,9 @@
     "INVEST": "My INvestissments",
     "SIMULATION": "Simulations",
     "COMPARATEUR": "Comparator",
-    "VERSEMENT": "Scheduled payment",
+    "VERSEMENT": "Scheduled payments",
+    "PLANS": "Gestion des plans",
+    "CREDIT": "Crédit",
     "MY-PROFILE": "My Personal Informations"
   },
   "LIST-SCPI": {

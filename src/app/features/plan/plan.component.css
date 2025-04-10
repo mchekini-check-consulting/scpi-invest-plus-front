@@ -1,0 +1,227 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.pricing-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  padding: 20px;
+}
+
+.pricing-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 45%;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+h3 {
+  color: #333;
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.description {
+  color: #666;
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+.features {
+  font-size: 14px;
+  color: #666;
+  margin: 10px 0 20px;
+}
+
+.price {
+  font-size: 24px;
+  color: #4e2076; /* couleur pourpre foncée */
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.annual-price {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0 20px;
+}
+
+.subscribe-button {
+  background-color: #2C93FF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.subscribe-button.disabled-button {
+  background-color: #d3d3d3;
+  color: #a9a9a9;
+  cursor: not-allowed;
+}
+
+.subscribe-button:hover {
+  background-color: #0c46d5;
+}
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.comparison-table-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.comparison-table-container h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.comparison-table {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.comparison-table thead th {
+  background-color: #f9fafb;
+  font-size: 18px;
+  color: #333;
+  padding: 15px;
+  font-weight: bold;
+}
+
+.comparison-table tbody td {
+  padding: 15px;
+  font-size: 16px;
+  color: #666;
+}
+
+.comparison-table tbody tr:nth-child(odd) {
+  background-color: #f9fafb;
+}
+
+.comparison-table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.comparison-table .check {
+  color: #2db772;
+  font-size: 28px;
+}
+
+.comparison-table .cross {
+  color: #e74c3c;
+  font-size: 28px;
+}
+
+.confirmation-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.confirmation-content h2 {
+  color: #333;
+  margin-top: 15px;
+  font-size: 1.5em;
+}
+
+.subscribe-button {
+  background-color: #2C93FF;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+.subscribe-button:hover {
+  background-color: #1A73E8;
+}
+
+.confirmation-content {
+  text-align: center;
+  padding: 30px 20px;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+}
+
+.check-icon {
+  font-size: 5em;
+  color: #4CAF50;
+  transform: rotate(-20deg);
+  margin-bottom: 15px;
+  animation: scaleIn 0.6s ease;
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0) rotate(-20deg);
+  }
+  60% {
+    transform: scale(1.2) rotate(-20deg);
+  }
+  100% {
+    transform: scale(1) rotate(-20deg);
+  }
+}
+
+.confirmation-title {
+  font-size: 24px;
+  color: #333;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.confirmation-message {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.countdown-text {
+  font-size: 16px;
+  color: #777;
+}
+
+.countdown {
+  font-weight: bold;
+  color: #333;
+}
+
+.check-icon-svg {
+  width: 5em;
+  height: 5em;
+  margin-bottom: 15px;
+  animation: scaleIn 0.6s ease;
+}
+
+

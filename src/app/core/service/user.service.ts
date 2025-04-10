@@ -24,7 +24,7 @@ export class UserService {
     if (accessToken) {
       try {
         const payload: any = jwtDecode(accessToken);
-        userRole = payload?.resource_access?.['scpi-invest-plus']?.roles[0] || 'Standard';
+        userRole = payload?.realm_access?.roles.includes("Premium") ? "Premium" : "Standard";
       } catch (error) {
         console.error("Erreur de décodage de l'Access Token", error);
       }

@@ -14,4 +14,11 @@ export class PlanService {
     return this.http.get<PlanModel[]>("api/v1/plans");
   }
 
+  sendPlan(currentPlan: String, newPlan : String): Observable<any> {
+    return this.http.put<any>(
+      `api/v1/investors?currentRole=${encodeURIComponent(currentPlan.toString())}&newRole=${encodeURIComponent(newPlan.toString())}`,
+      {}
+    );
+  }
+
 }
