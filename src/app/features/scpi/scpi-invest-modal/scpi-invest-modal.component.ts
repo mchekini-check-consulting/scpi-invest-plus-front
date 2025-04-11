@@ -99,9 +99,7 @@ export class ScpiInvestModalComponent implements OnInit {
   }
 
   get sharePrice(): number {
-    //return this.scpi?.statYear?.sharePrice || 0;
-    console.log("scpi que je récupère___", this.scpi);
-
+     // TODO : Implement logic to get share price from the scpi object
     return 67;
   }
 
