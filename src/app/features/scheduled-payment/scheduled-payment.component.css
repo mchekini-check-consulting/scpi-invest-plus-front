@@ -23,6 +23,12 @@
       display: grid;
       gap: 1.5rem;
 
+      .select-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       .stats-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
