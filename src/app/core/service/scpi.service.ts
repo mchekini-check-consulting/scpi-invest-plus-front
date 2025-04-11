@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ScpiIndexModel, ScpiModel } from '../model/scpi.model';
 import { ScpiSearch } from '@/core/model/scpi.model';
-import { Details } from '../model/Details';
+
 
 
 @Injectable({

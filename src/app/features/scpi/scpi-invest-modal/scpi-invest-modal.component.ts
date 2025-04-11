@@ -23,8 +23,8 @@ import {
   formatDistributionRate,
   formatLocation,
   formatMinimum,
-} from "@/shared/utils/scpi.utils";
-import { ScpiModel } from "@/core/model/scpi.model";
+} from "@/shared/utils/scpiIndex.utils";
+import { ScpiIndexModel, ScpiModel } from "@/core/model/scpi.model";
 
 @Component({
   selector: "app-scpi-invest-modal",
@@ -46,8 +46,7 @@ import { ScpiModel } from "@/core/model/scpi.model";
 })
 export class ScpiInvestModalComponent implements OnInit {
   @Input() visible: boolean = false;
-  @Input() scpiId?: number | string | undefined;
-  scpi?: ScpiModel;
+  @Input() scpi?: ScpiIndexModel;
   @Input() mode?: string;
   @Output() close = new EventEmitter<void>();
   @Input() addScpi?: boolean;
@@ -100,15 +99,18 @@ export class ScpiInvestModalComponent implements OnInit {
   }
 
   get sharePrice(): number {
-    return this.scpi?.statYear?.sharePrice || 0;
+    //return this.scpi?.statYear?.sharePrice || 0;
+    console.log("scpi que je récupère___", this.scpi);
+
+    return 67;
   }
 
   get location(): string {
-    return formatLocation(this.scpi?.location);
+    return formatLocation(this.scpi?.countryDominant);
   }
 
   get distributionRate(): string {
-    return formatDistributionRate(this.scpi?.statYear);
+    return formatDistributionRate(this.scpi?.distributionRate);
   }
 
   get minimumSubscription(): string {
@@ -153,15 +155,6 @@ export class ScpiInvestModalComponent implements OnInit {
       this.investmentForm.patchValue({ sharePrice: this.sharePrice });
     }
 
-    if (this.scpiId) {
-      this.scpiService.getScpiById(this.scpiId).subscribe((scpiData) => {
-        this.scpi = scpiData;
-
-        console.log("scpiData______", scpiData);
-
-        this.investmentForm.patchValue({ sharePrice: this.sharePrice });
-      });
-    }
   }
 
   calculateEstimatedMonthlyIncome(
@@ -313,25 +306,12 @@ export class ScpiInvestModalComponent implements OnInit {
       }
 
       let finalTotalInvestment = total;
-      //const adjustedShareCount = Math.floor(total / sharePrice);
-      //const remainder = totalInvestment % sharePrice;
-      // if (remainder === 0) {
-      //   shareCount = adjustedShareCount;
-      //   console.log("if de shareCount = ", shareCount);
-      // } else {
-      //   shareCount =
-      //     remainder < sharePrice / 2
-      //       ? adjustedShareCount
-      //       : adjustedShareCount + 1;
-      //       console.log("else de shareCount = ", shareCount);
-      // }
       this.investmentForm.controls["totalInvestment"].setValue(
         finalTotalInvestment,
         {
           emitEvent: false,
         }
       );
-
       this.investmentForm.controls["shareCount"].setValue(shareCount, {
         emitEvent: false,
       });
@@ -348,7 +328,6 @@ export class ScpiInvestModalComponent implements OnInit {
       }
     }
   }
-
 
   calculateShareCount() {
     const totalInvestment =
@@ -389,7 +368,6 @@ export class ScpiInvestModalComponent implements OnInit {
     if (this.selectedPropertyType === "Pleine propriété") {
       this.investmentDuration = 0;
       this.investmentPercentage = 0;
-      //this.investmentForm.controls["investmentDuration"].setValue(null);
     }else if (this.selectedPropertyType ==="Usufruit"){
       this.investmentForm.controls['shareCount'].setValue(1);
       this.investmentDuration = 0;

@@ -38,7 +38,7 @@ export class ScpiCardComponent {
   @Input() image!: string;
   @Input() addScpi?: boolean;
   @Input() isAddingScpi = false;
-  @Output() onClick = new EventEmitter<{ mode: string; scpiId: number | string | undefined }>();
+  @Output() onClick = new EventEmitter<{ mode: string; scpi : ScpiIndexModel | ScpiModel }>();
 
   constructor() {}
 
@@ -71,10 +71,10 @@ export class ScpiCardComponent {
     return "N/A";
   }
 
-  openInvestirModal(mode: string, scpiId: number | string | undefined) {
 
-    if (scpiId) {
-      this.onClick.emit({ mode, scpiId });
+  openInvestirModal(mode: string) {
+    if (this.scpi) {
+      this.onClick.emit({ mode, scpi: this.scpi });
     }
   }
 }

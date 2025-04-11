@@ -10,13 +10,14 @@ import {
   OnDestroy,
   OnInit,
 } from "@angular/core";
-import { catchError, Subscription } from "rxjs";
+import { catchError, of, Subscription } from "rxjs";
 import { ScpiCardComponent } from "./components/scpi-card/scpi-card.component";
 import { UserService } from "@/core/service/user.service";
 import { ScpiInvestModalComponent } from "@/features/scpi/scpi-invest-modal/scpi-invest-modal.component";
 
 @Component({
   selector: "app-scpi",
+  standalone: true,
   imports: [
     ScpiCardComponent,
     SearchMulticriteriaComponent,
@@ -30,16 +31,19 @@ import { ScpiInvestModalComponent } from "@/features/scpi/scpi-invest-modal/scpi
 export class ScpiComponent implements OnInit, OnDestroy {
   @Input() isAddingScpi = false;
   @Input() addScpi?: boolean;
+
   scpis: ScpiIndexModel[] = [];
-  selectescpiId: number | string | undefined = undefined;
   filteredScpis: ScpiIndexModel[] = [];
-  noResultsMessage: boolean = false;
+  selectedScpi?: ScpiIndexModel;
+  noResultsMessage = false;
   loading = false;
+
   skeletonArray = new Array(10);
   images = Array.from({ length: 10 }, (_, i) => `img/scpi/${i + 1}.webp`);
-  investirModalVisible: boolean = false;
+  investirModalVisible = false;
   modalMode: string = "investir";
-  private subscriptions: Subscription = new Subscription();
+
+  private subscriptions = new Subscription();
 
   constructor(
     private scpiService: ScpiService,
@@ -49,56 +53,56 @@ export class ScpiComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userService.user$.subscribe((user) => {
-      if (!user) {
-        return;
-      }
-        this.loading = true;
-        this.subscriptions.add(
-          this.scpiService
-            .getScpiWithFilter({})
-            .pipe(
-              catchError((error) => {
-                this.loading = false;
-                return [];
-              })
-            )
-            .subscribe((data) => {
-              this.scpis = data;
-              this.filteredScpis = [...data];
+      if (!user) return;
+
+      this.loading = true;
+
+      this.subscriptions.add(
+        this.scpiService
+          .getScpiWithFilter({})
+          .pipe(
+            catchError((error) => {
               this.loading = false;
-              this.cdRef.detectChanges();
+              return of([]);
             })
-        );
+          )
+          .subscribe((data: ScpiIndexModel[]) => {
+            this.scpis = data;
+            this.filteredScpis = [...data];
+            this.loading = false;
+            this.cdRef.detectChanges();
+          })
+      );
     });
   }
 
   getImage(id: number | string): string {
-
-    const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
-
-    if (isNaN(numericId)) {
-      return '';
-    }
-
+    const numericId = typeof id === "string" ? parseInt(id, 10) : id;
+    if (isNaN(numericId)) return "";
     return this.images[numericId % this.images.length];
   }
 
-
   updateScpiList(filteredList: ScpiIndexModel[] | null | undefined) {
-    this.filteredScpis = filteredList && filteredList.length > 0 ? [...filteredList] : [];
+    this.filteredScpis =
+      filteredList && filteredList.length > 0 ? [...filteredList] : [];
     this.noResultsMessage = this.filteredScpis.length === 0;
     this.cdRef.detectChanges();
   }
 
-  openInvestirModal({ mode, scpiId }: { mode: string; scpiId: number | string | undefined }) {
+  openInvestirModal({
+    mode,
+    scpi,
+  }: {
+    mode: string;
+    scpi: ScpiIndexModel | ScpiModel;
+  }) {
     this.modalMode = mode;
-    this.selectescpiId = scpiId;
+    this.selectedScpi = scpi as ScpiIndexModel;
     this.investirModalVisible = true;
   }
 
   closeInvestirModal() {
     this.investirModalVisible = false;
-    this.selectescpiId = undefined;
   }
 
   ngOnDestroy() {

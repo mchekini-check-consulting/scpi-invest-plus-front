@@ -29,7 +29,6 @@
   </div>
 </ng-template>
 
-<!-- Skeletons si la liste est vide -->
 <ng-template #skeletons>
   <div *ngFor="let skeleton of skeletonArray">
     <div class="skeleton-wrapper">
@@ -37,15 +36,14 @@
     </div>
   </div>
 </ng-template>
-
-
 </div>
-<ng-container *ngIf="selectescpiId">
+
+<ng-container *ngIf="selectedScpi">
   <app-scpi-invest-modal
     (close)="closeInvestirModal()"
     [addScpi]="addScpi"
     [mode]="modalMode"
-    [scpiId]="selectescpiId"
+    [scpi]="selectedScpi"
     [visible]="investirModalVisible">
   </app-scpi-invest-modal>
 </ng-container>
