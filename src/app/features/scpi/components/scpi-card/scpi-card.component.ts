@@ -14,7 +14,7 @@ import {
   formatLocation,
   formatMinimum,
   formatSector,
-} from "@/shared/utils/scpiIndex.utils";
+} from "@/shared/utils/scpi.utils";
 
 @Component({
   selector: "app-scpi-card",
@@ -38,39 +38,40 @@ export class ScpiCardComponent {
   @Input() image!: string;
   @Input() addScpi?: boolean;
   @Input() isAddingScpi = false;
-  @Output() onClick = new EventEmitter<{ mode: string; scpi : ScpiIndexModel | ScpiModel }>();
+  @Output() onClick = new EventEmitter<{
+    mode: string;
+    scpi: ScpiIndexModel | ScpiModel;
+  }>();
 
   constructor() {}
 
-
   get location(): string {
-    if (this.scpi && 'countryDominant' in this.scpi) {
+    if (this.scpi && "countryDominant" in this.scpi) {
       return formatLocation(this.scpi.countryDominant);
     }
     return "N/A";
   }
 
   get sector(): string {
-    if (this.scpi && 'sectorDominant' in this.scpi) {
+    if (this.scpi && "sectorDominant" in this.scpi) {
       return formatSector(this.scpi.sectorDominant);
     }
     return "N/A";
   }
 
   get distributionRate(): string {
-    if (this.scpi && 'distributionRate' in this.scpi) {
+    if (this.scpi && "distributionRate" in this.scpi) {
       return formatDistributionRate(this.scpi.distributionRate);
     }
     return "N/A";
   }
 
   get minimumSubscription(): string {
-    if (this.scpi && 'minimumSubscription' in this.scpi) {
+    if (this.scpi && "minimumSubscription" in this.scpi) {
       return formatMinimum(this.scpi.minimumSubscription);
     }
     return "N/A";
   }
-
 
   openInvestirModal(mode: string) {
     if (this.scpi) {

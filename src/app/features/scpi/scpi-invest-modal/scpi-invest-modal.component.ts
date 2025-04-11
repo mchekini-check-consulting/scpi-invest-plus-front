@@ -23,7 +23,7 @@ import {
   formatDistributionRate,
   formatLocation,
   formatMinimum,
-} from "@/shared/utils/scpiIndex.utils";
+} from "@/shared/utils/scpi.utils";
 import { ScpiIndexModel, ScpiModel } from "@/core/model/scpi.model";
 
 @Component({
@@ -117,8 +117,6 @@ export class ScpiInvestModalComponent implements OnInit {
     return formatMinimum(this.scpi?.minimumSubscription);
   }
 
-
-
   ngOnInit() {
     this.investmentForm.controls["sharePrice"].valueChanges.subscribe(() => {
       this.calculateTotalInvestment();
@@ -142,7 +140,7 @@ export class ScpiInvestModalComponent implements OnInit {
     this.investmentForm.controls["propertyType"].valueChanges.subscribe(() => {
       this.updateEstimatedMonthlyIncome();
       this.calculateTotalInvestment();
-      console.log("La prop a changée")
+      console.log("La prop a changée");
     });
 
     this.investmentForm.controls["totalInvestment"].valueChanges.subscribe(
@@ -154,22 +152,20 @@ export class ScpiInvestModalComponent implements OnInit {
     if (this.sharePrice) {
       this.investmentForm.patchValue({ sharePrice: this.sharePrice });
     }
-
   }
 
   calculateEstimatedMonthlyIncome(
     totalInvestment: number,
     annualReturnRate: number
   ): number {
-
-
     if (this.selectedPropertyType === "Pleine propriété") {
       return (totalInvestment * (annualReturnRate / 100)) / 12;
     } else if (this.investmentPercentage) {
       return (
         (totalInvestment *
           (annualReturnRate / 100) *
-          (this.investmentPercentage / 100))/12
+          (this.investmentPercentage / 100)) /
+        12
       );
     } else {
       return 0;
@@ -257,7 +253,7 @@ export class ScpiInvestModalComponent implements OnInit {
     };
   }
 
-  private createInvestment(dataInvestment:any): any {
+  private createInvestment(dataInvestment: any): any {
     if (this.investmentForm.valid) {
       const investmentData = {
         typeProperty: this.investmentForm.value.propertyType,
@@ -300,7 +296,10 @@ export class ScpiInvestModalComponent implements OnInit {
 
     if (sharePrice > 0 && shareCount > 0) {
       let total = sharePrice * shareCount;
-      if (this.investmentPercentage && this.selectedPropertyType !== "Pleine propriété") {
+      if (
+        this.investmentPercentage &&
+        this.selectedPropertyType !== "Pleine propriété"
+      ) {
         const percentage = this.investmentPercentage / 100;
         total = total * percentage;
       }
@@ -368,13 +367,13 @@ export class ScpiInvestModalComponent implements OnInit {
     if (this.selectedPropertyType === "Pleine propriété") {
       this.investmentDuration = 0;
       this.investmentPercentage = 0;
-    }else if (this.selectedPropertyType ==="Usufruit"){
-      this.investmentForm.controls['shareCount'].setValue(1);
+    } else if (this.selectedPropertyType === "Usufruit") {
+      this.investmentForm.controls["shareCount"].setValue(1);
       this.investmentDuration = 0;
       this.investmentPercentage = 0;
       this.investmentForm.controls["investmentDuration"].setValue(null);
-    }else{
-      this.investmentForm.controls['shareCount'].setValue(1);
+    } else {
+      this.investmentForm.controls["shareCount"].setValue(1);
       this.investmentDuration = 0;
       this.investmentPercentage = 0;
       this.investmentForm.controls["investmentDuration"].setValue(null);
