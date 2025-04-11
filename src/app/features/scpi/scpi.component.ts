@@ -94,10 +94,10 @@ export class ScpiComponent implements OnInit, OnDestroy {
     scpi,
   }: {
     mode: string;
-    scpi: ScpiIndexModel | ScpiModel;
+    scpi: ScpiIndexModel;
   }) {
     this.modalMode = mode;
-    this.selectedScpi = scpi as ScpiIndexModel;
+    this.selectedScpi = scpi;
     this.investirModalVisible = true;
   }
 

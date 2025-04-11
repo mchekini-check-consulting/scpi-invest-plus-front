@@ -40,7 +40,7 @@ export class ScpiCardComponent {
   @Input() isAddingScpi = false;
   @Output() onClick = new EventEmitter<{
     mode: string;
-    scpi: ScpiIndexModel | ScpiModel;
+    scpi: ScpiIndexModel;
   }>();
 
   constructor() {}
@@ -75,7 +75,7 @@ export class ScpiCardComponent {
 
   openInvestirModal(mode: string) {
     if (this.scpi) {
-      this.onClick.emit({ mode, scpi: this.scpi });
+      this.onClick.emit({ mode, scpi: this.scpi as ScpiIndexModel });
     }
   }
 }
