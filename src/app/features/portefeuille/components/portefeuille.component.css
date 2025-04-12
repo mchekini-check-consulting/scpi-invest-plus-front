@@ -4,46 +4,20 @@
   align-items: center;
 }
 
-.p-tab-active {
-  background: red !important;
-  border-color: none !important;
-  color:blueviolet !important;
+.captions{
+  padding: 0;
+  margin-left: 50rem;
 }
 
-.hint-popup {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-196%);
-  background: #f8d7da;
-  color: #721c24;
-  padding: 10px 15px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  font-size: 14px;
-  z-index: 100;
-  animation: fadeOut 6s forwards;
+.empty-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  width: 100%;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
-@keyframes fadeOut {
-  0% { opacity: 1; }
-  100% { opacity: 0; display: none; }
-}
-
-
-
-
-.hint-message {
-  background-color: #fff3cd;
-  color: #856404;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 10px;
-  border: 1px solid #ffeeba;
-}
-
 
 .toggle-btn{
   background: none;

@@ -1,7 +1,7 @@
 <div class="portfeuille-container">
   <div
     *ngIf="
-      investissements.length > 0 || selectedState === 'Détails';
+      hasAnyInvestments || selectedState === 'Détails';
       else portefeuilleEmpty
     "
   >
@@ -25,29 +25,53 @@
     </div>
 
     <div>
-      <p-tabView (onChange)="onTabChange($event)">
+      <p-tabView class="no-padding-tab-panel" (onChange)="onTabChange($event)">
         <p-tabPanel header="Acceptée"></p-tabPanel>
         <p-tabPanel header="En cours de traitement"></p-tabPanel>
         <p-tabPanel header="En attente de paiement"></p-tabPanel>
         <p-tabPanel header="Refusée"></p-tabPanel>
         <p-tabPanel header="Détails">
           <div *ngIf="showDetailsComponents">
-            <div class="container-pf-details">
-              <p-card class="card-pf-map">
-                <app-map
-                  [countries]="geographicalDistribution"
-                  [mapHeight]="'520px'"
-                ></app-map>
-              </p-card>
-              <p-card class="card-pf-map">
+            <ng-container
+              *ngIf="
+                investissements && investissements.length > 0;
+                else noDataDetails
+              "
+            >
+              <div class="container-pf-details">
+                <p-card class="card-pf-map">
+                  <app-map
+                    [countries]="geographicalDistribution"
+                    [mapHeight]="'520px'"
+                  ></app-map>
+                </p-card>
+                <p-card class="card-pf-map">
+                  <p-chart type="doughnut" [data]="sectorialData"></p-chart>
+                </p-card>
+              </div>
+            </ng-container>
 
-                <p-chart
-                type="doughnut"
-                [data]="sectorialData"
-              ></p-chart>
-              </p-card>
-            </div>
+            <ng-template #noDataDetails>
+              <div class="empty-card-container">
+                <p-card class="empty-card">
+                  <ng-template pTemplate="content">
+                    <div class="text-center">
+                      <i
+                        class="pi pi-info-circle"
+                        style="font-size: 2rem; color: #6c757d"
+                      ></i>
+                      <h3>Aucune donnée disponible</h3>
+                      <p>
+                        Il n'y a pas encore d'investissements pour afficher les
+                        détails.
+                      </p>
+                    </div>
+                  </ng-template>
+                </p-card>
+              </div>
+            </ng-template>
           </div>
+
           <app-card
             style="display: none"
             (geographicalData)="onGeographicalDataReceived($event)"
@@ -59,7 +83,11 @@
         </p-tabPanel>
       </p-tabView>
       <p-table
-        *ngIf="selectedState !== 'Détails'"
+        *ngIf="
+          selectedState !== 'Détails' &&
+          investissements &&
+          investissements.length > 0
+        "
         [value]="investissements"
         dataKey="id"
         [tableStyle]="{ 'min-width': '60rem' }"
@@ -67,8 +95,8 @@
         (onRowExpand)="onRowExpand($event)"
         (onRowCollapse)="onRowCollapse($event)"
       >
-        <!-- <ng-template #caption>
-          <div class="flex flex-wrap justify-end gap-2">
+        <ng-template #caption>
+          <div class="flex flex-wrap justify-end gap-1">
             <p-button
               label="Étendre tout"
               icon="pi pi-plus"
@@ -82,8 +110,7 @@
               (onClick)="collapseAll()"
             />
           </div>
-        </ng-template> -->
-
+        </ng-template>
         <ng-template #header>
           <tr>
             <th style="width: 5rem"></th>
@@ -102,10 +129,6 @@
         </ng-template>
 
         <ng-template #body let-investissement let-expanded="expanded" let-i="">
-          <div *ngIf="showHint" class="hint-popup">
-            📢 Cliquez sur le bouton <i class="pi pi-chevron-right"></i> pour
-            voir les détails des investissements !
-          </div>
           <tr>
             <td>
               <button (click)="toggleRow(investissement)" class="toggle-btn">
@@ -189,19 +212,35 @@
                       </td>
                     </tr>
                   </ng-template>
-                  <ng-template #emptymessage>
-                    <tr>
-                      <td colspan="6">
-                        There are no order for this product yet.
-                      </td>
-                    </tr>
-                  </ng-template>
                 </p-table>
               </div>
             </td>
           </tr>
         </ng-template>
       </p-table>
+      <div
+        *ngIf="
+          selectedState !== 'Détails' &&
+          investissements &&
+          investissements.length === 0
+        "
+        class="empty-card-container"
+      >
+        <div class="empty-card-container">
+          <p-card class="empty-card">
+            <ng-template pTemplate="content">
+              <div class="text-center">
+                <i
+                  class="pi pi-info-circle"
+                  style="font-size: 2rem; color: #6c757d"
+                ></i>
+                <h3>Aucun investissement</h3>
+                <p>Il n'y a pas encore d'investissements pour cet état.</p>
+              </div>
+            </ng-template>
+          </p-card>
+        </div>
+      </div>
 
       <p-paginator
         *ngIf="selectedState !== 'Détails'"
