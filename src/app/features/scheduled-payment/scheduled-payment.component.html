@@ -6,15 +6,16 @@
     </ng-template>
     <ng-template pTemplate="content">
       <div class="overview-card">
-
-        <p-selectbutton
-          [(ngModel)]="yearValue"
-          [options]="yearOptions"
-          optionLabel="label"
-          optionValue="value"
-          size="large"
-          [allowEmpty]="false"
-        ></p-selectbutton>
+        <div class="select-button">
+          <p-selectbutton
+            [(ngModel)]="yearValue"
+            [options]="yearOptions"
+            optionLabel="label"
+            optionValue="value"
+            size="large"
+            [allowEmpty]="false"
+          ></p-selectbutton>
+        </div>
 
         <div class="stats-container">
           <p-panel header="Revenus cumulés" class="stats-card">
@@ -32,9 +33,13 @@
             inputId="growthRate"
             mode="decimal"
             [maxFractionDigits]="2"
-            [max]="9"
+            [min]="-10"
+            [max]="10"
             (onInput)="updateChart()"
           ></p-inputnumber>
+          <small class="form-text text-muted">
+            La valeur doit être comprise entre -10% et +10%.
+          </small>
         </div>
 
         <app-chart [data]="chartData"></app-chart>
@@ -46,6 +51,7 @@
   <app-select-scpi
     (onClick)="updateSelectedScpi($event.scpi)"
     (valuesChanged)="updateInvestmentState($event)"
+    (onInvest)="createInvestment()"
   ></app-select-scpi>
 
 </div>

@@ -42,16 +42,11 @@
             severity="info"></p-slider>
         </div>
       </div>
-
-      <!--    <p-card class="investment-summary-container">-->
-      <!--      <div class="investment-summary">-->
-      <!--        <h4 class="title">Revenus mensuels après 5 ans</h4>-->
-      <!--        <p class="monthly">85 €/mois</p>-->
-      <!--      </div>-->
-      <!--    </p-card>-->
     </div>
   </ng-template>
 </p-panel>
+
+<button class="save-investment-button" (click)="onInvest.emit()">Investir</button>
 
 
 <p-dialog

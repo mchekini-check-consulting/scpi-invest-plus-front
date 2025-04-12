@@ -16,7 +16,7 @@
   .investment-card {
     display: grid;
     gap: 1.5rem;
-    
+
     .selected-scpi {
       font-size: 1.125rem;
       color: var(--primary-blue);
@@ -91,6 +91,33 @@
       }
     }
 
+  }
+}
+
+
+.save-investment-button {
+  margin-top: 1.5rem;
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background-color: var(--primary-blue);
+  color: white;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  min-height: 50px;
+  width: 100%;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:focus {
+    opacity: 0.7;
   }
 }
 

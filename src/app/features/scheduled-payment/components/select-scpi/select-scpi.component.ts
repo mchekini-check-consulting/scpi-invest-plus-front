@@ -11,6 +11,7 @@ import { PrimeTemplate } from "primeng/api";
 import { ScpiCardComponent } from "@/features/scpi/components/scpi-card/scpi-card.component";
 import { ScpiModel } from "@/core/model/scpi.model";
 import { ScpiService } from "@/core/service/scpi.service";
+import { InvestmentPayload } from "@/core/model/Investments";
 
 @Component({
   selector: "app-select-scpi",
@@ -30,10 +31,8 @@ import { ScpiService } from "@/core/service/scpi.service";
 })
 export class SelectScpiComponent {
   @Output() onClick = new EventEmitter<{ scpi: ScpiModel }>();
-  @Output() valuesChanged = new EventEmitter<{
-    numberShares?: number;
-    initialDeposit?: number;
-  }>();
+  @Output() valuesChanged = new EventEmitter<Partial<InvestmentPayload>>();
+  @Output() onInvest = new EventEmitter();
 
   scpis: ScpiModel[] = [];
   selectedScpi: ScpiModel | null = null;
@@ -80,6 +79,7 @@ export class SelectScpiComponent {
     this.valuesChanged.emit({
       numberShares: this.numberShares,
       initialDeposit: this.initialDeposit,
+      scpiId: scpi.id,
     });
   }
 

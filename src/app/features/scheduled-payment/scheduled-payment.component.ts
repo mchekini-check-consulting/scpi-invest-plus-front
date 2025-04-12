@@ -15,6 +15,8 @@ import { ChartComponent } from "@/features/scheduled-payment/components/chart/ch
 import { SelectScpiComponent } from "@/features/scheduled-payment/components/select-scpi/select-scpi.component";
 import { InvestmentPayload } from "@/core/model/Investments";
 import { ScpiModel } from "@/core/model/scpi.model";
+import { InvestorService } from "@/core/service/investor.service";
+import { MessageService } from "primeng/api";
 
 @Component({
   selector: "app-scheduled-payment",
@@ -64,8 +66,40 @@ export class ScheduledPaymentComponent {
 
   chartData: any = null;
 
-  constructor() {
+  constructor(
+    private investorService: InvestorService,
+    private messageService: MessageService
+  ) {
     this.updateChart();
+  }
+
+  createInvestment(): void {
+    if (this.investment.scpiId) {
+      this.investorService.createInvestment(this.investment).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: "info",
+            summary: "Demande en cours",
+            detail:
+              "Votre demande d'investissement est en cours de traitement. Une décision vous sera envoyée par email dans les plus brefs délais.",
+            life: 2000,
+          });
+        },
+        error: () => {
+          this.messageService.add({
+            severity: "error",
+            summary: "Erreur",
+            detail: "Une erreur est survenue lors de l'investissement.",
+          });
+        },
+      });
+    } else {
+      this.messageService.add({
+        severity: "warn",
+        summary: "Attention",
+        detail: "Veuillez compléter tous les champs obligatoires.",
+      });
+    }
   }
 
   updateSelectedScpi(value: ScpiModel) {
@@ -79,6 +113,9 @@ export class ScheduledPaymentComponent {
   }
 
   updateChart(): void {
+    if (this.customGrowthRate < -10) this.customGrowthRate = -10;
+    if (this.customGrowthRate > 10) this.customGrowthRate = 10;
+
     const simulationYears = Array.from(
       { length: this.MAX_YEARS + 1 },
       (_, i) => i
