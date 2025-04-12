@@ -38,6 +38,7 @@ export class ScpiCardComponent {
   @Input() image!: string;
   @Input() addScpi?: boolean;
   @Input() isAddingScpi = false;
+  @Input() isScoring = false;
   @Input() fromScoring: boolean = false;
   @Input() mashedScore?: number;
 

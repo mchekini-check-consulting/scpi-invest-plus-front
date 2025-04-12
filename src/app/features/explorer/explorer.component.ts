@@ -5,9 +5,9 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
-import { ScpiService } from '../../core/service/explorer.service';  
+import { ScpiService } from '../../core/service/explorer.service';
 import { ScpiIndexModel } from '@/core/model/scpi.model';
-import { ScpiComponent } from '../../features/scpi/scpi.component';
+import { ScpiCardComponent } from "./components/scpi-card/scpi-card.component";
 
 interface Critere {
   nom: string;
@@ -28,7 +28,7 @@ export class CriteriaIn {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [DropdownModule, ButtonModule, InputTextModule, TableModule, FormsModule, CommonModule, ScpiComponent],
+  imports: [DropdownModule, ButtonModule, InputTextModule, TableModule, FormsModule, CommonModule, ScpiCardComponent],
   templateUrl: './explorer.component.html',
   styleUrls: ['./explorer.component.css'],
 })
