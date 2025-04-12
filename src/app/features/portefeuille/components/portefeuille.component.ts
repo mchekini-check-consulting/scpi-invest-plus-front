@@ -54,6 +54,7 @@ export class PortefeuilleComponent implements OnInit {
   currentPage: number = 0;
   rows: number = 10;
   totalRecords: number = 0;
+  hasAnyInvestments: boolean = false;
 
   constructor(
     private investmentService: InvestmentService,
@@ -65,6 +66,7 @@ export class PortefeuilleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     if (this.selectedState === 'Détails') {
       return;
   }
@@ -96,12 +98,39 @@ export class PortefeuilleComponent implements OnInit {
           this.investissements = Object.values(groupedInvestments);
           this.paginatedInvestissements = [...this.investissements];
           this.totalRecords = response.totalElements;
+
+          this.checkAnyInvestments();
         },
         (error: HttpErrorResponse) => {
           alert(error.message);
         }
       );
   }
+
+  checkAnyInvestments(): void {
+    const allStates =  [
+      "VALIDATED",
+      "En cours",
+      "ACCEPTED",
+      "REJECTED",
+    ];
+  
+    let total = 0;
+    let checked = 0;
+  
+    allStates.forEach((state) => {
+      this.investmentService
+        .getPageableInvestments(0, 1, state)
+        .subscribe((response) => {
+          total += response.totalElements;
+          checked++;
+          if (checked === allStates.length) {
+            this.hasAnyInvestments = total > 0;
+          }
+        });
+    });
+  }
+  
 
       public geographicalDistribution: Location[] = [];
 
