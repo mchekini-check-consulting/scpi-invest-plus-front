@@ -4,7 +4,20 @@
       <img [src]="image" alt="Card" class="card-image" />
     </ng-template>
 
-    <ng-template #title>{{ scpi?.name ?? "N/A" }}</ng-template>
+    <ng-template #title>
+      {{ scpi?.name ?? "N/A" }}
+      <span
+        *ngIf="matchedScore !== undefined"
+        [ngClass]="{
+          'text-green-500': matchedScore >= 0.8,
+          'text-yellow-500': matchedScore >= 0.5 && matchedScore < 0.8,
+          'text-red-500': matchedScore < 0.5,
+        }"
+        class="font-bold"
+      >
+        ({{ matchedScore * 100 | number: "1.1-1" }} %)
+      </span>
+    </ng-template>
     <div class="info-container">
       <div class="info">
         <p-tag [value]="location" severity="secondary"></p-tag>
@@ -43,6 +56,3 @@
     </ng-template>
   </p-card>
 </div>
-
-
-

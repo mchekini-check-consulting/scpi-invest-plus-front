@@ -11,6 +11,11 @@ export type ScpiIndexModel = {
   locations: LocationIndexModel[];
   sectors: SectorIndexModel[];
   minimumSubscription: number;
+  capitalization: number;
+  enjoymentDelay: number;
+  managementCosts: number;
+  subscriptionFeesBigDecimal: number;
+  matchedScore: number;
 };
 
 export type LocationIndexModel = {
@@ -22,6 +27,7 @@ export type SectorIndexModel = {
   name: string;
   sectorPercentage: number;
 };
+
 
 
 export type ScpiModel = {
