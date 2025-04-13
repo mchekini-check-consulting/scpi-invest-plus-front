@@ -245,14 +245,17 @@ export class ScpiInvestModalComponent implements OnInit {
 
   createInvestment(): void {
     if (this.investmentForm.valid) {
+      const formValue = this.investmentForm.getRawValue();
       const investmentData = {
-        typeProperty: this.investmentForm.value.propertyType,
-        numberShares: this.investmentForm.value.shareCount,
+        typeProperty: formValue.propertyType,
+        numberShares: formValue.shareCount,
         numberYears: this.investmentForm.value.investmentDuration?.year || 0,
-        totalAmount: this.investmentForm.value.totalInvestment,
+        totalAmount: formValue.totalInvestment,
         scpiId: this.scpi?.id,
         investmentState: "Investissement",
       };
+
+      console.log(investmentData);
 
       this.investorService.createInvestment(investmentData).subscribe({
         next: () => {
