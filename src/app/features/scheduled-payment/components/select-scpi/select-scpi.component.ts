@@ -9,7 +9,7 @@ import { Panel } from "primeng/panel";
 import { PrimeTemplate } from "primeng/api";
 
 import { ScpiCardComponent } from "@/features/scpi/components/scpi-card/scpi-card.component";
-import { ScpiModel } from "@/core/model/scpi.model";
+import { ScpiIndexModel, ScpiModel } from "@/core/model/scpi.model";
 import { ScpiService } from "@/core/service/scpi.service";
 import { InvestmentPayload } from "@/core/model/Investments";
 
@@ -30,12 +30,12 @@ import { InvestmentPayload } from "@/core/model/Investments";
   styleUrl: "./select-scpi.component.css",
 })
 export class SelectScpiComponent {
-  @Output() onClick = new EventEmitter<{ scpi: ScpiModel }>();
+  @Output() onClick = new EventEmitter<{ scpi: ScpiIndexModel }>();
   @Output() valuesChanged = new EventEmitter<Partial<InvestmentPayload>>();
   @Output() onInvest = new EventEmitter();
 
-  scpis: ScpiModel[] = [];
-  selectedScpi: ScpiModel | null = null;
+  scpis: ScpiIndexModel[] = [];
+  selectedScpi: ScpiIndexModel | null = null;
   isDialogVisible = false;
 
   numberShares = 1;
@@ -51,7 +51,7 @@ export class SelectScpiComponent {
   }
 
   private get sharePrice(): number {
-    return this.selectedScpi?.statYear?.sharePrice || 1;
+    return this.selectedScpi?.sharePrice || 1;
   }
 
   private get minimumSubscription(): number {
@@ -71,7 +71,7 @@ export class SelectScpiComponent {
       });
   }
 
-  private resetInvestmentValues(scpi: ScpiModel): void {
+  private resetInvestmentValues(scpi: ScpiIndexModel): void {
     this.selectedScpi = scpi;
     this.numberShares = 1;
     this.initialDeposit = this.getMinDepositShare();
@@ -79,11 +79,11 @@ export class SelectScpiComponent {
     this.valuesChanged.emit({
       numberShares: this.numberShares,
       initialDeposit: this.initialDeposit,
-      scpiId: scpi.id,
+      scpiId: scpi.scpiId,
     });
   }
 
-  onSelect(scpi: ScpiModel): void {
+  onSelect(scpi: ScpiIndexModel): void {
     this.resetInvestmentValues(scpi);
     this.onClick.emit({ scpi });
     this.closeDialog();

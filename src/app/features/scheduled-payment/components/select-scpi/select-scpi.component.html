@@ -60,7 +60,7 @@
   <div class="list-scpi">
     <ng-container *ngFor="let scpi of scpis">
       <app-scpi-card
-        [image]="getImage(scpi.id)"
+        [image]="getImage(scpi.scpiId)"
         [isAddingScpi]="true"
         [scpi]="scpi"
         (onClick)="onSelect($event.scpi)"

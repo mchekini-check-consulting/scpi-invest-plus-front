@@ -48,10 +48,9 @@ export class YearPickerCalendarComponent implements OnInit {
       changes['selectedPropertyType'] &&
       changes['selectedPropertyType'].currentValue
     ) {
-      // console.log(
-      //   'selectedPropertyType a changé :',
-      //   changes['selectedPropertyType'].currentValue
-      // );
+
+
+      this.selectedYear =  undefined;
       this.loadDismembermentData();
     }
   }
@@ -90,7 +89,7 @@ export class YearPickerCalendarComponent implements OnInit {
       return;
     }
 
-    // console.log('test setlected', this.selectedPropertyType);
+
     this.investorService
       .getDismembermentByType(this.selectedPropertyType)
       .subscribe({

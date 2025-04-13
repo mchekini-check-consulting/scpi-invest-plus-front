@@ -1,31 +1,31 @@
-import { ScpiModel } from "@/core/model/scpi.model";
+import { ScpiIndexModel } from "@/core/model/scpi.model";
 
-export const formatLocation = (location?: ScpiModel["location"]) => {
-  if (!location) return "N/A";
-  const country = location.id?.country ?? "N/A";
-  const percentage =
-    location.countryPercentage !== undefined
-      ? `${location.countryPercentage}%`
-      : "N/A%";
-  return `${country} - ${percentage}`;
+
+export const formatLocation = (countryDominant?: ScpiIndexModel["countryDominant"]): string => {
+  if (!countryDominant) return "N/A";
+  return `${countryDominant.country ?? "N/A"} - ${
+    countryDominant.countryPercentage !== undefined
+      ? `${countryDominant.countryPercentage}%`
+      : "N/A%"
+  }`;
 };
 
-export const formatSector = (sector?: ScpiModel["sector"]) => {
-  if (!sector) return "N/A";
-  const name = sector.id?.name ?? "N/A";
-  const percentage =
-    sector.sectorPercentage !== undefined ? `${sector.sectorPercentage}%` : "";
-  return `${name} - ${percentage}`;
-};
 
-export const formatDistributionRate = (statYear?: ScpiModel["statYear"]) => {
-  const distributionRate = statYear?.distributionRate;
+export const formatSector = (sectorDominant?: ScpiIndexModel["sectorDominant"]): string => {
+  if (!sectorDominant) return "N/A";
+  return `${sectorDominant.name ?? "N/A"} - ${
+    sectorDominant.sectorPercentage !== undefined
+      ? `${sectorDominant.sectorPercentage}%`
+      : "N/A%"
+  }`;
+};
+export const formatDistributionRate = (distributionRate?: number): string => {
   return `Rendement - ${
     distributionRate !== undefined ? distributionRate + "%" : "N/A"
   }`;
 };
 
-export const formatMinimum = (minimumSubscription?: number) => {
+export const formatMinimum = (minimumSubscription?: number): string => {
   return `Minimum - ${
     minimumSubscription !== undefined ? minimumSubscription + " €" : "N/A"
   }`;
