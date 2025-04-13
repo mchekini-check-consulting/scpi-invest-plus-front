@@ -33,6 +33,7 @@ export class RenameSimulationDialogComponent {
 
   ngOnInit() {
     this.newSimulationName = this.simulationName;
+
   }
   constructor(private simulationService: SimulationService, private router : Router) {}
 

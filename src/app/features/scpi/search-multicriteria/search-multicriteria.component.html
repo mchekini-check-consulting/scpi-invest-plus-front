@@ -6,7 +6,7 @@
 
   <div class="open_container">
     <i class="pi pi-sliders-h icon_re" (click)="isFilterVisible = true">
-      <i *ngIf="!isSearchDisabled()"
+      <i *ngIf="isNonNameFilterActive()"
          class="pi pi-replay icon_replay"
          (click)="resetFilters($event)">
       </i>
@@ -16,12 +16,12 @@
 
 <div class="custom-sidebar">
   <p-sidebar
-    [(visible)]="isFilterVisible"
-    styleClass="w-30rem"
-    position="right"
-    [dismissible]="true"
-    [showCloseIcon]="false"
-  >
+  [(visible)]="isFilterVisible"
+  styleClass="custom-sidebar-width"
+  position="right"
+  [dismissible]="true"
+  [showCloseIcon]="false"
+>
     <div class="header_sidebar">
       <i class="pi pi-times icon_close" (click)="isFilterVisible = false"></i>
     </div>
@@ -104,6 +104,7 @@
           [disabled]="isSearchDisabled()"
           severity="info"
           (click)="searchScpi()"
+          class="search-button"
         ></p-button>
 
         <p-button
@@ -111,7 +112,7 @@
           icon="pi pi-refresh"
           severity="danger"
           (click)="resetFilters()"
-          class="reset-button"
+
         ></p-button>
       </div>
     </div>

@@ -19,6 +19,13 @@
   padding: 0.5rem;
 }
 
+
+::ng-deep .p-drawer-right .p-drawer {
+  width: 25em !important;
+}
+
+
+
 .open_container .icon_replay {
   position: absolute;
   top: -5px;
@@ -131,14 +138,25 @@ h3 {
   color: #007ad9;
 }
 
+
 .button-container {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 20px;
   margin-top: 20px;
-  height: 40px;
   z-index: 10000;
+  margin-left: 15px;
 }
+
+::ng-deep .button-container .p-button {
+  padding: 0.75rem 1.3rem;
+  font-size: 1rem;
+}
+
+::ng-deep .button-container .search-button {
+  min-width: 150px;
+}
+
+
 
 p-sidebar {
   transition: transform 0.3s ease-in-out;

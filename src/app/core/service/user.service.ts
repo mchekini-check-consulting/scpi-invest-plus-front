@@ -38,7 +38,7 @@ export class UserService {
         email: identityClaims['email'],
         role: userRole
       });
-   
+
     }
   }
 

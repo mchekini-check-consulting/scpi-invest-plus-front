@@ -1,10 +1,35 @@
 .profile-form {
-  width: 60%;
+  width: 80%;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+
+input[disabled],
+.ui-inputtext[disabled] {
+  background-color: #f6f7fa !important;
+
+  opacity: 1 !important;
+  cursor: not-allowed;
+}
+
+
+:host ::ng-deep .p-dropdown.p-disabled {
+  background-color: #f6f7fa !important;
+
+  opacity: 1 !important;
+  cursor: not-allowed;
+}
+
+
+:host ::ng-deep .p-inputtext:disabled {
+  background-color: #f6f7fa !important;
+  opacity: 1 !important;
+  cursor: not-allowed;
+}
+
 
 .profile-container {
   display: flex;
@@ -16,7 +41,8 @@
 }
 
 .title_container_profil {
-   margin-right: 55%;
+   margin-right: 80%;
+   margin-bottom: 20px;
 }
 
 .title {

@@ -1,6 +1,8 @@
 .list-scpi {
   display: grid;
   gap: 1rem;
+  padding: 10px;
+  margin-top: 10px;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   min-height: 100vh;
 }

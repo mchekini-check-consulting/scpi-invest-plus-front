@@ -13,6 +13,7 @@ import { ToastModule } from 'primeng/toast';
 import { InvestorService } from '@/core/service/investor.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationService } from '@/core/service/navigation.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -54,19 +55,19 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      if (params['fromInvest']) {
-        this.navigationService.setReturnUrl('/invest');
-      }
-    });
-    this.userService.user$.subscribe((user) => {
-      if (user) {
-        this.userEmail = user.email;
-        this.initForm(user);
-      }
-    });
-    this.loadUserProfile();
-  }
+      this.userService.user$
+        .pipe(
+          take(1)
+        )
+        .subscribe((user) => {
+          if (user) {
+            this.userEmail = user.email;
+            this.initForm(user);
+            this.loadUserProfile();
+          }
+        });
+    }
+
 
   initForm(user?: any): void {
     this.profileForm = this.fb.group({

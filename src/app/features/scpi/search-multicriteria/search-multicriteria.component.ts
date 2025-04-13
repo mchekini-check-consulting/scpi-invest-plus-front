@@ -1,19 +1,23 @@
-import { Component, EventEmitter, Output, ViewEncapsulation } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Output,
+  ViewEncapsulation,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ValueChangeEvent } from "@angular/forms";
 
 import { Slider } from "primeng/slider";
 import { MultiSelect } from "primeng/multiselect";
-import { BadgeModule } from 'primeng/badge';
-import { OverlayBadgeModule } from 'primeng/overlaybadge';
-
+import { BadgeModule } from "primeng/badge";
+import { OverlayBadgeModule } from "primeng/overlaybadge";
 
 import { ButtonModule } from "primeng/button";
 import { ScpiIndexModel, ScpiSearch } from "@/core/model/scpi.model";
 import { ScpiService } from "@/core/service/scpi.service";
-import { SearchBarComponent } from "@/features/search-multicriteria/components/search-bar/search-bar.component";
+import { SearchBarComponent } from "@/features/scpi/search-multicriteria/components/search-bar/search-bar.component";
 import { catchError } from "rxjs";
-import { SidebarModule } from 'primeng/sidebar';
+import { SidebarModule } from "primeng/sidebar";
 
 @Component({
   selector: "app-search-multicriteria",
@@ -59,8 +63,6 @@ export class SearchMulticriteriaComponent {
     this.isFilterVisible = false;
     let filtersToSend: ScpiSearch = this.prepareFilters();
 
-
-
     this.loading = true;
     this.scpiService.getScpiWithFilter(filtersToSend).subscribe({
       next: (data) => {
@@ -68,17 +70,18 @@ export class SearchMulticriteriaComponent {
         this.loading = false;
         this.scpiFiltered.emit(this.scpiResults);
 
-
-      this.noResultsMessage = this.scpiResults.length === 0;
-      this.noResultsMessageChange.emit(this.noResultsMessage);
+        this.noResultsMessage = this.scpiResults.length === 0;
+        this.noResultsMessageChange.emit(this.noResultsMessage);
       },
       error: (error) => {
         this.scpiResults = [];
         this.loading = false;
         this.scpiFiltered.emit([]);
         this.noResultsMessage = true;
-        console.error(`Erreur lors du chargement des SCPI. Status: ${error.status}`);
-      }
+        console.error(
+          `Erreur lors du chargement des SCPI. Status: ${error.status}`
+        );
+      },
     });
   }
 
@@ -88,33 +91,40 @@ export class SearchMulticriteriaComponent {
         (Array.isArray(value) && value.length > 0) ||
         (typeof value === "number" && value > 0) ||
         (typeof value === "string" && value.trim() !== "") ||
-        (typeof value === "boolean")
+        typeof value === "boolean"
     );
   }
 
+  isNonNameFilterActive(): boolean {
+    const { name, ...otherFilters } = this.filters;
+    return Object.values(otherFilters).some(
+      (value) =>
+        (Array.isArray(value) && value.length > 0) ||
+        (typeof value === "number" && value > 0) ||
+        (typeof value === "string" && value.trim() !== "") ||
+        typeof value === "boolean"
+    );
+  }
 
-  resetFilters(event? :MouseEvent) {
+  resetFilters(event?: MouseEvent) {
     event && event.stopPropagation();
     this.filters = this.getDefaultFilters();
     this.loading = true;
     this.noResultsMessage = false;
     this.scpiService
-                .getScpiWithFilter({})
-                .pipe(
-                  catchError((error) => {
-                    this.loading = false;
-                    return [];
-                  })
-                )
-                .subscribe((data) => {
-                  this.scpiResults = data || [];
-                  this.scpiFiltered.emit(this.scpiResults);
-                  this.loading = false;
-
-                })
-
+      .getScpiWithFilter({})
+      .pipe(
+        catchError((error) => {
+          this.loading = false;
+          return [];
+        })
+      )
+      .subscribe((data) => {
+        this.scpiResults = data || [];
+        this.scpiFiltered.emit(this.scpiResults);
+        this.loading = false;
+      });
   }
-
 
   private prepareFilters(): ScpiSearch {
     return {
@@ -127,8 +137,7 @@ export class SearchMulticriteriaComponent {
       frequencyPayment: this.filters.frequencyPayment || undefined,
       locations: this.filters.locations || undefined,
       sectors: this.filters.sectors || undefined,
-      minimumSubscription:
-        this.filters.minimumSubscription || undefined,
+      minimumSubscription: this.filters.minimumSubscription || undefined,
     };
   }
 
@@ -158,7 +167,6 @@ export class SearchMulticriteriaComponent {
     this.onFiltersChanged();
   }
 
-
   onFiltersChanged() {
     if (this.isSearchDisabled()) {
       this.resetFilters();
@@ -166,7 +174,6 @@ export class SearchMulticriteriaComponent {
   }
 
   onSubscriptionFeeChange(selectedValue: boolean) {
-
     if (this.filters.subscriptionFees === selectedValue) {
       this.filters.subscriptionFees = undefined;
     } else {
@@ -174,7 +181,6 @@ export class SearchMulticriteriaComponent {
     }
     this.onFiltersChanged();
   }
-
 
   onRentalFrequencyChange(selectedValue: string) {
     if (this.filters.frequencyPayment === selectedValue) {
@@ -184,7 +190,6 @@ export class SearchMulticriteriaComponent {
     }
     this.onFiltersChanged();
   }
-
 
   investmentZones = [
     { label: "Europe", value: "Europe" },

@@ -202,6 +202,9 @@ export class ScpiInvestModalComponent implements OnInit {
         console.log("ID de la SCPI :", this.scpi?.scpiId);
 
         this.scpiService.getScpiById(this.scpi.scpiId).subscribe((scpi) => {
+
+    
+
           const scpiData = this.createScpiData(scpi, investmentData);
           const locations = scpi.locations ?? [];
           const sectors = scpi.sectors ?? [];
@@ -233,7 +236,7 @@ export class ScpiInvestModalComponent implements OnInit {
 
   private createScpiData(scpi: any, investmentData: any): any {
     return {
-      scpiId: this.scpi?.id ?? 0,
+      scpiId: this.scpi?.scpiId ?? 0,
       scpiName: scpi.name ?? this.scpi?.name ?? "simulation",
       numberPart: investmentData.shareCount ?? 0,
       partPrice: this.sharePrice ?? 0,
