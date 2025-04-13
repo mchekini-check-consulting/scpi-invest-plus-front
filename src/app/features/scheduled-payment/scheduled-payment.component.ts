@@ -73,26 +73,34 @@ export class ScheduledPaymentComponent {
     this.updateChart();
   }
 
+  private get sharePrice(): number {
+    return this.selectedScpi?.statYear?.sharePrice || 0;
+  }
+
   createInvestment(): void {
     if (this.investment.scpiId) {
-      this.investorService.createInvestment(this.investment).subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: "info",
-            summary: "Demande en cours",
-            detail:
-              "Votre demande d'investissement est en cours de traitement. Une décision vous sera envoyée par email dans les plus brefs délais.",
-            life: 2000,
-          });
-        },
-        error: () => {
-          this.messageService.add({
-            severity: "error",
-            summary: "Erreur",
-            detail: "Une erreur est survenue lors de l'investissement.",
-          });
-        },
-      });
+      const totalAmount = this.investment.numberShares * this.sharePrice;
+
+      this.investorService
+        .createInvestment({ ...this.investment, totalAmount })
+        .subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: "info",
+              summary: "Demande en cours",
+              detail:
+                "Votre demande d'investissement est en cours de traitement. Une décision vous sera envoyée par email dans les plus brefs délais.",
+              life: 2000,
+            });
+          },
+          error: () => {
+            this.messageService.add({
+              severity: "error",
+              summary: "Erreur",
+              detail: "Une erreur est survenue lors de l'investissement.",
+            });
+          },
+        });
     } else {
       this.messageService.add({
         severity: "warn",
