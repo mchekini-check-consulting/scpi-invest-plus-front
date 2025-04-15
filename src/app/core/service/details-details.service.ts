@@ -35,4 +35,11 @@ export class DetailsDetailsService {
       )
       : null
   }
+  getScpiNames(): Observable<string[]>{
+    return this.http.get<string[]>(`/api/v1/scpi/names`);
+  }
+
+  getDetailsByName(nameScpi:String): Observable<Details>{
+    return this.http.get<Details>(`/api/v1/scpi/detailsNames/${nameScpi}`);
+  }
 }

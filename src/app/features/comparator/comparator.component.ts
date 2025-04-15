@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {Details} from '@/core/model/Details';
-import {DetailsDetailsService} from '@/core/service/details-details.service';
-import {TableModule} from 'primeng/table';
-import {FormsModule} from '@angular/forms';
-import {DropdownModule} from 'primeng/dropdown';
-import {NgForOf} from '@angular/common';
-import {Slider} from 'primeng/slider';
+import { Component, OnInit } from '@angular/core';
+import { Details } from '@/core/model/Details';
+import { DetailsDetailsService } from '@/core/service/details-details.service';
+import { TableModule } from 'primeng/table';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators, FormControl } from '@angular/forms';
+import { DropdownModule } from 'primeng/dropdown';
+import { NgForOf } from '@angular/common';
+import { Slider } from 'primeng/slider';
 
 @Component({
   selector: 'app-comparator',
@@ -14,67 +14,98 @@ import {Slider} from 'primeng/slider';
     FormsModule,
     DropdownModule,
     NgForOf,
-    Slider
+    Slider,
+    ReactiveFormsModule
   ],
   templateUrl: './comparator.component.html',
   styleUrl: './comparator.component.css'
 })
-export class ComparatorComponent implements OnInit{
-  investValue: number = 10000;
-  scpiList: Details[] = [];
-  selectedScpis: (Details | null)[] = [null, null, null];
-  filteredScpis: Details[][] = [[], [], []];
-  scpiResults: any[] = [];
+export class ComparatorComponent implements OnInit {
 
-  constructor(private detailsService: DetailsDetailsService) {}
+
+  names: any[] = [];
+  selectedNames: ({ name: string } | null)[] = [null, null, null];
+  scpiList: (Details | null)[] = [null, null, null];
+  scpiResults: any[] = [];
+  form!: FormGroup;
+  investControl!: FormControl;
+
+  investValue: number = 0;
+
+  constructor(private detailsService: DetailsDetailsService,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit() {
-    this.loadScpis();
+    this.ListNames();
     this.initScpiResults();
+    this.initForm();
   }
 
-  loadScpis() {
-    this.detailsService.getAllScpis().subscribe({
-      next: (data: Details[]) => {
-        this.scpiList = data.sort((a, b)=>a.name.localeCompare(b.name));
-        this.filteredScpis = [data, data, data];
-      },
-      error: (err) => {
-        console.error('Erreur lors de la récupération des SCPI :', err);
-      }
+  initForm() {
+    this.form = this.fb.group({
+      investValue: [10000, [Validators.required, Validators.max(100000)]]
+    });
+
+    this.form.get('investValue')?.valueChanges.subscribe(val => {
+      this.investValue = val;
+      this.compareScpis();
     });
   }
-  onScpiSelected(scpi: Details | null, index: number) {
-    console.log(`Sélection de la SCPI "${scpi?.name}" à l'index ${index}`);
+  ListNames() {
+    this.detailsService.getScpiNames().subscribe(
+      (data: string[]) => {
+        this.names = [...Array(3).fill(data.map(name => ({ name })))];
+      },
+      (error) => {
+        console.error("Erreur lors du chargement des noms des scpis");
+        console.log(error);
+      }
+    );
+  }
 
-    if (scpi && this.selectedScpis.some((s, i) => s?.name === scpi.name && i !== index)) {
-      console.warn(`La SCPI "${scpi.name}" est déjà utilisée dans une autre colonne.`);
+  onScpiSelected(selected: any, index: number) {
+    const name = selected?.name ?? null;
+    if (!name) {
+      this.scpiList[index] = null;
+      this.selectedNames[index] = null;
+      this.compareScpis();
       return;
     }
 
-    this.selectedScpis[index] = scpi ? { ...scpi } : null;
-    this.updateScpiOptions();
-    this.compareScpis();
-    console.log("État mis à jour de selectedScpis:", this.selectedScpis);
+
+    if (
+      this.selectedNames.some(
+        (n, i) => n?.name === name && i !== index && n !== null
+      )
+    ) {
+      console.warn(`La SCPI "${name}" est déjà utilisée dans une autre colonne.`);
+      return;
+    }
+
+    this.selectedNames[index] = selected;
+
+    this.detailsService.getDetailsByName(name).subscribe({
+      next: (data: Details) => {
+        this.scpiList[index] = data;
+        this.compareScpis();
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des détails :', err);
+      }
+    });
   }
 
-  updateScpiOptions() {
-    const selectedNames = this.selectedScpis
-      .filter(scpi => scpi !== null)
-      .map(scpi => scpi!.name);
-
-    this.filteredScpis = this.selectedScpis.map((_, i) =>
-      this.scpiList
-        .filter(scpi => !selectedNames.includes(scpi.name) || this.selectedScpis[i]?.name === scpi.name)
-
-    );
-  }
   compareScpis() {
-    this.scpiResults = this.selectedScpis.map(scpi => scpi ? this.calculateResults(scpi) : this.initScpiResult());
+    if (this.investValue > 100000) {
+      this.investValue = 100000
+      this.form.get('investValue')?.setValue(100000);
+    }
+    this.investValue = this.form.get('investValue')?.value;
+    this.scpiResults = this.scpiList.map(scpi => scpi ? this.calculateResults(scpi) : this.initScpiResult());
   }
-  calculateResults(scpi: Details): any {
-    if (!scpi) return this.initScpiResult();
 
+  calculateResults(scpi: Details): any {
     const lastStat = scpi.statYears?.length
       ? scpi.statYears.reduce((prev, current) =>
         prev?.yearStat?.yearStat > current?.yearStat?.yearStat ? prev : current)
@@ -82,17 +113,18 @@ export class ComparatorComponent implements OnInit{
     const distributionRate = lastStat?.distributionRate ?? 0;
     return {
       revenusMensuels: ((this.investValue * (distributionRate / 100)) / 12).toFixed(2) + ' €',
-      rendement: (distributionRate).toFixed(2) ,
+      rendement: (distributionRate).toFixed(2),
       fraisSouscription: ((this.investValue * (scpi.subscriptionFees ?? 0) / 100)).toFixed(2) + ' €',
       cashback: ((this.investValue * (scpi.cashback ?? 0) / 100)).toFixed(2) + ' € économisés',
       capitalisation: scpi.capitalization !== undefined
         ? (scpi.capitalization / 1000000).toFixed(2) + ' M€'
         : '0 M€',
       frequenceLoyers: scpi.frequencyPayment ?? '-',
-      delaiJouissance: scpi.enjoymentDelay !== undefined ? scpi.enjoymentDelay + ' Mois': '-',
+      delaiJouissance: scpi.enjoymentDelay !== undefined ? scpi.enjoymentDelay + ' Mois' : '-',
       minimumInvest: scpi.minimumSubscription !== undefined ? scpi.minimumSubscription + ' €' : '-'
     };
   }
+
   initScpiResult() {
     return {
       revenusMensuels: '€',
@@ -105,8 +137,17 @@ export class ComparatorComponent implements OnInit{
       minimumInvest: '€',
     };
   }
+
   initScpiResults() {
     this.scpiResults = [this.initScpiResult(), this.initScpiResult(), this.initScpiResult()];
+  }
+  SetValueSlider(valText: number) {
+    this.form.get('investValue')?.setValue(valText);
+  }
+
+  onInputChange() {
+    const value = this.form.get('investValue')?.value;
+    this.form.get('investValue')?.setValue(value, { emitEvent: false });
   }
 }
 
