@@ -9,7 +9,8 @@
       <span *ngIf="mashedScore !== undefined" class="mashed-score">
         ({{ mashedScore.toFixed(2) }})
       </span>
-    </ng-template>    <div class="info-container">
+    </ng-template>
+    <div class="info-container">
       <div class="info">
         <p-tag [value]="location" severity="secondary"></p-tag>
         <p-tag [value]="sector" severity="secondary"></p-tag>
@@ -23,14 +24,14 @@
     <ng-template #footer>
       <div class="button-group">
         <p-button
-          (click)="openInvestirModal('simuler',scpi?.id)"
+          (click)="openInvestirModal('simuler')"
           *ngIf="isAddingScpi"
           label="Ajouter"
           severity="info"
           size="large"
         />
         <p-button
-          (click)="openInvestirModal('investir', scpi?.id)"
+          (click)="openInvestirModal('investir')"
           *ngIf="!isAddingScpi"
           label="Investir"
           severity="info"
@@ -47,6 +48,3 @@
     </ng-template>
   </p-card>
 </div>
-
-
-

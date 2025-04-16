@@ -11,7 +11,6 @@ export type ScpiIndexModel = {
   locations: LocationIndexModel[];
   sectors: SectorIndexModel[];
   minimumSubscription: number;
-  mashedScore: number;
   capitalization: number;
   enjoymentDelay: number;
   managementCosts: number;

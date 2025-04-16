@@ -7,7 +7,8 @@ import { TableModule } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
 import { ScpiService } from '../../core/service/explorer.service';
 import { ScpiIndexModel } from '@/core/model/scpi.model';
-import { ScpiCardComponent } from "./components/scpi-card/scpi-card.component";
+import { ScpiCardComponent } from '../scpi/components/scpi-card/scpi-card.component'
+//"..//components/scpi-card/scpi-card.component";
 
 interface Critere {
   nom: string;
@@ -104,7 +105,6 @@ export class ExplorerComponent implements OnInit {
           console.log('SCPI reçues:', response);
           this.scpiResults = mapScpiData(response);
 
-          // 💾 Sauvegarde des résultats dans le localStorage
           localStorage.setItem('scpiResults', JSON.stringify(this.scpiResults));
         },
         error => console.error('Erreur API:', error)
@@ -127,33 +127,36 @@ export class ExplorerComponent implements OnInit {
 function mapScpiData(scpiData: any[]): ScpiIndexModel[] {
   return scpiData.map(scpi => ({
     id: scpi.id,
+    scpiId: scpi.scpiId ?? 0,
     name: scpi.name,
     distributionRate: scpi.distributionRate ?? 0,
     subscriptionFees: scpi.subscriptionFees ?? false,
     frequencyPayment: scpi.frequencyPayment ?? 'Annuel',
     countryDominant: {
-      country: scpi.locations?.length ? scpi.locations[0].nom : '',
-      countryPercentage: scpi.locations?.length ? scpi.locations[0].pourcentage : 0,
+      country: scpi.locations?.[0]?.nom ?? '',
+      countryPercentage: scpi.locations?.[0]?.pourcentage ?? 0,
     },
-    dominantSector: {
-      name: scpi.sectors?.length ? scpi.sectors[0].nom : '',
-      sectorPercentage: scpi.sectors?.length ? scpi.sectors[0].pourcentage : 0,
+    sectorDominant: {
+      name: scpi.sectors?.[0]?.nom ?? '',
+      sectorPercentage: scpi.sectors?.[0]?.pourcentage ?? 0,
     },
-    locations: scpi.locations?.map((location: { nom: string, pourcentage: number }) => ({
+    sharePrice: scpi.sharePrice ?? 0,
+    locations: scpi.locations?.map((location: any) => ({
       country: location.nom,
-      countryPercentage: location.pourcentage
-    })) || [],
-    sectors: scpi.sectors?.map((sector: { nom: string, pourcentage: number }) => ({
+      countryPercentage: location.pourcentage,
+    })) ?? [],
+    sectors: scpi.sectors?.map((sector: any) => ({
       name: sector.nom,
-      sectorPercentage: sector.pourcentage
-    })) || [],
+      sectorPercentage: sector.pourcentage,
+    })) ?? [],
     minimumSubscription: scpi.minimumSubscription ?? 0,
-    mashedScore: scpi.mashedScore ?? 0,
     capitalization: scpi.capitalization ?? 0,
     enjoymentDelay: scpi.enjoymentDelay ?? 0,
     managementCosts: scpi.managementCosts ?? 0,
     subscriptionFeesBigDecimal: scpi.subscriptionFeesBigDecimal ?? 0,
+    mashedScore: scpi.mashedScore ?? 0,
   }));
 }
+
 
 
