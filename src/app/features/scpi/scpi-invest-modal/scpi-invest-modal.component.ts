@@ -24,7 +24,7 @@ import {
   formatLocation,
   formatMinimum,
 } from "@/shared/utils/scpi.utils";
-import { ScpiModel } from "@/core/model/scpi.model";
+import { ScpiIndexModel, ScpiModel } from "@/core/model/scpi.model";
 
 @Component({
   selector: "app-scpi-invest-modal",
@@ -46,7 +46,7 @@ import { ScpiModel } from "@/core/model/scpi.model";
 })
 export class ScpiInvestModalComponent implements OnInit {
   @Input() visible: boolean = false;
-  @Input() scpi?: ScpiModel;
+  @Input() scpi?: ScpiIndexModel;
   @Input() mode?: string;
   @Output() close = new EventEmitter<void>();
   @Input() addScpi?: boolean;
@@ -99,15 +99,18 @@ export class ScpiInvestModalComponent implements OnInit {
   }
 
   get sharePrice(): number {
-    return this.scpi?.statYear?.sharePrice || 0;
+    if (!this.scpi) {
+      return 0;
+    }
+    return this.scpi?.sharePrice;
   }
 
   get location(): string {
-    return formatLocation(this.scpi?.location);
+    return formatLocation(this.scpi?.countryDominant);
   }
 
   get distributionRate(): string {
-    return formatDistributionRate(this.scpi?.statYear);
+    return formatDistributionRate(this.scpi?.distributionRate);
   }
 
   get minimumSubscription(): string {
@@ -130,12 +133,19 @@ export class ScpiInvestModalComponent implements OnInit {
     this.investmentForm.controls["investmentDuration"].valueChanges.subscribe(
       () => {
         this.updateEstimatedMonthlyIncome();
+        this.calculateTotalInvestment();
       }
     );
 
+    this.investmentForm.controls["propertyType"].valueChanges.subscribe(() => {
+      this.updateEstimatedMonthlyIncome();
+      this.calculateTotalInvestment();
+      console.log("La prop a changée");
+    });
+
     this.investmentForm.controls["totalInvestment"].valueChanges.subscribe(
       () => {
-        this.calculateShareCount();
+        //this.calculateShareCount();
       }
     );
 
@@ -154,8 +164,7 @@ export class ScpiInvestModalComponent implements OnInit {
       return (
         (totalInvestment *
           (annualReturnRate / 100) *
-          (this.investmentPercentage / 100) *
-          (this.investmentForm.getRawValue().shareCount ?? 1)) /
+          (this.investmentPercentage / 100)) /
         12
       );
     } else {
@@ -181,12 +190,21 @@ export class ScpiInvestModalComponent implements OnInit {
     }
 
     if (this.mode === "investir") {
-      this.createInvestment();
+
+      const investmentData = this.investmentForm.getRawValue();
+      this.createInvestment(investmentData);
     } else if (this.mode === "simuler") {
+      console.log("Simuler l'investissement dans la SCPI");
+
       const investmentData = this.investmentForm.getRawValue();
 
-      if (this.scpi?.id) {
-        this.scpiService.getScpiById(this.scpi.id).subscribe((scpi) => {
+      if (this.scpi?.scpiId) {
+        console.log("ID de la SCPI :", this.scpi?.scpiId);
+
+        this.scpiService.getScpiById(this.scpi.scpiId).subscribe((scpi) => {
+
+    
+
           const scpiData = this.createScpiData(scpi, investmentData);
           const locations = scpi.locations ?? [];
           const sectors = scpi.sectors ?? [];
@@ -209,7 +227,7 @@ export class ScpiInvestModalComponent implements OnInit {
             );
           }
 
-          this.router.navigate([`simulations/detailSimulation`]);
+          this.router.navigate([`/simulations/detailSimulation`]);
         });
       }
     }
@@ -218,7 +236,7 @@ export class ScpiInvestModalComponent implements OnInit {
 
   private createScpiData(scpi: any, investmentData: any): any {
     return {
-      scpiId: this.scpi?.id ?? 0,
+      scpiId: this.scpi?.scpiId ?? 0,
       scpiName: scpi.name ?? this.scpi?.name ?? "simulation",
       numberPart: investmentData.shareCount ?? 0,
       partPrice: this.sharePrice ?? 0,
@@ -243,20 +261,16 @@ export class ScpiInvestModalComponent implements OnInit {
     };
   }
 
-  createInvestment(): void {
+  private createInvestment(dataInvestment: any): any {
     if (this.investmentForm.valid) {
-      const formValue = this.investmentForm.getRawValue();
       const investmentData = {
-        typeProperty: formValue.propertyType,
-        numberShares: formValue.shareCount,
+        typeProperty: this.investmentForm.value.propertyType,
+        numberShares: this.investmentForm.value.shareCount,
         numberYears: this.investmentForm.value.investmentDuration?.year || 0,
-        totalAmount: formValue.totalInvestment,
-        scpiId: this.scpi?.id,
+        totalAmount: dataInvestment.totalInvestment ?? 0,
+        scpiId: this.scpi?.scpiId,
         investmentState: "Investissement",
       };
-
-      console.log(investmentData);
-
       this.investorService.createInvestment(investmentData).subscribe({
         next: () => {
           this.messageService.add({
@@ -289,33 +303,29 @@ export class ScpiInvestModalComponent implements OnInit {
     let shareCount = this.investmentForm.controls["shareCount"].value || 0;
 
     if (sharePrice > 0 && shareCount > 0) {
-      const totalInvestment = sharePrice * shareCount;
-      const adjustedShareCount = Math.floor(totalInvestment / sharePrice);
-      const remainder = totalInvestment % sharePrice;
-
-      if (remainder === 0) {
-        shareCount = adjustedShareCount;
-      } else {
-        shareCount =
-          remainder < sharePrice / 2
-            ? adjustedShareCount
-            : adjustedShareCount + 1;
+      let total = sharePrice * shareCount;
+      if (
+        this.investmentPercentage &&
+        this.selectedPropertyType !== "Pleine propriété"
+      ) {
+        const percentage = this.investmentPercentage / 100;
+        total = total * percentage;
       }
 
+      let finalTotalInvestment = total;
       this.investmentForm.controls["totalInvestment"].setValue(
-        shareCount * sharePrice,
+        finalTotalInvestment,
         {
           emitEvent: false,
         }
       );
-
       this.investmentForm.controls["shareCount"].setValue(shareCount, {
         emitEvent: false,
       });
 
       if (
         this.minimumSubscription &&
-        totalInvestment < +this.minimumSubscription
+        shareCount * sharePrice < +this.minimumSubscription
       ) {
         this.investmentForm.controls["totalInvestment"].setErrors({
           belowMinimum: true,
@@ -355,6 +365,7 @@ export class ScpiInvestModalComponent implements OnInit {
 
     setTimeout(() => {
       this.updateEstimatedMonthlyIncome();
+      this.calculateTotalInvestment();
     }, 0);
   }
 
@@ -362,6 +373,15 @@ export class ScpiInvestModalComponent implements OnInit {
     this.selectedPropertyType = propertyType;
 
     if (this.selectedPropertyType === "Pleine propriété") {
+      this.investmentDuration = 0;
+      this.investmentPercentage = 0;
+    } else if (this.selectedPropertyType === "Usufruit") {
+      this.investmentForm.controls["shareCount"].setValue(1);
+      this.investmentDuration = 0;
+      this.investmentPercentage = 0;
+      this.investmentForm.controls["investmentDuration"].setValue(null);
+    } else {
+      this.investmentForm.controls["shareCount"].setValue(1);
       this.investmentDuration = 0;
       this.investmentPercentage = 0;
       this.investmentForm.controls["investmentDuration"].setValue(null);

@@ -16,7 +16,6 @@
       </div>
     </div>
     <p-divider />
-
     <ng-template #footer>
       <div class="button-group">
         <p-button
@@ -35,7 +34,7 @@
         />
         <p-button
           [outlined]="true"
-          [routerLink]="['/details', scpi?.id]"
+          [routerLink]="['/details', scpi?.scpiId]"
           label="Détails"
           severity="secondary"
           size="large"

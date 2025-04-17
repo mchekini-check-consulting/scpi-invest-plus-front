@@ -70,6 +70,24 @@
   border-top: 2px solid #333;
 }
 
+/* Chart styles */
+::ng-deep .chart-container p-chart {
+  display: block;
+  margin: 0 auto;
+}
+
+
+::ng-deep .custom-table .p-datatable-tfoot .totals-row td {
+  font-weight: bold;
+  border-top: 2px solid #444;
+  border-bottom: none;
+}
+
+::ng-deep .chart-container p-chart canvas {
+  height: 100% !important;
+  width: 100% !important;
+}
+
 ::ng-deep .centered-tabview .p-tabview-nav {
   justify-content: center;
   position: relative;

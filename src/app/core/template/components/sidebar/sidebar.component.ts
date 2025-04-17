@@ -16,15 +16,15 @@ declare interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
-  {path: '/scpi', title: 'Liste des SCPI ', key: 'SIDEBAR.SCPI', icon: 'nc-icon nc-ruler-pencil', class: '', feature:'list-scpi' },
-  {path: '/portefeuille', title: 'Portefeuille',key : 'SIDEBAR.PORTEFEUILLE', icon: 'nc-icon nc-money-coins', class: '', feature:'portefeuille'},
-  {path: '/scheduled-payment', title: 'Versements programmés', key: 'SIDEBAR.VERSEMENT', icon: 'nc-icon nc-layers-3', feature: 'scheduled-payment', class: ''},
-  {path: '/simulations', title: 'Mes simulations',key : 'SIDEBAR.SIMULATION', icon: 'nc-icon nc-layers-3', class: '', feature:'simulation'},
-  {path: '/comparateur', title: 'Comparateur SCPI',key : 'SIDEBAR.COMPARATEUR', icon: 'nc-icon nc-layers-3', class: '',feature:'comparateur'},
-  {path: '/credit', title: 'Crédit', key: 'SIDEBAR.CREDIT', icon: 'pi pi-user-edit', feature: 'credit', class: ''},
-  {path: '/profile', title: 'Mes informations', key: 'SIDEBAR.MY-PROFILE', icon: 'pi pi-user-edit', feature: 'profile', class: ''},
-  {path: '/plans', title: 'Gestion des plans',key : 'SIDEBAR.PLANS', icon: 'nc-icon nc-layers-3', class: '',feature:'plans'},
-];
+  {path: '/scpi', title: 'Liste des SCPI', key: 'SIDEBAR.SCPI', icon: 'pi pi-building-columns', class: '', feature: 'list-scpi'},
+  {path: '/portefeuille', title: 'Portefeuille', key: 'SIDEBAR.PORTEFEUILLE', icon: 'pi pi-wallet', class: '', feature: 'portefeuille'},
+  {path: '/scheduled-payment', title: 'Versements programmés', key: 'SIDEBAR.VERSEMENT', icon: 'pi pi-calendar-clock', class: '', feature: 'scheduled-payment'},
+  {path: '/simulations', title: 'Mes simulations', key: 'SIDEBAR.SIMULATION', icon: 'pi pi-chart-line', class: '', feature: 'simulation'},
+  {path: '/comparateur', title: 'Comparateur SCPI', key: 'SIDEBAR.COMPARATEUR', icon: 'pi pi-chart-bar', class: '', feature: 'comparateur'},
+  {path: '/credit', title: 'Crédit', key: 'SIDEBAR.CREDIT', icon: 'pi pi-credit-card', class: '', feature: 'credit'},
+  {path: '/profile', title: 'Mes informations', key: 'SIDEBAR.MY-PROFILE', icon: 'pi pi-user', class: '', feature: 'profile'},
+  {path: '/plans', title: 'Gestion des plans', key: 'SIDEBAR.PLANS', icon: 'pi pi-sitemap', class: '', feature: 'plans'}
+  ];
 
 @Component({
   selector: 'app-sidebar',

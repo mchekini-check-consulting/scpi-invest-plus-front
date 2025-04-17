@@ -83,14 +83,14 @@ export class CardComponent {
 
   public getScpiList(): void {
     this.scpiService.get().subscribe(
-      (response) => {
+      (response : any) => {
         this.scpiList = Array.isArray(response) ? response : [];
         this.rendementMoyen = this.calculerRendementMoyen();
         this.calculateGeographicalDistribution();
         this.calculateSectorialDistribution();
         this.calculerCashback();
       },
-      (error) => {
+      (error : any) => {
         console.error("Erreur lors de la récupération des SCPI :", error);
       }
     );
@@ -205,7 +205,7 @@ export class CardComponent {
       const scpi = scpiMap.get(inv.scpiName);
 
       if (!scpi) return;
-    
+
       const cashbackPourcent = scpi.cashback || 0;
       const cashback = (inv.totalAmount * cashbackPourcent) / 100;
 
@@ -284,7 +284,7 @@ export class CardComponent {
         );
 
         totalInvested += investedAmount;
-      } 
+      }
     });
 
     const sectorData = Array.from(sectorDistribution, ([sector, amount]) => ({
@@ -302,7 +302,7 @@ export class CardComponent {
 
     const labels = sectorData.map((data) => data.sector);
     const data = sectorData.map((data) => data.amount);
-    const backgroundColors = ["#025222", "#10557d", "#3357FF"]; 
+    const backgroundColors = ["#025222", "#10557d", "#3357FF"];
 
     this.sectorialData.emit({
       labels: labels,

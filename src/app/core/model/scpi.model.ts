@@ -1,13 +1,40 @@
+export type ScpiIndexModel = {
+  id: string;
+  scpiId: number;
+  name: string;
+  distributionRate: number;
+  subscriptionFees: boolean;
+  frequencyPayment: string;
+  countryDominant: LocationIndexModel;
+  sharePrice: number;
+  sectorDominant: SectorIndexModel;
+  locations: LocationIndexModel[];
+  sectors: SectorIndexModel[];
+  minimumSubscription: number;
+};
+
+export type LocationIndexModel = {
+  country: string;
+  countryPercentage: number;
+};
+
+export type SectorIndexModel = {
+  name: string;
+  sectorPercentage: number;
+};
+
+
 export type ScpiModel = {
   id: number;
+  scpiId?: number;
   name: string;
   minimumSubscription: number;
   location: LocationModel;
   sector: SectorModel;
+  locations: LocationModel[];
+  sectors: SectorModel[];
   cashback: number;
   statYear: StatYearModel;
-  statYears: StatYearsModel[];
-
 };
 
 export type YearStat = {
@@ -36,6 +63,17 @@ export type StatYearModel = {
   distributionRate: number;
   sharePrice: number;
 };
+
+
+export interface ScpiSearch {
+  name?: string;
+  distributionRate?: number;
+  subscriptionFees?: boolean;
+  frequencyPayment?: string;
+  locations?: string[];
+  sectors?: string[];
+  minimumSubscription?: number;
+}
 
 
 type StatYearsModel = {

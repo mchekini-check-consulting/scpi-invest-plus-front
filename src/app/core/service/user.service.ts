@@ -38,7 +38,7 @@ export class UserService {
         email: identityClaims['email'],
         role: userRole
       });
-      console.log("Le rôle récupéré est :", userRole);
+
     }
   }
 

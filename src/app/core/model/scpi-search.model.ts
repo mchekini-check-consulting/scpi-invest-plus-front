@@ -6,5 +6,4 @@ export interface ScpiSearch {
   subscriptionFees?: boolean;
   rentalFrequency?: string;
   distributionRate?: number;
-  minInvestment?: number;
 }

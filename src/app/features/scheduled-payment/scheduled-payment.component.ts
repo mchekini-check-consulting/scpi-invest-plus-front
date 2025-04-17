@@ -14,7 +14,7 @@ import { DecimalPipe } from "@angular/common";
 import { ChartComponent } from "@/features/scheduled-payment/components/chart/chart.component";
 import { SelectScpiComponent } from "@/features/scheduled-payment/components/select-scpi/select-scpi.component";
 import { InvestmentPayload } from "@/core/model/Investments";
-import { ScpiModel } from "@/core/model/scpi.model";
+import { ScpiIndexModel } from "@/core/model/scpi.model";
 import { InvestorService } from "@/core/service/investor.service";
 import { MessageService } from "primeng/api";
 
@@ -45,7 +45,7 @@ export class ScheduledPaymentComponent {
   totalValue: Record<string, number> = {};
   revenueValue: Record<string, number> = {};
 
-  selectedScpi: ScpiModel | null = null;
+  selectedScpi: ScpiIndexModel | null = null;
   customGrowthRate: number = 0;
 
   investment: InvestmentPayload = {
@@ -74,7 +74,7 @@ export class ScheduledPaymentComponent {
   }
 
   private get sharePrice(): number {
-    return this.selectedScpi?.statYear?.sharePrice || 0;
+    return this.selectedScpi?.sharePrice || 0;
   }
 
   createInvestment(): void {
@@ -110,7 +110,7 @@ export class ScheduledPaymentComponent {
     }
   }
 
-  updateSelectedScpi(value: ScpiModel) {
+  updateSelectedScpi(value: ScpiIndexModel) {
     this.selectedScpi = value;
     this.updateChart();
   }
@@ -129,9 +129,9 @@ export class ScheduledPaymentComponent {
       (_, i) => i
     );
 
-    const sharePrice = this.selectedScpi?.statYear?.sharePrice || 0;
+    const sharePrice = this.selectedScpi?.sharePrice || 0;
     const distributionRate =
-      (this.selectedScpi?.statYear?.distributionRate || 0) / 100;
+      (this.selectedScpi?.distributionRate || 0) / 100;
     const initialDepositAmount = this.investment.initialDeposit * sharePrice;
     const yearlyInvestment = sharePrice * this.investment.numberShares * 12;
     const growthRate = Number(this.customGrowthRate) || 0;

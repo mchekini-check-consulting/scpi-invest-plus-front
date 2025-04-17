@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { TableModule } from "primeng/table";
 import { SliderModule } from "primeng/slider";
 import { FormsModule } from "@angular/forms";
-import {CurrencyPipe, NgClass, NgIf} from "@angular/common";
+import {CurrencyPipe, NgClass} from "@angular/common";
 import { CardModule } from "primeng/card";
-import { ButtonDirective } from "primeng/button";
+
 import { DropdownModule } from "primeng/dropdown";
 import { InputNumberModule } from "primeng/inputnumber";
 import {TabViewModule} from "primeng/tabview";
@@ -30,14 +30,12 @@ interface AnnuityData {
     FormsModule,
     CurrencyPipe,
     CardModule,
-    ButtonDirective,
     DropdownModule,
     InputNumberModule,
     NgClass,
     TabViewModule,
     ChartModule,
     AvatarModule,
-    NgIf
   ],
   templateUrl: './credit.component.html',
   styleUrls: ['./credit.component.css']

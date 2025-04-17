@@ -1,39 +1,38 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { AddScpiToSimulationComponent } from "@/features/simulation/components/add-scpi-to-simulation/add-scpi-to-simulation.component";
-import { Card } from "primeng/card";
-import { PrimeTemplate } from "primeng/api";
-import { ActivatedRoute } from "@angular/router";
+import { Component, ChangeDetectorRef } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { CommonModule, DecimalPipe } from "@angular/common";
 import { SimulationService } from "@/core/service/simulation.service";
 import { Simulation, ScpiSimulation } from "@/core/model/Simulation";
-import { Panel } from "primeng/panel";
-import { DecimalPipe } from "@angular/common";
-import { MapComponent } from "@/shared/component/map/map.component";
 import { Location } from "@/core/model/Location";
-import { ChartModule } from "primeng/chart";
 import { Sector } from "@/core/model/Sector";
-import { CommonModule } from "@angular/common";
+
+// Components et modules Angular/PrimeNG
+import { AddScpiToSimulationComponent } from "@/features/simulation/components/add-scpi-to-simulation/add-scpi-to-simulation.component";
 import { RenameSimulationDialogComponent } from "../components/simulation-creator/simulation_dialogs/rename-simulation-dialog/rename-simulation-dialog.component";
-import { Router } from "@angular/router";
+import { MapComponent } from "@/shared/component/map/map.component";
+import { Card } from "primeng/card";
+import { Panel } from "primeng/panel";
 import { ButtonModule } from "primeng/button";
-import { ChangeDetectorRef } from "@angular/core";
+import { ChartModule } from "primeng/chart";
+
 @Component({
   selector: "app-simulation-detail",
+  standalone: true,
   imports: [
-    AddScpiToSimulationComponent,
-    Card,
-    PrimeTemplate,
-    Panel,
-    DecimalPipe,
-    MapComponent,
-    ButtonModule,
     CommonModule,
+    DecimalPipe,
+    Card,
+    Panel,
+    ButtonModule,
     ChartModule,
+    AddScpiToSimulationComponent,
     RenameSimulationDialogComponent,
+    MapComponent,
   ],
   templateUrl: "./simulation-detail.component.html",
   styleUrls: ["./simulation-detail.component.css"],
 })
-export class SimulationDetailComponent implements OnInit {
+export class SimulationDetailComponent {
   simulationId: string = "";
   addScpi = true;
   simulation: Simulation | null = null;
@@ -54,36 +53,22 @@ export class SimulationDetailComponent implements OnInit {
     },
   };
 
-  sectorData: {
-    labels: string[];
-    datasets: {
-      data: number[];
-      backgroundColor: string[];
-      hoverBackgroundColor: string[];
-    }[];
-  } = {
-    labels: [],
+  sectorData = {
+    labels: [] as string[],
     datasets: [
       {
-        data: [],
+        data: [] as number[],
         backgroundColor: ["#5A54F9", "#8674FC", "#C084FC"],
         hoverBackgroundColor: ["#7165FA", "#9D8AFC", "#D29FFC"],
       },
     ],
   };
 
-  geographicalData: {
-    labels: string[];
-    datasets: {
-      data: number[];
-      backgroundColor: string[];
-      hoverBackgroundColor: string[];
-    }[];
-  } = {
-    labels: [],
+  geographicalData = {
+    labels: [] as string[],
     datasets: [
       {
-        data: [],
+        data: [] as number[],
         backgroundColor: ["#5A54F9", "#8674FC", "#C084FC"],
         hoverBackgroundColor: ["#7165FA", "#9D8AFC", "#D29FFC"],
       },
@@ -118,23 +103,27 @@ export class SimulationDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.route.params.subscribe((params) => {
-      if (params['id']) {
-        this.isDetailRoute = true;
-      } else {
-        this.isDetailRoute = false;
-      }
+      this.isDetailRoute = !!params["id"];
     });
-    this.simulationService.getInvestorInfos()
+    this.simulationService.getInvestorInfos();
+  }
+
+  openDialog() {
+    this.isDialogVisible = true;
+  }
+
+  updateSimulationName(newName: string) {
+    if (!newName.trim()) return;
+    this.simulationName = newName;
   }
 
   updateSectorData(): void {
-    if (this.simulation?.sectors && this.simulation.sectors.length > 0) {
+    if (this.simulation?.sectors?.length) {
       this.sectorData = {
         labels: this.simulation.sectors.map(
           (sector: Sector) =>
-            sector.id.name + " (" + sector.sectorPercentage + "%)"
+            `${sector.id.name} (${sector.sectorPercentage}%)`
         ),
         datasets: [
           {
@@ -149,55 +138,31 @@ export class SimulationDetailComponent implements OnInit {
     }
   }
 
-  openDialog() {
-    this.isDialogVisible = true;
-  }
-
-  updateSimulationName(newName: string) {
-    if (!newName.trim()) {
+  updateScpiInvestmentData(): void {
+    const totalInvestment = this.simulation?.totalInvestment ?? 0;
+    if (!this.simulation?.scpiSimulations?.length || totalInvestment === 0) {
+      console.warn("⚠️ Données SCPI manquantes ou investissement total nul.");
       return;
     }
-    const formattedDate = new Date().toISOString().split("T")[0];
 
-    this.simulationName = newName;
+    this.geographicalData = {
+      labels: this.simulation.scpiSimulations.map(
+        (scpi: ScpiSimulation) => scpi.scpiName || `SCPI ${scpi.scpiId}`
+      ),
+      datasets: [
+        {
+          data: this.simulation.scpiSimulations.map((scpi: ScpiSimulation) =>
+            parseFloat(((scpi.rising / totalInvestment) * 100).toFixed(2))
+          ),
+          backgroundColor: ["#5A54F9", "#8674FC", "#C084FC"],
+          hoverBackgroundColor: ["#7165FA", "#9D8AFC", "#D29FFC"],
+        },
+      ],
+    };
   }
-
-  updateScpiInvestmentData(): void {
-    if (
-      this.simulation?.scpiSimulations &&
-      this.simulation.scpiSimulations.length > 0
-    ) {
-      const totalInvestment = this.simulation.totalInvestment;
-
-      if (totalInvestment === 0) {
-        console.warn(
-          "⚠️ Le total de l'investissement est à 0, impossible de calculer les pourcentages."
-        );
-        return;
-      }
-      this.geographicalData = {
-        labels: this.simulation.scpiSimulations.map(
-          (scpi: ScpiSimulation) => scpi.scpiName || `SCPI ${scpi.scpiId}`
-        ),
-        datasets: [
-          {
-            data: this.simulation.scpiSimulations.map((scpi: ScpiSimulation) =>
-              parseFloat(((scpi.rising / totalInvestment) * 100).toFixed(2))
-            ),
-            backgroundColor: ["#5A54F9", "#8674FC", "#C084FC"],
-            hoverBackgroundColor: ["#7165FA", "#9D8AFC", "#D29FFC"],
-          },
-        ],
-      };
-    }
-  }
-
 
   updateLocationData(): void {
-    if (
-      this.simulation?.locations &&
-      Array.isArray(this.simulation.locations)
-    ) {
+    if (Array.isArray(this.simulation?.locations)) {
       this.ListeLocations = this.simulation.locations.map((location: any) => ({
         countryPercentage: location.countryPercentage,
         id: {
@@ -209,25 +174,26 @@ export class SimulationDetailComponent implements OnInit {
   }
 
   getTotalGrossRevenue(): string {
-    if (!this.simulation || !this.simulation.scpiSimulations) {
-      return "0,00";
-    }
-    const total = this.simulation.scpiSimulations.reduce(
+    const total = this.simulation?.scpiSimulations?.reduce(
       (sum, scpi) => sum + (scpi.grossRevenue || 0),
       0
-    );
-    return total.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    ) ?? 0;
+
+    return total.toLocaleString("fr-FR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
   }
 
   getTotalNetRevenue(): string {
-    if (!this.simulation || !this.simulation.scpiSimulations) {
-      return "0,00";
-    }
-    const total = this.simulation.scpiSimulations.reduce(
+    const total = this.simulation?.scpiSimulations?.reduce(
       (sum, scpi) => sum + (scpi.netRevenue || 0),
       0
-    );
-    return total.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
+    ) ?? 0;
 
+    return total.toLocaleString("fr-FR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  }
 }
