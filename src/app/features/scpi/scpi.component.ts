@@ -1,6 +1,6 @@
-import { ScpiIndexModel} from "@/core/model/scpi.model";
+import { ScpiIndexModel } from "@/core/model/scpi.model";
 import { ScpiService } from "@/core/service/scpi.service";
-import { SearchMulticriteriaComponent } from "@/features/search-multicriteria/search-multicriteria.component";
+import { SearchMulticriteriaComponent } from "@/features/scpi/search-multicriteria/search-multicriteria.component";
 import { CommonModule } from "@angular/common";
 import { SkeletonModule } from "primeng/skeleton";
 import {
@@ -10,10 +10,19 @@ import {
   OnDestroy,
   OnInit,
 } from "@angular/core";
-import { catchError, of, Subscription } from "rxjs";
+import {
+  catchError,
+  filter,
+  of,
+  Subscription,
+  switchMap,
+  take,
+  tap,
+} from "rxjs";
 import { ScpiCardComponent } from "./components/scpi-card/scpi-card.component";
 import { UserService } from "@/core/service/user.service";
 import { ScpiInvestModalComponent } from "@/features/scpi/scpi-invest-modal/scpi-invest-modal.component";
+import { UserModel } from "@/core/model/user.model";
 
 @Component({
   selector: "app-scpi",
@@ -38,8 +47,6 @@ export class ScpiComponent implements OnInit, OnDestroy {
   noResultsMessage = false;
   loading = false;
 
-
-
   skeletonArray = new Array(10);
   images = Array.from({ length: 10 }, (_, i) => `img/scpi/${i + 1}.webp`);
   investirModalVisible = false;
@@ -53,29 +60,27 @@ export class ScpiComponent implements OnInit, OnDestroy {
     private userService: UserService
   ) {}
 
-  ngOnInit() {
-    this.userService.user$.subscribe((user) => {
-      if (!user) return;
-
-      this.loading = true;
-
-      this.subscriptions.add(
-        this.scpiService
-          .getScpiWithFilter({})
-          .pipe(
-            catchError((error) => {
+  ngOnInit(): void {
+    this.userService.user$
+      .pipe(
+        filter((user): user is UserModel => !!user),
+        take(1),
+        tap(() => (this.loading = true)),
+        switchMap(() =>
+          this.scpiService.getScpiWithFilter({}).pipe(
+            catchError(() => {
               this.loading = false;
               return of([]);
             })
           )
-          .subscribe((data: ScpiIndexModel[]) => {
-            this.scpis = data;
-            this.filteredScpis = [...data];
-            this.loading = false;
-            this.cdRef.detectChanges();
-          })
-      );
-    });
+        )
+      )
+      .subscribe((data: ScpiIndexModel[]) => {
+        this.scpis = data;
+        this.filteredScpis = [...data];
+        this.loading = false;
+        this.cdRef.detectChanges();
+      });
   }
 
   getImage(id: number | string): string {
@@ -91,13 +96,7 @@ export class ScpiComponent implements OnInit, OnDestroy {
     this.cdRef.detectChanges();
   }
 
-  openInvestirModal({
-    mode,
-    scpi,
-  }: {
-    mode: string;
-    scpi: ScpiIndexModel;
-  }) {
+  openInvestirModal({ mode, scpi }: { mode: string; scpi: ScpiIndexModel }) {
     this.modalMode = mode;
     this.selectedScpi = scpi;
     this.investirModalVisible = true;
