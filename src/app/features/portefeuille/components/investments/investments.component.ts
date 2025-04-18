@@ -44,7 +44,7 @@ export class InvestmentsComponent {
   //Surement je vais revenir adapter les states selon le ms partner
   tabStates = [
     { label: "Acceptée", value: "VALIDATED" },
-    { label: "En cours de traitement", value: "PROCESSING" },
+    { label: "En cours de traitement", value: "En cours" },
     { label: "En attente de paiement", value: "PENDING_PAYMENT" },
     { label: "Refusée", value: "REJECTED" },
   ];
@@ -145,7 +145,7 @@ export class InvestmentsComponent {
       VALIDATED: "Acceptée",
       REJECTED: "Refusée",
       PENDING_PAYMENT: "En attente de paiement",
-      PROCESSING: "En cours de traitement",
+      "En cours": "En cours de traitement"
     };
     return stateMap[state] || state;
   }
@@ -167,7 +167,7 @@ export class InvestmentsComponent {
         return "danger";
       case "PENDING_PAYMENT":
         return "info";
-      case "PROCESSING":
+      case "En cours":
         return "warn";
 
       default:
