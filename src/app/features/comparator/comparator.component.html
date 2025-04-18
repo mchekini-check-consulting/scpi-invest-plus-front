@@ -1,72 +1,63 @@
 <div class="scpi-comparator">
   <h2>Comparateur des SCPI</h2>
-  <div class="investment-container">
-    <label for="investmentAmount">Combien souhaitez-vous investir ?</label>
-    <input type="number" id="investmentAmount" [(ngModel)]="investValue" class="investment-input">
-  </div>
-  <div class="slider-container">
-    <p-slider
-      [(ngModel)]="investValue"
-      [min]="0"
-      [max]="100000"
-      [step]="100"
-      class="p-slider-custom"
-      (onChange)="compareScpis()"
-      (onSlideEnd)="compareScpis()">
-    </p-slider>
-  </div>
+  <form [formGroup]="form">
+    <div class="investment-container">
 
+      <label for="investmentAmount">Combien souhaitez-vous investir ?</label>
+      <input type="number" class="investment-input" id="investmentAmount" formControlName="investValue"
+        (input)="onInputChange()" [max]="100000">
+    </div>
+    <div class="slider-container">
+      <p-slider formControlName="investValue" [(ngModel)]="investValue" [min]="0" [max]="100000" [step]="100"
+        (onChange)="onInputChange()" class="p-slider-custom">
+      </p-slider>
+
+    </div>
+  </form>
   <table class="scpi-table">
     <thead>
-    <tr>
-      <th>SCPI</th>
-      <th *ngFor="let scpi of scpiResults; let i = index">
-        <p-dropdown
-          [options]="filteredScpis[i]"
-          [(ngModel)]="selectedScpis[i]"
-          optionLabel="name"
-          [showClear]="true"
-          [filter]="true"
-          filterPlaceholder="Rechercher une SCPI"
-          placeholder="Sélectionner une SCPI"
-          class="w-full md:w-56"
-          (onChange)="onScpiSelected(selectedScpis[i], i)">
-        </p-dropdown>
-      </th>
-    </tr>
+      <tr>
+        <th>SCPI</th>
+        <th *ngFor="let scpi of names; let i = index">
+          <p-dropdown [options]="names[i]" [(ngModel)]="selectedNames[i]" optionLabel="name" [showClear]="true"
+            [filter]="true" filterPlaceholder="Rechercher une SCPI" placeholder="Sélectionner une SCPI"
+            class="w-full md:w-56" (onChange)="onScpiSelected(selectedNames[i], i)">
+          </p-dropdown>
+        </th>
+      </tr>
     </thead>
     <tbody>
-    <tr>
-      <td><strong>Revenus mensuels & Rendement</strong></td>
-      <td *ngFor="let scpi of scpiResults">
-        <span class="revenus-value">{{ scpi?.revenusMensuels || '0,00 €' }}</span>
-        <span class="rendement-box"> {{ scpi?.rendement || '-' }} %</span>
-      </td>
-    </tr>
-    <tr>
-      <td>Frais de souscription</td>
-      <td *ngFor="let scpi of scpiResults">{{ scpi?.fraisSouscription || '€' }}</td>
-    </tr>
-    <tr>
-      <td>Cashback SCPI Invest+</td>
-      <td *ngFor="let scpi of scpiResults" class="cashback-red">{{ scpi?.cashback }}</td>
-    </tr>
-    <tr>
-      <td>Capitalisation</td>
-      <td *ngFor="let scpi of scpiResults">{{ scpi?.capitalisation }}</td>
-    </tr>
-    <tr>
-      <td>Fréquance des loyers</td>
-      <td *ngFor="let scpi of scpiResults">{{ scpi?.frequenceLoyers }}</td>
-    </tr>
-    <tr>
-      <td>Délai de jouissance</td>
-      <td *ngFor="let scpi of scpiResults">{{ scpi?.delaiJouissance }}</td>
-    </tr>
-    <tr>
-      <td>Montant minimum d'investissement</td>
-      <td *ngFor="let scpi of scpiResults">{{ scpi?.minimumInvest }}</td>
-    </tr>
+      <tr>
+        <td><strong>Revenus mensuels & Rendement</strong></td>
+        <td *ngFor="let scpi of scpiResults">
+          <span class="revenus-value">{{ scpi?.revenusMensuels || '0,00 €' }}</span>
+          <span class="rendement-box"> {{ scpi?.rendement || '-' }} %</span>
+        </td>
+      </tr>
+      <tr>
+        <td>Frais de souscription</td>
+        <td *ngFor="let scpi of scpiResults">{{ scpi?.fraisSouscription || '€' }}</td>
+      </tr>
+      <tr>
+        <td>Cashback SCPI Invest+</td>
+        <td *ngFor="let scpi of scpiResults" class="cashback-red">{{ scpi?.cashback }}</td>
+      </tr>
+      <tr>
+        <td>Capitalisation</td>
+        <td *ngFor="let scpi of scpiResults">{{ scpi?.capitalisation }}</td>
+      </tr>
+      <tr>
+        <td>Fréquance des loyers</td>
+        <td *ngFor="let scpi of scpiResults">{{ scpi?.frequenceLoyers }}</td>
+      </tr>
+      <tr>
+        <td>Délai de jouissance</td>
+        <td *ngFor="let scpi of scpiResults">{{ scpi?.delaiJouissance }}</td>
+      </tr>
+      <tr>
+        <td>Montant minimum d'investissement</td>
+        <td *ngFor="let scpi of scpiResults">{{ scpi?.minimumInvest }}</td>
+      </tr>
     </tbody>
   </table>
 </div>
