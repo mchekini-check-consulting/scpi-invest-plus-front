@@ -1,30 +1,24 @@
 .card-container {
   display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   justify-content: center;
-  align-items: center;
   margin: 1rem;
+  gap: 30px;
 }
 
 .custom-card {
+  flex: 0 0 calc(25% - 30px);
   text-align: center;
   background-color: #f4f4f4;
   border-radius: 0.5rem;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   padding: 1rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
   cursor: pointer;
 }
 
 .custom-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
-  background-color: #eaeaea;
-}
-
-.custom-card:active {
-  background-color: #dcdcdc;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
-  transform: translateY(2px);
+  color: red;
 }
 
 .card-title {
@@ -36,11 +30,19 @@
 .card-value {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #3b5998;
+  color: #215acc;
   margin: 1rem 0;
+}
+
+.card-value:hover {
+  color: #2bbd57;
 }
 
 .card-subtitle {
   font-size: 1rem;
   color: #777;
+}
+
+.card-subtitle:hover {
+  color: black;
 }

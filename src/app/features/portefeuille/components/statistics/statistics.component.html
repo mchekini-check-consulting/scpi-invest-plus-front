@@ -1,0 +1,61 @@
+<div class="card-container" *ngIf="statistics as stats">
+  <p-card
+    [style]="{ width: '22rem', overflow: 'hidden' }"
+    styleClass="custom-card"
+  >
+    <ng-template pTemplate="title">
+      <div class="card-title">Montant investi</div>
+    </ng-template>
+    <ng-template pTemplate="value">
+      <div class="card-value">{{ stats?.montantInvesti }} €</div>
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+      <div class="card-subtitle">Capital investi à ce jour</div>
+    </ng-template>
+  </p-card>
+
+  <p-card
+    [style]="{ width: '22rem', overflow: 'hidden' }"
+    styleClass="custom-card"
+  >
+    <ng-template pTemplate="title">
+      <div class="card-title">Rendement moyen</div>
+    </ng-template>
+    <ng-template pTemplate="value">
+      <div class="card-value">{{ stats.rendementMoyen }} %</div>
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+      <div class="card-subtitle">Sur l'ensemble des investissements</div>
+    </ng-template>
+  </p-card>
+
+  <p-card
+    [style]="{ width: '22rem', overflow: 'hidden' }"
+    styleClass="custom-card"
+  >
+    <ng-template pTemplate="title">
+      <div class="card-title">Revenu mensuel</div>
+    </ng-template>
+    <ng-template pTemplate="value">
+      <div class="card-value">{{ stats.revenuMensuel }} €</div>
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+      <div class="card-subtitle">Revenu net perçu</div>
+    </ng-template>
+  </p-card>
+
+  <p-card
+    [style]="{ width: '22rem', overflow: 'hidden' }"
+    styleClass="custom-card"
+  >
+    <ng-template pTemplate="title">
+      <div class="card-title">Cashback</div>
+    </ng-template>
+    <ng-template pTemplate="value">
+      <div class="card-value">{{ stats.cashbackMontant }} €</div>
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+      <div class="card-subtitle">Vos bonus cumulés</div>
+    </ng-template>
+  </p-card>
+</div>
