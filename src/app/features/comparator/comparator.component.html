@@ -18,8 +18,8 @@
     <thead>
       <tr>
         <th>SCPI</th>
-        <th *ngFor="let scpi of names; let i = index">
-          <p-dropdown [options]="names[i]" [(ngModel)]="selectedNames[i]" optionLabel="name" [showClear]="true"
+        <th *ngFor="let scpi of filteredNames; let i = index">
+          <p-dropdown [options]="filteredNames[i]" [(ngModel)]="selectedNames[i]" optionLabel="name" [showClear]="true"
             [filter]="true" filterPlaceholder="Rechercher une SCPI" placeholder="Sélectionner une SCPI"
             class="w-full md:w-56" (onChange)="onScpiSelected(selectedNames[i], i)">
           </p-dropdown>
