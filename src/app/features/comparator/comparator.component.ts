@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Details } from '@/core/model/Details';
-import { DetailsDetailsService } from '@/core/service/details-details.service';
-import { TableModule } from 'primeng/table';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators, FormControl } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
-import { NgForOf } from '@angular/common';
-import { Slider } from 'primeng/slider';
+import {Component, OnInit} from '@angular/core';
+import {Details} from '@/core/model/Details';
+import {DetailsDetailsService} from '@/core/service/details-details.service';
+import {TableModule} from 'primeng/table';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {DropdownModule} from 'primeng/dropdown';
+import {NgForOf} from '@angular/common';
+import {Slider} from 'primeng/slider';
 
 @Component({
   selector: 'app-comparator',
@@ -23,7 +23,8 @@ import { Slider } from 'primeng/slider';
 export class ComparatorComponent implements OnInit {
 
 
-  names: any[] = [];
+  allNames: { name: string }[] = [];
+  filteredNames: { name: string }[][] = [[], [], []];
   selectedNames: ({ name: string } | null)[] = [null, null, null];
   scpiList: (Details | null)[] = [null, null, null];
   scpiResults: any[] = [];
@@ -33,8 +34,9 @@ export class ComparatorComponent implements OnInit {
   investValue: number = 0;
 
   constructor(private detailsService: DetailsDetailsService,
-    private fb: FormBuilder
-  ) { }
+              private fb: FormBuilder
+  ) {
+  }
 
   ngOnInit() {
     this.ListNames();
@@ -52,19 +54,32 @@ export class ComparatorComponent implements OnInit {
       this.compareScpis();
     });
   }
+
   ListNames() {
     this.detailsService.getScpiNames().subscribe(
       (data: string[]) => {
-        this.names = [...Array(3).fill(data.map(name => ({ name })))];
+        this.allNames = data.map(name => ({name}));
+        this.updateFilteredNames();
       },
       (error) => {
-        console.error("Erreur lors du chargement des noms des scpis");
-        console.log(error);
+        console.error("Erreur lors du chargement des noms des scpis :", error);
       }
     );
   }
 
+  updateFilteredNames() {
+    this.filteredNames = this.selectedNames.map((selected, index) => {
+      const otherScpi = this.selectedNames
+        .filter((_, i) => i !== index)
+        .map(s => s?.name);
+
+      return this.allNames.filter(option => !otherScpi.includes(option.name));
+    });
+  }
+
+
   onScpiSelected(selected: any, index: number) {
+
     const name = selected?.name ?? null;
     if (!name) {
       this.scpiList[index] = null;
@@ -94,6 +109,7 @@ export class ComparatorComponent implements OnInit {
         console.error('Erreur lors de la récupération des détails :', err);
       }
     });
+    this.updateFilteredNames();
   }
 
   compareScpis() {
@@ -141,13 +157,14 @@ export class ComparatorComponent implements OnInit {
   initScpiResults() {
     this.scpiResults = [this.initScpiResult(), this.initScpiResult(), this.initScpiResult()];
   }
+
   SetValueSlider(valText: number) {
     this.form.get('investValue')?.setValue(valText);
   }
 
   onInputChange() {
     const value = this.form.get('investValue')?.value;
-    this.form.get('investValue')?.setValue(value, { emitEvent: false });
+    this.form.get('investValue')?.setValue(value, {emitEvent: false});
   }
 }
 
