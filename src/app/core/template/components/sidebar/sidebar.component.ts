@@ -23,7 +23,8 @@ export const ROUTES: RouteInfo[] = [
   {path: '/comparateur', title: 'Comparateur SCPI', key: 'SIDEBAR.COMPARATEUR', icon: 'pi pi-chart-bar', class: '', feature: 'comparateur'},
   {path: '/credit', title: 'Crédit', key: 'SIDEBAR.CREDIT', icon: 'pi pi-credit-card', class: '', feature: 'credit'},
   {path: '/profile', title: 'Mes informations', key: 'SIDEBAR.MY-PROFILE', icon: 'pi pi-user', class: '', feature: 'profile'},
-  {path: '/plans', title: 'Gestion des plans', key: 'SIDEBAR.PLANS', icon: 'pi pi-sitemap', class: '', feature: 'plans'}
+  {path: '/plans', title: 'Gestion des plans', key: 'SIDEBAR.PLANS', icon: 'pi pi-sitemap', class: '', feature: 'plans'},
+  {path: '/explorer', title: 'Explorateur des SCPIs', key: 'SIDEBAR.EXPLORER', icon: 'pi pi-search', class: '', feature: 'explorer'}
   ];
 
 @Component({

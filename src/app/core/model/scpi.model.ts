@@ -15,7 +15,7 @@ export type ScpiIndexModel = {
   enjoymentDelay: number;
   managementCosts: number;
   subscriptionFeesBigDecimal: number;
-  mashedScore: number;
+  matchedScore: number;
 };
 
 export type LocationIndexModel = {

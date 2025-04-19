@@ -7,9 +7,7 @@ import { TableModule } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
 import { ScpiService } from '../../core/service/explorer.service';
 import { ScpiIndexModel } from '@/core/model/scpi.model';
-import { ScpiCardComponent } from '../scpi/components/scpi-card/scpi-card.component'
-//"..//components/scpi-card/scpi-card.component";
-
+import { ScpiScoreComponent } from '../../features/explorer/ScpiScoringResult/scpi.score.component'
 interface Critere {
   nom: string;
   facteur: number;
@@ -27,9 +25,9 @@ export class CriteriaIn {
 }
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-explorer',
   standalone: true,
-  imports: [DropdownModule, ButtonModule, InputTextModule, TableModule, FormsModule, CommonModule, ScpiCardComponent],
+  imports: [DropdownModule, ButtonModule, InputTextModule, TableModule, FormsModule, CommonModule, ScpiScoreComponent],
   templateUrl: './explorer.component.html',
   styleUrls: ['./explorer.component.css'],
 })
@@ -39,7 +37,7 @@ export class ExplorerComponent implements OnInit {
     { label: 'Taux de rendement', value: 'distributionRate' },
     { label: 'Délais de jouissance', value: 'enjoymentDelay' },
     { label: 'Frais de gestion', value: 'managementCosts' },
-    { label: 'Frais de souscription', value: 'subscriptionFees' },
+    { label: 'Frais de souscription', value: 'subscriptionFeesBigDecimal' },
     { label: 'Capitalisation', value: 'capitalization' },
   ];
   criteres: Critere[] = [];
@@ -81,30 +79,32 @@ export class ExplorerComponent implements OnInit {
 
   validerFormulaire() {
     let isValid = true;
-
+  
     this.criteres.forEach(critere => {
-      if (!critere.nom || critere.facteur <= 0) {
+      if (!critere.nom || critere.facteur < 1 || critere.facteur > 10) {
         critere.isValid = false;
         isValid = false;
       } else {
         critere.isValid = true;
       }
     });
-
+  
     if (isValid) {
       const criteriaList: CriteriaIn[] = this.criteres
         .filter(critere => critere.nom !== '')
         .map(critere => new CriteriaIn(critere.nom, critere.facteur));
-
+  
       console.log("Critères envoyés :", criteriaList);
-
+  
       localStorage.setItem('criteres', JSON.stringify(this.criteres));
-
+  
+      // ✅ Réinitialiser les résultats avant la requête
+      this.scpiResults = [];
+      localStorage.removeItem('scpiResults');
+  
       this.scpiService.sendCriteria(criteriaList).subscribe(
         (response: ScpiIndexModel[]) => {
-          console.log('SCPI reçues:', response);
-          this.scpiResults = mapScpiData(response);
-
+          this.scpiResults = response;
           localStorage.setItem('scpiResults', JSON.stringify(this.scpiResults));
         },
         error => console.error('Erreur API:', error)
@@ -112,15 +112,21 @@ export class ExplorerComponent implements OnInit {
     }
   }
 
+
+
   reinitialiserCriteres() {
     this.criteres = [
-      { nom: '', facteur: 0, isValid: true },
-      { nom: '', facteur: 0, isValid: true },
-      { nom: '', facteur: 0, isValid: true },
-      { nom: '', facteur: 0, isValid: true },
+      { nom: '', facteur: 1, isValid: true },
+      { nom: '', facteur: 1, isValid: true },
+      { nom: '', facteur: 1, isValid: true },
+      { nom: '', facteur: 1, isValid: true },
     ];
-
+    this.scpiResults = [];
+    localStorage.removeItem('criteres');
+    localStorage.removeItem('scpiResults');
   }
+
+
 }
 
 
@@ -154,7 +160,7 @@ function mapScpiData(scpiData: any[]): ScpiIndexModel[] {
     enjoymentDelay: scpi.enjoymentDelay ?? 0,
     managementCosts: scpi.managementCosts ?? 0,
     subscriptionFeesBigDecimal: scpi.subscriptionFeesBigDecimal ?? 0,
-    mashedScore: scpi.mashedScore ?? 0,
+    matchedScore: scpi.matchedScore ?? 0,
   }));
 }
 

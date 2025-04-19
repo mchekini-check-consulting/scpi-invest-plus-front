@@ -8,15 +8,13 @@ import { Observable } from 'rxjs';
 
 
 export class ScpiService {
-  private apiUrl = 'http://localhost:8082/api/scpi/search';
+  private apiUrl = "/api/v1/scpi/ScoreSearch";
 
   constructor(private http: HttpClient) {}
 
   sendCriteria(criteria: any): Observable<any> {
-    console.log("### Les critères envoyés au backend : ", criteria);
-  
-    criteria.forEach((crit: any, index: number) => {
-      console.log(`Critère ${index + 1} - Nom: ${crit.name}, Facteur: ${crit.factor}`);
-    });    return this.http.post(this.apiUrl, criteria);
+    return this.http.post(this.apiUrl, criteria);
   }
+
+  
 }

@@ -1,0 +1,23 @@
+<div class="list-scpi">
+  <ng-container *ngFor="let scpi of scpis">
+    <app-scpi-card
+      (onClick)="openInvestirModal({ mode: 'investir', scpi })"
+      [addScpi]="addScpi"
+      [image]="getImage(scpi.scpiId)"
+      [isAddingScpi]="isAddingScpi"
+      [scpi]="scpi"
+      [matchedScore]="scpi.matchedScore"
+    />
+  </ng-container>
+</div>
+
+<ng-container *ngIf="selectedScpi">
+  <app-scpi-invest-modal
+    (close)="closeInvestirModal()"
+    [addScpi]="addScpi"
+    [mode]="modalMode"
+    [scpi]="selectedScpi"
+    [visible]="investirModalVisible"
+  >
+  </app-scpi-invest-modal>
+</ng-container>

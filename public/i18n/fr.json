@@ -8,7 +8,9 @@
     "MY-PROFILE": "Mes informations",
     "PLANS": "Gestion des plans",
     "CREDIT": "Crédit",
-    "PORTEFEUILLE": "Portefeuille"
+    "PORTEFEUILLE": "Portefeuille",
+    "EXPLORER": "Explorateur des SCPI"
+
   },
   "LIST-SCPI": {
     "TITLE": "Investir"
