@@ -29,8 +29,6 @@ export class ComparatorComponent implements OnInit {
   scpiList: (Details | null)[] = [null, null, null];
   scpiResults: any[] = [];
   form!: FormGroup;
-  investControl!: FormControl;
-
   investValue: number = 0;
 
   constructor(private detailsService: DetailsDetailsService,
@@ -85,6 +83,7 @@ export class ComparatorComponent implements OnInit {
       this.scpiList[index] = null;
       this.selectedNames[index] = null;
       this.compareScpis();
+      this.updateFilteredNames();
       return;
     }
 
