@@ -42,8 +42,8 @@ export class ScheduledPaymentComponent {
   private readonly LABEL_YEARS = [5, 10, 20, 30];
   private readonly MAX_YEARS = 30;
 
-  totalValue: Record<string, number> = {};
-  revenueValue: Record<string, number> = {};
+  investedByYear: Record<string, number> = {};
+  estimatedRevenueByYear: Record<string, number> = {};
 
   selectedScpi: ScpiIndexModel | null = null;
   customGrowthRate: number = 0;
@@ -130,32 +130,32 @@ export class ScheduledPaymentComponent {
     );
 
     const sharePrice = this.selectedScpi?.sharePrice || 0;
-    const distributionRate =
-      (this.selectedScpi?.distributionRate || 0) / 100;
+    const distributionRate = (this.selectedScpi?.distributionRate || 0) / 100;
     const initialDepositAmount = this.investment.initialDeposit * sharePrice;
     const yearlyInvestment = sharePrice * this.investment.numberShares * 12;
     const growthRate = Number(this.customGrowthRate) || 0;
 
-    const valueData: number[] = [initialDepositAmount];
-    const revenueData: number[] = [0];
+    const investedData: number[] = [initialDepositAmount];
+    const estimatedRevenueData: number[] = [0];
 
-    let cumulativeRevenue = 0;
-    let totalValue = initialDepositAmount;
+    let totalInvested = initialDepositAmount;
+    let totalEstimatedRevenue = 0;
 
     for (let year = 1; year <= this.MAX_YEARS; year++) {
       const growthFactor = growthRate ? 1 + growthRate / 100 : 1;
-      totalValue = totalValue * growthFactor + yearlyInvestment;
+      totalInvested = totalInvested * growthFactor + yearlyInvestment;
 
-      const revenueBase = valueData[year - 1];
-      cumulativeRevenue +=
-        revenueBase * (distributionRate + (growthRate ? growthRate / 100 : 0));
+      const lastYearInvestedData = investedData[year - 1];
+      totalEstimatedRevenue +=
+        lastYearInvestedData *
+        (distributionRate + (growthRate ? growthRate / 100 : 0));
 
-      valueData.push(Math.round(totalValue));
-      revenueData.push(Math.round(cumulativeRevenue));
+      investedData.push(Math.round(totalInvested));
+      estimatedRevenueData.push(Math.round(totalEstimatedRevenue));
 
       if (this.LABEL_YEARS.includes(year)) {
-        this.totalValue[year] = Math.round(totalValue);
-        this.revenueValue[year] = Math.round(cumulativeRevenue);
+        this.investedByYear[year] = Math.round(totalInvested);
+        this.estimatedRevenueByYear[year] = Math.round(totalEstimatedRevenue);
       }
     }
 
@@ -163,15 +163,15 @@ export class ScheduledPaymentComponent {
       labels: simulationYears.map((y) => `${y} an${y > 1 ? "s" : ""}`),
       datasets: [
         {
-          label: "Valeur totale",
-          data: valueData,
+          label: "Total investi",
+          data: investedData,
           borderColor: "#007bff",
           backgroundColor: "rgba(0, 123, 255, 0.2)",
           fill: true,
         },
         {
-          label: "Revenus cumulés",
-          data: revenueData,
+          label: "Revenus estimés",
+          data: estimatedRevenueData,
           borderColor: "#28a745",
           backgroundColor: "rgba(40, 167, 69, 0.2)",
           fill: true,

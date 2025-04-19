@@ -18,11 +18,11 @@
         </div>
 
         <div class="stats-container">
-          <p-panel header="Revenus cumulés" class="stats-card">
-            <p class="text-green">{{ revenueValue[yearValue] | number:'1.0-0' }} €</p>
+          <p-panel header="Revenus estimés" class="stats-card">
+            <p class="text-green">{{ estimatedRevenueByYear[yearValue] | number:'1.0-0' }} €</p>
           </p-panel>
-          <p-panel header="Valeur totale" class="stats-card">
-            <p class="text-blue">{{ totalValue[yearValue] | number:'1.0-0' }} €</p>
+          <p-panel header="Total investi" class="stats-card">
+            <p class="text-blue">{{ investedByYear[yearValue] | number:'1.0-0' }} €</p>
           </p-panel>
         </div>
 
