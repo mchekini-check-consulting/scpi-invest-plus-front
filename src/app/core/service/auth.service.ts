@@ -17,9 +17,7 @@ export class AuthService {
     this.oauthService.configure(authCodeFlowConfig);
 
     this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
-      if (!this.oauthService.hasValidAccessToken()) {
-        this.oauthService.initLoginFlow();
-      } else {
+      if (this.oauthService.hasValidAccessToken()) {
         this.setupRefreshToken();
       }
     });
@@ -44,6 +42,10 @@ export class AuthService {
           .catch(err => console.error('Erreur lors du refresh token', err));
       }
     }, 1200000);
+  }
+
+  login(){
+    this.oauthService.initLoginFlow()
   }
 
 

@@ -1,0 +1,263 @@
+.landing-page {
+  font-family: "Segoe UI", sans-serif;
+}
+
+.header {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  background: url("assets/image/logo.png") no-repeat center;
+  background-size: 200px;
+  width: 200px;
+  height: 60px;
+}
+
+.auth-button {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.btn-primary:hover {
+  background-color: #bfc4cf;
+  transform: scale(1.05);
+}
+
+.auth-button .btn-primary {
+  background-color: #3b5998;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  height: 100vh;
+  background: url("assets/image/picture.jpg") center/cover no-repeat;
+  font-family: "Segoe UI", sans-serif;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.486); 
+  z-index: 0;
+  pointer-events: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.background-home {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+  color: white;
+}
+
+.background-home h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  max-width: 800px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.795);
+}
+
+.background-home p {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.btn-savoir {
+  display: flex;
+  gap: 10px;
+}
+
+.background-home button {
+  background-color: #3b5998;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  padding: 15px 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+  text-decoration: none;
+}
+
+.background-home .btn-secondary {
+  background-color: #f1f4f7;
+  border: none;
+  color: rgb(55, 83, 177);
+  font-size: 1.2rem;
+  padding: 15px 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+  text-decoration: none;
+}
+
+.background-home button:hover {
+  background-color: #213f7e;
+  transform: scale(1.05);
+}
+
+.btn-secondary:hover {
+  background-color: #bfc4cf;
+  transform: scale(1.05);
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.hero-buttons .btn-secondary {
+  background-color: #004aad;
+  color: white;
+  padding: 12px 30px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.features-container {
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text-container {
+  max-width: 800px;
+  margin-bottom: 40px;
+}
+
+.feat-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.feat-subtitle {
+  font-size: 1.2rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1000px;
+  justify-items: center;
+}
+
+.feature-card {
+  width: 100%;
+  max-width: 300px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border: none;
+  transition: transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.icon-circle {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background-color: #e5f0ff;
+  border-radius: 50%;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feat-title{
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.feat-subtitle{
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.feature-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.feature-card p {
+  font-size: 1rem;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.delay-0 {
+  animation-delay: 0s;
+}
+
+.delay-1 {
+  animation-delay: 0.2s;
+}
+
+.delay-2 {
+  animation-delay: 0.4s;
+}
+
+.footer {
+  text-align: center;
+  background-color: #f9f9f9;
+  padding: 20px;
+}

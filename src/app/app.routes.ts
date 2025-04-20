@@ -16,20 +16,24 @@ import { ScheduledPaymentComponent } from "@/features/scheduled-payment/schedule
 import { NotFoundComponent } from "@/features/not-found/not-found.component";
 import { UnauthorizedComponent } from "@/features/unauthorized/unauthorized.component";
 import { SimulationDetailComponent } from "./features/simulation/components/simulation-detail/simulation-detail.component";
+import { LandingComponent } from "./features/landing/landing.component";
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: LandingComponent,
+  },
   {
     path: "",
     component: TemplateComponent,
     children: [
       {
-        path: "",
+        path: "dashboard",
         component: ScpiComponent,
       },
       {
         path: "scpi",
         component: ScpiComponent,
-        canActivate: [AuthGuard],
       },
       {
         path: "profile",
@@ -101,6 +105,5 @@ export const routes: Routes = [
       { path: "unauthorized", component: UnauthorizedComponent },
     ],
   },
-
   { path: "**", component: NotFoundComponent },
 ];
