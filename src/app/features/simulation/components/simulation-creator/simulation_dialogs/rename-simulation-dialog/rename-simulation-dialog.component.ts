@@ -47,6 +47,7 @@ export class RenameSimulationDialogComponent {
 
     this.simulationService.simulation$.pipe(take(1)).subscribe((simulation) => {
       this.simulation = simulation;
+
       let today = new Date();
       let day = String(today.getDate()).padStart(2, "0");
       let month = String(today.getMonth() + 1).padStart(2, "0");
@@ -61,7 +62,10 @@ export class RenameSimulationDialogComponent {
           scpiId: scpi.scpiId,
           numberPart: scpi.numberPart,
           partPrice: scpi.partPrice,
+          statYear: scpi.statYear,
           rising: scpi.rising,
+          grossRevenue: scpi.grossRevenue,
+          netRevenue: scpi.netRevenue,
           duree: scpi.duree,
           dureePercentage: scpi.dureePercentage,
           propertyType: scpi.propertyType,
@@ -69,7 +73,7 @@ export class RenameSimulationDialogComponent {
       };
 
       this.simulationService.createSimulation(simulationCreation).subscribe({
-        next: (response) => {
+        next: () => {
           this.router.navigate([`simulations`]);;
         },
         error: (error) => {

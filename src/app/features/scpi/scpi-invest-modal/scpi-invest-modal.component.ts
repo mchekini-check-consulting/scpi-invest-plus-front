@@ -252,7 +252,6 @@ export class ScpiInvestModalComponent implements OnInit {
 
   private createSimulation(scpiData: any, investmentData: any): any {
     return {
-      id: -1,
       name: "Simulation",
       monthlyIncome: 0,
       totalInvestment: investmentData.totalInvestment ?? 0,

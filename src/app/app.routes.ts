@@ -10,11 +10,11 @@ import { ProfileComponent } from "@/features/profile/components/profile.componen
 import { ScpiHistoryDetailsComponent } from "@/features/scpi/details/components/scpi-history/scpi-history-details.component";
 import { SimulationComponent } from "@/features/simulation/container/simulation.component";
 import { ComparatorComponent } from "@/features/comparator/comparator.component";
-import { SimulationDetailComponent } from "@/features/simulation/simulation-detail/simulation-detail.component";
 import { CreditComponent } from "@/features/credit/credit.component";
 import { PlanComponent } from "@/features/plan/plan.component";
 import { ScheduledPaymentComponent } from "@/features/scheduled-payment/scheduled-payment.component";
 import { NotFoundComponent } from "@/features/not-found/not-found.component";
+import { SimulationDetailComponent } from "./features/simulation/components/simulation-detail/simulation-detail.component";
 
 export const routes: Routes = [
   {

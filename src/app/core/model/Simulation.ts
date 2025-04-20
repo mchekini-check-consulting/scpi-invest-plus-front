@@ -44,6 +44,8 @@ export interface ScpiSimulation {
   statYear : number
   netRevenue: number,
   grossRevenue:number,
+  locations: Location[];
+  sectors: Sector[];
 }
 
 

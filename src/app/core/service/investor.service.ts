@@ -18,7 +18,7 @@ export class InvestorService {
 
   constructor(private http: HttpClient) {}
 
-  getInvestorByEmail(email: string): Observable<Investor> {
+  getInvestorByEmail(): Observable<Investor> {
     return this.http.get<Investor>(`${this.apiUrl}`).pipe(
       catchError((error) => {
         return throwError(() => error);
@@ -27,7 +27,7 @@ export class InvestorService {
   }
 
   createOrUpdateInvestor(email: string, investorData: any): Observable<any> {
-    return this.getInvestorByEmail(email).pipe(
+    return this.getInvestorByEmail().pipe(
       catchError((error: HttpErrorResponse) =>
         error.status === 404
           ? this.http.post(`${this.apiUrl}`, investorData)

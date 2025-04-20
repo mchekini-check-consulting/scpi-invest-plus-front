@@ -29,7 +29,6 @@ export class SimulationCreatorComponent implements OnInit{
   isDialogVisible = false;
   simulationName = 'Simulation';
   investorEmail: string = '';
-  simulationId : number = -1;
 
   constructor(
     private simulationService: SimulationService,
