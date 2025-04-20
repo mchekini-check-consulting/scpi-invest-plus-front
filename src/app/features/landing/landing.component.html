@@ -1,0 +1,67 @@
+<div class="landing-page">
+  <header class="header">
+    <div class="logo"></div>
+    <div class="auth-button">
+      <button class="btn-primary" (click)="register()">S'inscrire</button>
+      <button class="btn-primary" (click)="login()">Se connecter</button>
+    </div>
+  </header>
+  <body>
+    <div class="background-home">
+      <h1>Investissez votre capital dans les SCPI dès maintenant</h1>
+      <p>
+        Placez votre argent dans des SCPI à haut rendement et percevez des
+        loyers<br />
+        réguliers, sans les contraintes de gestions.
+      </p>
+      <div class="btn-savoir">
+        <button (click)="login()">Rejoignez-nous</button>
+        <a href="#infos" class="btn-secondary">En savoir plus</a>
+      </div>
+    </div>
+  </body>
+
+  <div id="infos" class="features-container">
+    <div class="text-container">
+      <h2 class="feat-title">À propos de notre plateforme</h2>
+      <p class="feat-subtitle">
+        Nous simplifions l’investissement immobilier grâce aux SCPI, un
+        placement fiable et accessible. Notre mission est de vous aider à faire
+        fructifier votre capital, en toute sérénité.
+      </p>
+    </div>
+
+    <div class="cards-container">
+      <p-card class="feature-card fade-in delay-0">
+        <div class="icon-circle">💼</div>
+        <h3>Accessibilité</h3>
+        <p>
+          Investissez à partir de quelques centaines d’euros, sans contraintes
+          administratives.
+        </p>
+      </p-card>
+
+      <p-card class="feature-card fade-in delay-1">
+        <div class="icon-circle">📈</div>
+        <h3>Rentabilité</h3>
+        <p>
+          Profitez de rendements attractifs et de revenus réguliers versés
+          chaque trimestre.
+        </p>
+      </p-card>
+
+      <p-card class="feature-card fade-in delay-2">
+        <div class="icon-circle">🛡️</div>
+        <h3>Sécurité</h3>
+        <p>
+          Votre investissement est diversifié sur plusieurs biens immobiliers
+          gérés par des experts.
+        </p>
+      </p-card>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2025 SCPI Invest. Tous droits réservés.</p>
+  </footer>
+</div>
