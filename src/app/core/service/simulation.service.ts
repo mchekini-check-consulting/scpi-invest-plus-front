@@ -68,7 +68,14 @@ export class SimulationService {
   getSimulationById(id: string | number): Observable<Simulation> {
     return this.http.get<Simulation>(this.apiUrl + "/" + id).pipe(
       tap<Simulation>((simulation) => {
-        this.simulationSubject.next(simulation);
+        const locations = this.calculateLocations(simulation.scpiSimulations,simulation.totalInvestment);
+        const sectors = this.calculateSectors(simulation.scpiSimulations,simulation.totalInvestment);
+        const updatedSimulation: Simulation = {
+          ...simulation,
+          locations,
+          sectors
+        };
+        this.simulationSubject.next(updatedSimulation);
       })
     );
   }
@@ -89,7 +96,7 @@ export class SimulationService {
   ): Observable<Simulation> {
     const currentSimulation = this.simulationSubject.value;
 
-    if (!currentSimulation || !currentSimulation.id) {
+    if (!currentSimulation) {
       return throwError(() => new Error("Aucune simulation sélectionnée."));
     }
 
@@ -117,108 +124,54 @@ export class SimulationService {
 
 
   calculateSimulationResults(simulationCreation: Simulation): void {
-    if (
-      !simulationCreation.scpiSimulations ||
-      simulationCreation.scpiSimulations.length === 0
-    ) {
+    const scpiSimulations = simulationCreation.scpiSimulations;
+
+    if (!scpiSimulations || scpiSimulations.length === 0) {
       console.warn("Aucune SCPI simulation trouvée.");
       return;
     }
 
     let monthlyIncome = 0;
-    const sectorInvestments: Map<string, number> = new Map();
-    const countryInvestments: Map<string, number> = new Map();
 
-    simulationCreation.scpiSimulations.forEach((scpiSimulation: any) => {
-      const rate = scpiSimulation.statYear;
-      const investedAmount = scpiSimulation.rising;
 
-      const income = investedAmount * (rate / 100);
-      monthlyIncome += income;
-
-      if (
-        scpiSimulation?.locations &&
-        Array.isArray(scpiSimulation.locations)
-      ) {
-        scpiSimulation.locations.forEach((location: Location) => {
-          const countryName = location.id.country;
-          const countryPercentage = location.countryPercentage;
-
-          const investedAmountInCountry =
-            (investedAmount * countryPercentage) / 100;
-          countryInvestments.set(
-            countryName,
-            (countryInvestments.get(countryName) || 0) + investedAmountInCountry
-          );
-        });
-      } else {
-        console.error(
-          "scpiSimulation.locations est undefined ou n'est pas un tableau",
-          scpiSimulation?.locations
-        );
-      }
-
-      scpiSimulation.sectors.forEach((sector: Sector) => {
-        const sectorName = sector.id.name;
-        const sectorPercentage = sector.sectorPercentage;
-
-        const investedAmountInSector =
-          (investedAmount * sectorPercentage) / 100;
-        sectorInvestments.set(
-          sectorName,
-          (sectorInvestments.get(sectorName) || 0) + investedAmountInSector
-        );
-      });
+    scpiSimulations.forEach((scpi: ScpiSimulation) => {
+      const rate = scpi.statYear;
+      const investedAmount = scpi.rising;
+      monthlyIncome += investedAmount * (rate / 100);
     });
 
-    // Arrondi des pourcentages
-    const locations = Array.from(countryInvestments.entries()).map(
-      ([countryName, total]) => ({
-        id: {country: countryName},
-        countryPercentage:
-          Math.round((total / simulationCreation.totalInvestment) * 100 * 100) /
-          100,
-      })
-    );
 
-    const sectors = Array.from(sectorInvestments.entries()).map(
-      ([sectorName, total]) => ({
-        id: {name: sectorName},
-        sectorPercentage:
-          Math.round((total / simulationCreation.totalInvestment) * 100 * 100) /
-          100,
-      })
-    );
+    const locations = this.calculateLocations(scpiSimulations, simulationCreation.totalInvestment);
+    const sectors = this.calculateSectors(scpiSimulations, simulationCreation.totalInvestment);
+
 
     const simulationResult = {
-      id: -1,
       name: simulationCreation.name,
       simulationDate: new Date().toISOString().split("T")[0],
       monthlyIncome,
       totalInvestment: simulationCreation.totalInvestment,
-      scpiSimulations: simulationCreation.scpiSimulations.map(
-        (scpiSimulation: ScpiSimulation) => ({
-          scpiId: scpiSimulation.scpiId,
-          numberPart: scpiSimulation.numberPart,
-          statYear: scpiSimulation.statYear,
-          partPrice: scpiSimulation.partPrice,
-          rising: scpiSimulation.rising,
-          duree: scpiSimulation.duree,
-          dureePercentage: scpiSimulation.dureePercentage,
-          grossRevenue: this.calculateGrossRevenue(scpiSimulation),
-          netRevenue: this.calculateNetRevenue(scpiSimulation, locations),
-          propertyType: scpiSimulation.propertyType,
-          scpiName: scpiSimulation.scpiName,
-          locations: [...locations],
-          sectors: [...sectors],
-        })
-      ),
-      locations: [...locations],
-      sectors: [...sectors],
+      scpiSimulations: scpiSimulations.map((scpi: ScpiSimulation) => ({
+        scpiId: scpi.scpiId,
+        numberPart: scpi.numberPart,
+        statYear: scpi.statYear,
+        partPrice: scpi.partPrice,
+        rising: scpi.rising,
+        duree: scpi.duree,
+        dureePercentage: scpi.dureePercentage,
+        grossRevenue: this.calculateGrossRevenue(scpi),
+        netRevenue: this.calculateNetRevenue(scpi, locations),
+        propertyType: scpi.propertyType,
+        scpiName: scpi.scpiName,
+        locations: [...locations],
+        sectors: [...sectors],
+      })),
+      locations,
+      sectors,
     };
 
     this.simulationSubject.next(simulationResult);
   }
+
 
 
   private calculateGrossRevenue(scpi: ScpiSimulation): number {
@@ -315,13 +268,67 @@ export class SimulationService {
       return;
     }
 
-    this.investorService.getInvestorByEmail(user.email).subscribe({
+    this.investorService.getInvestorByEmail().subscribe({
       next: (investorData) => {
         this.investor = investorData;
+
+
       },
       error: (err) => {
         console.error("Erreur lors de la récupération de l'investisseur", err);
       },
     });
   }
+
+  private calculateLocations(scpiSimulations: ScpiSimulation[], totalInvestment: number): any[] {
+    const countryInvestments: Map<string, number> = new Map();
+
+    scpiSimulations.forEach((scpiSimulation) => {
+      const investedAmount = scpiSimulation.rising;
+
+      if (scpiSimulation?.locations && Array.isArray(scpiSimulation.locations)) {
+        scpiSimulation.locations.forEach((location) => {
+          const countryName = location.id.country;
+          const countryPercentage = location.countryPercentage;
+
+          const investedAmountInCountry = (investedAmount * countryPercentage) / 100;
+          countryInvestments.set(
+            countryName,
+            (countryInvestments.get(countryName) || 0) + investedAmountInCountry
+          );
+        });
+      }
+    });
+
+    return Array.from(countryInvestments.entries()).map(([countryName, total]) => ({
+      id: { country: countryName },
+      countryPercentage: Math.round((total / totalInvestment) * 10000) / 100,
+    }));
+  }
+
+  private calculateSectors(scpiSimulations: ScpiSimulation[], totalInvestment: number): any[] {
+    const sectorInvestments: Map<string, number> = new Map();
+
+    scpiSimulations.forEach((scpiSimulation) => {
+      const investedAmount = scpiSimulation.rising;
+
+      scpiSimulation.sectors.forEach((sector) => {
+        const sectorName = sector.id.name;
+        const sectorPercentage = sector.sectorPercentage;
+
+        const investedAmountInSector = (investedAmount * sectorPercentage) / 100;
+        sectorInvestments.set(
+          sectorName,
+          (sectorInvestments.get(sectorName) || 0) + investedAmountInSector
+        );
+      });
+    });
+
+    return Array.from(sectorInvestments.entries()).map(([sectorName, total]) => ({
+      id: { name: sectorName },
+      sectorPercentage: Math.round((total / totalInvestment) * 10000) / 100,
+    }));
+  }
+
+
 }

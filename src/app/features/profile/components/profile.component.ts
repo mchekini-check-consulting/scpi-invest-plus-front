@@ -99,7 +99,7 @@ export class ProfileComponent implements OnInit {
 
   loadUserProfile(): void {
     this.investorService
-      .getInvestorByEmail(this.userEmail)
+      .getInvestorByEmail()
       .subscribe((userData: any) => {
         const dateOfBirth = userData.dateOfBirth
           ? new Date(userData.dateOfBirth)
