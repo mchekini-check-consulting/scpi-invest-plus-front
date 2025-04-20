@@ -30,7 +30,7 @@ export class SearchBarComponent {
   @Output() searchTermChanged = new EventEmitter<string>();
   searchTerm: string = "";
   private searchSubject = new Subject<string>();
-  
+
   constructor() {
     this.searchSubject
       .pipe(
@@ -40,6 +40,7 @@ export class SearchBarComponent {
       )
       .subscribe((term) => this.searchTermChanged.emit(term));
   }
+  
   onSearchChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     this.searchTerm = inputElement.value.trim();

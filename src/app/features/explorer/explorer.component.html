@@ -1,0 +1,116 @@
+<div class="scpi-explorer">
+  <div>
+    <h2>Explorateur des SCPI</h2>
+
+    <div style="max-width: 1200px; margin: 0 auto">
+      <p-table [value]="criteres" styleClass="custom-table">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="text-align: center">Critère</th>
+            <th style="text-align: center">Facteur</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-critere let-i="rowIndex">
+          <tr>
+            <td style="text-align: center">
+              <p-dropdown
+                [options]="filtrerCritereDisponibles(critere.nom)"
+                [(ngModel)]="critere.nom"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Choisir un critère"
+                [appendTo]="'body'"
+                [style]="{ width: '200px' }"
+                [ngClass]="{ invalid: !critere.isValid }"
+              >
+              </p-dropdown>
+              <div *ngIf="!critere.isValid" class="error-message">
+                Veuillez remplir ce champ s'il vous plaît
+              </div>
+            </td>
+            <td style="text-align: center">
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  gap: 10px;
+                "
+              >
+                <input
+                  type="number"
+                  pInputText
+                  min="1"
+                  max="10"
+                  [(ngModel)]="critere.facteur"
+                  placeholder="Facteur"
+                  [ngClass]="{ invalid: !critere.isValid }"
+                  [style]="{ width: '200px', 'text-align': 'center' }"
+                />
+                <button
+                  pButton
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  style="padding: 0.8rem 0.5rem; font-size: 0.8rem"
+                  (click)="supprimerCritere(i)"
+                ></button>
+              </div>
+              <div *ngIf="!critere.isValid" class="error-message">
+                Veuillez remplir ce champ s'il vous plaît
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          gap: 1rem;
+          margin-top: 1rem;
+        "
+      >
+        <button
+          pButton
+          label="Réinitialiser"
+          icon="pi pi-refresh"
+          class="p-button-rounded p-button-warning button"
+          (click)="reinitialiserCriteres()"
+        ></button>
+
+        <div style="display: flex; gap: 1rem">
+          <button
+            pButton
+            label="Ajouter un critère"
+            icon="pi pi-plus"
+            class="p-button-rounded p-button-success button"
+            (click)="ajouterCritere()"
+          ></button>
+
+          <button
+            pButton
+            label="Valider"
+            icon="pi pi-check"
+            class="p-button-rounded p-button-primary button"
+            (click)="validerFormulaire()"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr style="border: 1px solid #ccc; margin: 20px 0" />
+
+  <div>
+    <div class="scpi-results" *ngIf="scpiResults.length > 0">
+      <h2>Résultat de recherche des SCPIs</h2>
+      <app-score-scpi
+        [scpis]="scpiResults"
+        [isAddingScpi]="true"
+        *ngIf="scpiResults.length > 0"
+      />
+    </div>
+  </div>
+</div>

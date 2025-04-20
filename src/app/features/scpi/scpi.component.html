@@ -6,36 +6,42 @@
     ></app-search-multicriteria>
   </div>
 
-<ng-container *ngIf="!noResultsMessage; else noResults">
-  <div class="list-scpi">
-    <ng-container *ngIf="filteredScpis.length > 0; else skeletons">
-      <ng-container *ngFor="let scpi of filteredScpis">
-        <app-scpi-card
-          (onClick)="openInvestirModal($event)"
-          [addScpi]="addScpi"
-          [image]="getImage(scpi.scpiId)"
-          [isAddingScpi]="isAddingScpi"
-          [scpi]="scpi"
-        />
+  <ng-container *ngIf="!noResultsMessage; else noResults">
+    <div class="list-scpi">
+      <ng-container *ngIf="filteredScpis.length > 0; else skeletons">
+        <ng-container *ngFor="let scpi of filteredScpis">
+          <app-scpi-card
+            (onClick)="openInvestirModal($event)"
+            [addScpi]="addScpi"
+            [image]="getImage(scpi.scpiId)"
+            [isAddingScpi]="isAddingScpi"
+            [scpi]="scpi"
+          />
+        </ng-container>
       </ng-container>
-    </ng-container>
-  </div>
-</ng-container>
-
-
-<ng-template #noResults>
-  <div class="no-results-container">
-    <p class="no-results-message">Aucune SCPI ne correspond à votre recherche, essayez d’autres critères sans plus attendre !</p>
-  </div>
-</ng-template>
-
-<ng-template #skeletons>
-  <div *ngFor="let skeleton of skeletonArray">
-    <div class="skeleton-wrapper">
-      <p-skeleton height="220px" width="100%" borderRadius="10px"></p-skeleton>
     </div>
-  </div>
-</ng-template>
+  </ng-container>
+
+  <ng-template #noResults>
+    <div class="no-results-container">
+      <p class="no-results-message">
+        Aucune SCPI ne correspond à votre recherche, essayez d’autres critères
+        sans plus attendre !
+      </p>
+    </div>
+  </ng-template>
+
+  <ng-template #skeletons>
+    <div *ngFor="let skeleton of skeletonArray">
+      <div class="skeleton-wrapper">
+        <p-skeleton
+          height="220px"
+          width="100%"
+          borderRadius="10px"
+        ></p-skeleton>
+      </div>
+    </div>
+  </ng-template>
 </div>
 
 <ng-container *ngIf="selectedScpi">
@@ -44,7 +50,7 @@
     [addScpi]="addScpi"
     [mode]="modalMode"
     [scpi]="selectedScpi"
-    [visible]="investirModalVisible">
+    [visible]="investirModalVisible"
+  >
   </app-scpi-invest-modal>
 </ng-container>
-

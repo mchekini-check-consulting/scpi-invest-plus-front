@@ -17,6 +17,7 @@ import { NotFoundComponent } from "@/features/not-found/not-found.component";
 import { UnauthorizedComponent } from "@/features/unauthorized/unauthorized.component";
 import { SimulationDetailComponent } from "./features/simulation/components/simulation-detail/simulation-detail.component";
 import { LandingComponent } from "./features/landing/landing.component";
+import { ExplorerComponent } from '@/features/explorer/explorer.component';
 
 export const routes: Routes = [
   {
@@ -71,6 +72,11 @@ export const routes: Routes = [
       {
         path: "comparateur",
         component: ComparatorComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'explorer',
+        component: ExplorerComponent,
         canActivate: [AuthGuard],
       },
       {
