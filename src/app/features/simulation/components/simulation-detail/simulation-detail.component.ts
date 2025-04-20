@@ -8,7 +8,7 @@ import { Sector } from "@/core/model/Sector";
 
 // Components et modules Angular/PrimeNG
 import { AddScpiToSimulationComponent } from "@/features/simulation/components/add-scpi-to-simulation/add-scpi-to-simulation.component";
-import { RenameSimulationDialogComponent } from "../components/simulation-creator/simulation_dialogs/rename-simulation-dialog/rename-simulation-dialog.component";
+import { RenameSimulationDialogComponent } from "../simulation-creator/simulation_dialogs/rename-simulation-dialog/rename-simulation-dialog.component";
 import { MapComponent } from "@/shared/component/map/map.component";
 import { Card } from "primeng/card";
 import { Panel } from "primeng/panel";
@@ -107,6 +107,8 @@ export class SimulationDetailComponent {
       this.isDetailRoute = !!params["id"];
     });
     this.simulationService.getInvestorInfos();
+
+
   }
 
   openDialog() {
