@@ -73,6 +73,14 @@ export const ROUTES: RouteInfo[] = [
     feature: "profile",
   },
   {
+    path: "/explorer",
+    title: "Explorateur des SCPIs",
+    key: "SIDEBAR.EXPLORER",
+    icon: "pi pi-search",
+    class: "",
+    feature: "explorer",
+  },
+  {
     path: "/plans",
     title: "Gestion des plans",
     key: "SIDEBAR.PLANS",
