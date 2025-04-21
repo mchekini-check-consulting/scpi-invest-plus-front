@@ -355,6 +355,7 @@ export class ScpiInvestModalComponent implements OnInit {
   }
 
   closeModal() {
+    this.resetForm();
     this.close.emit();
   }
 
@@ -371,10 +372,10 @@ export class ScpiInvestModalComponent implements OnInit {
 
   setSelectedPropertyType(propertyType: string) {
     this.selectedPropertyType = propertyType;
-
     if (this.selectedPropertyType === "Pleine propriété") {
       this.investmentDuration = 0;
       this.investmentPercentage = 0;
+      this.investmentForm.controls["investmentDuration"].setValue(null);
     } else if (this.selectedPropertyType === "Usufruit") {
       this.investmentDuration = 0;
       this.investmentPercentage = 0;
@@ -385,4 +386,18 @@ export class ScpiInvestModalComponent implements OnInit {
       this.investmentForm.controls["investmentDuration"].setValue(null);
     }
   }
+
+  resetForm() {
+    this.selectedPropertyType = "Pleine propriété";
+    this.investmentDuration = 0;
+    this.investmentPercentage = 0;
+    this.investmentForm.reset({
+      sharePrice: this.sharePrice,
+      propertyType: "Pleine propriété",
+      shareCount: 1,
+      investmentDuration: null,
+      totalInvestment:  this.scpi?.sharePrice
+    });
+
+}
 }
