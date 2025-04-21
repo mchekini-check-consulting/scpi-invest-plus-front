@@ -114,14 +114,22 @@
   font-weight: bold;
 }
 
-.vertical-dropdown label {
+.form-group label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
 }
 
+
+
 .vertical-dropdown p-dropdown {
   width: 100%;
+}
+
+.view-mode-label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  margin-right: 1em;
 }
 
 
