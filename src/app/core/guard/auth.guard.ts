@@ -37,9 +37,13 @@ export class AuthGuard implements CanActivate {
     if (!this.authService.isLoggedIn()) return false;
 
     const requestedPath = state.url;
-    const functionality = ROUTES.find(
-      (route) => route.path === requestedPath
-    )?.feature;
+    const routeConfig = ROUTES.find((route) => route.path === requestedPath);
+
+    if (!routeConfig) {
+      return true;
+    }
+
+    const functionality = routeConfig.feature;
 
     const hasAccess =
       (this.user?.role === "Standard" &&
