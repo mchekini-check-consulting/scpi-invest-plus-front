@@ -1,12 +1,10 @@
-import { Component, ChangeDetectorRef } from "@angular/core";
+import { ChangeDetectorRef, Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule, DecimalPipe } from "@angular/common";
 import { SimulationService } from "@/core/service/simulation.service";
-import { Simulation, ScpiSimulation } from "@/core/model/Simulation";
+import { ScpiSimulation, Simulation } from "@/core/model/Simulation";
 import { Location } from "@/core/model/Location";
 import { Sector } from "@/core/model/Sector";
-
-// Components et modules Angular/PrimeNG
 import { AddScpiToSimulationComponent } from "@/features/simulation/components/add-scpi-to-simulation/add-scpi-to-simulation.component";
 import { RenameSimulationDialogComponent } from "../simulation-creator/simulation_dialogs/rename-simulation-dialog/rename-simulation-dialog.component";
 import { MapComponent } from "@/shared/component/map/map.component";
@@ -14,6 +12,7 @@ import { Card } from "primeng/card";
 import { Panel } from "primeng/panel";
 import { ButtonModule } from "primeng/button";
 import { ChartModule } from "primeng/chart";
+import { ChartComponent } from "@/shared/component/chart/chart.component";
 
 @Component({
   selector: "app-simulation-detail",
@@ -24,6 +23,7 @@ import { ChartModule } from "primeng/chart";
     Card,
     Panel,
     ButtonModule,
+    ChartComponent,
     ChartModule,
     AddScpiToSimulationComponent,
     RenameSimulationDialogComponent,
@@ -53,6 +53,36 @@ export class SimulationDetailComponent {
     },
   };
 
+  lineChartOptions = {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+        min: 0,
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: "top",
+      },
+    },
+  };
+
+  data = {
+    labels: [] as any[],
+    datasets: [
+      {
+        label: "Distribution (%)",
+        data: [] as number[],
+        fill: true, // Active le fond sous la ligne
+        backgroundColor: "rgba(90, 84, 249, 0.2)",
+        borderColor: "#5A54F9",
+        tension: 0.4,
+      },
+    ],
+  };
+
   sectorData = {
     labels: [] as string[],
     datasets: [
@@ -77,29 +107,22 @@ export class SimulationDetailComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private simulationService: SimulationService,
-    private router: Router,
-    private cdr: ChangeDetectorRef
+    private simulationService: SimulationService
   ) {
     const id = this.route.snapshot.paramMap.get("id");
 
     if (id) {
       this.simulationId = id;
       this.simulationService.getSimulationById(id).subscribe();
-      this.simulationService.simulation$.subscribe((simulation) => {
-        this.simulation = simulation;
-        this.updateSectorData();
-        this.updateLocationData();
-        this.updateScpiInvestmentData();
-      });
-    } else {
-      this.simulationService.simulation$.subscribe((simulation) => {
-        this.simulation = simulation;
-        this.updateSectorData();
-        this.updateLocationData();
-        this.updateScpiInvestmentData();
-      });
     }
+
+    this.simulationService.simulation$.subscribe((simulation) => {
+      this.simulation = simulation;
+      this.updateSectorData();
+      this.updateLocationData();
+      this.updateScpiInvestmentData();
+      this.updateChartData();
+    });
   }
 
   ngOnInit(): void {
@@ -107,8 +130,24 @@ export class SimulationDetailComponent {
       this.isDetailRoute = !!params["id"];
     });
     this.simulationService.getInvestorInfos();
+  }
 
-
+  updateChartData(): void {
+    if (this.simulation?.years && this.simulation?.distributionYear) {
+      this.data = {
+        labels: this.simulation.years,
+        datasets: [
+          {
+            label: "Distribution (%)",
+            data: this.simulation.distributionYear,
+            fill: true, // Active le fond sous la ligne
+            backgroundColor: "rgba(90, 84, 249, 0.2)",
+            borderColor: "#5A54F9",
+            tension: 0.4,
+          },
+        ],
+      };
+    }
   }
 
   openDialog() {
@@ -124,8 +163,7 @@ export class SimulationDetailComponent {
     if (this.simulation?.sectors?.length) {
       this.sectorData = {
         labels: this.simulation.sectors.map(
-          (sector: Sector) =>
-            `${sector.id.name} (${sector.sectorPercentage}%)`
+          (sector: Sector) => `${sector.id.name} (${sector.sectorPercentage}%)`
         ),
         datasets: [
           {
@@ -176,10 +214,11 @@ export class SimulationDetailComponent {
   }
 
   getTotalGrossRevenue(): string {
-    const total = this.simulation?.scpiSimulations?.reduce(
-      (sum, scpi) => sum + (scpi.grossRevenue || 0),
-      0
-    ) ?? 0;
+    const total =
+      this.simulation?.scpiSimulations?.reduce(
+        (sum, scpi) => sum + (scpi.grossRevenue || 0),
+        0
+      ) ?? 0;
 
     return total.toLocaleString("fr-FR", {
       minimumFractionDigits: 2,
@@ -188,10 +227,11 @@ export class SimulationDetailComponent {
   }
 
   getTotalNetRevenue(): string {
-    const total = this.simulation?.scpiSimulations?.reduce(
-      (sum, scpi) => sum + (scpi.netRevenue || 0),
-      0
-    ) ?? 0;
+    const total =
+      this.simulation?.scpiSimulations?.reduce(
+        (sum, scpi) => sum + (scpi.netRevenue || 0),
+        0
+      ) ?? 0;
 
     return total.toLocaleString("fr-FR", {
       minimumFractionDigits: 2,

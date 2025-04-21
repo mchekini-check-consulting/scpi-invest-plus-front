@@ -41,6 +41,7 @@ export type ScpiModel = {
   sectors: SectorModel[];
   cashback: number;
   statYear: StatYearModel;
+  statYears: StatYearModel[];
 };
 
 export type YearStat = {

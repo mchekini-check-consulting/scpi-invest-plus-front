@@ -41,7 +41,7 @@ export const ROUTES: RouteInfo[] = [
     feature: "scheduled-payment",
   },
   {
-    path: "/simulations",
+    path: "/simulation",
     title: "Mes simulations",
     key: "SIDEBAR.SIMULATION",
     icon: "pi pi-chart-line",
