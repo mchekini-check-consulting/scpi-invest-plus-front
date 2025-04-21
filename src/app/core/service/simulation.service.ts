@@ -217,9 +217,6 @@ export class SimulationService {
 
 
 
-
-
-
   private calculateGrossRevenue(scpi: ScpiSimulation): number {
     return (scpi.partPrice * scpi.numberPart) * ((scpi.statYear / 100) / 12);
   }
