@@ -1,23 +1,9 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {
-  BehaviorSubject,
-  catchError,
-  Observable,
-  of,
-  switchMap,
-  tap,
-  throwError,
-} from "rxjs";
-import {
-  Scpi,
-  ScpiSimulation,
-  Simulation,
-  SimulationCreate,
-} from "../model/Simulation";
+import {BehaviorSubject, catchError, Observable, of, tap, throwError,} from "rxjs";
+import {Scpi, ScpiSimulation, Simulation, SimulationCreate,} from "../model/Simulation";
 import {Sector} from "../model/Sector";
 import {Location} from "../model/Location";
-import {Ripple} from "primeng/ripple";
 import {UserService} from '@/core/service/user.service';
 import {InvestorService} from '@/core/service/investor.service';
 import {Investor} from '@/core/model/investor.model';
@@ -68,12 +54,19 @@ export class SimulationService {
   getSimulationById(id: string | number): Observable<Simulation> {
     return this.http.get<Simulation>(this.apiUrl + "/" + id).pipe(
       tap<Simulation>((simulation) => {
-        const locations = this.calculateLocations(simulation.scpiSimulations,simulation.totalInvestment);
-        const sectors = this.calculateSectors(simulation.scpiSimulations,simulation.totalInvestment);
+        const locations = this.calculateLocations(simulation.scpiSimulations, simulation.totalInvestment);
+        const sectors = this.calculateSectors(simulation.scpiSimulations, simulation.totalInvestment);
+        const rendementParAnnee = this.calculateYearlyYields(simulation.scpiSimulations, simulation.totalInvestment);
+
+        const years = rendementParAnnee.years;
+        const distributionYear = rendementParAnnee.yield;
+
         const updatedSimulation: Simulation = {
           ...simulation,
           locations,
-          sectors
+          sectors,
+          years,
+          distributionYear
         };
         this.simulationSubject.next(updatedSimulation);
       })
@@ -143,6 +136,10 @@ export class SimulationService {
 
     const locations = this.calculateLocations(scpiSimulations, simulationCreation.totalInvestment);
     const sectors = this.calculateSectors(scpiSimulations, simulationCreation.totalInvestment);
+    const rendementParAnnee = this.calculateYearlyYields(scpiSimulations, simulationCreation.totalInvestment);
+
+    const years = rendementParAnnee.years;
+    const distributionYear = rendementParAnnee.yield;
 
 
     const simulationResult = {
@@ -154,6 +151,7 @@ export class SimulationService {
         scpiId: scpi.scpiId,
         numberPart: scpi.numberPart,
         statYear: scpi.statYear,
+        statYears: scpi.statYears,
         partPrice: scpi.partPrice,
         rising: scpi.rising,
         duree: scpi.duree,
@@ -167,15 +165,62 @@ export class SimulationService {
       })),
       locations,
       sectors,
+      years,
+      distributionYear,
+
     };
 
     this.simulationSubject.next(simulationResult);
   }
 
 
+  private calculateYearlyYields(scpiSimulations: any[], totalInvestment: number): { years: number[]; yield: number[] } {
+    const rendementParAnnee = new Map<number, number>();
+
+    scpiSimulations.forEach((scpi) => {
+      const poids = scpi.rising / totalInvestment;
+      if (!Array.isArray(scpi.statYears)) return;
+
+      scpi.statYears.forEach((stat: any) => {
+        const year = typeof stat.yearStat === "object" ? stat.yearStat.yearStat : stat.yearStat;
+        const rendement = stat.distributionRate;
+        if (year == null || rendement == null) return;
+
+        const rendementPondere = rendement * poids;
+
+        if (!rendementParAnnee.has(year)) {
+          rendementParAnnee.set(year, 0);
+        }
+
+        rendementParAnnee.set(year, rendementParAnnee.get(year)! + rendementPondere);
+      });
+    });
+
+    // Trie les années pour un affichage plus lisible
+    const sortedEntries = Array.from(rendementParAnnee.entries()).sort(([a], [b]) => a - b);
+
+    const years: number[] = [];
+    const yieldArray: number[] = [];
+
+    for (const [year, totalRendement] of sortedEntries) {
+      years.push(year);
+      yieldArray.push(Math.round(totalRendement * 100) / 100);
+    }
+
+    return {
+      years,
+      yield: yieldArray
+    };
+  }
+
+
+
+
+
+
+
 
   private calculateGrossRevenue(scpi: ScpiSimulation): number {
-
     return (scpi.partPrice * scpi.numberPart) * ((scpi.statYear / 100) / 12);
   }
 
@@ -247,7 +292,7 @@ export class SimulationService {
         pourcentageEurope += location.countryPercentage;
       }
     });
-    console.debug("localistion:", locations )
+    console.debug("localistion:", locations)
     console.debug("Pourcentage France :", pourcentageFrance);
     console.debug("Somme des autres pourcentages :", pourcentageEurope);
 
@@ -302,7 +347,7 @@ export class SimulationService {
     });
 
     return Array.from(countryInvestments.entries()).map(([countryName, total]) => ({
-      id: { country: countryName },
+      id: {country: countryName},
       countryPercentage: Math.round((total / totalInvestment) * 10000) / 100,
     }));
   }
@@ -326,7 +371,7 @@ export class SimulationService {
     });
 
     return Array.from(sectorInvestments.entries()).map(([sectorName, total]) => ({
-      id: { name: sectorName },
+      id: {name: sectorName},
       sectorPercentage: Math.round((total / totalInvestment) * 10000) / 100,
     }));
   }

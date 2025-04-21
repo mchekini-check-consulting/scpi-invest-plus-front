@@ -3,11 +3,10 @@
   [style]="{ width: '80%' }"
   modal
   [closable]="true"
-  header="Ajouter une SCPI"
+  header="Ajoutez des SCPI à votre simulation"
   (onHide)="close()"
 >
   <div class="dialog-content">
-    <p>Ajoutez une nouvelle SCPI à votre simulation.</p>
     <app-scpi [isAddingScpi]="true" [addScpi]="addScpi"></app-scpi>
   </div>
 </p-dialog>

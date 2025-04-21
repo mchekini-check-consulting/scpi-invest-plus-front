@@ -8,16 +8,11 @@ export class YearStat {
     }
 }
 
-export class StatYear {
+export interface StatYear {
     yearStat: YearStat;
     distributionRate: number;
     sharePrice: number;
     reconstitutionValue: number;
 
-    constructor(yearStat: YearStat, distributionRate: number, sharePrice: number, reconstitutionValue: number) {
-        this.yearStat = yearStat;
-        this.distributionRate = distributionRate;
-        this.sharePrice = sharePrice;
-        this.reconstitutionValue = reconstitutionValue;
-    }
+
 }

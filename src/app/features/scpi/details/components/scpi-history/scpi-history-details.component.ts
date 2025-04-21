@@ -37,6 +37,7 @@ export class ScpiHistoryDetailsComponent implements OnInit {
     if (!this.details) return;
     this.stat = this.details.statYears;
 
+
     const distributionStats = this.stat.filter(
       (stat) => stat.distributionRate !== null && stat.distributionRate !== 0
     );

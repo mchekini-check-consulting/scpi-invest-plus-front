@@ -29,10 +29,12 @@
         <div class="row">
           <p-panel header="Evolution de la distribution">
             <div class="equal-height">
-              <p>
-                Aucun historique de rendement n’est disponible pour cette
-                simulation.
-              </p>
+              <app-chart
+                [chartData]="data"
+                [chartOptions]="lineChartOptions"
+                [chartHeight]="'300px'"
+                [chartWidth]="'100%'"
+              />
             </div>
           </p-panel>
           <p-panel header="Répartition du portefeuille">
@@ -70,15 +72,11 @@
         <h3 class="title">Performence nette de fiscalité</h3>
         <div class="row">
           <p-panel header="Revenus brutes">
-            <p class="value">
-              {{ getTotalGrossRevenue() }} € / Mois
-            </p>
+            <p class="value">{{ getTotalGrossRevenue() }} € / Mois</p>
           </p-panel>
           <p-panel header="Revenus net de fiscalité">
             <p class="value">
-              <span>
-                 {{ getTotalNetRevenue() }} € / Mois</span
-              >
+              <span> {{ getTotalNetRevenue() }} € / Mois</span>
             </p>
           </p-panel>
         </div>
@@ -100,16 +98,14 @@
                 <div>
                   <span class="scpi-name">Revenu brut</span>
                   <span class="scpi-income"
-                    >{{ scpi.grossRevenue | number: "1.2-2"
-                    }}€/mois</span
+                    >{{ scpi.grossRevenue | number: "1.2-2" }}€/mois</span
                   >
                 </div>
 
                 <div>
                   <span class="scpi-name">Revenu net</span>
                   <span class="scpi-net-income"
-                    >{{ scpi.netRevenue | number: "1.2-2"
-                    }}€/mois</span
+                    >{{ scpi.netRevenue | number: "1.2-2" }}€/mois</span
                   >
                 </div>
               </div>
@@ -156,5 +152,3 @@
     </p-card>
   }
 </div>
-
-

@@ -1,4 +1,5 @@
 import { Location } from "./Location";
+import { StatYearModel } from "./scpi.model";
 import { Sector } from "./Sector";
 
 
@@ -30,6 +31,8 @@ export interface Simulation {
   scpiSimulations: ScpiSimulation[];
   locations: Location[];
   sectors: Sector[];
+  years: number[];
+  distributionYear: number[];
 }
 
 export interface ScpiSimulation {
@@ -42,6 +45,7 @@ export interface ScpiSimulation {
   propertyType: string;
   scpiName: string;
   statYear : number
+  statYears : StatYearModel[],
   netRevenue: number,
   grossRevenue:number,
   locations: Location[];

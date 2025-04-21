@@ -195,7 +195,7 @@ export class ScpiInvestModalComponent implements OnInit {
       const investmentData = this.investmentForm.getRawValue();
       this.createInvestment(investmentData);
     } else if (this.mode === "simuler") {
-      console.log("Simuler l'investissement dans la SCPI");
+
 
       const investmentData = this.investmentForm.getRawValue();
 
@@ -203,7 +203,6 @@ export class ScpiInvestModalComponent implements OnInit {
         console.log("ID de la SCPI :", this.scpi?.scpiId);
 
         this.scpiService.getScpiById(this.scpi.scpiId).subscribe((scpi) => {
-
 
 
           const scpiData = this.createScpiData(scpi, investmentData);
@@ -228,7 +227,7 @@ export class ScpiInvestModalComponent implements OnInit {
             );
           }
 
-          this.router.navigate([`/simulations/detailSimulation`]);
+          this.router.navigate([`/simulation/detailSimulation`]);
         });
       }
     }
@@ -243,6 +242,7 @@ export class ScpiInvestModalComponent implements OnInit {
       partPrice: this.sharePrice ?? 0,
       rising: investmentData.totalInvestment ?? 0,
       statYear: scpi.statYear?.distributionRate,
+      statYears: scpi.statYears ?? [],
       duree: investmentData.investmentDuration?.year ?? 0,
       dureePercentage: investmentData.investmentDuration?.percentage ?? 0,
       propertyType: investmentData.propertyType ?? "",
