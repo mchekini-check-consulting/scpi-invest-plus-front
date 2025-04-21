@@ -5,6 +5,18 @@
         <div class="left-panel">
           <h3 class="title">Évolution des annuités du crédit</h3>
           <br />
+          <div class="toggle-view-mode">
+            <label class="view-mode-label">Afficher par :</label>
+            <p-toggleButton
+              [(ngModel)]="viewByYear"
+              onLabel="Année"
+              offLabel="Mois"
+              onIcon="pi pi-calendar"
+              offIcon="pi pi-calendar-minus"
+              styleClass="toggle-period-btn"
+            ></p-toggleButton>
+          </div>
+          <br />
           <p-table [value]="annuityData" class="custom-table">
             <ng-template pTemplate="header">
               <tr>
@@ -22,28 +34,33 @@
               <tr>
                 <td>{{ rowData.year }}</td>
                 <td class="amount">
-                  {{ rowData.annualIncome | currency: "EUR" }}
+                  {{ (viewByYear ? (rowData.annualIncome * 12) : rowData.annualIncome) | number: '1.2-2' }}
                 </td>
                 <td class="amount">
-                  {{ rowData.monthlyPayment | currency: "EUR" }}
+                  {{ (viewByYear ? (rowData.monthlyPayment * 12) : rowData.monthlyPayment) | number: '1.2-2' }}
                 </td>
                 <td class="amount">
-                  {{ rowData.capitalAmortization | currency: "EUR" }}
+                  {{ (viewByYear ? (rowData.capitalAmortization * 12) : rowData.capitalAmortization) | number: '1.2-2' }}
                 </td>
                 <td class="amount">
-                  {{ rowData.loanInterest | currency: "EUR" }}
+                  {{ (viewByYear ? (rowData.loanInterest * 12) : rowData.loanInterest) | number: '1.2-2' }}
                 </td>
-                <td class="amount">{{ rowData.tax | currency: "EUR" }}</td>
+                <td class="amount">
+                  {{ (viewByYear ? (rowData.tax * 12) : rowData.tax) | number: '1.2-2' }}
+                </td>
                 <td
                   [ngClass]="{
                     'positive-effort': rowData.savingEffort > 0,
-                    'negative-effort': rowData.savingEffort <= 0,
+                    'negative-effort': rowData.savingEffort <= 0
                   }"
                 >
-                  {{ rowData.savingEffort | currency: "EUR" }}
+                  {{ (viewByYear ? (rowData.savingEffort * 12) : rowData.savingEffort) | number: '1.2-2' }}
                 </td>
               </tr>
             </ng-template>
+
+
+
 
             <!-- Ligne de totaux uniquement -->
             <ng-template pTemplate="footer">
@@ -166,7 +183,7 @@
               </div>
 
               <div class="form-group">
-                <label>Taux Moyen</label>
+                <label >Taux Moyen</label>
                 <p-inputNumber
                   [(ngModel)]="customAverageRate"
                   placeholder="Saisir un taux moyen"

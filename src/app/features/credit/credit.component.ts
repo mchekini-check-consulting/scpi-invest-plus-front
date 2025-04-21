@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { TableModule } from "primeng/table";
 import { SliderModule } from "primeng/slider";
 import { FormsModule } from "@angular/forms";
-import {CurrencyPipe, NgClass} from "@angular/common";
+import {CommonModule, CurrencyPipe, NgClass} from "@angular/common";
 import { CardModule } from "primeng/card";
-
+import { ToggleButtonModule } from 'primeng/togglebutton';
 import { DropdownModule } from "primeng/dropdown";
 import { InputNumberModule } from "primeng/inputnumber";
 import {TabViewModule} from "primeng/tabview";
@@ -27,11 +27,13 @@ interface AnnuityData {
   imports: [
     TableModule,
     SliderModule,
+    ToggleButtonModule,
     FormsModule,
     CurrencyPipe,
     CardModule,
     DropdownModule,
     InputNumberModule,
+    CommonModule,
     NgClass,
     TabViewModule,
     ChartModule,
@@ -46,6 +48,7 @@ export class CreditComponent implements OnInit {
   loanDuration: number = 20;
   interestRate: number = 5.0;
   scpiYield: number = 6.0;
+  viewByYear: boolean = false;
 
   scpiTypes = [{ label: 'Européenne', value: 'Européenne' }, { label: 'Française', value: 'Française' }];
   selectedScpiType: string = 'Française';
