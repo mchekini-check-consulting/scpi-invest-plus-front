@@ -74,7 +74,7 @@ export class RenameSimulationDialogComponent {
 
       this.simulationService.createSimulation(simulationCreation).subscribe({
         next: () => {
-          this.router.navigate([`simulations`]);;
+          this.router.navigate([`simulation`]);;
         },
         error: (error) => {
           console.error("Erreur lors de l’ajout de la simulation", error);
