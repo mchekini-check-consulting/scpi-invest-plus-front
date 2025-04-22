@@ -6,10 +6,46 @@
           *ngFor="let tab of tabStates"
           [header]="tab.label"
         ></p-tabPanel>
+        <ng-container *ngIf="selectedState == 'Répartition' && chartData">
+          <div class="charts-row">
+            <div class="chart-col">
+              <p-card class="card-card">
+              <app-chart
+              [chartData]="distributionChartData"
+              [chartOptions]="chartOptions"
+              [chartHeight]="'100%'"
+              [chartWidth]="'100%'"
+            >
+            </app-chart>
+            </p-card>
+            </div>
+            <div class="chart-col">
+              <div class="chart-chart">
+                <p-card >
+                  <p-chart type="bar" [data]="chartData" class="h-[30rem]"></p-chart>
+                </p-card>
+              </div>
+             
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="selectedState == 'Répartition'">
+          <p-card>
+            <app-map
+              [countries]="repGeographique"
+              [mapHeight]="'720px'"
+            ></app-map>
+          </p-card>
+        </ng-container>
+       
 
         <div>
           <p-table
-            *ngIf="groupedInvestments && groupedInvestments.length > 0"
+            *ngIf="
+              groupedInvestments &&
+              groupedInvestments.length > 0 &&
+              selectedState !== 'Répartition'
+            "
             [value]="groupedInvestments"
             dataKey="id"
             [expandedRowKeys]="expandedRows"
@@ -35,9 +71,7 @@
             <ng-template #header>
               <tr>
                 <th style="width: 5rem"></th>
-                <th pSortableColumn="name">
-                  Nom SCPI <p-sortIcon field="name" />
-                </th>
+                <th pSortableColumn="name">Nom <p-sortIcon field="name" /></th>
                 <th pSortableColumn="year">
                   Nombre d'années <p-sortIcon field="year" />
                 </th>
@@ -84,7 +118,7 @@
                 <td>
                   {{
                     investissement.numberYears === 0
-                      ? "/"
+                      ? "-"
                       : investissement.numberYears
                   }}
                 </td>
@@ -170,7 +204,10 @@
             </ng-template>
           </p-table>
         </div>
-        <div *ngIf="noResults" class="empty-card-container">
+        <div
+          *ngIf="noResults && selectedState !== 'Répartition'"
+          class="empty-card-container"
+        >
           <p-card class="empty-card">
             <ng-template pTemplate="content">
               <div class="text-center">
@@ -190,13 +227,14 @@
         </div>
       </p-tabView>
     </div>
-
-    <p-paginator
-      [first]="0"
-      [rows]="pageSize"
-      [totalRecords]="totalRecords"
-      (onPageChange)="onPageChange($event)"
-    >
-    </p-paginator>
+    <div *ngIf="selectedState !== 'Répartition'">
+      <p-paginator
+        [first]="0"
+        [rows]="pageSize"
+        [totalRecords]="totalRecords"
+        (onPageChange)="onPageChange($event)"
+      >
+      </p-paginator>
+    </div>
   </div>
 </div>

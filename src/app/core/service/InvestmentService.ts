@@ -24,6 +24,9 @@ export class InvestmentService {
           rendementMoyen: 0,
           revenuMensuel: 0,
           cashbackMontant: 0,
+          repGeographique: {},
+          repSectoriel: {},
+          distributionHistory: {}
         });
       })
     );
