@@ -20,12 +20,19 @@ export interface InvestmentPayload {
   investmentState: string;
   initialDeposit: number;
 }
+
+
 export interface InvestmentStatistics {
   montantInvesti: number;
   rendementMoyen: number;
   revenuMensuel: number;
   cashbackMontant: number;
+  repGeographique?: { [key: string]: number }; 
+  repSectoriel?: { [key: string]: number };
+  distributionHistory?: { [key: string]: number }
 }
+
+
 
 export interface InvestmentState {
   totalInvesti: number;

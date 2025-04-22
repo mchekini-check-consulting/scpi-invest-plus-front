@@ -10,11 +10,11 @@
 .tabview-container {
   display: flex;
   width: 100%;
-  justify-content: center; 
-  margin-top: 2rem; 
+  justify-content: center;
+  margin-top: 2rem;
 }
 
-.toggle-btn{
+.toggle-btn {
   background: none;
   border: none;
   padding: 0;
@@ -22,3 +22,17 @@
   margin-left: 5px;
 }
 
+.charts-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.chart-col {
+  flex: 1;
+  margin: 0 1rem;
+}
+
+.chart-chart p-chart{
+  height: 200px !important;
+}

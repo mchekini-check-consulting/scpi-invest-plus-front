@@ -8,6 +8,12 @@ import { CardModule } from "primeng/card";
 import { TableModule } from "primeng/table";
 import { TagModule } from "primeng/tag";
 import { ButtonModule } from "primeng/button";
+import { MapComponent } from "@/shared/component/map/map.component";
+import { LocationId } from "@/core/model/Location";
+import { Sector } from "@/core/model/Sector";
+import { ChartModule } from "primeng/chart";
+import { ChartComponent } from "@/shared/component/chart/chart.component";
+import { StatYear } from "@/core/model/StatYear";
 
 @Component({
   selector: "app-investments",
@@ -19,6 +25,10 @@ import { ButtonModule } from "primeng/button";
     TableModule,
     TagModule,
     ButtonModule,
+    MapComponent,
+    ChartModule,
+    ChartComponent,
+    CardModule,
   ],
   templateUrl: "./investments.component.html",
   styleUrl: "./investments.component.css",
@@ -33,20 +43,82 @@ export class InvestmentsComponent {
   @Input() totalRecords: number = 0;
   @Input() pageSize: number = 10;
   @Output() paramsChanged = new EventEmitter<any>();
-  filteredInvestmentsMap: { [key: string]: Investments[] } = {};
+  @Input() repGeographique: { id: LocationId; countryPercentage: number }[] =
+    [];
+  @Input() repSectoriel: Sector[] = [];
+  @Input() distributionHistory: StatYear[] = [];
+  distributionChartData: any;
+  yearsDistribution: number[] = [];
+  distributionRates: number[] = [];
+  chartOptions: any;
+  chartData: any;
 
+  filteredInvestmentsMap: { [key: string]: Investments[] } = {};
   selectedState: string = "VALIDATED";
   images = Array.from({ length: 10 }, (_, i) => `img/scpi/${i + 1}.webp`);
   expandedRows: { [key: string]: boolean } = {};
 
   constructor(private messageService: MessageService) {}
 
-  //Surement je vais revenir adapter les states selon le ms partner
+  ngOnChanges() {
+    this.MethDistributionHistory();
+    this.MethRepSectoriel();
+  }
+
+  MethRepSectoriel(): void {
+    if (this.repSectoriel && this.repSectoriel.length > 0) {
+      this.chartData = {
+        labels: this.repSectoriel.map((s) => s.id.name),
+        datasets: [
+          {
+            label: "Repartition sectorielle (%)",
+            data: this.repSectoriel.map((s) => s.sectorPercentage),
+            backgroundColor: [
+              "#0b0d98",
+              "#3b5998",
+              "#FFCE56",
+              "#AA66CC",
+              "#99CC00",
+              "#FF4444",
+              "#FFAE56",
+              "#AA96CC",
+            ],
+          },
+        ],
+      };
+    }
+  }
+
+  MethDistributionHistory(): void {
+    if (this.distributionHistory && this.distributionHistory.length > 0) {
+      this.yearsDistribution = this.distributionHistory.map(
+        (item) => item.yearStat.yearStat
+      );
+      this.distributionRates = this.distributionHistory.map(
+        (item) => item.distributionRate
+      );
+
+      this.distributionChartData = {
+        labels: this.yearsDistribution,
+        datasets: [
+          {
+            label: "Taux de distribution (%)",
+            data: this.distributionRates,
+            borderColor: "#3b5998",
+            backgroundColor: "rgba(165, 82, 212, 0.2)",
+            fill: true,
+          },
+        ],
+      };
+    }
+  }
+
   tabStates = [
     { label: "Acceptée", value: "VALIDATED" },
     { label: "En cours de traitement", value: "En cours" },
     { label: "En attente de paiement", value: "PENDING_PAYMENT" },
     { label: "Refusée", value: "REJECTED" },
+    { label: "Répartition globale", value: "Répartition" },
   ];
 
   getInvestmentTypeTranslate(type: string): string {
@@ -72,12 +144,6 @@ export class InvestmentsComponent {
     } else {
       delete this.filteredInvestmentsMap[investment.scpiName];
     }
-
-    console.log("Toggle row - expandedRows:", this.expandedRows);
-    console.log(
-      "Toggle row - filteredInvestmentsMap:",
-      this.filteredInvestmentsMap
-    );
   }
 
   expandAll(): void {
@@ -90,18 +156,11 @@ export class InvestmentsComponent {
         (i) => i.scpiName === inv.scpiName
       );
     });
-
-    console.log("Expand all - expandedRows:", this.expandedRows);
-    console.log(
-      "Expand all - filteredInvestmentsMap:",
-      this.filteredInvestmentsMap
-    );
   }
 
   collapseAll(): void {
     this.expandedRows = {};
     this.filteredInvestmentsMap = {};
-    console.log("Collapse all - all rows collapsed");
   }
 
   onRowExpand(event: any) {
@@ -126,6 +185,10 @@ export class InvestmentsComponent {
 
   onTabChange(event: any) {
     const newState = this.tabStates[event.index].value;
+    if (newState === "Répartition") {
+      this.selectedState = "Répartition";
+      return;
+    }
     this.selectedState = newState;
     this.paramsChanged.emit({ currentPage: 0, selectedState: newState });
   }
@@ -145,7 +208,7 @@ export class InvestmentsComponent {
       VALIDATED: "Acceptée",
       REJECTED: "Refusée",
       PENDING_PAYMENT: "En attente de paiement",
-      "En cours": "En cours de traitement"
+      "En cours": "En cours de traitement",
     };
     return stateMap[state] || state;
   }

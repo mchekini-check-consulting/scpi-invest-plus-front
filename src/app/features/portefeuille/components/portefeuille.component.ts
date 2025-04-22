@@ -11,6 +11,10 @@ import { InvestmentsComponent } from "./investments/investments.component";
 import { StatisticsComponent } from "./statistics/statistics.component";
 import { ButtonModule } from "primeng/button";
 import dayjs from "dayjs";
+import { LocationId } from "@/core/model/Location";
+import { SectorId } from "@/core/model/Sector";
+import { Sector } from "@/core/model/Sector";
+import { StatYear, YearStat } from "@/core/model/StatYear";
 
 @Component({
   selector: "app-portefeuille",
@@ -34,6 +38,10 @@ export class PortefeuilleComponent implements OnInit {
   totalRecords: number = 0;
   params: any = { currentPage: 0, pageSize: 10, selectedState: "VALIDATED" };
   statisticsLoaded: boolean = false;
+  repGeographique: { id: LocationId; countryPercentage: number }[] = [];
+  repSectoriel: Sector[] = [];
+  distributionHistory: StatYear[] = []; 
+  chartData: any;
 
   constructor(
     private investmentService: InvestmentService,
@@ -48,7 +56,35 @@ export class PortefeuilleComponent implements OnInit {
     this.investmentService.getStatisticsInvestments().subscribe({
       next: (stats: InvestmentStatistics) => {
         this.statistics = stats;
+        this.repGeographique = Object.entries(stats.repGeographique ?? {}).map(
+          ([country, pourcentage], index) => {
+            const locationId = {
+              scpiId: index,
+              country,
+            };
+            return {
+              id: locationId,
+              countryPercentage: pourcentage,
+            };
+          }
+        );
+        this.repSectoriel = Object.entries(stats.repSectoriel ?? {}).map(
+          ([sector, pourcentage], index) => {
+            const sectorId = new SectorId(index, sector);
+            return new Sector(sectorId, pourcentage);
+          }
+        );
+        console.log("I'm here", this.repSectoriel)
+
+        this.distributionHistory = Object.entries(stats.distributionHistory ?? {}).map(
+          ([yearStr, distributionRate], index) => {
+            const year = Number(yearStr);
+            const yearId = new YearStat(year, index); 
+            return new StatYear(yearId, distributionRate, 0, 0);
+          }
+        );
       },
+
       error: () => {
         this.error = "Erreur lors du chargement des statistiques.";
       },
