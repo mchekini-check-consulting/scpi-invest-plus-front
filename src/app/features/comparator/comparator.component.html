@@ -30,7 +30,7 @@
       <tr>
         <td><strong>Revenus mensuels & Rendement</strong></td>
         <td *ngFor="let scpi of scpiResults">
-          <span class="revenus-value">{{ scpi?.revenusMensuels || '0,00 €' }}</span>
+          <span class="revenus-value" [style.color]="getColorValue(scpi?.revenusMensuels)">{{ scpi?.revenusMensuels || '0,00 €' }}</span>
           <span class="rendement-box"> {{ scpi?.rendement || '-' }} %</span>
         </td>
       </tr>

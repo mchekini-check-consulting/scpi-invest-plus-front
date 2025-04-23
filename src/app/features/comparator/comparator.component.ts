@@ -165,5 +165,31 @@ export class ComparatorComponent implements OnInit {
     const value = this.form.get('investValue')?.value;
     this.form.get('investValue')?.setValue(value, {emitEvent: false});
   }
+
+  getMaxRevenueMensuelle() {
+    return  this.scpiResults.map(scpi=> scpi.revenusMensuels).reduce((max, current) => {
+      const currentValue = parseFloat(current.replace('€', '').replace('M€', ''));
+      return currentValue > max ? currentValue : max;
+    }, 0);
+  }
+
+  getMinRevenueMensuelle() {
+    return this.scpiResults.map(scpi=> scpi.revenusMensuels).reduce((min, current) =>{
+      const currentValuer = parseFloat(current.replace('€', '').replace('M€', ''));
+      return currentValuer < min ? currentValuer : min;
+    }, 1000000);
+    
+  }
+
+  getColorValue(value: string | number | null) : string{
+    
+    if (!value) return 'black';
+    const number = parseFloat(value.toString().replace('€', '').replace('M€', ''));
+    if (isNaN(number)) return 'black';
+    if( number <= 0) return 'black';
+    if (number === this.getMaxRevenueMensuelle()) return 'green';
+    else if (number < this.getMaxRevenueMensuelle() && number > this.getMinRevenueMensuelle()) return 'orange';
+    else return 'red';
+  }
 }
 
