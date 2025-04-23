@@ -42,7 +42,7 @@
         </ng-container>
 
         <div
-          *ngIf="noResults && selectedState == 'Répartition'"
+          *ngIf="noData && selectedState == 'Répartition'"
           class="empty-card-container"
         >
           <p-card class="empty-card">
@@ -201,7 +201,7 @@
                           <td>{{ invest.totalAmount }} €</td>
                           <td>{{ invest.numberShares }}</td>
                           <td>
-                            <span> {{ invest.detentionYears }} an(s)</span>
+                            <span> {{ invest.detentionDuration }} </span>
                           </td>
                           <td>
                             <p-tag
