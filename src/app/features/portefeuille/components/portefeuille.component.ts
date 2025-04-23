@@ -31,6 +31,7 @@ import { StatYear, YearStat } from "@/core/model/StatYear";
 export class PortefeuilleComponent implements OnInit {
   totalInvesti: number = 0;
   noResults: boolean = false;
+  noData: boolean = false;
   investments: Investments[] = [];
   groupedInvestments: Investments[] = [];
   statistics?: InvestmentStatistics;
@@ -40,7 +41,7 @@ export class PortefeuilleComponent implements OnInit {
   statisticsLoaded: boolean = false;
   repGeographique: { id: LocationId; countryPercentage: number }[] = [];
   repSectoriel: Sector[] = [];
-  distributionHistory: StatYear[] = []; 
+  distributionHistory: StatYear[] = [];
   chartData: any;
 
   constructor(
@@ -56,6 +57,16 @@ export class PortefeuilleComponent implements OnInit {
     this.investmentService.getStatisticsInvestments().subscribe({
       next: (stats: InvestmentStatistics) => {
         this.statistics = stats;
+        this.noData = Object.values(stats).every((value) => {
+          if (typeof value === "number") {
+            return value === 0 || isNaN(value);
+          }
+          if (typeof value === "object") {
+            return value == null || Object.keys(value).length === 0;
+          }
+          return !value;
+        });
+
         this.repGeographique = Object.entries(stats.repGeographique ?? {}).map(
           ([country, pourcentage], index) => {
             const locationId = {
@@ -74,15 +85,14 @@ export class PortefeuilleComponent implements OnInit {
             return new Sector(sectorId, pourcentage);
           }
         );
-        console.log("I'm here", this.repSectoriel)
 
-        this.distributionHistory = Object.entries(stats.distributionHistory ?? {}).map(
-          ([yearStr, distributionRate], index) => {
-            const year = Number(yearStr);
-            const yearId = new YearStat(year, index); 
-            return new StatYear(yearId, distributionRate, 0, 0);
-          }
-        );
+        this.distributionHistory = Object.entries(
+          stats.distributionHistory ?? {}
+        ).map(([yearStr, distributionRate], index) => {
+          const year = Number(yearStr);
+          const yearId = new YearStat(year, index);
+          return new StatYear(yearId, distributionRate, 0, 0);
+        });
       },
 
       error: () => {
