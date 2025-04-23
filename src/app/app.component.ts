@@ -1,8 +1,10 @@
-import {Component} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {OAuthErrorEvent, OAuthEvent, OAuthService, OAuthSuccessEvent} from 'angular-oauth2-oidc';
-import {UserService} from './core/service/user.service';
-import { Toast } from 'primeng/toast';
+import { Component } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
+import { UserService } from "./core/service/user.service";
+import { PlanService } from "@/core/service/plan.service";
+import { AuthService } from "./core/service/auth.service";
+import { filter, switchMap } from "rxjs/operators";
+import { Toast } from "primeng/toast";
 
 @Component({
   selector: "app-root",
@@ -13,20 +15,17 @@ import { Toast } from 'primeng/toast';
 })
 export class AppComponent {
   constructor(
-    private oauthService: OAuthService,
-    private userService: UserService
+    private userService: UserService,
+    private planService: PlanService,
+    private authService: AuthService
   ) {
-    this.oauthService.events.subscribe((event: OAuthEvent) => {
-      if (event instanceof OAuthSuccessEvent) {
-        if (
-          event.type === "token_received" ||
-          event.type === "token_refreshed"
-        ) {
-          this.userService.loadUser();
-        }
-      } else if (event instanceof OAuthErrorEvent) {
-        console.error("OAuthErrorEvent:", event);
-      }
-    });
+    this.authService.authInitialized$
+      .pipe(
+        filter((initialized) => initialized),
+        switchMap(() => this.userService.user$),
+        filter((user) => !!user),
+        switchMap(() => this.planService.getPlans())
+      )
+      .subscribe();
   }
 }

@@ -11,6 +11,7 @@ import { PlanService } from "@/core/service/plan.service";
 import { PlanModel } from "@/core/model/plan.model";
 import { UserModel } from "@/core/model/user.model";
 import { ROUTES } from "@/core/template/components/sidebar/sidebar.component";
+import { map } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -25,9 +26,6 @@ export class AuthGuard implements CanActivate {
     private planService: PlanService,
     private router: Router
   ) {
-    this.planService.plans$.subscribe((plans) => {
-      this.plans = plans;
-    });
     this.userService.user$.subscribe((user) => {
       this.user = user;
     });
@@ -45,18 +43,17 @@ export class AuthGuard implements CanActivate {
 
     const functionality = routeConfig.feature;
 
-    const hasAccess =
-      (this.user?.role === "Standard" &&
-        this.plans.some(
-          (p) => p.functionality === functionality && p.standard
-        )) ||
-      (this.user?.role === "Premium" &&
-        this.plans.some((p) => p.functionality === functionality && p.premium));
-
-    if (hasAccess) {
-      return true;
-    }
-
-    return this.router.createUrlTree(["/unauthorized"]);
+    return this.planService.plans$.pipe(
+      map((plans) => {
+        const hasAccess =
+          (this.user?.role === "Standard" &&
+            plans.some(
+              (p) => p.functionality === functionality && p.standard
+            )) ||
+          (this.user?.role === "Premium" &&
+            plans.some((p) => p.functionality === functionality && p.premium));
+        return hasAccess ? true : this.router.createUrlTree(["/unauthorized"]);
+      })
+    );
   }
 }

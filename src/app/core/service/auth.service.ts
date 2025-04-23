@@ -1,56 +1,41 @@
-import { Injectable } from '@angular/core';
-import {OAuthService} from 'angular-oauth2-oidc';
-import {authCodeFlowConfig} from '../config/auth.config';
-import {filter} from 'rxjs';
+import { Injectable } from "@angular/core";
+import { OAuthService } from "angular-oauth2-oidc";
+import { BehaviorSubject } from "rxjs";
+import { authCodeFlowConfig } from "../config/auth.config";
+import { UserService } from "./user.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
-  private isLoggedOut = false;
+  private authInitializedSubject = new BehaviorSubject<boolean>(false);
+  public authInitialized$ = this.authInitializedSubject.asObservable();
 
-  constructor(private oauthService: OAuthService) {
+  constructor(
+    private oauthService: OAuthService,
+    private userService: UserService
+  ) {
     this.configureOAuth();
   }
 
-  private configureOAuth() {
+  private async configureOAuth() {
     this.oauthService.configure(authCodeFlowConfig);
+    this.oauthService.setupAutomaticSilentRefresh();
 
-    this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
-      if (this.oauthService.hasValidAccessToken()) {
-        this.setupRefreshToken();
-      }
-    });
+    await this.oauthService.loadDiscoveryDocumentAndTryLogin();
 
-    this.oauthService.events.pipe(
-      filter(event => event.type === 'token_expires')
-    ).subscribe(() => {
-      this.oauthService.refreshToken()
-        .then()
-        .catch(err => {
-          console.error('Échec du refresh token', err);
-          this.oauthService.initLoginFlow();
-        });
-    });
+    if (this.oauthService.hasValidAccessToken()) {
+      this.userService.loadUser();
+    }
+    
+    this.authInitializedSubject.next(true);
   }
 
-  private setupRefreshToken() {
-    setInterval(() => {
-      if (this.oauthService.hasValidAccessToken()) {
-        this.oauthService.refreshToken()
-          .then()
-          .catch(err => console.error('Erreur lors du refresh token', err));
-      }
-    }, 1200000);
+  login() {
+    this.oauthService.initLoginFlow();
   }
-
-  login(){
-    this.oauthService.initLoginFlow()
-  }
-
 
   logout() {
-    this.isLoggedOut = true;
     this.oauthService.logOut();
     // @ts-ignore
     this.oauthService.clearHashAfterLogin();
