@@ -31,6 +31,7 @@ import { StatYear, YearStat } from "@/core/model/StatYear";
 export class PortefeuilleComponent implements OnInit {
   totalInvesti: number = 0;
   noResults: boolean = false;
+  noData: boolean = false;
   investments: Investments[] = [];
   groupedInvestments: Investments[] = [];
   statistics?: InvestmentStatistics;
@@ -82,6 +83,10 @@ export class PortefeuilleComponent implements OnInit {
           const yearId = new YearStat(year, index);
           return new StatYear(yearId, distributionRate, 0, 0);
         });
+        this.noData =
+          this.repGeographique.length === 0 &&
+          this.repSectoriel.length === 0 &&
+          this.distributionHistory.length === 0;
       },
 
       error: () => {
@@ -105,8 +110,24 @@ export class PortefeuilleComponent implements OnInit {
 
           const groupedMap: { [key: string]: Investments } = {};
           data.investments.content.forEach((inv: Investments) => {
-            const detentionYears = dayjs().year() - dayjs(inv.createdAt).year();
-            inv.detentionYears = detentionYears;
+            const start = dayjs(inv.createdAt);
+            const now = dayjs();
+          
+            const totalMonths = now.diff(start, 'month');
+            const years = Math.floor(totalMonths / 12);
+            const months = totalMonths % 12;
+          
+            const detention =
+              years === 0 && months === 0
+                ? 'Moins d’un mois'
+                : years === 0
+                ? `${months} mois`
+                : months === 0
+                ? `${years} an${years > 1 ? 's' : ''}`
+                : `${years} an${years > 1 ? 's' : ''} et ${months} mois`;
+          
+            inv.detentionDuration = detention; 
+                    
 
             if (groupedMap[inv.scpiName]) {
               groupedMap[inv.scpiName].totalAmount += inv.totalAmount;

@@ -8,7 +8,7 @@ export interface Investments {
   scpiName: string;
   investmentState: string;
   details?: Investments[];
-  detentionYears: number;
+  detentionDuration: string;
 }
 
 export interface InvestmentPayload {
