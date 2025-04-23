@@ -40,7 +40,6 @@ export class InvestmentsComponent {
   @Input() totalInvesti: number = 0;
   @Input() image!: string;
   @Input() noResults: boolean = false;
-  @Input() noData: boolean = false;
   @Input() totalRecords: number = 0;
   @Input() pageSize: number = 10;
   @Output() paramsChanged = new EventEmitter<any>();
