@@ -10,34 +10,57 @@
           <div class="charts-row">
             <div class="chart-col">
               <p-card class="card-card">
-              <app-chart
-              [chartData]="distributionChartData"
-              [chartOptions]="chartOptions"
-              [chartHeight]="'100%'"
-              [chartWidth]="'100%'"
-            >
-            </app-chart>
-            </p-card>
+                <app-chart
+                  [chartData]="distributionChartData"
+                  [chartOptions]="chartOptions"
+                  [chartHeight]="'100%'"
+                  [chartWidth]="'100%'"
+                >
+                </app-chart>
+              </p-card>
             </div>
             <div class="chart-col">
               <div class="chart-chart">
-                <p-card >
-                  <p-chart type="bar" [data]="chartData" class="h-[30rem]"></p-chart>
+                <p-card>
+                  <p-chart
+                    type="bar"
+                    [data]="chartData"
+                    class="h-[30rem]"
+                  ></p-chart>
                 </p-card>
               </div>
-             
             </div>
           </div>
+          <ng-container *ngIf="selectedState == 'Répartition'">
+            <p-card>
+              <app-map
+                [countries]="repGeographique"
+                [mapHeight]="'720px'"
+              ></app-map>
+            </p-card>
+          </ng-container>
         </ng-container>
-        <ng-container *ngIf="selectedState == 'Répartition'">
-          <p-card>
-            <app-map
-              [countries]="repGeographique"
-              [mapHeight]="'720px'"
-            ></app-map>
+
+        <div
+          *ngIf="!noData && selectedState == 'Répartition'"
+          class="empty-card-container"
+        >
+          <p-card class="empty-card">
+            <ng-template pTemplate="content">
+              <div class="text-center">
+                <i
+                  class="pi pi-info-circle"
+                  style="font-size: 2rem; color: #6c757d"
+                ></i>
+                <h3>Pas de données pour le moment</h3>
+                <p>
+                  Il n'y a pas encore de données concernant la répartition du
+                  portefeuille.
+                </p>
+              </div>
+            </ng-template>
           </p-card>
-        </ng-container>
-       
+        </div>
 
         <div>
           <p-table
@@ -218,8 +241,7 @@
                 <h3>Aucun investissement</h3>
                 <p>
                   Il n'y a pas encore d'investissements pour l'état :
-                  <strong>{{ selectedState | titlecase }}</strong
-                  >.
+                  <strong>{{ getInvestmentStateTranslate(selectedState) }}</strong>.
                 </p>
               </div>
             </ng-template>
