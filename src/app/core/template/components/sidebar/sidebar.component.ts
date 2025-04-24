@@ -106,11 +106,8 @@ export class SidebarComponent implements OnInit {
     private userService: UserService,
     private planService: PlanService
   ) {
-    this.userService.user$.subscribe((user) => {
-      if (user != null)
-        this.planService.getPlans().subscribe((plans) => {
-          this.plans = plans;
-        });
+    this.planService.plans$.subscribe((plans) => {
+      this.plans = plans;
     });
   }
 
