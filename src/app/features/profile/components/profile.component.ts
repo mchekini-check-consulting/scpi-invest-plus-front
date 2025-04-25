@@ -14,6 +14,7 @@ import { InvestorService } from '@/core/service/investor.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationService } from '@/core/service/navigation.service';
 import { take } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +25,7 @@ import { take } from 'rxjs';
     CalendarModule,
     DropdownModule,
     InputTextModule,
+    TranslateModule,
     ReactiveFormsModule,
     DatePickerModule,
     CommonModule,
