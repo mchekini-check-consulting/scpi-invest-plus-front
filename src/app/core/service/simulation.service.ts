@@ -98,19 +98,25 @@ export class SimulationService {
     );
 
     if (scpiAlreadyExists) {
-      return throwError(() => new Error("Cette SCPI est déjà ajoutée."));
+      currentSimulation.totalInvestment += scpiData.rising;
+      const scpiIndex = currentSimulation.scpiSimulations.findIndex(
+        (scpi: Scpi) => scpi.scpiId === scpiData.scpiId
+      );
+      currentSimulation.scpiSimulations[scpiIndex].rising += scpiData.rising;
+      currentSimulation.scpiSimulations[scpiIndex].numberPart += scpiData.numberPart;
+    }else {
+      currentSimulation.totalInvestment += scpiData.rising;
+      currentSimulation.scpiSimulations.push(scpiData);
+
+      currentSimulation.locations = [
+        ...currentSimulation.locations,
+        ...locations,
+      ];
+
+      currentSimulation.sectors = [...currentSimulation.sectors, ...sectors];
+      this.simulationSubject.next(currentSimulation);
     }
 
-    currentSimulation.totalInvestment += scpiData.rising;
-    currentSimulation.scpiSimulations.push(scpiData);
-
-    currentSimulation.locations = [
-      ...currentSimulation.locations,
-      ...locations,
-    ];
-
-    currentSimulation.sectors = [...currentSimulation.sectors, ...sectors];
-    this.simulationSubject.next(currentSimulation);
 
     return of(currentSimulation);
   }

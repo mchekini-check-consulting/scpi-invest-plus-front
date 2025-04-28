@@ -1,20 +1,22 @@
-import { CommonModule, Location } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
-import { Details } from '../../../../core/model/Details';
-import { StatYear } from '../../../../core/model/StatYear';
-import { DetailsDetailsService } from '../../../../core/service/details-details.service';
-import { DetailsDetialsComponent } from '@/features/scpi/details/components/scpi-details/details-detials.component';
-import { DetailsGlobalViewComponent } from '@/features/scpi/details/components/scpi-global-view/details-global-view.component';
-import { ActivatedRoute } from '@angular/router';
-import { TabViewModule } from 'primeng/tabview';
-import { TranslateModule } from '@ngx-translate/core';
-import { ScpiHistoryDetailsComponent } from '../components/scpi-history/scpi-history-details.component';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-import { Sector } from '@/core/model/Sector';
+import {CommonModule, Location} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {ButtonModule} from 'primeng/button';
+import {CardModule} from 'primeng/card';
+import {Details} from '../../../../core/model/Details';
+import {StatYear} from '../../../../core/model/StatYear';
+import {DetailsDetailsService} from '../../../../core/service/details-details.service';
+import {DetailsDetialsComponent} from '@/features/scpi/details/components/scpi-details/details-detials.component';
+import {
+  DetailsGlobalViewComponent
+} from '@/features/scpi/details/components/scpi-global-view/details-global-view.component';
+import {ActivatedRoute} from '@angular/router';
+import {TabViewModule} from 'primeng/tabview';
+import {TranslateModule} from '@ngx-translate/core';
+import {ScpiHistoryDetailsComponent} from '../components/scpi-history/scpi-history-details.component';
+import {MessageService} from 'primeng/api';
+import {ToastModule} from 'primeng/toast';
+import {Sector} from '@/core/model/Sector';
 
 @Component({
   selector: 'app-details',
@@ -56,7 +58,8 @@ export class DetailsComponent implements OnInit {
     private _location: Location,
     private route: ActivatedRoute,
     private messageService: MessageService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.id_string = this.route.snapshot.paramMap.get('id');
@@ -84,11 +87,4 @@ export class DetailsComponent implements OnInit {
     );
   }
 
-  changePage(wantedPage: string) {
-    this.actualPage = wantedPage;
-  }
-
-  backClicked() {
-    this._location.back();
-  }
 }

@@ -78,7 +78,13 @@ export class MapComponent implements OnInit {
       {
         permanent: false,
         direction: 'center',
+        className: 'tooltip',
+        offset: [0, 0],
+        opacity: 0.8,
+        sticky: true,
+      
       }
+
     );
   }
 }

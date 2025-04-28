@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Details} from '@/core/model/Details';
 import {DetailsDetailsService} from '@/core/service/details-details.service';
 import {TableModule} from 'primeng/table';
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
 import {NgForOf} from '@angular/common';
 import {Slider} from 'primeng/slider';
@@ -167,26 +167,26 @@ export class ComparatorComponent implements OnInit {
   }
 
   getMaxRevenueMensuelle() {
-    return  this.scpiResults.map(scpi=> scpi.revenusMensuels).reduce((max, current) => {
+    return this.scpiResults.map(scpi => scpi.revenusMensuels).reduce((max, current) => {
       const currentValue = parseFloat(current.replace('€', '').replace('M€', ''));
       return currentValue > max ? currentValue : max;
     }, 0);
   }
 
   getMinRevenueMensuelle() {
-    return this.scpiResults.map(scpi=> scpi.revenusMensuels).reduce((min, current) =>{
+    return this.scpiResults.map(scpi => scpi.revenusMensuels).reduce((min, current) => {
       const currentValuer = parseFloat(current.replace('€', '').replace('M€', ''));
       return currentValuer < min ? currentValuer : min;
     }, 1000000);
-    
+
   }
 
-  getColorValue(value: string | number | null) : string{
-    
+  getColorValue(value: string | number | null): string {
+
     if (!value) return 'black';
     const number = parseFloat(value.toString().replace('€', '').replace('M€', ''));
     if (isNaN(number)) return 'black';
-    if( number <= 0) return 'black';
+    if (number <= 0) return 'black';
     if (number === this.getMaxRevenueMensuelle()) return 'green';
     else if (number < this.getMaxRevenueMensuelle() && number > this.getMinRevenueMensuelle()) return 'orange';
     else return 'red';
