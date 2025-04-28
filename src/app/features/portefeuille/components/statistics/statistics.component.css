@@ -5,21 +5,25 @@
   justify-content: center;
   margin: 1rem;
   gap: 30px;
+  padding-bottom: 1rem;
 }
 
-.custom-card {
-  flex: 0 0 calc(25% - 30px);
-  text-align: center;
-  background-color: #f4f4f4;
-  border-radius: 0.5rem;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+
+::ng-deep .custom-card .p-card {
+  width: 22rem;
+  min-width: 22rem;
+  overflow: hidden;
+  border-radius: 12px;
   padding: 1rem;
   cursor: pointer;
+  transition: width 0.3s ease;
 }
+
 
 .custom-card:hover {
   color: red;
 }
+
 
 .card-title {
   font-size: 1.4rem;
@@ -35,7 +39,7 @@
 }
 
 .card-value:hover {
-  color: #2bbd57;
+  color: #194fbb;
 }
 
 .card-subtitle {
@@ -46,3 +50,26 @@
 .card-subtitle:hover {
   color: black;
 }
+
+@media screen and (max-width: 1600px) {
+  ::ng-deep .custom-card .p-card {
+    width: 16rem;
+    min-width: 16rem;
+    height: 15em;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+  }
+  .card-subtitle {
+    font-size: 1rem;
+    color: #777;
+  }
+
+  .custom-card-value {
+    margin-top: -9px;
+  }
+
+
+}
+
