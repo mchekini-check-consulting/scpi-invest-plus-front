@@ -6,9 +6,11 @@
 
   <div class="open_container">
     <i class="pi pi-sliders-h icon_re" (click)="isFilterVisible = true">
-      <i *ngIf="isNonNameFilterActive()"
-         class="pi pi-replay icon_replay"
-         (click)="resetFilters($event)">
+      <i
+        *ngIf="isNonNameFilterActive()"
+        class="pi pi-replay icon_replay"
+        (click)="resetFilters($event)"
+      >
       </i>
     </i>
   </div>
@@ -16,21 +18,21 @@
 
 <div class="custom-sidebar">
   <p-sidebar
-  [(visible)]="isFilterVisible"
-  styleClass="custom-sidebar-width"
-  position="right"
-  [dismissible]="true"
-  [showCloseIcon]="false"
->
+    [(visible)]="isFilterVisible"
+    styleClass="custom-sidebar-width"
+    position="right"
+    [dismissible]="true"
+    [showCloseIcon]="false"
+  >
     <div class="header_sidebar">
       <i class="pi pi-times icon_close" (click)="isFilterVisible = false"></i>
     </div>
 
     <div class="container_filter" (click)="stopPropagation($event)">
-      <h3>Filtrer les SCPI</h3>
+      <h3>{{ "FILTER.TITLE" | translate }}</h3>
 
       <div class="filter-section">
-        <label>Taux de distribution minimum</label>
+        <label>{{ "FILTER.DISTRIBUTION_RATE" | translate }}</label>
         <p-slider
           [(ngModel)]="filters.distributionRate"
           (ngModelChange)="onFiltersChanged()"
@@ -42,7 +44,7 @@
       </div>
 
       <div class="filter-section">
-        <label>Zone d’investissement</label>
+        <label>{{ "FILTER.ZONE" | translate }}</label>
         <p-multiSelect
           [options]="investmentZones"
           [(ngModel)]="selectedLocations"
@@ -51,7 +53,7 @@
       </div>
 
       <div class="filter-section">
-        <label>Secteurs d'investissement</label>
+        <label>{{ "FILTER.SECTOR" | translate }}</label>
         <p-multiSelect
           [options]="investmentSectors"
           [(ngModel)]="selectedSectors"
@@ -60,33 +62,33 @@
       </div>
 
       <div class="filter-section">
-        <label>Frais de souscription</label>
+        <label>{{ "FILTER.SUBSCRIPTION_FEES" | translate }}</label>
         <div class="subscription-fees-buttons">
           <button
             *ngFor="let option of subscriptionFeesOptions"
             [class.selected]="option.value === filters.subscriptionFees"
             (click)="onSubscriptionFeeChange(option.value)"
           >
-            {{ option.label }}
+            {{ option.label | translate }}
           </button>
         </div>
       </div>
 
       <div class="filter-section">
-        <label>Fréquence des loyers</label>
+        <label>{{ "FILTER.RENTAL_FREQUENCY" | translate }}</label>
         <div class="rental-frequency-buttons">
           <button
             *ngFor="let option of rentalFrequencyOptions"
             [class.selected]="option.value === filters.frequencyPayment"
             (click)="onRentalFrequencyChange(option.value)"
           >
-            {{ option.label }}
+            {{ option.label | translate }}
           </button>
         </div>
       </div>
 
       <div class="filter-section">
-        <label>Montant minimum d’investissement</label>
+        <label>{{ "FILTER.MINIMUM_INVESTMENT" | translate }}</label>
         <p-slider
           [(ngModel)]="filters.minimumSubscription"
           (ngModelChange)="onFiltersChanged()"
@@ -99,7 +101,7 @@
 
       <div class="button-container">
         <p-button
-          label="Rechercher"
+          [label]="'FILTER.SEARCH' | translate"
           icon="pi pi-arrow-right"
           [disabled]="isSearchDisabled()"
           severity="info"
@@ -108,11 +110,10 @@
         ></p-button>
 
         <p-button
-          label="Réinitialiser"
+          [label]="'FILTER.RESET' | translate"
           icon="pi pi-refresh"
           severity="danger"
           (click)="resetFilters()"
-
         ></p-button>
       </div>
     </div>

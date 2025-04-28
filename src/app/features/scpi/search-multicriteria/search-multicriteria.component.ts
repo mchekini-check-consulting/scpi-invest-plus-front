@@ -1,23 +1,18 @@
-import {
-  Component,
-  EventEmitter,
-  Output,
-  ViewEncapsulation,
-} from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule, ValueChangeEvent } from "@angular/forms";
-
+import { FormsModule } from "@angular/forms";
 import { Slider } from "primeng/slider";
 import { MultiSelect } from "primeng/multiselect";
 import { BadgeModule } from "primeng/badge";
 import { OverlayBadgeModule } from "primeng/overlaybadge";
-
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ButtonModule } from "primeng/button";
 import { ScpiIndexModel, ScpiSearch } from "@/core/model/scpi.model";
 import { ScpiService } from "@/core/service/scpi.service";
 import { SearchBarComponent } from "@/features/scpi/search-multicriteria/components/search-bar/search-bar.component";
 import { catchError } from "rxjs";
 import { SidebarModule } from "primeng/sidebar";
+import { TranslationHelperService } from "@/core/service/translation-helper.service";
 
 @Component({
   selector: "app-search-multicriteria",
@@ -27,6 +22,7 @@ import { SidebarModule } from "primeng/sidebar";
     OverlayBadgeModule,
     BadgeModule,
     FormsModule,
+    TranslateModule,
     SidebarModule,
     Slider,
     MultiSelect,
@@ -44,11 +40,26 @@ export class SearchMulticriteriaComponent {
 
   loading = false;
   scpiResults: ScpiIndexModel[] = [];
-
+  investmentZones: any[] = [];
+  investmentSectors: any[] = [];
   filters: ScpiSearch = this.getDefaultFilters();
-
   sidebarVisible = true;
-  constructor(private scpiService: ScpiService) {}
+  selectedLocationsInternal: any[] = [];
+  selectedSectorsInternal: any[] = [];
+
+  constructor(
+    private scpiService: ScpiService,
+    private translate: TranslateService,
+    private translationHelper: TranslationHelperService
+  ) {
+    this.translateOptions();
+  }
+
+  ngOnInit() {
+    this.translate.onLangChange.subscribe(() => {
+      this.translateOptions();
+    });
+  }
 
   onSearchTermChanged(searchTerm: string) {
     this.filters.name = searchTerm.trim();
@@ -110,6 +121,8 @@ export class SearchMulticriteriaComponent {
     event && event.stopPropagation();
     this.filters = this.getDefaultFilters();
     this.loading = true;
+    this.selectedLocationsInternal = [];
+    this.selectedSectorsInternal = [];
     this.noResultsMessage = false;
     this.scpiService
       .getScpiWithFilter({})
@@ -157,12 +170,22 @@ export class SearchMulticriteriaComponent {
     event.stopPropagation();
   }
 
+
+
+  get selectedLocations() {
+    return this.selectedLocationsInternal;
+  }
   set selectedLocations(values: any[]) {
+    this.selectedLocationsInternal = values;
     this.filters.locations = values.map((item) => item.value);
     this.onFiltersChanged();
   }
 
+  get selectedSectors() {
+    return this.selectedSectorsInternal;
+  }
   set selectedSectors(values: any[]) {
+    this.selectedSectorsInternal = values;
     this.filters.sectors = values.map((item) => item.value);
     this.onFiltersChanged();
   }
@@ -191,40 +214,20 @@ export class SearchMulticriteriaComponent {
     this.onFiltersChanged();
   }
 
-  investmentZones = [
-    { label: "Europe", value: "Europe" },
-    { label: "Grande-Bretagne", value: "Grande-Bretagne" },
-    { label: "Espagne", value: "Espagne" },
-    { label: "Irlande", value: "Irlande" },
-    { label: "Italie", value: "Italie" },
-    { label: "Allemagne", value: "Allemagne" },
-    { label: "Pays-Bas", value: "Pays-Bas" },
-    { label: "France", value: "France" },
-    { label: "Pologne", value: "Pologne" },
-    { label: "Portugal", value: "Portugal" },
-    { label: "Belgique", value: "Belgique" },
-    { label: "Autres", value: "" },
-  ];
-
-  investmentSectors = [
-    { label: "Santé", value: "Santé" },
-    { label: "Commerces", value: "Commerces" },
-    { label: "Hôtels", value: "Hôtels" },
-    { label: "Bureaux", value: "Bureaux" },
-    { label: "Logistique", value: "Logistique" },
-    { label: "Résidentiel", value: "Résidentiel" },
-    { label: "Locaux d'activité", value: "Locaux d'activité" },
-    { label: "Transport", value: "Transport" },
-    { label: "Autres", value: "" },
-  ];
-
   subscriptionFeesOptions = [
-    { label: "Avec frais de souscription", value: true },
-    { label: "Sans frais de souscription", value: false },
+    { label: "FILTER.SUBSCRIPTION_FEES_WITH", value: true },
+    { label: "FILTER.SUBSCRIPTION_FEES_WITHOUT", value: false },
   ];
 
   rentalFrequencyOptions = [
-    { label: "Mensuelle", value: "Mensuelle" },
-    { label: "Trimestrielle", value: "Trimestrielle" },
+    { label: "FILTER.RENTAL_FREQUENCY_MONTHLY", value: "Mensuelle" },
+    { label: "FILTER.RENTAL_FREQUENCY_QUARTERLY", value: "Trimestrielle" },
   ];
+
+  private translateOptions() {
+    this.translationHelper.loadInvestmentZonesAndSectors().subscribe(({ zones, sectors }) => {
+      this.investmentZones = zones;
+      this.investmentSectors = sectors;
+    });
+  }
 }
