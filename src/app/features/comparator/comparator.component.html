@@ -5,7 +5,7 @@
 
       <label for="investmentAmount">Combien souhaitez-vous investir ?</label>
       <input type="number" class="investment-input" id="investmentAmount" formControlName="investValue"
-        (input)="onInputChange()" [max]="100000">
+        (input)="onInputChange()" [max]="100000" [min]="0">
     </div>
     <div class="slider-container">
       <p-slider formControlName="investValue" [(ngModel)]="investValue" [min]="0" [max]="100000" [step]="100"

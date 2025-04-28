@@ -6,7 +6,7 @@
   font-weight: bold;
 }
 h2 {
-  color: #0ea5e9;
+  color: rgb(29, 59, 158);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: xx-large;
   margin-top: 10px;
@@ -26,13 +26,13 @@ h2 {
   padding: 10px;
   font-size: 16px;
   text-align: center;
-  border: 2px solid #007bff;
+  border: 2px solid rgb(29, 59, 158);
   border-radius: 5px;
   outline: none;
   margin-left: 10px;
 }
 .p-slider-custom .p-slider-range {
-  background-color: #007bff !important;
+  background-color: rgb(29, 59, 158) !important;
   height: 6px !important;
   border-radius: 6px;
   transition: background-color 0.3s ease;
@@ -40,7 +40,7 @@ h2 {
 
 .p-slider-custom .p-slider-handle {
   background-color: #ffffff !important;
-  border: 3px solid #007bff !important;
+  border: 3px solid rgb(29, 59, 158);
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -51,7 +51,7 @@ h2 {
 
 .p-slider-custom .p-slider-handle:hover {
   transform: scale(1.1);
-  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 4px 10px rgb(29, 59, 158);
 }
 
 .p-slider-custom .p-slider-handle:active {
@@ -60,7 +60,6 @@ h2 {
 
 .scpi-table {
   width: 100%;
-  max-width: 1200px;
   border-collapse: separate;
   border-spacing: 0;
   margin-top: 20px;
@@ -72,7 +71,7 @@ h2 {
 }
 
 .scpi-table th {
-  background-color: #007bff;
+  background-color: rgb(29, 59, 158);
   padding: 16px;
   font-size: 15px;
   font-weight: 600;
@@ -92,7 +91,7 @@ h2 {
 }
 
 .scpi-table tr:hover td {
-  background-color: #82afe2;
+  background-color: rgb(228, 242, 251);
 }
 
 .scpi-table td,
@@ -227,7 +226,7 @@ h2 {
 }
 
 :host ::ng-deep .p-slider-custom .p-slider-range {
-  background-color: #007bff !important;
+  background-color: rgb(29, 59, 158) !important;
   height: 6px !important;
   border-radius: 6px;
   transition: background-color 0.3s ease;
