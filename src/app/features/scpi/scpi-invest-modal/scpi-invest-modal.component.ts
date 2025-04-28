@@ -129,6 +129,7 @@ export class ScpiInvestModalComponent implements OnInit {
 
     this.investmentForm.controls["shareCount"].valueChanges.subscribe(() => {
       this.calculateTotalInvestment();
+      this.updateEstimatedMonthlyIncome();
     });
 
     this.investmentForm.controls["investmentDuration"].valueChanges.subscribe(
@@ -141,36 +142,40 @@ export class ScpiInvestModalComponent implements OnInit {
     this.investmentForm.controls["propertyType"].valueChanges.subscribe(() => {
       this.updateEstimatedMonthlyIncome();
       this.calculateTotalInvestment();
-      console.log("La prop a changée");
     });
 
-    this.investmentForm.controls["totalInvestment"].valueChanges.subscribe(
-      () => {
-        //this.calculateShareCount();
-      }
-    );
+    this.investmentForm
+      .get("totalInvestment")
+      ?.valueChanges.subscribe((value) => {
+        this.updateEstimatedMonthlyIncome();
+      });
+
+    this.investmentForm
+      .get("investmentPercentage")
+      ?.valueChanges.subscribe((value) => {
+        this.updateEstimatedMonthlyIncome();
+      });
+
+    this.investmentForm
+      .get("distributionRate")
+      ?.valueChanges.subscribe((value) => {
+        this.updateEstimatedMonthlyIncome();
+      });
 
     if (this.sharePrice) {
       this.investmentForm.patchValue({ sharePrice: this.sharePrice });
     }
   }
 
+  ngAfterViewChecked() {
+    this.updateEstimatedMonthlyIncome();
+  }
+
   calculateEstimatedMonthlyIncome(
     totalInvestment: number,
     annualReturnRate: number
   ): number {
-    if (this.selectedPropertyType === "Pleine propriété") {
-      return (totalInvestment * (annualReturnRate / 100)) / 12;
-    } else if (this.investmentPercentage) {
-      return (
-        (totalInvestment *
-          (annualReturnRate / 100) *
-          (this.investmentPercentage / 100)) /
-        12
-      );
-    } else {
-      return 0;
-    }
+    return (totalInvestment * (annualReturnRate / 100)) / 12;
   }
 
   updateEstimatedMonthlyIncome() {
@@ -191,20 +196,12 @@ export class ScpiInvestModalComponent implements OnInit {
     }
 
     if (this.mode === "investir") {
-
       const investmentData = this.investmentForm.getRawValue();
       this.createInvestment(investmentData);
     } else if (this.mode === "simuler") {
-
-
       const investmentData = this.investmentForm.getRawValue();
-
       if (this.scpi?.scpiId) {
-        console.log("ID de la SCPI :", this.scpi?.scpiId);
-
         this.scpiService.getScpiById(this.scpi.scpiId).subscribe((scpi) => {
-
-
           const scpiData = this.createScpiData(scpi, investmentData);
           const locations = scpi.locations ?? [];
           const sectors = scpi.sectors ?? [];
@@ -396,8 +393,7 @@ export class ScpiInvestModalComponent implements OnInit {
       propertyType: "Pleine propriété",
       shareCount: 1,
       investmentDuration: null,
-      totalInvestment:  this.scpi?.sharePrice
+      totalInvestment: this.scpi?.sharePrice,
     });
-
-}
+  }
 }
