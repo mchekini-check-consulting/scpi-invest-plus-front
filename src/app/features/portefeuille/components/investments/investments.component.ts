@@ -92,13 +92,17 @@ export class InvestmentsComponent {
 
   MethDistributionHistory(): void {
     if (this.distributionHistory && this.distributionHistory.length > 0) {
-      this.yearsDistribution = this.distributionHistory.map(
+      const filteredHistory = this.distributionHistory.filter(
+        (item) => item.distributionRate > 0
+      );
+      this.yearsDistribution = filteredHistory.map(
         (item) => item.yearStat.yearStat
       );
-      this.distributionRates = this.distributionHistory.map(
+  
+      this.distributionRates = filteredHistory.map(
         (item) => item.distributionRate
       );
-
+  
       this.distributionChartData = {
         labels: this.yearsDistribution,
         datasets: [
@@ -112,8 +116,35 @@ export class InvestmentsComponent {
         ],
       };
     }
+    this.chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'top' },
+        tooltip: { enabled: true, mode: 'index', intersect: false },
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Année', color: '#666' },
+          grid: { display: false },
+        },
+        y: {
+          title: { display: true, text: 'Taux (%)', color: '#666' },
+          grid: { color: '#eee' },
+          min: 0, 
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      },
+      animation: {
+        duration: 1000,
+        easing: 'easeInOutQuad',
+      },
+    };
   }
-
+  
+  
   tabStates = [
     { label: "Acceptée", value: "VALIDATED" },
     { label: "En cours de traitement", value: "En cours" },
