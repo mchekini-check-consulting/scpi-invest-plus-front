@@ -17,16 +17,18 @@ import { NotFoundComponent } from "@/features/not-found/not-found.component";
 import { UnauthorizedComponent } from "@/features/unauthorized/unauthorized.component";
 import { SimulationDetailComponent } from "./features/simulation/components/simulation-detail/simulation-detail.component";
 import { LandingComponent } from "./features/landing/landing.component";
-import { ExplorerComponent } from '@/features/explorer/explorer.component';
+import { ExplorerComponent } from "@/features/explorer/explorer.component";
+import { AuthenticatedGuard } from "@/core/guard/authenticated.guard";
 
 export const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: LandingComponent,
   },
   {
     path: "",
     component: TemplateComponent,
+    canActivate: [AuthenticatedGuard],
     children: [
       {
         path: "dashboard",
@@ -75,7 +77,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'explorer',
+        path: "explorer",
         component: ExplorerComponent,
         canActivate: [AuthGuard],
       },

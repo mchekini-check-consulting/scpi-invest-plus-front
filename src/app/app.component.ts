@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { UserService } from "./core/service/user.service";
+import { UserService } from "@/core/service/user.service";
 import { PlanService } from "@/core/service/plan.service";
-import { AuthService } from "./core/service/auth.service";
+import { AuthService } from "@/core/service/auth.service";
 import { filter, switchMap } from "rxjs/operators";
 import { Toast } from "primeng/toast";
 
@@ -19,9 +19,9 @@ export class AppComponent {
     private planService: PlanService,
     private authService: AuthService
   ) {
-    this.authService.authInitialized$
+    this.authService.isAuthenticated$
       .pipe(
-        filter((initialized) => initialized),
+        filter((isAuthenticated) => isAuthenticated),
         switchMap(() => this.userService.user$),
         filter((user) => !!user),
         switchMap(() => this.planService.getPlans())
