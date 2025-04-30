@@ -1,47 +1,51 @@
 import { Injectable } from "@angular/core";
 import { OAuthService } from "angular-oauth2-oidc";
 import { BehaviorSubject } from "rxjs";
-import { authCodeFlowConfig } from "../config/auth.config";
-import { UserService } from "./user.service";
+import { filter } from "rxjs/operators";
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable({ providedIn: "root" })
 export class AuthService {
-  private authInitializedSubject = new BehaviorSubject<boolean>(false);
-  public authInitialized$ = this.authInitializedSubject.asObservable();
+  private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
+  public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
 
-  constructor(
-    private oauthService: OAuthService,
-    private userService: UserService
-  ) {
-    this.configureOAuth();
-  }
+  private isDoneLoadingSubject$ = new BehaviorSubject<boolean>(false);
+  public isDoneLoading$ = this.isDoneLoadingSubject$.asObservable();
 
-  private async configureOAuth() {
-    this.oauthService.configure(authCodeFlowConfig);
+  constructor(private oauthService: OAuthService) {
+    this.oauthService.events.subscribe((_) => {
+      this.isAuthenticatedSubject$.next(
+        this.oauthService.hasValidAccessToken()
+      );
+    });
+    this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
+
+    this.oauthService.events
+      .pipe(filter((e) => ["token_received"].includes(e.type)))
+      .subscribe((e) => this.oauthService.loadUserProfile());
+
+    this.oauthService.events
+      .pipe(
+        filter((e) => ["session_terminated", "session_error"].includes(e.type))
+      )
+      .subscribe((e) => this.oauthService.initLoginFlow());
+
     this.oauthService.setupAutomaticSilentRefresh();
-
-    await this.oauthService.loadDiscoveryDocumentAndTryLogin();
-
-    if (this.oauthService.hasValidAccessToken()) {
-      this.userService.loadUser();
-    }
-    
-    this.authInitializedSubject.next(true);
   }
 
-  login() {
+  public async runInitialLoginSequence(): Promise<void> {
+    try {
+      await this.oauthService.loadDiscoveryDocumentAndTryLogin();
+      this.isDoneLoadingSubject$.next(true);
+    } catch {
+      return this.isDoneLoadingSubject$.next(true);
+    }
+  }
+
+  public login() {
     this.oauthService.initLoginFlow();
   }
 
-  logout() {
+  public logout() {
     this.oauthService.logOut();
-    // @ts-ignore
-    this.oauthService.clearHashAfterLogin();
-  }
-
-  isLoggedIn(): boolean {
-    return this.oauthService.hasValidAccessToken();
   }
 }
