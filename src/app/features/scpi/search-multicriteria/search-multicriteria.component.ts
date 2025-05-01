@@ -13,7 +13,7 @@ import { SearchBarComponent } from "@/features/scpi/search-multicriteria/compone
 import { catchError } from "rxjs";
 import { SidebarModule } from "primeng/sidebar";
 import { TranslationHelperService } from "@/core/service/translation-helper.service";
-
+import { ActivatedRoute, Router } from "@angular/router";
 @Component({
   selector: "app-search-multicriteria",
   standalone: true,
@@ -50,7 +50,9 @@ export class SearchMulticriteriaComponent {
   constructor(
     private scpiService: ScpiService,
     private translate: TranslateService,
-    private translationHelper: TranslationHelperService
+    private translationHelper: TranslationHelperService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.translateOptions();
   }
@@ -59,7 +61,26 @@ export class SearchMulticriteriaComponent {
     this.translate.onLangChange.subscribe(() => {
       this.translateOptions();
     });
+
+    this.route.queryParams.subscribe((params) => {
+      this.filters.name = params['name'] || '';
+      this.filters.distributionRate = params['distributionRate'] ? +params['distributionRate'] : undefined;
+      this.filters.minimumSubscription = params['minimumSubscription'] ? +params['minimumSubscription'] : 0;
+      this.filters.subscriptionFees = params['subscriptionFees'] === 'true' ? true : params['subscriptionFees'] === 'false' ? false : undefined;
+      this.filters.frequencyPayment = params['frequencyPayment'] || undefined;
+
+      this.filters.locations = params['locations'] ? params['locations'].split(',') : [];
+      this.filters.sectors = params['sectors'] ? params['sectors'].split(',') : [];
+
+      this.selectedLocationsInternal = this.investmentZones.filter(z => this.filters.locations?.includes(z.value));
+      this.selectedSectorsInternal = this.investmentSectors.filter(s => this.filters.sectors?.includes(s.value));
+
+      if (!this.isSearchDisabled()) {
+        this.searchScpi();
+      }
+    });
   }
+
 
   onSearchTermChanged(searchTerm: string) {
     this.filters.name = searchTerm.trim();
@@ -73,6 +94,9 @@ export class SearchMulticriteriaComponent {
   searchScpi() {
     this.isFilterVisible = false;
     let filtersToSend: ScpiSearch = this.prepareFilters();
+
+    this.updateQueryParams();
+
 
     this.loading = true;
     this.scpiService.getScpiWithFilter(filtersToSend).subscribe({
@@ -123,6 +147,10 @@ export class SearchMulticriteriaComponent {
     this.loading = true;
     this.selectedLocationsInternal = [];
     this.selectedSectorsInternal = [];
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {},
+    });
     this.noResultsMessage = false;
     this.scpiService
       .getScpiWithFilter({})
@@ -195,6 +223,21 @@ export class SearchMulticriteriaComponent {
       this.resetFilters();
     }
   }
+
+  private updateQueryParams() {
+    const queryParams: any = {
+      ...this.filters,
+      locations: this.filters.locations?.join(','),
+      sectors: this.filters.sectors?.join(','),
+    };
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'merge',
+    });
+  }
+
 
   onSubscriptionFeeChange(selectedValue: boolean) {
     if (this.filters.subscriptionFees === selectedValue) {
