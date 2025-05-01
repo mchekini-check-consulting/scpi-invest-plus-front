@@ -124,30 +124,21 @@ export class SimulationService {
 
   calculateSimulationResults(simulationCreation: Simulation): void {
     const scpiSimulations = simulationCreation.scpiSimulations;
-
     if (!scpiSimulations || scpiSimulations.length === 0) {
       console.warn("Aucune SCPI simulation trouvée.");
       return;
     }
-
     let monthlyIncome = 0;
-
-
     scpiSimulations.forEach((scpi: ScpiSimulation) => {
       const rate = scpi.statYear;
       const investedAmount = scpi.rising;
       monthlyIncome += investedAmount * (rate / 100);
     });
-
-
     const locations = this.calculateLocations(scpiSimulations, simulationCreation.totalInvestment);
     const sectors = this.calculateSectors(scpiSimulations, simulationCreation.totalInvestment);
     const rendementParAnnee = this.calculateYearlyYields(scpiSimulations, simulationCreation.totalInvestment);
-
     const years = rendementParAnnee.years;
     const distributionYear = rendementParAnnee.yield;
-
-
     const simulationResult = {
       name: simulationCreation.name,
       simulationDate: new Date().toISOString().split("T")[0],
@@ -180,11 +171,15 @@ export class SimulationService {
   }
 
 
-  private calculateYearlyYields(scpiSimulations: any[], totalInvestment: number): { years: number[]; yield: number[] } {
-    const rendementParAnnee = new Map<number, number>();
-
+  private calculateYearlyYields(scpiSimulations: any[],totalInvestment: number): { years: number[]; yield: number[] } {
+    const rendementParAnnee = new Map<number, { total: number, poidsTotal: number }>();
+    if (totalInvestment === 0) {
+      console.warn("Investissement total nul.");
+      return { years: [], yield: [] };
+    }
     scpiSimulations.forEach((scpi) => {
       const poids = scpi.rising / totalInvestment;
+
       if (!Array.isArray(scpi.statYears)) return;
 
       scpi.statYears.forEach((stat: any) => {
@@ -195,22 +190,24 @@ export class SimulationService {
         const rendementPondere = rendement * poids;
 
         if (!rendementParAnnee.has(year)) {
-          rendementParAnnee.set(year, 0);
+          rendementParAnnee.set(year, { total: 0, poidsTotal: 0 });
         }
 
-        rendementParAnnee.set(year, rendementParAnnee.get(year)! + rendementPondere);
+        const data = rendementParAnnee.get(year)!;
+        data.total += rendementPondere;
+        data.poidsTotal += poids;
       });
     });
 
-    // Trie les années pour un affichage plus lisible
     const sortedEntries = Array.from(rendementParAnnee.entries()).sort(([a], [b]) => a - b);
 
     const years: number[] = [];
     const yieldArray: number[] = [];
 
-    for (const [year, totalRendement] of sortedEntries) {
+    for (const [year, data] of sortedEntries) {
+      const moyenne = data.total / data.poidsTotal;
       years.push(year);
-      yieldArray.push(Math.round(totalRendement * 100) / 100);
+      yieldArray.push(Math.round(moyenne * 100) / 100);
     }
 
     return {
@@ -218,6 +215,7 @@ export class SimulationService {
       yield: yieldArray
     };
   }
+
 
 
 
