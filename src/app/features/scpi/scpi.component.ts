@@ -23,6 +23,7 @@ import { ScpiCardComponent } from "./components/scpi-card/scpi-card.component";
 import { UserService } from "@/core/service/user.service";
 import { ScpiInvestModalComponent } from "@/features/scpi/scpi-invest-modal/scpi-invest-modal.component";
 import { UserModel } from "@/core/model/user.model";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-scpi",
@@ -52,36 +53,55 @@ export class ScpiComponent implements OnInit, OnDestroy {
   investirModalVisible = false;
   modalMode: string = "investir";
 
+  scpiFilters = [
+    'name',
+    'locations',
+    'sectors',
+    'minimumSubscription',
+    'frequencyPayment'
+  ];
+
+
   private subscriptions = new Subscription();
 
   constructor(
     private scpiService: ScpiService,
     private cdRef: ChangeDetectorRef,
-    private userService: UserService
+    private userService: UserService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.userService.user$
-      .pipe(
-        filter((user): user is UserModel => !!user),
-        take(1),
-        tap(() => (this.loading = true)),
-        switchMap(() =>
-          this.scpiService.getScpiWithFilter({}).pipe(
-            catchError(() => {
-              this.loading = false;
-              return of([]);
-            })
+    const activeQueryParams = this.route.snapshot.queryParams;
+    const hasScpiFilters = this.scpiFilters.some(key => {
+      const value = activeQueryParams[key];
+      return value !== undefined && value !== '' && value !== null;
+    });
+
+    if (!hasScpiFilters) {
+      this.userService.user$
+        .pipe(
+          filter((user): user is UserModel => !!user),
+          take(1),
+          tap(() => (this.loading = true)),
+          switchMap(() =>
+            this.scpiService.getScpiWithFilter({}).pipe(
+              catchError(() => {
+                this.loading = false;
+                return of([]);
+              })
+            )
           )
         )
-      )
-      .subscribe((data: ScpiIndexModel[]) => {
-        this.scpis = data;
-        this.filteredScpis = [...data];
-        this.loading = false;
-        this.cdRef.detectChanges();
-      });
+        .subscribe((data: ScpiIndexModel[]) => {
+          this.scpis = data;
+          this.filteredScpis = [...data];
+          this.loading = false;
+          this.cdRef.detectChanges();
+        });
+    }
   }
+
 
   getImage(id: number | string): string {
     const numericId = typeof id === "string" ? parseInt(id, 10) : id;
