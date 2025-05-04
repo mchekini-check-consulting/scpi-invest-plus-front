@@ -63,10 +63,25 @@ export class ExplorerComponent implements OnInit {
       this.scpiResults = JSON.parse(savedResults);
     }
   }
-
-  ajouterCritere() {
-    this.criteres.push({ nom: '', facteur: 1, isValid: true });
+  onKeyDown(event: KeyboardEvent) {
+    const allowedKeys = [
+      'ArrowUp', 'ArrowDown', 'Tab', 'Backspace', 'Delete', 
+      'Home', 'End', 'Control', 'Meta', 'Shift'
+    ];
+    
+    if (!allowedKeys.includes(event.key)) {
+      event.preventDefault();
+    }
   }
+  
+  ajouterCritere() {
+    const criteresSelectionnes = this.criteres.map(c => c.nom).filter(nom => nom);
+    const criteresDisponiblesRestants = this.criteresDisponibles.filter(critere => !criteresSelectionnes.includes(critere.value));
+  
+    if (criteresDisponiblesRestants.length > 0) {
+      this.criteres.push({ nom: '', facteur: 1, isValid: true });
+    } 
+    }
 
   supprimerCritere(index: number) {
     this.criteres.splice(index, 1);
@@ -78,6 +93,13 @@ export class ExplorerComponent implements OnInit {
   }
 
   validerFormulaire() {
+  const criteresRestants = this.criteresDisponibles.filter(cd =>
+    !this.criteres.map(c => c.nom).includes(cd.value)
+  );
+
+  if (criteresRestants.length === 0) {
+    return;
+  }
     let isValid = true;
   
     this.criteres.forEach(critere => {
@@ -98,7 +120,6 @@ export class ExplorerComponent implements OnInit {
   
       localStorage.setItem('criteres', JSON.stringify(this.criteres));
   
-      // ✅ Réinitialiser les résultats avant la requête
       this.scpiResults = [];
       localStorage.removeItem('scpiResults');
   

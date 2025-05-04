@@ -47,6 +47,7 @@
                   placeholder="Facteur"
                   [ngClass]="{ invalid: !critere.isValid }"
                   [style]="{ width: '200px', 'text-align': 'center' }"
+                  (keydown)="onKeyDown($event)"
                 />
                 <button
                   pButton
