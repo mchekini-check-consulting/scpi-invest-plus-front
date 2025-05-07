@@ -1,58 +1,82 @@
-<div class="card-container">
-  <p-card class="card">
-    <ng-template #header>
-      <img [src]="image" alt="Card" class="card-image" />
-    </ng-template>
+<div class="card-wrapper">
+  <div class="modern-card">
+    <!-- Top Accent Bar -->
+    <div class="accent-bar"></div>
 
-    <ng-template #title>
-      {{ scpi?.name ?? "N/A" }}
-      <span
-        *ngIf="matchedScore !== undefined"
-        [ngClass]="{
-          'text-green-500': matchedScore >= 0.8,
-          'text-yellow-500': matchedScore >= 0.5 && matchedScore < 0.8,
-          'text-red-500': matchedScore < 0.5,
-        }"
-        class="font-bold"
-      >
-        ({{ matchedScore * 100 | number: "1.1-1" }} %)
-      </span>
-    </ng-template>
-    <div class="info-container">
-      <div class="info">
-        <p-tag [value]="location" severity="secondary"></p-tag>
-        <p-tag [value]="sector" severity="secondary"></p-tag>
+    <!-- Card Content -->
+    <div class="card-content">
+      <!-- Image and Title Section -->
+      <div class="header-section">
+        <div class="image-wrapper">
+          <img [src]="image" alt="Property" class="property-image" />
+          <div class="image-overlay"></div>
+        </div>
+
+        <div class="title-section">
+          <h3 class="property-title">{{ scpi?.name ?? "N/A" }}</h3>
+
+          <!-- Score Badge -->
+          <div
+            *ngIf="matchedScore !== undefined"
+            class="score-badge"
+            [ngClass]="{
+              'high-score': matchedScore >= 0.8,
+              'medium-score': matchedScore >= 0.5 && matchedScore < 0.8,
+              'low-score': matchedScore < 0.5
+            }"
+          >
+            <span class="score-value">{{ matchedScore * 100 | number: '1.0-0' }}%</span>
+          </div>
+        </div>
       </div>
-      <div class="info">
-        <p-tag [value]="distributionRate" severity="secondary"></p-tag>
-        <p-tag [value]="minimumSubscription" severity="secondary"></p-tag>
+
+      <!-- Info Tags Section -->
+      <div class="info-section">
+        <div class="info-row">
+          <div class="info-tag location">
+            <i class="pi pi-map-marker"></i>
+            <p-tag [value]="location" styleClass="custom-tag"></p-tag>
+          </div>
+          <div class="info-tag sector">
+            <i class="pi pi-building"></i>
+            <p-tag [value]="sector" styleClass="custom-tag"></p-tag>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-tag rate">
+            <i class="pi pi-percentage"></i>
+            <p-tag [value]="distributionRate" styleClass="custom-tag"></p-tag>
+          </div>
+          <div class="info-tag subscription">
+            <i class="pi pi-wallet"></i>
+            <p-tag [value]="minimumSubscription" styleClass="custom-tag"></p-tag>
+          </div>
+        </div>
       </div>
-    </div>
-    <p-divider />
-    <ng-template #footer>
-      <div class="button-group">
+
+      <!-- Action Buttons -->
+      <div class="action-section">
         <p-button
-          (click)="openInvestirModal('simuler')"
           *ngIf="isAddingScpi"
+          (click)="openInvestirModal('simuler')"
           label="Ajouter"
-          severity="info"
-          size="large"
-        />
+          icon="pi pi-plus"
+          styleClass="primary-button"
+        ></p-button>
         <p-button
-          (click)="openInvestirModal('investir')"
           *ngIf="!isAddingScpi"
+          (click)="openInvestirModal('investir')"
           label="Investir"
-          severity="info"
-          size="large"
-        />
+          icon="pi pi-chart-line"
+          styleClass="primary-button"
+        ></p-button>
         <p-button
-          [outlined]="true"
           [routerLink]="['/details', scpi?.scpiId]"
           label="Détails"
-          severity="secondary"
-          size="large"
-        />
+          icon="pi pi-info-circle"
+          styleClass="secondary-button"
+        ></p-button>
       </div>
-    </ng-template>
-  </p-card>
+    </div>
+  </div>
 </div>
