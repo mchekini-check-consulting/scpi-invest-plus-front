@@ -1,56 +1,349 @@
-.card-container {
+/* Card Wrapper */
+.card-wrapper {
+  height: 100%;
+}
+
+/* Modern Card */
+.modern-card {
+  position: relative;
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px var(--card-shadow);
+  transition: all 0.3s ease;
+  height: 100%;
   display: flex;
+  flex-direction: column;
+}
+
+.modern-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(12, 27, 51, 0.15);
+}
+
+/* Colorful Accent Bar */
+.accent-bar {
+  height: 6px;
+  background: linear-gradient(90deg,
+  var(--primary-blue) 0%,
+  var(--highlight-blue) 50%,
+  var(--highlight-green) 100%);
+}
+
+/* Card Content */
+.card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+/* Header Section */
+.header-section {
+  display: flex;
+  gap: 16px;
+}
+
+/* Image Wrapper */
+.image-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.property-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.modern-card:hover .property-image {
+  transform: scale(1.1);
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg,
+  rgba(29, 59, 158, 0.2) 0%,
+  rgba(67, 119, 249, 0.1) 100%);
+}
+
+/* Title Section */
+.title-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.property-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dark-blue);
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Score Badge */
+.score-badge {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 14px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-.text-green-500 {
-  color: #22c55e !important; /* Tailwind green-500 */
-}
-.text-yellow-500 {
-  color: #eab308 !important;
-}
-.text-red-500 {
-  color: #ef4444 !important;
-}
-.mashed-score {
-  font-weight: bold;
-  color: #0a9396;
-  margin-left: 8px;
-}
-.card {
-  overflow: hidden;
-  border-radius: 12px;
-  width: 100%;
+
+.high-score {
+  background-color: var(--highlight-green);
+  color: white;
 }
 
-.card-image {
-  width: 100%;
-  object-fit: cover;
-  height: 6rem;
+.medium-score {
+  background-color: var(--accent-orange);
+  color: white;
 }
 
-.info-container {
-  display: grid;
-  gap: 1rem;
-  & > .info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    & > * {
-      white-space: nowrap;
-    }
-  }
+.low-score {
+  background-color: #ef4444;
+  color: white;
 }
-.button-group {
+
+/* Info Section */
+.info-section {
   display: flex;
-  gap: 1rem;
-  width: 100%;
-  align-items: center;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 12px;
 }
 
+.info-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.info-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.info-tag i {
+  font-size: 16px;
+}
+
+.info-tag.location {
+  background-color: var(--light-blue);
+}
+
+.info-tag.location i {
+  color: var(--highlight-blue);
+}
+
+.info-tag.sector {
+  background-color: rgba(124, 58, 237, 0.1);
+}
+
+.info-tag.sector i {
+  color: var(--accent-purple);
+}
+
+.info-tag.rate {
+  background-color: var(--light-green);
+}
+
+.info-tag.rate i {
+  color: var(--highlight-green);
+}
+
+.info-tag.subscription {
+  background-color: rgba(245, 158, 11, 0.1);
+}
+
+.info-tag.subscription i {
+  color: var(--accent-orange);
+}
+
+/* Custom Tag Styling */
+:host ::ng-deep .custom-tag {
+  background-color: transparent !important;
+  color: var(--dark-blue) !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+/* Action Section */
+.action-section {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+/* Button Styling */
+:host ::ng-deep .primary-button .p-button {
+  background: linear-gradient(135deg, var(--primary-blue), var(--highlight-blue));
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(67, 119, 249, 0.2);
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+:host ::ng-deep .primary-button .p-button:hover {
+  box-shadow: 0 6px 16px rgba(67, 119, 249, 0.3);
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, var(--highlight-blue), var(--primary-blue));
+}
+
+:host ::ng-deep .secondary-button .p-button {
+  background-color: transparent;
+  color: var(--primary-blue);
+  border: 2px solid var(--primary-blue) !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+:host ::ng-deep .secondary-button .p-button:hover {
+  background-color: rgba(29, 59, 158, 0.05);
+  transform: translateY(-2px);
+}
+
+:host ::ng-deep .p-button .p-button-icon {
+  font-size: 16px;
+}
+
+/* Modal */
 app-scpi-invest-modal {
   display: block;
   position: absolute;
   z-index: 1000;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+  .action-section {
+    flex-direction: column;
+  }
+
+  .header-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .image-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+
+  .title-section {
+    align-items: center;
+  }
+
+  .info-row {
+    justify-content: center;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .info-tag {
+    flex: 1;
+  }
+}
+
+@media (min-width: 992px) {
+  .modern-card {
+    flex-direction: row;
+    height: auto;
+    min-height: 200px;
+  }
+
+  .accent-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg,
+    var(--primary-blue) 0%,
+    var(--highlight-blue) 50%,
+    var(--highlight-green) 100%);
+  }
+
+  .card-content {
+    padding-left: 26px;
+  }
+}
+
+/* Button Styling - Complete replacement */
+:host ::ng-deep .primary-button .p-button {
+  /* Change from gradient with green to gradient with dark blue */
+  background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue)) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(12, 27, 51, 0.2);
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+:host ::ng-deep .primary-button .p-button:hover {
+  box-shadow: 0 6px 16px rgba(12, 27, 51, 0.3);
+  transform: translateY(-2px);
+  /* Change hover gradient to use dark blue instead of green */
+  background: linear-gradient(135deg, var(--highlight-blue), var(--dark-blue)) !important;
+}
+
+:host ::ng-deep .secondary-button .p-button {
+  background-color: transparent !important;
+  color: var(--dark-blue) !important;
+  border: 2px solid var(--dark-blue) !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+:host ::ng-deep .secondary-button .p-button:hover {
+  background-color: rgba(12, 27, 51, 0.05) !important;
+  transform: translateY(-2px);
+}
+
+/* Also update the accent bar to match the new color scheme if desired */
+.accent-bar {
+  height: 6px;
+  background: linear-gradient(90deg,
+  var(--primary-blue) 0%,
+  var(--highlight-blue) 50%,
+  var(--dark-blue) 100%) !important;
+}
+
+@media (min-width: 992px) {
+  .accent-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg,
+    var(--primary-blue) 0%,
+    var(--highlight-blue) 50%,
+    var(--dark-blue) 100%) !important;
+  }
 }
