@@ -48,6 +48,8 @@ export class InvestmentsComponent {
     [];
   @Input() repSectoriel: Sector[] = [];
   @Input() distributionHistory: StatYear[] = [];
+  @Input() selectedState: string = 'VALIDATED';
+
   distributionChartData: any;
   yearsDistribution: number[] = [];
   distributionRates: number[] = [];
@@ -55,16 +57,21 @@ export class InvestmentsComponent {
   chartData: any;
 
   filteredInvestmentsMap: { [key: string]: Investments[] } = {};
-  selectedState: string = "VALIDATED";
   images = Array.from({ length: 10 }, (_, i) => `img/scpi/${i + 1}.webp`);
   expandedRows: { [key: string]: boolean } = {};
-
+  
   constructor(private messageService: MessageService) {}
 
   ngOnChanges() {
     this.MethDistributionHistory();
     this.MethRepSectoriel();
   }
+
+    getRejectionReason(investment: Investments): string {
+    return investment.rejectedReason || "null";
+  }
+
+
 
   MethRepSectoriel(): void {
     if (this.repSectoriel && this.repSectoriel.length > 0) {

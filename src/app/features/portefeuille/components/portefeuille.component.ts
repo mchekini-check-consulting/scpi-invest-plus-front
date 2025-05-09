@@ -94,6 +94,7 @@ export class PortefeuilleComponent implements OnInit {
       },
     });
   }
+  
   loadInvestments(): void {
     this.groupedInvestments = [];
     this.error = "";
