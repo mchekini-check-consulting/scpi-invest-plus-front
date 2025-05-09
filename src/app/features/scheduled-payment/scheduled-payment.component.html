@@ -2,7 +2,9 @@
   <!-- Left Side: Overview -->
   <p-panel class="overview-container">
     <ng-template #header>
-      <h2 class="title">Vue d’ensemble</h2>
+      <div class="panel-header">
+        <h2 class="title">Vue d'ensemble</h2>
+      </div>
     </ng-template>
     <ng-template pTemplate="content">
       <div class="overview-card">
@@ -18,16 +20,33 @@
         </div>
 
         <div class="stats-container">
-          <p-panel header="Revenus estimés" class="stats-card">
-            <p class="text-green">{{ estimatedRevenueByYear[yearValue] | number:'1.0-0' }} €</p>
-          </p-panel>
-          <p-panel header="Total investi" class="stats-card">
-            <p class="text-blue">{{ investedByYear[yearValue] | number:'1.0-0' }} €</p>
-          </p-panel>
+          <div class="stats-card revenue-card">
+            <div class="stats-icon">
+              <i class="pi pi-chart-line"></i>
+            </div>
+            <div class="stats-content">
+              <h3 class="stats-title">Revenus estimés</h3>
+              <p class="stats-value text-green">{{ estimatedRevenueByYear[yearValue] | number:'1.0-0' }} €</p>
+            </div>
+          </div>
+
+          <div class="stats-card investment-card">
+            <div class="stats-icon">
+              <i class="pi pi-wallet"></i>
+            </div>
+            <div class="stats-content">
+              <h3 class="stats-title">Total investi</h3>
+              <p class="stats-value text-blue">{{ investedByYear[yearValue] | number:'1.0-0' }} €</p>
+            </div>
+          </div>
+
         </div>
 
         <div class="growth-rate-container">
-          <label for="growthRate" class="input-label">Revalorisation (%)</label>
+          <label for="growthRate" class="input-label">
+            <i class="pi pi-percentage"></i>
+            <span>Revalorisation (%)</span>
+          </label>
           <p-inputnumber
             [(ngModel)]="customGrowthRate"
             inputId="growthRate"
@@ -37,12 +56,15 @@
             [max]="10"
             (onInput)="updateChart()"
           ></p-inputnumber>
-          <small class="form-text text-muted">
-            La valeur doit être comprise entre -10% et +10%.
+          <small class="form-text">
+            <i class="pi pi-info-circle"></i>
+            <span>La valeur doit être comprise entre -10% et +10%.</span>
           </small>
         </div>
 
-        <app-chart [data]="chartData"></app-chart>
+        <div class="chart-container">
+          <app-chart [data]="chartData"></app-chart>
+        </div>
       </div>
     </ng-template>
   </p-panel>
@@ -53,5 +75,4 @@
     (valuesChanged)="updateInvestmentState($event)"
     (onInvest)="createInvestment()"
   ></app-select-scpi>
-
 </div>

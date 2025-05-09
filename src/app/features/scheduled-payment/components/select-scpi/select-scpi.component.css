@@ -1,153 +1,295 @@
-.investment-container {
-  width: 100%;
-  border-radius: 10px;
-
-  & * {
-    padding: 0;
-    margin: 0;
-  }
-
-  .title {
-    font-size: 1.5rem;
-    color: var(--dark-blue);
-    font-weight: bold;
-  }
-
-  .investment-card {
-    display: grid;
-    gap: 1.5rem;
-
-    .selected-scpi {
-      font-size: 1.125rem;
-      color: var(--primary-blue);
-      font-weight: bold;
-    }
-
-    .select-scpi-button {
-      display: inline-block;
-      padding: 12px 24px;
-      border: 2px solid var(--primary-blue);
-      border-radius: 999px;
-      background-color: transparent;
-      color: var(--primary-blue);
-      font-family: sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      text-align: center;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s;
-      min-height: 50px;
-      width: 100%;
-
-      &:hover {
-        opacity: 0.7;
-      }
-
-      &:focus {
-        opacity: 0.7;
-      }
-    }
-
-    .sliders-container {
-      display: grid;
-      gap: 1.5rem;
-
-      .slider-container {
-        display: grid;
-        gap: 0.6rem;
-
-        .text {
-          color: var(--text-muted);
-          font-weight: bold;
-          font-size: 1rem;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          span {
-            color: var(--highlight-blue);
-            font-weight: bold;
-            font-size: 1.125rem;
-            margin-left: auto;
-          }
-        }
-      }
-    }
-
-    .investment-summary-container {
-      display: grid;
-      gap: 1rem;
-
-      .title {
-        font-size: 1rem;
-        color: var(--text-muted);
-        font-weight: bold;
-      }
-
-      .monthly {
-        color: var(--highlight-blue);
-        font-size: 1.5rem;
-        font-weight: bold;
-      }
-    }
-
-  }
+:host ::ng-deep .investment-container .p-panel {
+  box-shadow: 0 8px 24px var(--card-shadow);
+  border-radius: var(--border-radius);
+  overflow: hidden;
 }
 
+:host ::ng-deep .investment-container .p-panel-header {
+  background-color: white;
+  padding: 1.25rem 1.5rem;
+}
 
-.save-investment-button {
-  margin-top: 1.5rem;
-  display: inline-block;
-  padding: 12px 24px;
-  border-radius: 999px;
-  background-color: var(--primary-blue);
+:host ::ng-deep .investment-container .p-panel-content {
+  padding: 1.5rem;
+  background-color: white;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1.5rem;
+  color: var(--primary-blue);
+  font-weight: 600;
+  margin: 0;
+  position: relative;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--highlight-blue), var(--primary-blue));
+  border-radius: 3px;
+}
+
+/* Investment Card */
+.investment-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* SCPI Selection */
+.scpi-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.scpi-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--light-blue);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+}
+
+.scpi-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--highlight-blue);
   color: white;
-  outline: none;
-  border: none;
-  font-size: 16px;
+}
+
+.scpi-icon i {
+  font-size: 1.25rem;
+}
+
+.selected-scpi {
+  font-size: 1.125rem;
+  color: var(--primary-blue);
+  font-weight: 600;
+  margin: 0;
+}
+
+.scpi-empty {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background-color: #f8f9fc;
+  border-radius: var(--border-radius);
+  color: var(--text-muted);
+}
+
+.scpi-empty i {
+  font-size: 1.25rem;
+  color: var(--highlight-blue);
+}
+
+.select-scpi-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--primary-blue);
+  border-radius: 999px;
+  background-color: white;
+  color: var(--primary-blue);
+  font-size: 1rem;
   font-weight: 500;
-  text-align: center;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition: all var(--transition-speed);
   min-height: 50px;
   width: 100%;
+}
 
-  &:hover {
-    opacity: 0.7;
-  }
+.select-scpi-button:hover {
+  background-color: var(--light-blue);
+  transform: translateY(-2px);
+}
 
-  &:focus {
-    opacity: 0.7;
-  }
+.select-scpi-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(67, 119, 249, 0.2);
+}
+
+.select-scpi-button i {
+  font-size: 1.1rem;
+}
+
+/* Investment Configuration */
+.investment-config {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  color: var(--dark-blue);
+  font-weight: 600;
+  margin: 0;
+}
+
+.section-title i {
+  color: var(--highlight-blue);
+  font-size: 1.1rem;
+}
+
+/* Sliders - Matching dashboard style */
+.sliders-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.label-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--dark-blue);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.label-text i {
+  color: var(--highlight-blue);
+  font-size: 0.8rem;
+}
+
+.label-value {
+  color: var(--highlight-blue);
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+  margin-left: auto;
 }
 
 :host ::ng-deep .p-slider-range {
-  background: var(--primary-blue);
+  background: var(--highlight-blue);
 }
 
 :host ::ng-deep .p-slider-handle {
-  border-color: var(--primary-blue);
-  background: var(--primary-blue);
+  border-color: var(--highlight-blue);
+  background: var(--highlight-blue);
 
   &:hover {
-    border-color: var(--primary-blue);
+    border-color: var(--highlight-blue);
   }
 
   &:focus {
-    border-color: var(--primary-blue);
+    border-color: var(--highlight-blue);
+    outline-color: var(--highlight-blue);
   }
 }
 
+/* Save Button - Matching dashboard style */
+.save-investment-button {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--highlight-blue));
+  color: white;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  min-height: 50px;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(67, 119, 249, 0.25);
+}
+
+.save-investment-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(67, 119, 249, 0.35);
+}
+
+.save-investment-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(67, 119, 249, 0.3), 0 4px 15px rgba(67, 119, 249, 0.25);
+}
+
+.save-investment-button i {
+  font-size: 1.25rem;
+}
+
+/* Dialog Styling */
+.dialog-content {
+  padding: 1rem;
+  width: 100%;
+
+
+}
+
+.dialog-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* SCPI List */
 .list-scpi {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+  width: 100%;
 }
 
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .list-scpi {
+    grid-template-columns: 1fr;
+  }
+}
 
+:host ::ng-deep .p-dialog .p-dialog-title {
+  font-weight: 600;
+}
 
-
-
-
+:host ::ng-deep .p-dialog .p-dialog-header-icon {
+  color: white;
+}
 
 
