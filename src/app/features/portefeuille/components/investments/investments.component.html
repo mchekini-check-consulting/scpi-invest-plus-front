@@ -97,7 +97,13 @@
                 <th pSortableColumn="id">Id <p-sortIcon field="id" /></th>
                 <th pSortableColumn="name">Nom <p-sortIcon field="name" /></th>
                 <th pSortableColumn="year">
-                  Nombre d'années <p-sortIcon field="year" />
+                  <span *ngIf="selectedState !== 'REJECTED'"
+                    >Nombre d'années</span
+                  >
+                  <span *ngIf="selectedState === 'REJECTED'"
+                    >Raison du rejet</span
+                  >
+                  <p-sortIcon field="year" />
                 </th>
                 <th pSortableColumn="price">
                   Montant total <p-sortIcon field="price" />
@@ -127,7 +133,7 @@
                     ></i>
                   </button>
                 </td>
-                <td>{{investissement.id}}</td>
+                <td>{{ investissement.id }}</td>
 
                 <td>
                   <div style="display: flex; align-items: center; gap: 0.7rem">
@@ -142,11 +148,21 @@
                   </div>
                 </td>
                 <td>
-                  {{
-                    investissement.numberYears === 0
-                      ? "-"
-                      : investissement.numberYears
-                  }}
+                  <ng-container
+                    *ngIf="
+                      selectedState !== 'REJECTED';
+                      else rejectedColumn
+                    "
+                  >
+                    {{
+                      investissement.numberYears === 0
+                        ? "-"
+                        : investissement.numberYears
+                    }}
+                  </ng-container>
+                  <ng-template #rejectedColumn>
+                    {{ getRejectionReason(investissement) }}
+                  </ng-template>
                 </td>
                 <td>{{ investissement.totalAmount }} €</td>
                 <td>{{ investissement.numberShares }}</td>
@@ -244,7 +260,10 @@
                 <h3>Aucun investissement</h3>
                 <p>
                   Il n'y a pas encore d'investissements pour l'état :
-                  <strong>{{ getInvestmentStateTranslate(selectedState) }}</strong>.
+                  <strong>{{
+                    getInvestmentStateTranslate(selectedState)
+                  }}</strong
+                  >.
                 </p>
               </div>
             </ng-template>
