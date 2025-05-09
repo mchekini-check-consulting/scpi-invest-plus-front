@@ -9,6 +9,7 @@ export interface Investments {
   investmentState: string;
   details?: Investments[];
   detentionDuration: string;
+  rejectionReason: string;
 }
 
 export interface InvestmentPayload {
