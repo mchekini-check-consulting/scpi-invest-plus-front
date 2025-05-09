@@ -94,6 +94,7 @@
             <ng-template #header>
               <tr>
                 <th style="width: 5rem"></th>
+                <th pSortableColumn="id">Id <p-sortIcon field="id" /></th>
                 <th pSortableColumn="name">Nom <p-sortIcon field="name" /></th>
                 <th pSortableColumn="year">
                   Nombre d'années <p-sortIcon field="year" />
@@ -126,6 +127,8 @@
                     ></i>
                   </button>
                 </td>
+                <td>{{investissement.id}}</td>
+
                 <td>
                   <div style="display: flex; align-items: center; gap: 0.7rem">
                     <img
