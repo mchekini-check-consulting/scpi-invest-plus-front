@@ -1,70 +1,109 @@
 <p-panel class="investment-container">
   <ng-template #header>
-    <h2 class="title">SCPI sélectionnée</h2>
+    <div class="panel-header">
+      <h2 class="title">SCPI sélectionnée</h2>
+    </div>
   </ng-template>
   <ng-template pTemplate="content">
     <div class="investment-card">
-
-      <p class="selected-scpi">{{ selectedScpi?.name }}</p>
-
-      <button class="select-scpi-button" (click)="isDialogVisible=true">Sélectionner une SCPI</button>
-
-      <h4 class="title">Votre investissement</h4>
-
-      <div class="sliders-container">
-        <div class="slider-container">
-          <label class="text">Je verse tous les mois
-            <span>{{ getMonthlyPayment() | number:'1.0-0' }}
-              €</span></label>
-          <p-slider
-            (onSlideEnd)="onShareChange($event.value)"
-            [(ngModel)]="numberShares"
-            [max]="getMaxMonthlyShareSteps()"
-            [min]="1"
-            [step]="1"
-            ariaLabel="Number"
-            class="custom-slider"
-            severity="info"></p-slider>
+      <!-- SCPI Selection -->
+      <div class="scpi-selection">
+        <div class="scpi-info" *ngIf="selectedScpi?.name">
+          <div class="scpi-icon">
+            <i class="pi pi-building"></i>
+          </div>
+          <p class="selected-scpi">{{ selectedScpi?.name }}</p>
         </div>
 
-        <div class="slider-container">
-          <label class="text">Avec un versement initial
-            <span>{{ getInitialDeposit() | number:'1.0-0' }}
-              €</span></label>
-          <p-slider
-            (onSlideEnd)="onDepositChange($event.value)"
-            [(ngModel)]="initialDeposit"
-            [max]="getMaxDepositShare()"
-            [min]="getMinDepositShare()"
-            [step]="1"
-            ariaLabel="Number"
-            class="custom-slider"
-            severity="info"></p-slider>
+        <div class="scpi-empty" *ngIf="!selectedScpi?.name">
+          <i class="pi pi-info-circle"></i>
+          <p>Aucune SCPI sélectionnée</p>
+        </div>
+
+        <button class="select-scpi-button" (click)="isDialogVisible=true">
+          <i class="pi pi-search"></i>
+          <span>{{ selectedScpi?.name ? 'Changer de SCPI' : 'Sélectionner une SCPI' }}</span>
+        </button>
+      </div>
+
+      <!-- Investment Configuration -->
+      <div class="investment-config">
+        <h4 class="section-title">
+          <i class="pi pi-chart-bar"></i>
+          <span>Votre investissement</span>
+        </h4>
+
+        <div class="sliders-container">
+          <!-- Monthly Payment Slider -->
+          <div class="slider-container">
+            <label class="slider-label">
+              <div class="label-text">
+                <i class="pi pi-calendar"></i>
+                <span>Je verse tous les mois</span>
+              </div>
+              <div class="label-value">{{ getMonthlyPayment() | number:'1.0-0' }} €</div>
+            </label>
+            <p-slider
+              (onSlideEnd)="onShareChange($event.value)"
+              [(ngModel)]="numberShares"
+              [max]="getMaxMonthlyShareSteps()"
+              [min]="1"
+              [step]="1"
+              ariaLabel="Number"
+              class="custom-slider"
+              severity="info"></p-slider>
+          </div>
+
+          <!-- Initial Deposit Slider -->
+          <div class="slider-container">
+            <label class="slider-label">
+              <div class="label-text">
+                <i class="pi pi-wallet"></i>
+                <span>Avec un versement initial</span>
+              </div>
+              <div class="label-value">{{ getInitialDeposit() | number:'1.0-0' }} €</div>
+            </label>
+            <p-slider
+              (onSlideEnd)="onDepositChange($event.value)"
+              [(ngModel)]="initialDeposit"
+              [max]="getMaxDepositShare()"
+              [min]="getMinDepositShare()"
+              [step]="1"
+              ariaLabel="Number"
+              class="custom-slider"
+              severity="info"></p-slider>
+          </div>
         </div>
       </div>
+      <button class="save-investment-button" (click)="onInvest.emit()">
+        <i class="pi pi-check-circle"></i>
+        <span>Investir</span>
+      </button>
     </div>
   </ng-template>
-</p-panel>
 
-<button class="save-investment-button" (click)="onInvest.emit()">Investir</button>
+
+</p-panel>
 
 
 <p-dialog
   (onHide)="closeDialog()"
   [(visible)]="isDialogVisible"
   [closable]="true"
-  [style]="{ maxWidth: '80rem', width:'100%' }"
+  [style]="{ maxWidth: '80vw', width:'100%' }"
   header="Ajouter une SCPI"
   modal
 >
-  <div class="list-scpi">
-    <ng-container *ngFor="let scpi of scpis">
-      <app-scpi-card
-        [image]="getImage(scpi.scpiId)"
-        [isAddingScpi]="true"
-        [scpi]="scpi"
-        (onClick)="onSelect($event.scpi)"
-      />
-    </ng-container>
+  <div class="dialog-content">
+    <div class="list-scpi">
+      <ng-container *ngFor="let scpi of scpis">
+        <app-scpi-card
+          [image]="getImage(scpi.scpiId)"
+          [isAddingScpi]="true"
+          [scpi]="scpi"
+          (onClick)="onSelect($event.scpi)"
+        />
+      </ng-container>
+    </div>
   </div>
 </p-dialog>

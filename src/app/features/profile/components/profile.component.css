@@ -1,121 +1,511 @@
-.profile-form {
-  width: 80%;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.profile-page {
+  min-height: 60vh;
+  padding-inline: 1rem;
 }
 
-
-input[disabled],
-.ui-inputtext[disabled] {
-  background-color: #f6f7fa !important;
-
-  opacity: 1 !important;
-  cursor: not-allowed;
-}
-
-
-:host ::ng-deep .p-dropdown.p-disabled {
-  background-color: #f6f7fa !important;
-
-  opacity: 1 !important;
-  cursor: not-allowed;
-}
-
-
-:host ::ng-deep .p-inputtext:disabled {
-  background-color: #f6f7fa !important;
-  opacity: 1 !important;
-  cursor: not-allowed;
-}
-
-
-.profile-container {
+/* Card Header Styling */
+.card-header {
+  background: linear-gradient(to right, var(--primary-blue), var(--highlight-blue));
+  padding: 2rem;
+  color: white;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 1000px;
-  width: 100%;
-  margin-top: 20px;
+  gap: 1.5rem;
+  position: relative;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
 }
 
-.title_container_profil {
-   margin-right: 80%;
-   margin-bottom: 20px;
-}
-
-.title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #4343a6;
-  margin-top: 0px;
-  text-align: start;
-  margin-bottom: 30px;
-}
-
-.profile-form h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.form-group-row {
+.profile-icon {
+  background-color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.form-group {
-  flex: 1 1 calc(50% - 10px);
+.profile-icon i {
+  font-size: 1.8rem;
+  color: var(--highlight-blue);
+}
+
+.card-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  flex-grow: 1;
+}
+
+/* Main Card Styling */
+.profile-card {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 15px 50px rgba(12, 27, 51, 0.1);
+  overflow: hidden;
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Edit Status Indicator */
+.edit-status {
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  margin-left: auto;
+}
+
+.edit-status.editing {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.edit-status::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.edit-status.editing::before {
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+/* Form Layout */
+.profile-form {
+  padding: 2rem;
+}
+
+.form-section {
+  margin-bottom: 2.5rem;
+  animation: slideUp 0.5s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.form-section:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.form-section:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.form-section:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.form-section:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid rgba(12, 27, 51, 0.05);
+}
+
+.section-header i {
+  font-size: 1.2rem;
+  color: var(--highlight-blue);
+  background-color: var(--light-blue);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Form Fields */
+.form-field {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 }
 
-.form-group label {
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #555;
+.form-field label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
 }
 
-.form-group input,
-.form-group p-dropdown {
+.form-field label i {
+  font-size: 0.9rem;
+  color: var(--highlight-blue);
+}
+
+.input-container {
+  position: relative;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(12, 27, 51, 0.08);
+}
+
+.input-container:focus-within:not(.disabled):not(.readonly) {
+  border-color: var(--highlight-blue);
+  box-shadow: 0 0 0 3px rgba(67, 119, 249, 0.1);
+}
+
+.input-container.disabled {
+  border-color: rgba(12, 27, 51, 0.05);
+}
+
+.input-container.readonly {
+  background-color: var(--light-blue);
+  border-color: rgba(67, 119, 249, 0.2);
+}
+
+.readonly-badge {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(67, 119, 249, 0.2);
+  color: var(--highlight-blue);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.readonly-badge i {
+  font-size: 0.7rem;
+}
+
+/* Input Styling */
+.form-field input,
+:host ::ng-deep .form-field .p-inputtext {
+  border: none !important;
+  background: transparent !important;
+  padding: 0.9rem 1rem !important;
+  font-size: 1rem !important;
+  width: 100% !important;
+  color: var(--dark-blue) !important;
+  transition: all 0.3s ease !important;
+}
+
+.form-field input:disabled,
+:host ::ng-deep .form-field .p-inputtext:disabled {
+  color: rgba(12, 27, 51, 0.5) !important;
+  cursor: not-allowed !important;
+  background-color: #f8f9fc !important;
+}
+
+.input-container.readonly input,
+:host ::ng-deep .input-container.readonly .p-inputtext {
+  color: var(--primary-blue) !important;
+  font-weight: 500 !important;
+  padding-right: 40px !important;
+}
+
+/* Calendar Styling */
+:host ::ng-deep .custom-calendar {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
 }
 
-.form-group p-dropdown {
-  padding: 0;
+:host ::ng-deep .custom-calendar .p-calendar {
+  width: 100%;
 }
 
+:host ::ng-deep .custom-calendar .p-inputtext {
+  border: 2px solid rgba(12, 27, 51, 0.08) !important;
+  border-radius: 12px !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-right: none !important;
+  padding: 0.9rem 1rem !important;
+  font-size: 1rem !important;
+  color: var(--dark-blue) !important;
+  width: 100% !important;
+  transition: all 0.3s ease !important;
+}
+
+:host ::ng-deep .custom-calendar .p-inputtext:focus {
+  border-color: var(--highlight-blue) !important;
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .custom-calendar .p-datepicker-trigger {
+  background-color: white !important;
+  border: 2px solid rgba(12, 27, 51, 0.08) !important;
+  border-left: none !important;
+  color: var(--highlight-blue) !important;
+  border-top-right-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+  transition: all 0.3s ease !important;
+  height: 100% !important;
+}
+
+:host ::ng-deep .custom-calendar .p-datepicker-trigger:hover {
+  background-color: var(--light-blue) !important;
+}
+
+:host ::ng-deep .custom-calendar .p-datepicker-trigger:focus {
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .custom-calendar.p-calendar.p-disabled .p-inputtext {
+  color: rgba(12, 27, 51, 0.5) !important;
+  border-color: rgba(12, 27, 51, 0.05) !important;
+}
+
+:host ::ng-deep .custom-calendar.p-calendar.p-disabled .p-datepicker-trigger {
+  color: rgba(12, 27, 51, 0.5) !important;
+  border-color: rgba(12, 27, 51, 0.05) !important;
+}
+
+:host ::ng-deep .p-datepicker {
+  border-radius: 12px !important;
+  border: none !important;
+}
+
+:host ::ng-deep .p-datepicker table td > span.p-highlight {
+  background-color: var(--highlight-blue) !important;
+  color: white !important;
+}
+
+:host ::ng-deep .p-datepicker table td > span:hover {
+  background-color: var(--light-blue) !important;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-header {
+  border-bottom: 1px solid rgba(12, 27, 51, 0.05) !important;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-header button {
+  color: var(--dark-blue) !important;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-header button:hover {
+  background-color: var(--light-blue) !important;
+  color: var(--highlight-blue) !important;
+}
+
+/* Select Styling */
+.select-wrapper {
+  position: relative;
+  border-radius: 12px;
+  border: 2px solid rgba(12, 27, 51, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+}
+
+.select-wrapper:focus-within:not(.disabled) {
+  border-color: var(--highlight-blue);
+  box-shadow: 0 0 0 3px rgba(67, 119, 249, 0.1);
+}
+
+.select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--highlight-blue);
+  pointer-events: none;
+}
+
+.custom-select {
+  width: 100%;
+  font-size: 1rem;
+  color: var(--dark-blue);
+  height: auto;
+  border: none;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  padding: 0.9rem 1rem;
+}
+
+.custom-select:disabled {
+  color: rgba(12, 27, 51, 0.5);
+  cursor: not-allowed;
+  background-color: #f8f9fc;
+}
+
+.select-wrapper.disabled {
+  background-color: #f8f9fc;
+  border-color: rgba(12, 27, 51, 0.05);
+}
+
+.custom-select:focus {
+  outline: none;
+}
+
+.custom-select option {
+  font-size: 1rem;
+}
+
+/* Error Messages */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #e53e3e;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  animation: fadeInShake 0.5s ease;
+}
+
+@keyframes fadeInShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+.error-message i {
+  font-size: 0.9rem;
+}
+
+/* Form Actions */
 .form-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid rgba(12, 27, 51, 0.05);
 }
 
-
-.form-actions button {
-  padding: 10px 20px;
-  font-size: 14px;
-  border-radius: 4px;
+.edit-button,
+:host ::ng-deep .edit-button {
+  background-color: var(--light-blue) !important;
+  color: var(--highlight-blue) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 0.9rem 1.5rem !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 5px 15px rgba(67, 119, 249, 0.1) !important;
 }
 
-.error {
-  color: #FB404B;;
-  font-size: 0.875rem;
-  margin-top: 4px;
-  font-weight: bold;
+.edit-button:hover,
+:host ::ng-deep .edit-button:hover {
+  background-color: rgba(67, 119, 249, 0.2) !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 20px rgba(67, 119, 249, 0.15) !important;
 }
 
-.error::before {
-  content: '⚠️';
-  margin-right: 4px;
+.edit-button.editing,
+:host ::ng-deep .edit-button.editing {
+  background-color: rgba(229, 62, 62, 0.1) !important;
+  color: #e53e3e !important;
 }
 
+.edit-button.editing:hover,
+:host ::ng-deep .edit-button.editing:hover {
+  background-color: rgba(229, 62, 62, 0.2) !important;
+}
 
+.validate-button,
+:host ::ng-deep .validate-button {
+  background: linear-gradient(90deg, var(--highlight-blue), var(--primary-blue)) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 0.9rem 1.5rem !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 5px 15px rgba(67, 119, 249, 0.2) !important;
+}
+
+.validate-button:hover:not(:disabled),
+:host ::ng-deep .validate-button:hover:not(:disabled) {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 25px rgba(67, 119, 249, 0.3) !important;
+}
+
+.validate-button:disabled,
+:host ::ng-deep .validate-button:disabled {
+  background: linear-gradient(90deg, rgba(67, 119, 249, 0.5), rgba(29, 59, 158, 0.5)) !important;
+  opacity: 0.7 !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .card-header {
+    padding: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .edit-status {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+
+  .profile-form {
+    padding: 1.5rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

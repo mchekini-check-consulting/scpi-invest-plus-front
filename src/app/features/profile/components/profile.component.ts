@@ -1,25 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputTextModule } from 'primeng/inputtext';
-import { ReactiveFormsModule } from '@angular/forms';
-import { DatePickerModule } from 'primeng/datepicker';
-import { CommonModule } from '@angular/common';
-import { MessageService } from 'primeng/api';
-import { UserService } from '@/core/service/user.service';
-import { ToastModule } from 'primeng/toast';
-import { InvestorService } from '@/core/service/investor.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NavigationService } from '@/core/service/navigation.service';
-import { take } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
+import { Component, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
+import { ButtonModule } from "primeng/button";
+import { CalendarModule } from "primeng/calendar";
+import { DropdownModule } from "primeng/dropdown";
+import { InputTextModule } from "primeng/inputtext";
+import { DatePickerModule } from "primeng/datepicker";
+import { CommonModule } from "@angular/common";
+import { MessageService } from "primeng/api";
+import { UserService } from "@/core/service/user.service";
+import { ToastModule } from "primeng/toast";
+import { InvestorService } from "@/core/service/investor.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { NavigationService } from "@/core/service/navigation.service";
+import { take } from "rxjs";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'],
+  selector: "app-profile",
+  templateUrl: "./profile.component.html",
+  styleUrls: ["./profile.component.css"],
   imports: [
     ButtonModule,
     CalendarModule,
@@ -39,11 +43,11 @@ export class ProfileComponent implements OnInit {
   userEmail!: string;
 
   maritalStatuses = [
-    { label: 'Célibataire', value: 'single' },
-    { label: 'Marié', value: 'married' },
-    { label: 'Pacsé', value: 'pacsed' },
-    { label: 'Divorcé', value: 'divorced' },
-    { label: 'Veuf', value: 'widowed' },
+    { label: "Célibataire", value: "single" },
+    { label: "Marié", value: "married" },
+    { label: "Pacsé", value: "pacsed" },
+    { label: "Divorcé", value: "divorced" },
+    { label: "Veuf", value: "widowed" },
   ];
 
   constructor(
@@ -57,37 +61,32 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-      this.userService.user$
-        .pipe(
-          take(1)
-        )
-        .subscribe((user) => {
-          if (user) {
-            this.userEmail = user.email;
-            this.initForm(user);
-            this.loadUserProfile();
-          }
-        });
-    }
-
+    this.userService.user$.pipe(take(1)).subscribe((user) => {
+      if (user) {
+        this.userEmail = user.email;
+        this.initForm(user);
+        this.loadUserProfile();
+      }
+    });
+  }
 
   initForm(user?: any): void {
     this.profileForm = this.fb.group({
       lastName: [
-        { value: user?.lastName || '', disabled: true },
+        { value: user?.lastName || "", disabled: true },
         Validators.required,
       ],
       firstName: [
-        { value: user?.firstName || '', disabled: true },
+        { value: user?.firstName || "", disabled: true },
         Validators.required,
       ],
-      email: [{ value: user?.email || '', disabled: true }],
+      email: [{ value: user?.email || "", disabled: true }],
       phoneNumber: [
-        { value: '', disabled: true },
-        [Validators.required, Validators.pattern('^\\d{10}$')],
+        { value: "", disabled: true },
+        [Validators.required, Validators.pattern("^\\d{10}$")],
       ],
-      dateOfBirth: [{ value: '', disabled: true }, [Validators.required]],
-      maritalStatus: [{ value: '', disabled: true }, Validators.required],
+      dateOfBirth: [{ value: "", disabled: true }, [Validators.required]],
+      maritalStatus: [{ value: "", disabled: true }, Validators.required],
       numberOfChildren: [
         { value: 0, disabled: true },
         [Validators.required, Validators.min(0)],
@@ -100,30 +99,28 @@ export class ProfileComponent implements OnInit {
   }
 
   loadUserProfile(): void {
-    this.investorService
-      .getInvestorByEmail()
-      .subscribe((userData: any) => {
-        const dateOfBirth = userData.dateOfBirth
-          ? new Date(userData.dateOfBirth)
-          : null;
-        this.profileForm.reset({
-          lastName: userData.lastName,
-          firstName: userData.firstName,
-          email: userData.email,
-          phoneNumber: userData.phoneNumber || '',
-          dateOfBirth: dateOfBirth,
-          maritalStatus: userData.maritalStatus || '',
-          numberOfChildren: userData.numberOfChildren || 0,
-          annualIncome: userData.annualIncome || 0,
-        });
+    this.investorService.getInvestorByEmail().subscribe((userData: any) => {
+      const dateOfBirth = userData.dateOfBirth
+        ? new Date(userData.dateOfBirth)
+        : null;
+      this.profileForm.reset({
+        lastName: userData.lastName,
+        firstName: userData.firstName,
+        email: userData.email,
+        phoneNumber: userData.phoneNumber || "",
+        dateOfBirth: dateOfBirth,
+        maritalStatus: userData.maritalStatus || "",
+        numberOfChildren: userData.numberOfChildren || 0,
+        annualIncome: userData.annualIncome || 0,
       });
+    });
   }
 
   toggleEdit(): void {
     this.editable = !this.editable;
     if (this.editable) {
       Object.keys(this.profileForm.controls).forEach((field) => {
-        if (field !== 'email') this.profileForm.controls[field].enable();
+        if (field !== "email") this.profileForm.controls[field].enable();
       });
     } else {
       this.disableFormControls();
@@ -132,8 +129,8 @@ export class ProfileComponent implements OnInit {
 
   formatDate = (date: Date) => {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
@@ -150,29 +147,25 @@ export class ProfileComponent implements OnInit {
           () => {
             const toastDuration = 2000;
             this.messageService.add({
-              severity: 'success',
-              summary: 'Succès',
-              detail: 'Le profil a été mis à jour avec succès.',
+              severity: "success",
+              summary: "Succès",
+              detail: "Le profil a été mis à jour avec succès.",
               life: toastDuration,
             });
-            const returnUrl = this.navigationService.getReturnUrl();
-            setTimeout(() => {
-              this.router.navigate([returnUrl]);
-            }, toastDuration);
           },
           () => {
             this.messageService.add({
-              severity: 'error',
-              summary: 'Erreur',
-              detail: 'Erreur lors de la mise à jour du profil.',
+              severity: "error",
+              summary: "Erreur",
+              detail: "Erreur lors de la mise à jour du profil.",
             });
           }
         );
     } else {
       this.messageService.add({
-        severity: 'warn',
-        summary: 'Attention',
-        detail: 'Veuillez compléter tous les champs obligatoires.',
+        severity: "warn",
+        summary: "Attention",
+        detail: "Veuillez compléter tous les champs obligatoires.",
       });
     }
   }

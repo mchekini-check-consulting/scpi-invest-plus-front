@@ -1,17 +1,23 @@
 import { Component, EventEmitter, Output } from "@angular/core";
-import { DecimalPipe, NgForOf } from "@angular/common";
+import { DecimalPipe, NgForOf, NgIf } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { catchError, of } from "rxjs";
 
 import { Dialog } from "primeng/dialog";
-import { Slider } from "primeng/slider";
+import { Slider, SliderModule } from "primeng/slider";
 import { Panel } from "primeng/panel";
 import { PrimeTemplate } from "primeng/api";
 
 import { ScpiCardComponent } from "@/features/scpi/components/scpi-card/scpi-card.component";
-import { ScpiIndexModel, ScpiModel } from "@/core/model/scpi.model";
+import { ScpiIndexModel } from "@/core/model/scpi.model";
 import { ScpiService } from "@/core/service/scpi.service";
 import { InvestmentPayload } from "@/core/model/Investments";
+import { CardModule } from "primeng/card";
+import { ButtonModule } from "primeng/button";
+import { ChartModule } from "primeng/chart";
+import { ToggleButtonModule } from "primeng/togglebutton";
+import { InputNumberModule } from "primeng/inputnumber";
+import { DropdownModule } from "primeng/dropdown";
 
 @Component({
   selector: "app-select-scpi",
@@ -25,6 +31,17 @@ import { InvestmentPayload } from "@/core/model/Investments";
     FormsModule,
     Panel,
     PrimeTemplate,
+    FormsModule,
+    SliderModule,
+    CardModule,
+    ButtonModule,
+    ChartModule,
+    ToggleButtonModule,
+    InputNumberModule,
+    DropdownModule,
+    DecimalPipe,
+    Panel,
+    NgIf,
   ],
   templateUrl: "./select-scpi.component.html",
   styleUrl: "./select-scpi.component.css",
