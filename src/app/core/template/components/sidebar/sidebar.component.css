@@ -17,3 +17,6 @@ p {
   text-align: center;
 }
 
+.sidebar {
+  background: var(--highlight-blue);
+}

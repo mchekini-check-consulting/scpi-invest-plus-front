@@ -1,163 +1,245 @@
-<div>
+<div class="profile-page">
   <p-toast></p-toast>
-  <div class="profile-container">
-    <div class="title_container_profil">
-      <h1 class="title">{{ 'MY-PROFILE' | translate }}</h1>
+
+  <div class="profile-card">
+    <div class="card-header">
+      <div class="profile-icon">
+        <i class="pi pi-user"></i>
+      </div>
+      <h1>{{ 'MY-PROFILE' | translate }}</h1>
     </div>
-    <div class="profile-form">
-      <form [formGroup]="profileForm">
-        <div class="form-group-row">
-          <!-- Nom et prénom -->
-          <div class="form-group">
-            <label for="lastName">{{ 'LASTNAME' | translate }}</label>
-            <input
-              id="lastName"
-              formControlName="lastName"
-              type="text"
-              pInputText
-              [disabled]="!editable"
-            />
-            <div *ngIf="profileForm.controls['lastName'].invalid && profileForm.controls['lastName'].touched">
-              <small class="error">{{ 'REQUIRED_FIELD' | translate }}</small>
+
+    <form [formGroup]="profileForm" class="profile-form">
+      <!-- Personal Information Section -->
+      <div class="form-section">
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="lastName">
+              <i class="pi pi-user"></i>
+              {{ 'LASTNAME' | translate }}
+            </label>
+            <div class="input-container" [class.disabled]="!editable">
+              <input
+                id="lastName"
+                formControlName="lastName"
+                type="text"
+                pInputText
+                [disabled]="!editable"
+              />
+            </div>
+            <div *ngIf="profileForm.controls['lastName'].invalid && profileForm.controls['lastName'].touched"
+                 class="error-message">
+              <i class="pi pi-exclamation-circle"></i>
+              <span>{{ 'REQUIRED_FIELD' | translate }}</span>
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="firstName">{{ 'FIRSTNAME' | translate }}</label>
-            <input
-              id="firstName"
-              formControlName="firstName"
-              type="text"
-              pInputText
-              [disabled]="!editable"
-            />
-            <div *ngIf="profileForm.controls['firstName'].invalid && profileForm.controls['firstName'].touched">
-              <small class="error">{{ 'REQUIRED_FIELD' | translate }}</small>
+          <div class="form-field">
+            <label for="firstName">
+              <i class="pi pi-user"></i>
+              {{ 'FIRSTNAME' | translate }}
+            </label>
+            <div class="input-container" [class.disabled]="!editable">
+              <input
+                id="firstName"
+                formControlName="firstName"
+                type="text"
+                pInputText
+                [disabled]="!editable"
+              />
             </div>
-          </div>
-        </div>
-
-        <div class="form-group-row">
-          <!-- Email et téléphone -->
-          <div class="form-group">
-            <label for="email">{{ 'EMAIL' | translate }}</label>
-            <input
-              id="email"
-              formControlName="email"
-              type="email"
-              pInputText
-              [attr.disabled]="true"
-              [attr.readonly]="true"
-              [disabled]="false"
-            />
-            <div *ngIf="profileForm.controls['email'].invalid && profileForm.controls['email'].touched">
-              <small class="error">{{ 'REQUIRED_FIELD' | translate }}</small>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="phoneNumber">{{ 'PHONE_NUMBER' | translate }}</label>
-            <input
-              id="phoneNumber"
-              formControlName="phoneNumber"
-              type="text"
-              pInputText
-              [disabled]="!editable"
-            />
-            <div *ngIf="profileForm.controls['phoneNumber'].invalid && profileForm.controls['phoneNumber'].touched">
-              <small class="error">{{ 'INVALID_PHONE' | translate }}</small>
+            <div *ngIf="profileForm.controls['firstName'].invalid && profileForm.controls['firstName'].touched"
+                 class="error-message">
+              <i class="pi pi-exclamation-circle"></i>
+              <span>{{ 'REQUIRED_FIELD' | translate }}</span>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="form-group-row">
-          <!-- Date de naissance -->
-          <div class="form-group">
-            <label for="dateOfBirth">{{ 'DATE_OF_BIRTH' | translate }}</label>
-            <p-datepicker
-              class="dateInput"
+      <!-- Contact Information Section -->
+      <div class="form-section">
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="email">
+              <i class="pi pi-at"></i>
+              {{ 'EMAIL' | translate }}
+            </label>
+            <div class="input-container readonly">
+              <input
+                id="email"
+                formControlName="email"
+                type="email"
+                pInputText
+                [attr.disabled]="true"
+                [attr.readonly]="true"
+                [disabled]="false"
+              />
+              <div class="readonly-badge">
+                <i class="pi pi-lock"></i>
+              </div>
+            </div>
+            <div *ngIf="profileForm.controls['email'].invalid && profileForm.controls['email'].touched"
+                 class="error-message">
+              <i class="pi pi-exclamation-circle"></i>
+              <span>{{ 'REQUIRED_FIELD' | translate }}</span>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="phoneNumber">
+              <i class="pi pi-phone"></i>
+              {{ 'PHONE_NUMBER' | translate }}
+            </label>
+            <div class="input-container" [class.disabled]="!editable">
+              <input
+                id="phoneNumber"
+                formControlName="phoneNumber"
+                type="text"
+                pInputText
+                [disabled]="!editable"
+              />
+            </div>
+            <div *ngIf="profileForm.controls['phoneNumber'].invalid && profileForm.controls['phoneNumber'].touched"
+                 class="error-message">
+              <i class="pi pi-exclamation-circle"></i>
+              <span>{{ 'INVALID_PHONE' | translate }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal Details Section -->
+      <div class="form-section">
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="dateOfBirth">
+              <i class="pi pi-calendar"></i>
+              {{ 'DATE_OF_BIRTH' | translate }}
+            </label>
+            <p-calendar
               id="dateOfBirth"
               formControlName="dateOfBirth"
               [showIcon]="true"
               dateFormat="dd.mm.yy"
-              class="full-width-input"
               [disabled]="!editable"
-            ></p-datepicker>
-            <div *ngIf="profileForm.controls['dateOfBirth'].invalid && profileForm.controls['dateOfBirth'].touched">
-              <small class="error">{{ 'DATE_REQUIRED' | translate }}</small>
+              [showButtonBar]="true"
+              [firstDayOfWeek]="1"
+              styleClass="custom-calendar"
+              appendTo="body"
+            ></p-calendar>
+            <div *ngIf="profileForm.controls['dateOfBirth'].invalid && profileForm.controls['dateOfBirth'].touched"
+                 class="error-message">
+              <i class="pi pi-exclamation-circle"></i>
+              <span>{{ 'DATE_REQUIRED' | translate }}</span>
             </div>
-            <div *ngIf="profileForm.get('dateOfBirth')?.hasError('invalidDate') && profileForm.get('dateOfBirth')?.touched">
-              <small class="error">{{ 'FUTURE_DATE' | translate }}</small>
-            </div>
-          </div>
-
-          <!-- Revenu annuel -->
-          <div class="form-group">
-            <label for="annualIncome">{{ 'ANNUAL_INCOME' | translate }}</label>
-            <input
-              id="annualIncome"
-              formControlName="annualIncome"
-              type="number"
-              pInputText
-              [disabled]="!editable"
-            />
-            <div *ngIf="profileForm.controls['annualIncome'].invalid && profileForm.controls['annualIncome'].touched">
-              <small class="error">{{ 'POSITIVE_INCOME' | translate }}</small>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group-row">
-          <!-- Statut marital et enfants -->
-          <div class="form-group">
-            <label for="maritalStatus">{{ 'MARITAL_STATUS' | translate }}</label>
-            <p-dropdown
-              id="maritalStatus"
-              formControlName="maritalStatus"
-              [options]="maritalStatuses"
-              placeholder="{{ 'SELECT' | translate }}"
-              [disabled]="!editable"
-            ></p-dropdown>
-            <div *ngIf="profileForm.controls['maritalStatus'].invalid && profileForm.controls['maritalStatus'].touched">
-              <small class="error">{{ 'REQUIRED_FIELD' | translate }}</small>
+            <div
+              *ngIf="profileForm.get('dateOfBirth')?.hasError('invalidDate') && profileForm.get('dateOfBirth')?.touched"
+              class="error-message">
+              <i class="pi pi-exclamation-circle"></i>
+              <span>{{ 'FUTURE_DATE' | translate }}</span>
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="numberOfChildren">{{ 'NUMBER_OF_CHILDREN' | translate }}</label>
-            <input
-              id="numberOfChildren"
-              formControlName="numberOfChildren"
-              type="number"
-              pInputText
-              [disabled]="!editable"
-            />
-            <div *ngIf="profileForm.controls['numberOfChildren'].invalid && profileForm.controls['numberOfChildren'].touched">
-              <small class="error">{{ 'POSITIVE_INTEGER' | translate }}</small>
+          <div class="form-field">
+            <label for="annualIncome">
+              <i class="pi pi-dollar"></i>
+              {{ 'ANNUAL_INCOME' | translate }}
+            </label>
+            <div class="input-container" [class.disabled]="!editable">
+              <input
+                id="annualIncome"
+                formControlName="annualIncome"
+                type="number"
+                pInputText
+                [disabled]="!editable"
+              />
+            </div>
+            <div *ngIf="profileForm.controls['annualIncome'].invalid && profileForm.controls['annualIncome'].touched"
+                 class="error-message">
+              <i class="pi pi-exclamation-circle"></i>
+              <span>{{ 'POSITIVE_INCOME' | translate }}</span>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="form-actions">
-          <button
-            pButton
-            label="{{ 'EDIT' | translate }}"
-            icon="pi pi-pencil"
-            (click)="toggleEdit()"
-            type="button"
-            severity="secondary"
-          ></button>
-          <button
-            pButton
-            label="{{ 'VALIDATE' | translate }}"
-            icon="pi pi-check"
-            (click)="submitForm()"
-            [disabled]="!profileForm.valid || !editable"
-            type="button"
-            severity="info"
-          ></button>
+      <!-- Family Information Section -->
+      <div class="form-section">
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="maritalStatus">
+              <i class="pi pi-heart"></i>
+              {{ 'MARITAL_STATUS' | translate }}
+            </label>
+            <div class="select-wrapper">
+              <select
+                id="maritalStatus"
+                formControlName="maritalStatus"
+                [disabled]="!editable"
+                class="custom-select"
+              >
+                <option value="">{{ 'SELECT' | translate }}</option>
+                <option *ngFor="let status of maritalStatuses" [value]="status.value">
+                  {{ status.label }}
+                </option>
+              </select>
+              <div class="select-arrow">
+                <i class="pi pi-chevron-down"></i>
+              </div>
+            </div>
+            <div *ngIf="profileForm.controls['maritalStatus'].invalid && profileForm.controls['maritalStatus'].touched"
+                 class="error-message">
+              <i class="pi pi-exclamation-circle"></i>
+              <span>{{ 'REQUIRED_FIELD' | translate }}</span>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="numberOfChildren">
+              <i class="pi pi-users"></i>
+              {{ 'NUMBER_OF_CHILDREN' | translate }}
+            </label>
+            <div class="input-container" [class.disabled]="!editable">
+              <input
+                id="numberOfChildren"
+                formControlName="numberOfChildren"
+                type="number"
+                pInputText
+                [disabled]="!editable"
+              />
+            </div>
+            <div
+              *ngIf="profileForm.controls['numberOfChildren'].invalid && profileForm.controls['numberOfChildren'].touched"
+              class="error-message">
+              <i class="pi pi-exclamation-circle"></i>
+              <span>{{ 'POSITIVE_INTEGER' | translate }}</span>
+            </div>
+          </div>
         </div>
-      </form>
-    </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          pButton
+          [label]="editable ? ('CANCEL' | translate) : ('EDIT' | translate)"
+          [icon]="editable ? 'pi pi-times' : 'pi pi-pencil'"
+          (click)="toggleEdit()"
+          type="button"
+          class="edit-button"
+          [class.editing]="editable"
+        ></button>
+
+        <button
+          pButton
+          label="{{ 'VALIDATE' | translate }}"
+          icon="pi pi-check"
+          (click)="submitForm()"
+          [disabled]="!profileForm.valid || !editable"
+          type="button"
+          class="validate-button"
+        ></button>
+      </div>
+    </form>
   </div>
 </div>

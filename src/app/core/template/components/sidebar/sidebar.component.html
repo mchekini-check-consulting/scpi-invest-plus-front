@@ -1,9 +1,8 @@
-<div class="sidebar" data-color="blue" data-image="img/sidebar-4.jpg">
+<div class="sidebar">
   <div class="sidebar-wrapper">
     <div class="logo">
       <a href="/dashboard" class="simple-text logo-normal" style="font-size: x-large">
-        SCPI INVEST + <br>
-        <span>v{{ version }}</span>
+        SCPI INVEST +
       </a>
     </div>
     <div style="margin-top:40%">
@@ -12,7 +11,7 @@
       <li *ngFor="let menuItem of menuItems" class="nav-item">
         <a *ngIf="DisplayFeatureForConnectedUser(menuItem.feature)" class="nav-link" [routerLink]="menuItem.path">
           <i class="{{menuItem.icon}}"></i>
-          <p>{{menuItem.key | translate }}</p>
+          <p>{{ menuItem.key | translate }}</p>
         </a>
       </li>
     </ul>
