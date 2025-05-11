@@ -18,5 +18,5 @@ p {
 }
 
 .sidebar {
-  background: var(--highlight-blue);
+  background: linear-gradient(to bottom, var(--primary-blue), var(--highlight-blue));
 }
