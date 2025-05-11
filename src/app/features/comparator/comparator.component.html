@@ -19,9 +19,28 @@
       <tr>
         <th>SCPI</th>
         <th *ngFor="let scpi of filteredNames; let i = index">
-          <p-dropdown [options]="filteredNames[i]" [(ngModel)]="selectedNames[i]" optionLabel="name" [showClear]="true"
-            [filter]="true" filterPlaceholder="Rechercher une SCPI" placeholder="Sélectionner une SCPI"
-            class="w-full md:w-56" (onChange)="onScpiSelected(selectedNames[i], i)">
+          <p-dropdown
+            [options]="filteredNames[i]"
+            [(ngModel)]="selectedNames[i]"
+            [showClear]="true"
+            optionLabel="name"
+            [filter]="true"
+            filterPlaceholder="Rechercher une SCPI"
+            placeholder="Sélectionner une SCPI"
+            class="w-full md:w-56"
+            (onChange)="onScpiSelected($event.value, i)"
+          >
+            <ng-template let-scpi pTemplate="item">
+              <div class="dropdown-item" [ngStyle]="getItemStyle(scpi)">
+                {{ scpi.name }} - {{ scpi?.minimumSubscription}} €
+              </div>
+            </ng-template>
+
+            <ng-template let-scpi pTemplate="selectedItem">
+              <div class="dropdown-selected">
+                {{ scpi?.name }}
+              </div>
+            </ng-template>
           </p-dropdown>
         </th>
       </tr>
