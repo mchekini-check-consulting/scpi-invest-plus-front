@@ -328,10 +328,7 @@ app-scpi-invest-modal {
 /* Also update the accent bar to match the new color scheme if desired */
 .accent-bar {
   height: 6px;
-  background: linear-gradient(90deg,
-  var(--primary-blue) 0%,
-  var(--highlight-blue) 50%,
-  var(--dark-blue) 100%) !important;
+  background: linear-gradient(to bottom, var(--primary-blue), var(--highlight-blue));
 }
 
 @media (min-width: 992px) {
@@ -341,9 +338,6 @@ app-scpi-invest-modal {
     left: 0;
     width: 6px;
     height: 100%;
-    background: linear-gradient(180deg,
-    var(--primary-blue) 0%,
-    var(--highlight-blue) 50%,
-    var(--dark-blue) 100%) !important;
+    background: linear-gradient(to bottom, var(--primary-blue), var(--highlight-blue));
   }
 }

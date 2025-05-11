@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://localhost:8080",
+    "target": "https://int.scpi-invest-plus-api.check-consulting.net/",
     "secure": false,
     "changeOrigin": true
   }
