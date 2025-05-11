@@ -32,10 +32,24 @@
 }
 
 .title {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #4343a6;
+  font-size: 1.5rem;
+  color: var(--primary-blue);
+  font-weight: 600;
+  position: relative;
 }
+
+.title::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--highlight-blue), var(--primary-blue));
+  border-radius: 3px;
+}
+
+
 
 .total span {
   font-size: 1.3rem;
@@ -81,10 +95,36 @@
 }
 
 .add-scpi-button {
-  width: 100%;
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--highlight-blue));
   color: white;
+  outline: none;
   border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  min-height: 50px;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(67, 119, 249, 0.25);
 }
+
+.add-scpi-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(67, 119, 249, 0.35);
+}
+
+.add-scpi-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(67, 119, 249, 0.3), 0 4px 15px rgba(67, 119, 249, 0.25);
+}
+
 
 .row {
   padding-inline: 1rem;

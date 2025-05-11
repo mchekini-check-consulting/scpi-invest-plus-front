@@ -1,5 +1,7 @@
 .container_simulation {
   background-color: #ffffff;
+  box-shadow: 0 8px 24px var(--card-shadow);
+  border-radius: var(--border-radius);
   height: 100%;
   min-height: 100vh;
   padding: 20px;

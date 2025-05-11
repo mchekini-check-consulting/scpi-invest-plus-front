@@ -1,12 +1,12 @@
 <p-dialog [(visible)]="isVisible" [modal]="true" [closable]="false" [dismissableMask]="true">
   <ng-template pTemplate="header">
-    <h3>Confirmer la suppression </h3>
+    <h3 class="title">Confirmer la suppression </h3>
   </ng-template>
   <ng-template pTemplate="content">
     <p>{{ message }}</p>
   </ng-template>
   <ng-template pTemplate="footer">
-    <button pButton label="Annuler" severity="secondary" icon="pi pi-times" class="p-button-text" (click)="cancel.emit()"></button>
-    <button pButton label="Supprimer"  icon="pi pi-trash" class="p-button-danger" (click)="confirm.emit()"></button>
+    <button  class="edit-button" (click)="cancel.emit()">Annuler</button>
+    <button  class="delete-button" (click)="confirm.emit()">Supprimer</button>
   </ng-template>
 </p-dialog>

@@ -29,17 +29,21 @@
     </div>
 
     <div class="container_filter" (click)="stopPropagation($event)">
-      <h3>{{ "FILTER.TITLE" | translate }}</h3>
+      <h3 class="title">{{ "FILTER.TITLE" | translate }}</h3>
 
       <div class="filter-section">
         <label>{{ "FILTER.DISTRIBUTION_RATE" | translate }}</label>
         <p-slider
+          class="filter-slider"
           [(ngModel)]="filters.distributionRate"
           (ngModelChange)="onFiltersChanged()"
           [min]="0"
           [max]="15"
           [step]="1"
+          ariaLabel="Number"
+          severity="info"
         ></p-slider>
+
         <span>{{ filters.distributionRate }}%</span>
       </div>
 
@@ -95,26 +99,24 @@
           [min]="0"
           [max]="10000"
           [step]="100"
+          class="filter-slider"
         ></p-slider>
         <span>{{ filters.minimumSubscription }} €</span>
       </div>
 
       <div class="button-container">
-        <p-button
-          [label]="'FILTER.SEARCH' | translate"
-          icon="pi pi-arrow-right"
+        <button
           [disabled]="isSearchDisabled()"
           severity="info"
           (click)="searchScpi()"
           class="search-button"
-        ></p-button>
+        >
+          {{ "FILTER.SEARCH" | translate }}
+        </button>
 
-        <p-button
-          [label]="'FILTER.RESET' | translate"
-          icon="pi pi-refresh"
-          severity="danger"
-          (click)="resetFilters()"
-        ></p-button>
+        <button class="reset-button" (click)="resetFilters()">
+          {{ "FILTER.RESET" | translate }}
+        </button>
       </div>
     </div>
   </p-sidebar>

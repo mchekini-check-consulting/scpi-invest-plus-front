@@ -75,7 +75,7 @@ export class SimulationDetailComponent {
       {
         label: "Distribution (%)",
         data: [] as number[],
-        fill: true, // Active le fond sous la ligne
+        fill: true,
         backgroundColor: "rgba(90, 84, 249, 0.2)",
         borderColor: "#5A54F9",
         tension: 0.4,
@@ -88,8 +88,8 @@ export class SimulationDetailComponent {
     datasets: [
       {
         data: [] as number[],
-        backgroundColor: ["#5A54F9", "#8674FC", "#C084FC"],
-        hoverBackgroundColor: ["#7165FA", "#9D8AFC", "#D29FFC"],
+        backgroundColor: ["#FF6B6B", "#4ECDC4", "#FFD93D"],
+        hoverBackgroundColor: ["#FF8787", "#76E1D9", "#FFE066"],
       },
     ],
   };
