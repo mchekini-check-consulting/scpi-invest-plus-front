@@ -39,14 +39,12 @@
   border-radius: 3px;
 }
 
-/* Investment Card */
 .investment-card {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-/* SCPI Selection */
 .scpi-selection {
   display: flex;
   flex-direction: column;
@@ -133,7 +131,6 @@
   font-size: 1.1rem;
 }
 
-/* Investment Configuration */
 .investment-config {
   display: flex;
   flex-direction: column;
@@ -155,7 +152,6 @@
   font-size: 1.1rem;
 }
 
-/* Sliders - Matching dashboard style */
 .sliders-container {
   display: flex;
   flex-direction: column;
@@ -219,7 +215,6 @@
   }
 }
 
-/* Save Button - Matching dashboard style */
 .save-investment-button {
   margin-top: 1.5rem;
   display: flex;
@@ -255,12 +250,9 @@
   font-size: 1.25rem;
 }
 
-/* Dialog Styling */
 .dialog-content {
   padding: 1rem;
   width: 100%;
-
-
 }
 
 .dialog-subtitle {
@@ -269,7 +261,6 @@
   font-size: 1rem;
 }
 
-/* SCPI List */
 .list-scpi {
   display: grid;
   gap: 1rem;
@@ -277,7 +268,6 @@
   width: 100%;
 }
 
-/* Responsive Adjustments */
 @media (max-width: 768px) {
   .list-scpi {
     grid-template-columns: 1fr;
