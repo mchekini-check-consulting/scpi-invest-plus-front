@@ -1,0 +1,52 @@
+.title {
+ color: #1f3f9f !important;
+ 
+}
+
+.edit-button,
+:host ::ng-deep .edit-button {
+  background-color: var(--light-blue) !important;
+  color: var(--highlight-blue) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 0.9rem 1.5rem !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 5px 15px rgba(67, 119, 249, 0.1) !important;
+}
+
+.edit-button:hover,
+:host ::ng-deep .edit-button:hover {
+  background-color: rgba(67, 119, 249, 0.2) !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 20px rgba(67, 119, 249, 0.15) !important;
+}
+
+
+.delete-button,
+:host ::ng-deep .delete-button {
+  background-color: #e53935 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 0.9rem 1.5rem !important;
+  font-weight: 500 !important;
+  font-size: 1rem !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 5px 15px rgba(229, 57, 53, 0.15) !important;
+}
+
+
+.delete-button:hover,
+:host ::ng-deep .delete-button:hover {
+  background-color: #d32f2f !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 20px rgba(211, 47, 47, 0.3) !important;
+}
+
+.delete-button:focus,
+:host ::ng-deep .delete-button:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.3), 0 4px 15px rgba(211, 47, 47, 0.25) !important;
+}

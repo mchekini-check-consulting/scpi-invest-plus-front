@@ -34,33 +34,58 @@
               <tr>
                 <td>{{ rowData.year }}</td>
                 <td class="amount">
-                  {{ (viewByYear ? (rowData.annualIncome * 12) : rowData.annualIncome) | number: '1.2-2' }}
+                  {{
+                    (viewByYear
+                      ? rowData.annualIncome * 12
+                      : rowData.annualIncome
+                    ) | number: "1.2-2"
+                  }}
                 </td>
                 <td class="amount">
-                  {{ (viewByYear ? (rowData.monthlyPayment * 12) : rowData.monthlyPayment) | number: '1.2-2' }}
+                  {{
+                    (viewByYear
+                      ? rowData.monthlyPayment * 12
+                      : rowData.monthlyPayment
+                    ) | number: "1.2-2"
+                  }}
                 </td>
                 <td class="amount">
-                  {{ (viewByYear ? (rowData.capitalAmortization * 12) : rowData.capitalAmortization) | number: '1.2-2' }}
+                  {{
+                    (viewByYear
+                      ? rowData.capitalAmortization * 12
+                      : rowData.capitalAmortization
+                    ) | number: "1.2-2"
+                  }}
                 </td>
                 <td class="amount">
-                  {{ (viewByYear ? (rowData.loanInterest * 12) : rowData.loanInterest) | number: '1.2-2' }}
+                  {{
+                    (viewByYear
+                      ? rowData.loanInterest * 12
+                      : rowData.loanInterest
+                    ) | number: "1.2-2"
+                  }}
                 </td>
                 <td class="amount">
-                  {{ (viewByYear ? (rowData.tax * 12) : rowData.tax) | number: '1.2-2' }}
+                  {{
+                    (viewByYear ? rowData.tax * 12 : rowData.tax)
+                      | number: "1.2-2"
+                  }}
                 </td>
                 <td
                   [ngClass]="{
                     'positive-effort': rowData.savingEffort > 0,
-                    'negative-effort': rowData.savingEffort <= 0
+                    'negative-effort': rowData.savingEffort <= 0,
                   }"
                 >
-                  {{ (viewByYear ? (rowData.savingEffort * 12) : rowData.savingEffort) | number: '1.2-2' }}
+                  {{
+                    (viewByYear
+                      ? rowData.savingEffort * 12
+                      : rowData.savingEffort
+                    ) | number: "1.2-2"
+                  }}
                 </td>
               </tr>
             </ng-template>
-
-
-
 
             <!-- Ligne de totaux uniquement -->
             <ng-template pTemplate="footer">
@@ -183,7 +208,7 @@
               </div>
 
               <div class="form-group">
-                <label >Taux Moyen</label>
+                <label>Taux Moyen</label>
                 <p-inputNumber
                   [(ngModel)]="customAverageRate"
                   placeholder="Saisir un taux moyen"

@@ -127,13 +127,14 @@
         [addScpi]="addScpi"
       ></app-add-scpi-to-simulation>
       <button
-        pButton
         type="button"
         severity="info"
-        label="Enregistrer la simulation"
         class="save_button"
         (click)="openDialog()"
-      ></button>
+      >
+      <i class="pi pi-save"></i>
+      Enregistrer la simulation
+    </button>
     </div>
 
     <app-rename-simulation-dialog

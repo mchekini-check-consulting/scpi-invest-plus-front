@@ -2,8 +2,8 @@
   <h3 class="title">Vos simulations</h3>
   <div *ngFor="let simulation of simulations" class="simulation-item">
     <div class="container_title">
-      <p class="simulation-title">{{ simulation.name }}</p>
-      <p class="simulation-date">- {{ simulation.simulationDate | date: 'dd/MM/yyyy' }}</p>
+      <p class="simulation-title">{{ simulation.name  }} </p>
+      <p class="simulation-date">  - {{ simulation.simulationDate | date: 'dd/MM/yyyy' }}</p>
     </div>
     <div class="simulation-details">
       <span class="amount">{{ calculateTotalAmount(simulation.scpiSimulations) | number: '1.2-2' }} €</span>

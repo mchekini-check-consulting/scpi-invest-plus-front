@@ -16,3 +16,49 @@
   justify-content: space-between;
   background-color: #0f5197;
  }
+
+
+ .edit-button,
+:host ::ng-deep .edit-button {
+  background-color: var(--light-blue) !important;
+  color: var(--highlight-blue) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 0.9rem 1.5rem !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 5px 15px rgba(67, 119, 249, 0.1) !important;
+}
+
+.edit-button:hover,
+:host ::ng-deep .edit-button:hover {
+  background-color: rgba(67, 119, 249, 0.2) !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 20px rgba(67, 119, 249, 0.15) !important;
+}
+
+
+.validate-button,
+:host ::ng-deep .validate-button {
+  background: linear-gradient(90deg, var(--highlight-blue), var(--primary-blue)) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 0.9rem 1.5rem !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 5px 15px rgba(67, 119, 249, 0.2) !important;
+}
+
+.validate-button:hover:not(:disabled),
+:host ::ng-deep .validate-button:hover:not(:disabled) {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 25px rgba(67, 119, 249, 0.3) !important;
+}
+
+.validate-button:disabled,
+:host ::ng-deep .validate-button:disabled {
+  background: linear-gradient(90deg, rgba(67, 119, 249, 0.5), rgba(29, 59, 158, 0.5)) !important;
+  opacity: 0.7 !important;
+}
+

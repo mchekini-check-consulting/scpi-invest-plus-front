@@ -188,16 +188,13 @@
     </div>
 
     <div class="button-group">
-      <p-button
-        [label]="'VALIDER' | translate"
-        severity="info"
-        size="large"
-        icon="pi pi-check"
+      <button
         (click)="confirmInvestmentOrSimulation()"
-        class="special-button"
+        class="validate-button"
         [disabled]="!investmentForm.valid || (investmentDuration === 0 && (selectedPropertyType === 'Nue-propriétaire' || selectedPropertyType === 'Usufruit'))"
       >
-      </p-button>
+      {{"Valider" | translate}}
+      </button>
     </div>
   </form>
 </p-dialog>

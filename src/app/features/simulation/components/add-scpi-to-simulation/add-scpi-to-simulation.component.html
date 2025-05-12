@@ -1,6 +1,6 @@
 <p-card class="scpi-card">
-  <ng-template pTemplate="title">
-    <span>SCPI sélectionnées</span>
+  <ng-template pTemplate="title" >
+    <p class="title">SCPI sélectionnées</p>
   </ng-template>
 
   <ng-template pTemplate="content">
@@ -31,13 +31,11 @@
 
   <ng-template pTemplate="footer">
     <button
-      pButton
       label="Ajouter une SCPI"
-      icon="pi pi-plus"
-      severity="info"
       class="add-scpi-button"
       (click)="isAddScpiDialogVisible = true"
     >
+    Ajouter une SCPI
     </button>
   </ng-template>
 </p-card>

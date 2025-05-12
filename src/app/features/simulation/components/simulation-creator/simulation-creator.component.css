@@ -33,9 +33,22 @@
 }
 
 .title {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #4343a6;
+  font-size: 1.5rem;
+  color: var(--primary-blue);
+  font-weight: 600;
+  margin: 0;
+  position: relative;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--highlight-blue), var(--primary-blue));
+  border-radius: 3px;
 }
 
 .total span {

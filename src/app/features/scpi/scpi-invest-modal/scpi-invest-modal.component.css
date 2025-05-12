@@ -7,6 +7,12 @@
     margin-bottom: 15px;
   }
 
+  ::ng-deep .p-dialog .p-dialog-header .p-dialog-title {
+    color: #1f3f9f;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
   .scpi-info-container {
     display: flex;
     gap: 10px;
@@ -156,6 +162,30 @@
     font-size: 1.1em;
 
   }
+
+  .validate-button,
+:host ::ng-deep .validate-button {
+  background: linear-gradient(90deg, var(--highlight-blue), var(--primary-blue)) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 0.9rem 1.5rem !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 5px 15px rgba(67, 119, 249, 0.2) !important;
+}
+
+.validate-button:hover:not(:disabled),
+:host ::ng-deep .validate-button:hover:not(:disabled) {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 25px rgba(67, 119, 249, 0.3) !important;
+}
+
+.validate-button:disabled,
+:host ::ng-deep .validate-button:disabled {
+  background: linear-gradient(90deg, rgba(67, 119, 249, 0.5), rgba(29, 59, 158, 0.5)) !important;
+  opacity: 0.7 !important;
+}
 
 
 

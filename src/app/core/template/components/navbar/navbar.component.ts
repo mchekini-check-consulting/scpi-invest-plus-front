@@ -23,6 +23,7 @@ interface Lang {
 export class NavbarComponent implements OnInit {
 
   lang: Lang[] | undefined;
+  isSidebarMini = false;
 
   selectedLang: String = "Français";
   selectedFlag: string = 'img/Flag_fr.png';
@@ -38,6 +39,16 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  toggleSidebar() {
+    this.isSidebarMini = !this.isSidebarMini;
+    const body = document.getElementsByTagName('body')[0];
+    if (this.isSidebarMini) {
+      body.classList.add('sidebar-mini');
+    } else {
+      body.classList.remove('sidebar-mini');
+    }
+  }
+  
   ngOnInit() {
     this.lang = ([
       {name: "Français", code: "fr", flag: 'img/Flag_fr.png'},
