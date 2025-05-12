@@ -147,6 +147,8 @@ h2 {
   font-weight: bold;
 }
 
+
+
 @media (max-width: 1024px) {
   .scpi-table th,
   .scpi-table td {
@@ -256,4 +258,10 @@ h2 {
   background-color: #aec6ef;
   height: 6px;
   border-radius: 6px;
+}
+
+.disabled-option {
+  color: gray;
+  pointer-events: none;
+  opacity: 0.6;
 }
