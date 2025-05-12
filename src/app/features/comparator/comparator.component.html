@@ -1,82 +1,85 @@
+<p-toast></p-toast>
+
 <div class="scpi-comparator">
-  <h2 class="title">Comparateur des SCPI</h2>
+  <h2>Comparateur des SCPI</h2>
   <form [formGroup]="form">
     <div class="investment-container">
 
       <label for="investmentAmount">Combien souhaitez-vous investir ?</label>
       <input type="number" class="investment-input" id="investmentAmount" formControlName="investValue"
-        (input)="onInputChange()" [max]="100000" [min]="0">
+             (input)="onInputChange()" [max]="100000" [min]="0">
     </div>
     <div class="slider-container">
       <p-slider formControlName="investValue" [(ngModel)]="investValue" [min]="0" [max]="100000" [step]="100"
-        (onChange)="onInputChange()" class="p-slider-custom">
+                (onChange)="onInputChange()" class="p-slider-custom">
       </p-slider>
-
     </div>
   </form>
   <table class="scpi-table">
     <thead>
-      <tr>
-        <th>SCPI</th>
-        <th *ngFor="let scpi of filteredNames; let i = index">
-          <p-dropdown
-            [options]="filteredNames[i]"
-            [(ngModel)]="selectedNames[i]"
-            [showClear]="true"
-            optionLabel="name"
-            [filter]="true"
-            filterPlaceholder="Rechercher une SCPI"
-            placeholder="Sélectionner une SCPI"
-            class="w-full md:w-56"
-            (onChange)="onScpiSelected($event.value, i)"
-          >
-            <ng-template let-scpi pTemplate="item">
-              <div class="dropdown-item" [ngStyle]="getItemStyle(scpi)">
-                {{ scpi.name }} - {{ scpi?.minimumSubscription}} €
-              </div>
-            </ng-template>
+    <tr>
+      <th>SCPI</th>
+      <th *ngFor="let scpi of filteredNames; let i = index">
+        <p-dropdown
+          [options]="filteredNames[i]"
+          [(ngModel)]="selectedNames[i]"
+          [showClear]="true"
+          optionLabel="name"
+          [filter]="true"
+          filterPlaceholder="Rechercher une SCPI"
+          placeholder="Sélectionner une SCPI"
+          class="w-full md:w-56"
+          (onChange)="onScpiSelected($event.value, i)"
 
-            <ng-template let-scpi pTemplate="selectedItem">
-              <div class="dropdown-selected">
-                {{ scpi?.name }}
-              </div>
-            </ng-template>
-          </p-dropdown>
-        </th>
-      </tr>
+        >
+          <ng-template let-scpi pTemplate="item">
+            <div class="dropdown-item" [ngStyle]="getItemStyle(scpi)">
+              {{ scpi.name }} - {{ scpi?.minimumSubscription }} €
+            </div>
+          </ng-template>
+
+          <ng-template let-scpi pTemplate="selectedItem">
+            <div class="dropdown-selected">
+              {{ scpi?.name }}
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </th>
+    </tr>
     </thead>
     <tbody>
-      <tr>
-        <td><strong>Revenus mensuels & Rendement</strong></td>
-        <td *ngFor="let scpi of scpiResults">
-          <span class="revenus-value" [style.color]="getColorValue(scpi?.revenusMensuels)">{{ scpi?.revenusMensuels || '0,00 €' }}</span>
-          <span class="rendement-box"> {{ scpi?.rendement || '-' }} %</span>
-        </td>
-      </tr>
-      <tr>
-        <td>Frais de souscription</td>
-        <td *ngFor="let scpi of scpiResults">{{ scpi?.fraisSouscription || '€' }}</td>
-      </tr>
-      <tr>
-        <td>Cashback SCPI Invest+</td>
-        <td *ngFor="let scpi of scpiResults" class="cashback-red">{{ scpi?.cashback }}</td>
-      </tr>
-      <tr>
-        <td>Capitalisation</td>
-        <td *ngFor="let scpi of scpiResults">{{ scpi?.capitalisation }}</td>
-      </tr>
-      <tr>
-        <td>Fréquance des loyers</td>
-        <td *ngFor="let scpi of scpiResults">{{ scpi?.frequenceLoyers }}</td>
-      </tr>
-      <tr>
-        <td>Délai de jouissance</td>
-        <td *ngFor="let scpi of scpiResults">{{ scpi?.delaiJouissance }}</td>
-      </tr>
-      <tr>
-        <td>Montant minimum d'investissement</td>
-        <td *ngFor="let scpi of scpiResults">{{ scpi?.minimumInvest }}</td>
-      </tr>
+    <tr>
+      <td><strong>Revenus mensuels & Rendement</strong></td>
+      <td *ngFor="let scpi of scpiResults">
+        <span class="revenus-value"
+              [style.color]="getColorValue(scpi?.revenusMensuels)">{{ scpi?.revenusMensuels || '0,00 €' }}</span>
+        <span class="rendement-box"> {{ scpi?.rendement || '-' }} %</span>
+      </td>
+    </tr>
+    <tr>
+      <td>Frais de souscription</td>
+      <td *ngFor="let scpi of scpiResults">{{ scpi?.fraisSouscription || '€' }}</td>
+    </tr>
+    <tr>
+      <td>Cashback SCPI Invest+</td>
+      <td *ngFor="let scpi of scpiResults" class="cashback-red">{{ scpi?.cashback }}</td>
+    </tr>
+    <tr>
+      <td>Capitalisation</td>
+      <td *ngFor="let scpi of scpiResults">{{ scpi?.capitalisation }}</td>
+    </tr>
+    <tr>
+      <td>Fréquance des loyers</td>
+      <td *ngFor="let scpi of scpiResults">{{ scpi?.frequenceLoyers }}</td>
+    </tr>
+    <tr>
+      <td>Délai de jouissance</td>
+      <td *ngFor="let scpi of scpiResults">{{ scpi?.delaiJouissance }}</td>
+    </tr>
+    <tr>
+      <td>Montant minimum d'investissement</td>
+      <td *ngFor="let scpi of scpiResults">{{ scpi?.minimumInvest }}</td>
+    </tr>
     </tbody>
   </table>
 </div>
