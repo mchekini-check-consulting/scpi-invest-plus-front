@@ -1,6 +1,6 @@
 .credit-simulator {
   padding: 2rem;
-  
+
 }
 
 .tab-content {
@@ -121,8 +121,6 @@
   font-weight: bold;
 }
 
-
-
 .vertical-dropdown p-dropdown {
   width: 100%;
 }
@@ -133,6 +131,30 @@
   margin-right: 1em;
 }
 
+
+::ng-deep  .p-slider-range {
+  background: var(--highlight-blue) !important;
+}
+
+::ng-deep .p-slider-horizontal {
+  height: 8px !important;
+  border-radius: 5px !important;
+}
+
+
+::ng-deep  .p-slider-handle {
+  background: var(--highlight-blue) !important;
+  border-color: var(--highlight-blue) !important;
+
+  &:hover {
+    border-color: var(--highlight-blue);
+  }
+
+  &:focus {
+    border-color: var(--highlight-blue);
+    outline-color: var(--highlight-blue);
+  }
+}
 
 
 

@@ -88,8 +88,26 @@ export class SimulationDetailComponent {
     datasets: [
       {
         data: [] as number[],
-        backgroundColor: ["#FF6B6B", "#4ECDC4", "#FFD93D"],
-        hoverBackgroundColor: ["#FF8787", "#76E1D9", "#FFE066"],
+        backgroundColor: [
+          "#5EC8E4",
+          "#1B8989",
+          "#3B5998",
+          "#346A1D",
+          "#1E6F85",
+          "#FFAE56",
+          "#3D85C6",
+          "#3D85C6",
+        ],
+        hoverBackgroundColor: [
+          "#5EC8E4",
+          "#1B8989",
+          "#3B5998",
+          "#346A1D",
+          "#1E6F85",
+          "#FFAE56",
+          "#3D85C6",
+          "#3D85C6",
+        ],
       },
     ],
   };
@@ -99,8 +117,26 @@ export class SimulationDetailComponent {
     datasets: [
       {
         data: [] as number[],
-        backgroundColor: ["#5A54F9", "#8674FC", "#C084FC"],
-        hoverBackgroundColor: ["#7165FA", "#9D8AFC", "#D29FFC"],
+        backgroundColor: [
+          "#5EC8E4",
+          "#1B8989",
+          "#3B5998",
+          "#346A1D",
+          "#1E6F85",
+          "#FFAE56",
+          "#3D85C6",
+          "#3D85C6",
+        ],
+        hoverBackgroundColor: [
+          "#5EC8E4",
+          "#1B8989",
+          "#3B5998",
+          "#346A1D",
+          "#1E6F85",
+          "#FFAE56",
+          "#3D85C6",
+          "#3D85C6",
+        ],
       },
     ],
   };
@@ -140,9 +176,9 @@ export class SimulationDetailComponent {
           {
             label: "Distribution (%)",
             data: this.simulation.distributionYear,
-            fill: true, // Active le fond sous la ligne
-            backgroundColor: "rgba(90, 84, 249, 0.2)",
-            borderColor: "#5A54F9",
+            fill: true,
+            borderColor: "#1e6f85",
+            backgroundColor: "rgba(65, 131, 168, 0.2)",
             tension: 0.4,
           },
         ],
@@ -170,8 +206,26 @@ export class SimulationDetailComponent {
             data: this.simulation.sectors.map(
               (sector: Sector) => sector.sectorPercentage
             ),
-            backgroundColor: ["#5A54F9", "#8674FC", "#C084FC"],
-            hoverBackgroundColor: ["#7165FA", "#9D8AFC", "#D29FFC"],
+            backgroundColor: [
+              "#5EC8E4",
+              "#1B8989",
+              "#3B5998",
+              "#346A1D",
+              "#1E6F85",
+              "#FFAE56",
+              "#3D85C6",
+              "#3D85C6",
+            ],
+            hoverBackgroundColor: [
+              "#5EC8E4",
+              "#1B8989",
+              "#3B5998",
+              "#346A1D",
+              "#1E6F85",
+              "#FFAE56",
+              "#3D85C6",
+              "#3D85C6",
+            ],
           },
         ],
       };
@@ -194,8 +248,26 @@ export class SimulationDetailComponent {
           data: this.simulation.scpiSimulations.map((scpi: ScpiSimulation) =>
             parseFloat(((scpi.rising / totalInvestment) * 100).toFixed(2))
           ),
-          backgroundColor: ["#5A54F9", "#8674FC", "#C084FC"],
-          hoverBackgroundColor: ["#7165FA", "#9D8AFC", "#D29FFC"],
+          backgroundColor: [
+            "#5EC8E4",
+            "#1B8989",
+            "#3B5998",
+            "#346A1D",
+            "#1E6F85",
+            "#FFAE56",
+            "#3D85C6",
+            "#3D85C6",
+          ],
+          hoverBackgroundColor: [
+            "#5EC8E4",
+            "#1B8989",
+            "#3B5998",
+            "#346A1D",
+            "#1E6F85",
+            "#FFAE56",
+            "#3D85C6",
+            "#3D85C6",
+          ],
         },
       ],
     };

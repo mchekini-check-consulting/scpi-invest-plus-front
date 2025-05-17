@@ -12,18 +12,18 @@
 
       @if (simulation.scpiSimulations.length) {
         <div class="row">
-          <p-panel header="Valeur totale">
-            <p class="value">
-              {{ simulation.totalInvestment | number: "1.2-2" }} €
-            </p>
-          </p-panel>
-          <p-panel header="Revenus">
-            <p class="value">
-              <span>
-                {{ simulation.monthlyIncome | number: "1.2-2" }} € / Année</span
-              >
-            </p>
-          </p-panel>
+          <div class="stats-card revenue-card">
+             <div class="stats-content">
+              <h3 class="stats-title">Valeur Total</h3>
+              <p class="stats-value text-green"> {{ simulation.totalInvestment | number: "1.2-2" }} €</p>
+            </div>
+          </div>
+           <div class="stats-card investment-card">
+             <div class="stats-content">
+              <h3 class="stats-title">Revenus</h3>
+              <p class="stats-value text-blue"> {{ simulation.monthlyIncome | number: "1.2-2" }} € / Année</p>
+            </div>
+          </div>
         </div>
 
         <div class="row">
@@ -70,17 +70,21 @@
           </p-panel>
         </div>
         <h3 class="title">Performence nette de fiscalité</h3>
-        <div class="row">
-          <p-panel header="Revenus brutes">
-            <p class="value">{{ getTotalGrossRevenue() }} € / Mois</p>
-          </p-panel>
-          <p-panel header="Revenus net de fiscalité">
-            <p class="value">
-              <span> {{ getTotalNetRevenue() }} € / Mois</span>
-            </p>
-          </p-panel>
+          <div class="row">
+          <div class="stats-card revenue-card">
+             <div class="stats-content">
+              <h3 class="stats-title">Revenus brutes</h3>
+              <p class="stats-value text-green"> {{ getTotalGrossRevenue() }} € / Mois</p>
+            </div>
+          </div>
+           <div class="stats-card investment-card">
+             <div class="stats-content">
+              <h3 class="stats-title">Revenus net de fiscalité</h3>
+              <p class="stats-value text-blue"> {{ getTotalNetRevenue() }} € / Mois</p>
+            </div>
+          </div>
         </div>
-        <div class="scpi-table">
+        <div class="scpi-table ">
           <div class="scpi-list">
             @for (scpi of simulation.scpiSimulations; track scpi.scpiId) {
               <div class="scpi-row">
@@ -88,24 +92,24 @@
 
                 <div>
                   <span class="scpi-name">Montant Investit</span>
-                  <span class="scpi-amount"
+                  <span class="scpi-amount "
                     >{{
                       scpi.numberPart * scpi.partPrice | number: "1.2-2"
-                    }}€</span
+                    }} €</span
                   >
                 </div>
 
                 <div>
                   <span class="scpi-name">Revenu brut</span>
                   <span class="scpi-income"
-                    >{{ scpi.grossRevenue | number: "1.2-2" }}€/mois</span
+                    >{{ scpi.grossRevenue | number: "1.2-2" }} €/ mois</span
                   >
                 </div>
 
                 <div>
                   <span class="scpi-name">Revenu net</span>
                   <span class="scpi-net-income"
-                    >{{ scpi.netRevenue | number: "1.2-2" }}€/mois</span
+                    >{{ scpi.netRevenue | number: "1.2-2" }} € / mois</span
                   >
                 </div>
               </div>

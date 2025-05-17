@@ -1,15 +1,15 @@
-import { Details } from '@/core/model/Details';
-import { StatYear } from '@/core/model/StatYear';
-import { DetailsDetailsService } from '@/core/service/details-details.service';
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { ChartModule } from 'primeng/chart';
-import { CommonModule } from '@angular/common';
-import { ChartComponent } from '@/shared/component/chart/chart.component';
+import { Details } from "@/core/model/Details";
+import { StatYear } from "@/core/model/StatYear";
+import { DetailsDetailsService } from "@/core/service/details-details.service";
+import { Component, inject, Input, OnInit } from "@angular/core";
+import { ChartModule } from "primeng/chart";
+import { CommonModule } from "@angular/common";
+import { ChartComponent } from "@/shared/component/chart/chart.component";
 
 @Component({
-  selector: 'app-scpi-history-details',
-  templateUrl: './scpi-history-details.component.html',
-  styleUrls: ['./scpi-history-details.component.css'],
+  selector: "app-scpi-history-details",
+  templateUrl: "./scpi-history-details.component.html",
+  styleUrls: ["./scpi-history-details.component.css"],
   imports: [ChartModule, CommonModule, ChartComponent],
 })
 export class ScpiHistoryDetailsComponent implements OnInit {
@@ -36,7 +36,6 @@ export class ScpiHistoryDetailsComponent implements OnInit {
   getTheDetails(id: number) {
     if (!this.details) return;
     this.stat = this.details.statYears;
-
 
     const distributionStats = this.stat.filter(
       (stat) => stat.distributionRate !== null && stat.distributionRate !== 0
@@ -72,17 +71,17 @@ export class ScpiHistoryDetailsComponent implements OnInit {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: true, position: 'top' },
-        tooltip: { enabled: true, mode: 'index', intersect: false },
+        legend: { display: true, position: "top" },
+        tooltip: { enabled: true, mode: "index", intersect: false },
       },
       scales: {
         x: {
-          title: { display: true, text: '', color: '#666' },
+          title: { display: true, text: "", color: "#666" },
           grid: { display: false },
         },
         y: {
-          title: { display: true, text: '', color: '#666' },
-          grid: { color: '#eee' },
+          title: { display: true, text: "", color: "#666" },
+          grid: { color: "#eee" },
           min: 0,
           ticks: {
             beginAtZero: true,
@@ -91,17 +90,17 @@ export class ScpiHistoryDetailsComponent implements OnInit {
       },
       animation: {
         duration: 1000,
-        easing: 'easeInOutQuad',
+        easing: "easeInOutQuad",
       },
     };
     this.distributionChartData = {
       labels: this.yearsDistribution,
       datasets: [
         {
-          label: 'Taux de distribution (%)',
+          label: "Taux de distribution (%)",
           data: this.distributionRates,
-          borderColor: '#42A5F5',
-          backgroundColor: 'rgba(66, 165, 245, 0.2)',
+          borderColor: "#1e6f85",
+          backgroundColor: "rgba(65, 131, 168, 0.2)",
           fill: true,
         },
       ],
@@ -110,10 +109,10 @@ export class ScpiHistoryDetailsComponent implements OnInit {
       labels: this.yearsSharePrice,
       datasets: [
         {
-          label: 'Prix de la part (€)',
+          label: "Prix de la part (€)",
           data: this.sharePrices,
-          borderColor: '#FFA726',
-          backgroundColor: 'rgba(255, 167, 38, 0.2)',
+          borderColor: "#2e8b57", // Un vert légèrement bleuté (SeaGreen)
+          backgroundColor: "rgba(46, 139, 87, 0.2)",
           fill: true,
         },
       ],

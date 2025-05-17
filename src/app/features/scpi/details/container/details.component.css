@@ -9,6 +9,72 @@
   padding: 20px;
 }
 
+/*  cards Styles */
+
+stats-card {
+  border-radius: var(--border-radius);
+  padding: 1.9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.stats-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  transition: all var(--transition-speed);
+}
+.revenue-card::before {
+  background-color: var(--highlight-green);
+}
+
+.investment-card::before {
+  background-color: var(--highlight-blue);
+}
+
+.stats-content {
+  flex: 1;
+}
+
+.text-green {
+  color: var(--highlight-green);
+}
+
+.text-blue {
+  color: var(--highlight-blue);
+}
+
+.revenue-card .stats-icon {
+  background-color: var(--light-green);
+  color: var(--highlight-green);
+}
+
+.investment-card .stats-icon {
+  background-color: var(--light-blue);
+  color: var(--highlight-blue);
+}
+
+.stats-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.stats-icon i {
+  font-size: 1.25rem;
+}
+
 .title {
   font-size: 1.5rem;
   color: var(--primary-blue);

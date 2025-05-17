@@ -11,26 +11,6 @@
 }
 
 
-:host ::ng-deep .p-slider-horizontal .p-slider-range {
-  background: var(--highlight-blue);
-}
-
-:host ::ng-deep .p-slider-handle {
-  border-color: var(--highlight-blue);
-  background: var(--highlight-blue);
-
-  &:hover {
-    border-color: var(--highlight-blue);
-  }
-
-  &:focus {
-    border-color: var(--highlight-blue);
-    outline-color: var(--highlight-blue);
-  }
-}
-
-
-
 
 .open_container .icon_re {
   position: relative;
