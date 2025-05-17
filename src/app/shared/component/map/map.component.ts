@@ -1,23 +1,22 @@
-import {Component, inject, Input, OnInit, SimpleChanges} from '@angular/core';
-import * as L from 'leaflet';
-import {Location} from '../../../core/model/Location';
-import {GeoJsonServiceService} from '@/core/service/geo-json-service.service';
+import { Component, inject, Input, OnInit, SimpleChanges } from "@angular/core";
+import * as L from "leaflet";
+import { Location } from "../../../core/model/Location";
+import { GeoJsonServiceService } from "@/core/service/geo-json-service.service";
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css'],
+  selector: "app-map",
+  templateUrl: "./map.component.html",
+  styleUrls: ["./map.component.css"],
   standalone: true,
 })
 export class MapComponent implements OnInit {
   private map!: L.Map;
   @Input() countries: Location[] = [];
-  @Input() mapHeight: string = '';
+  @Input() mapHeight: string = "";
 
-  geoJsonService = inject(GeoJsonServiceService)
+  geoJsonService = inject(GeoJsonServiceService);
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.initMap();
@@ -25,22 +24,37 @@ export class MapComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['countries']) {
-      if (!changes['countries'].firstChange) {
+    if (changes["countries"]) {
+      if (!changes["countries"].firstChange) {
         this.loadGeoJson();
       }
     }
   }
 
   private initMap() {
-    this.map = L.map('global-view').setView([46.505, 10], 3);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+    this.map = L.map("global-view").setView([46.505, 10], 3);
+
+    L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.jpg",
+      {
+        minZoom: 0,
+        maxZoom: 20,
+        attribution:
+          "&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data) | " +
+          '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> ' +
+          '&copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> ' +
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }
+    ).addTo(this.map);
   }
 
   private loadGeoJson() {
     this.geoJsonService.getGeoJson().subscribe(
       (data) => {
-        const filteredData = this.geoJsonService.filterCountries(data, this.countries);
+        const filteredData = this.geoJsonService.filterCountries(
+          data,
+          this.countries
+        );
 
         L.geoJSON(filteredData, {
           style: (feature) => this.getStyle(feature),
@@ -48,7 +62,7 @@ export class MapComponent implements OnInit {
         }).addTo(this.map);
       },
       (error) => {
-        console.error('Erreur lors du chargment du Json:', error);
+        console.error("Erreur lors du chargment du Json:", error);
       }
     );
   }
@@ -56,12 +70,14 @@ export class MapComponent implements OnInit {
   private getStyle(feature: any) {
     const countryName = feature?.properties?.name;
     const country = this.countries.find(
-      (c) => c.id.country.toLowerCase() === this.geoJsonService.getCountryName(countryName).toLowerCase()
+      (c) =>
+        c.id.country.toLowerCase() ===
+        this.geoJsonService.getCountryName(countryName).toLowerCase()
     );
     if (!country) return {};
 
     return {
-      color: '#0066ff',
+      color: "white",
       weight: 1,
       fillOpacity: country.countryPercentage / 100,
     };
@@ -70,21 +86,18 @@ export class MapComponent implements OnInit {
   private addToolTip(feature: any, layer: any) {
     const countryName = feature?.properties?.name;
     const country = this.countries.find(
-      (c) => c.id.country.toLowerCase() === this.geoJsonService.getCountryName(countryName).toLowerCase()
+      (c) =>
+        c.id.country.toLowerCase() ===
+        this.geoJsonService.getCountryName(countryName).toLowerCase()
     );
     if (!country) return;
-    layer.bindTooltip(
-      `${country.id.country} - ${country.countryPercentage}%`,
-      {
-        permanent: false,
-        direction: 'center',
-        className: 'tooltip',
-        offset: [0, 0],
-        opacity: 0.8,
-        sticky: true,
-      
-      }
-
-    );
+    layer.bindTooltip(`${country.id.country} - ${country.countryPercentage}%`, {
+      permanent: false,
+      direction: "center",
+      className: "tooltip",
+      offset: [0, 0],
+      opacity: 0.8,
+      sticky: true,
+    });
   }
 }

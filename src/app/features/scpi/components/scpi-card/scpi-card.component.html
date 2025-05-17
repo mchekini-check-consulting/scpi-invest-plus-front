@@ -61,20 +61,20 @@
           (click)="openInvestirModal('simuler')"
           label="Ajouter"
           icon="pi pi-plus"
-          styleClass="primary-button"
+          class="scpi-btns"
         ></p-button>
         <p-button
           *ngIf="!isAddingScpi"
           (click)="openInvestirModal('investir')"
           label="Investir"
           icon="pi pi-chart-line"
-          styleClass="primary-button"
+          class="scpi-btns"
         ></p-button>
         <p-button
           [routerLink]="['/details', scpi?.scpiId]"
           label="Détails"
           icon="pi pi-info-circle"
-          styleClass="secondary-button"
+          class="sec-button"
         ></p-button>
       </div>
     </div>

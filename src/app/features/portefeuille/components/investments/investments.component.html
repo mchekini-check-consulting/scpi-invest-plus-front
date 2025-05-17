@@ -7,6 +7,14 @@
           [header]="tab.label"
         ></p-tabPanel>
         <ng-container *ngIf="selectedState == 'Répartition' && chartData">
+          <ng-container *ngIf="selectedState == 'Répartition'">
+            <p-card>
+              <app-map
+                [countries]="repGeographique"
+                [mapHeight]="'720px'"
+              ></app-map>
+            </p-card>
+          </ng-container>
           <div class="charts-row">
             <div class="chart-col">
               <p-card class="card-card">
@@ -31,14 +39,6 @@
               </div>
             </div>
           </div>
-          <ng-container *ngIf="selectedState == 'Répartition'">
-            <p-card>
-              <app-map
-                [countries]="repGeographique"
-                [mapHeight]="'720px'"
-              ></app-map>
-            </p-card>
-          </ng-container>
         </ng-container>
 
         <div
@@ -94,7 +94,6 @@
             <ng-template #header>
               <tr>
                 <th style="width: 5rem"></th>
-                <th pSortableColumn="id">Id <p-sortIcon field="id" /></th>
                 <th pSortableColumn="name">Nom <p-sortIcon field="name" /></th>
                 <th pSortableColumn="year">
                   <span *ngIf="selectedState !== 'REJECTED'"
@@ -133,7 +132,6 @@
                     ></i>
                   </button>
                 </td>
-                <td>{{ investissement.id }}</td>
 
                 <td>
                   <div style="display: flex; align-items: center; gap: 0.7rem">
@@ -149,10 +147,7 @@
                 </td>
                 <td>
                   <ng-container
-                    *ngIf="
-                      selectedState !== 'REJECTED';
-                      else rejectedColumn
-                    "
+                    *ngIf="selectedState !== 'REJECTED'; else rejectedColumn"
                   >
                     {{
                       investissement.numberYears === 0
@@ -194,6 +189,10 @@
                       <ng-template #header>
                         <tr>
                           <th pSortableColumn="id">
+                            Id <p-sortIcon field="id" />
+                          </th>
+
+                          <th pSortableColumn="id">
                             Type <p-sortIcon field="id" />
                           </th>
                           <th pSortableColumn="montant">
@@ -212,6 +211,8 @@
                       </ng-template>
                       <ng-template #body let-invest>
                         <tr>
+                          <td>{{ investissement.id }}</td>
+
                           <td>
                             {{
                               getInvestmentTypeTranslate(invest.typeProperty)
