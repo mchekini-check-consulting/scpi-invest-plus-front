@@ -68,7 +68,7 @@ export class InvestmentsComponent {
   }
 
     getRejectionReason(investment: Investments): string {
-    return investment.rejectedReason || "null";
+    return investment.rejectedReason || "Pas de raison indiquée";
   }
 
 
@@ -82,14 +82,14 @@ export class InvestmentsComponent {
             label: "Repartition sectorielle (%)",
             data: this.repSectoriel.map((s) => s.sectorPercentage),
             backgroundColor: [
-              "#0b0d98",
+              "#5ec8e4",
+              "#1b8989",
               "#3b5998",
-              "#FFCE56",
-              "#AA66CC",
-              "#99CC00",
-              "#FF4444",
+              "#346a1d",
+              "#1e6f85",
               "#FFAE56",
-              "#AA96CC",
+              "#3d85c6",
+              "#3d85c6",
             ],
           },
         ],
@@ -113,8 +113,8 @@ export class InvestmentsComponent {
             {
               label: "Taux de distribution (%)",
               data: this.distributionRates,
-              borderColor: "#3b5998",
-              backgroundColor: "rgba(165, 82, 212, 0.2)",
+              borderColor: "#1e6f85",
+              backgroundColor: "rgba(65, 131, 168, 0.2)",
               fill: true,
             },
           ],

@@ -1,5 +1,6 @@
 <div class="card-container" *ngIf="statistics as stats">
   <p-card class="custom-card">
+    <div class="accent-bar"></div>
     <ng-template pTemplate="title">
       <div class="card-title">Montant investi</div>
     </ng-template>
@@ -12,11 +13,15 @@
   </p-card>
 
   <p-card class="custom-card">
+    <div class="accent-bar"></div>
+
     <ng-template pTemplate="title">
       <div class="card-title">Rendement moyen</div>
     </ng-template>
     <ng-template pTemplate="value">
-      <div class="card-value custom-card-value">{{ stats.rendementMoyen }} %</div>
+      <div class="card-value custom-card-value">
+        {{ stats.rendementMoyen }} %
+      </div>
     </ng-template>
     <ng-template pTemplate="subtitle">
       <div class="card-subtitle">Sur l'ensemble des investissements</div>
@@ -24,6 +29,8 @@
   </p-card>
 
   <p-card class="custom-card">
+    <div class="accent-bar"></div>
+
     <ng-template pTemplate="title">
       <div class="card-title">Revenu mensuel</div>
     </ng-template>
@@ -36,6 +43,8 @@
   </p-card>
 
   <p-card class="custom-card">
+    <div class="accent-bar"></div>
+
     <ng-template pTemplate="title">
       <div class="card-title">Cashback</div>
     </ng-template>

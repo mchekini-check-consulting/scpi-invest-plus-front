@@ -20,8 +20,23 @@
 }
 
 
-.custom-card:hover {
-  color: red;
+.custom-card {
+  position: relative;
+  overflow: hidden;
+    box-shadow: 0 5px 15px rgba(12, 27, 51, 0.15);
+
+  
+}
+
+.custom-card .accent-bar {
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--primary-blue) 0%, var(--highlight-blue) 50%, var(--highlight-green) 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+    border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
 
@@ -39,7 +54,7 @@
 }
 
 .card-value:hover {
-  color: #2bbd57;
+  color: var(--highlight-green);
 }
 
 .card-subtitle {
